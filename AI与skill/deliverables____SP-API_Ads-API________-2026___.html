@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亚马逊官方 SP-API 与 Ads API 数据分析实战手册 · 2026 实测版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Serif:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF; --border:#E8E6E2; --divider:#C5C0BA;
+  --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+  --hero-bg:#DDE3E8; --hero-deco:#9BADB0; --hero-deco2:#6E9298;
+  --success-bg:#E8FBCF; --success-fg:#3D4826;
+  --warning-bg:#FFF0DC; --warning-fg:#E47700;
+  --info-bg:#DEE5F7; --info-fg:#3E54CE;
+  --error-bg:#FDECEA; --error-fg:#C4433A;
+  --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:var(--outer-bg); color:var(--text-body); font-family:'Inter Tight',system-ui,-apple-system,sans-serif; font-size:14px; line-height:1.68; -webkit-font-smoothing:antialiased;}
+.page{max-width:1200px; margin:28px auto; background:var(--page-bg); border-radius:24px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.hero{position:relative; background:var(--hero-bg); padding:44px 48px 34px; overflow:hidden;}
+.blob{position:absolute; opacity:.18; pointer-events:none;}
+.hero-inner{position:relative; z-index:2;}
+.eyebrow{display:inline-block; font-size:11px; font-weight:500; letter-spacing:.09em; text-transform:uppercase; color:#3F5C60; background:rgba(255,255,255,.75); padding:4px 11px; border-radius:20px;}
+.hero h1{font-size:32px; line-height:1.25; font-weight:600; color:var(--text-primary); margin:16px 0 10px; letter-spacing:-0.01em; max-width:830px;}
+.hero p.sub{margin:0; font-size:14.5px; color:#4B5D61; max-width:790px;}
+.hairline{height:1px; background:rgba(255,255,255,.85); margin:24px 0 20px;}
+.stat-row{display:flex; flex-wrap:wrap; gap:32px;}
+.stat .v{font-family:'Noto Serif',serif; font-size:27px; font-weight:600; color:var(--text-primary); letter-spacing:-0.02em;}
+.stat .l{font-size:12px; color:#5C6E72; margin-top:1px;}
+.body{padding:8px 48px 20px;}
+section{padding:32px 0 6px;}
+.sec-head{border-bottom:.5px solid var(--border); padding-bottom:10px; margin-bottom:22px;}
+.sec-head h2{font-size:17px; font-weight:600; color:var(--text-primary); margin:0;}
+.sec-head .sub{font-size:12px; color:var(--text-secondary); margin-top:3px;}
+h3{font-size:15px; font-weight:600; color:var(--text-primary); margin:28px 0 10px;}
+h3 .tag{font-size:11px; font-weight:500; color:var(--info-fg); background:var(--info-bg); padding:2px 8px; border-radius:20px; margin-left:8px; vertical-align:2px;}
+p{margin:0 0 12px;}
+ul,ol{margin:0 0 14px; padding-left:20px;}
+li{margin-bottom:5px;}
+code{font-family:'JetBrains Mono',monospace; font-size:12.2px; background:#F1F1EE; padding:1px 5px; border-radius:4px; color:#2F4A4E;}
+pre{font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.62; background:#1B2224; color:#D6E0E1; padding:16px 18px; border-radius:12px; overflow-x:auto; margin:12px 0 18px;}
+pre .c{color:#7A8C8E;}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+.card{background:var(--surface); border:.5px solid var(--border); border-radius:12px; padding:16px 18px;}
+.card .ct{font-size:15px; font-weight:600; color:var(--text-primary); margin-bottom:4px;}
+.card .cm{font-size:12px; color:var(--text-secondary);}
+.card p{font-size:13.5px; margin-bottom:8px;}
+.card p:last-child{margin-bottom:0;}
+.pill{display:inline-block; font-size:11px; font-weight:500; padding:3px 9px; border-radius:20px; margin:0 4px 4px 0;}
+.p-info{background:var(--info-bg); color:var(--info-fg);}
+.p-succ{background:var(--success-bg); color:var(--success-fg);}
+.p-warn{background:var(--warning-bg); color:var(--warning-fg);}
+.p-err{background:var(--error-bg); color:var(--error-fg);}
+.p-neu{background:var(--neutral-bg); color:var(--neutral-fg);}
+.alert{border-radius:10px; padding:14px 16px; margin:14px 0; font-size:13.5px;}
+.alert b{display:block; font-size:13.5px; margin-bottom:3px; color:var(--text-primary);}
+.a-info{background:var(--info-bg);} .a-warn{background:var(--warning-bg);}
+.a-err{background:var(--error-bg);} .a-neu{background:var(--neutral-bg);} .a-succ{background:var(--success-bg);}
+.table-wrap{overflow-x:auto; margin:12px 0 20px; border:.5px solid var(--border); border-radius:12px;}
+table{width:100%; border-collapse:collapse; background:var(--surface); min-width:580px;}
+th{text-align:left; font-size:12px; font-weight:500; color:var(--text-secondary); padding:11px 14px; border-bottom:1px solid var(--divider); white-space:nowrap;}
+td{font-size:13px; padding:11px 14px; border-bottom:.5px solid var(--border); vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+td strong{color:var(--text-primary); font-weight:600;}
+.bar-row{margin-bottom:13px;}
+.bar-top{display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;}
+.bar-top .bv{color:var(--text-secondary); font-weight:500;}
+.track{height:4px; background:var(--border); border-radius:4px; overflow:hidden;}
+.fill{height:100%; border-radius:4px;}
+.flow{display:flex; gap:8px; flex-wrap:wrap; margin:16px 0 20px;}
+.flow-step{flex:1 1 0; min-width:140px; background:var(--surface); border:.5px solid var(--border); border-radius:12px; padding:13px 14px;}
+.flow-step .n{font-size:11px; font-weight:600; color:var(--info-fg); letter-spacing:.05em;}
+.flow-step .t{font-size:13.5px; font-weight:600; color:var(--text-primary); margin:4px 0 3px;}
+.flow-step .d{font-size:12px; color:var(--text-secondary); line-height:1.55;}
+.legend{display:flex; flex-wrap:wrap; gap:16px; margin:10px 0 4px;}
+.legend span{font-size:12px; color:var(--text-body); display:flex; align-items:center; gap:6px;}
+.sq{width:9px; height:9px; border-radius:2px; display:inline-block;}
+.quote{background:var(--surface); border:.5px solid var(--border); border-left:3px solid var(--hero-deco2); border-radius:10px; padding:14px 18px; font-size:13.5px; color:var(--text-body); margin:14px 0;}
+.quote .who{font-size:12px; color:var(--text-secondary); margin-top:6px;}
+.ref{font-size:13px; padding-left:0; list-style:none;}
+.ref li{margin-bottom:9px; line-height:1.55;}
+.ref a{color:var(--info-fg); text-decoration:none;}
+.ref a:hover{text-decoration:underline;}
+.ref .rt{color:var(--text-primary); font-weight:500;}
+.note{font-size:12px; color:var(--text-secondary); margin-top:-8px; margin-bottom:16px;}
+footer{background:var(--hero-bg); position:relative; overflow:hidden; padding:34px 48px 22px; margin-top:34px;}
+.f-inner{position:relative; z-index:2;}
+.f-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px;}
+.f-brand{font-size:16px; font-weight:600; color:var(--text-primary);}
+.f-sub{font-size:12px; color:#5C6E72; margin-top:2px;}
+.f-meta{display:grid; grid-template-columns:1fr 1fr; gap:4px 34px;}
+.f-meta .k{font-size:11px; color:#5C6E72;}
+.f-meta .v{font-size:12.5px; color:var(--text-primary); font-weight:500;}
+.f-hair{height:1px; background:rgba(255,255,255,.85); margin:20px 0 14px;}
+.f-bar{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:11.5px; color:#5C6E72;}
+@media (max-width:820px){
+  body{background:var(--page-bg);}
+  .page{margin:0; border-radius:0; box-shadow:none; max-width:100%;}
+  .hero{padding:30px 20px 26px;} .hero h1{font-size:23px;}
+  .body{padding:4px 20px 12px;}
+  footer{padding:26px 20px 18px;}
+  .grid2,.grid3{grid-template-columns:1fr;}
+  .stat-row{gap:18px;} .stat .v{font-size:22px;}
+  section{padding:26px 0 4px;}
+  .flow-step{flex:1 1 100%;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <svg class="blob" style="width:340px;height:300px;top:-110px;right:-60px;fill:var(--hero-deco);" viewBox="0 0 200 200"><path d="M42,-61C58,-48,73,-37,79,-22C85,-7,82,12,73,27C64,42,49,53,33,61C17,69,-1,74,-19,71C-37,68,-55,57,-66,42C-77,27,-81,8,-77,-10C-73,-28,-61,-44,-47,-57C-33,-70,-16,-80,2,-82C20,-84,26,-74,42,-61Z" transform="translate(100 100)"></path></svg>
+  <svg class="blob" style="width:220px;height:210px;bottom:-100px;left:13%;fill:var(--hero-deco2);" viewBox="0 0 200 200"><path d="M38,-58C52,-47,69,-40,75,-27C81,-14,76,5,68,21C60,37,49,50,35,58C21,66,4,69,-13,66C-30,63,-47,54,-58,41C-69,28,-74,11,-72,-5C-70,-21,-61,-36,-49,-48C-37,-60,-22,-69,-5,-71C12,-73,24,-69,38,-58Z" transform="translate(100 100)"></path></svg>
+  <svg class="blob" style="width:140px;height:140px;top:15%;left:47%;fill:var(--hero-deco);" viewBox="0 0 200 200"><path d="M44,-52C55,-42,60,-27,62,-11C64,5,63,22,54,35C45,48,29,57,11,61C-7,65,-27,64,-42,55C-57,46,-67,29,-69,11C-71,-7,-65,-26,-54,-38C-43,-50,-27,-55,-10,-58C7,-61,33,-62,44,-52Z" transform="translate(100 100)"></path></svg>
+  <div class="hero-inner">
+    <span class="eyebrow">Amazon SP-API &amp; Ads API · 2026 实测版 v2.0</span>
+    <h1>亚马逊官方 SP-API 与 Ads API<br>数据分析实战手册</h1>
+    <p class="sub">不照抄文档。用一个真实北美店铺的授权，把接口挨个只读打了一遍——哪个通、哪个拒、拒了为什么、限流卡在哪、今年新出的到底能算出什么。只讲今年新出的和运营用得上的。</p>
+    <div class="hairline"></div>
+    <div class="stat-row">
+      <div class="stat"><div class="v">85</div><div class="l">SP-API 接口实测</div></div>
+      <div class="stat"><div class="v">75<span style="font-size:15px;">/85</span></div><div class="l">通过（10 条被拒）</div></div>
+      <div class="stat"><div class="v">160</div><div class="l">两张能力表合计行数</div></div>
+      <div class="stat"><div class="v">0</div><div class="l">店铺数据留存</div></div>
+      <div class="stat"><div class="v">9/9</div><div class="l">版本核对截止日</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="body">
+
+<!-- ============ 1 ============ -->
+<section>
+  <div class="sec-head">
+    <h2>一、先看结论：门几乎全开着</h2>
+    <div class="sub">85 个接口，75 个通。被拒的 10 个，做 SC / FBA 的一个都用不上</div>
+  </div>
+  <p>先把被拒的说清楚，免得惦记。<strong>被拒的不是能力不足，而是这些接口本来就属于别的身份、别的项目。</strong></p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>被拒的接口</th><th>为什么被拒</th><th>谁才需要</th></tr></thead>
+      <tbody>
+        <tr><td>买家姓名 / 地址 / 邮箱</td><td>需额外申请受限角色，涉及个人信息，要过一轮数据安全审核</td><td>需要买家信息的场景</td></tr>
+        <tr><td>自发货买面单 / 承运商账户</td><td>同样需受限角色与数据安全审核</td><td>自发货（FBM）卖家</td></tr>
+        <tr><td>发票 API</td><td>供应商账号专用</td><td>VC 账号</td></tr>
+        <tr><td>Seller Wallet / 收款方式</td><td>需「账户信息服务商」身份</td><td>银行与金融机构</td></tr>
+        <tr><td>外部履约（三个接口）</td><td>需单独入驻的项目，未入驻一律 403</td><td>自有仓承接亚马逊订单</td></tr>
+        <tr><td>供应链追踪（外部渠道货件）</td><td>同上，属于需单独入驻的项目</td><td>未入驻账号无入口</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert a-succ">
+    <b>敏感信息实测：该藏的藏得很干净</b>
+    调买家信息接口，返回只有一个订单号；调收货地址，只给到<strong>城市、州、国家</strong>，再往细就需要敏感信息权限的开发者了。
+    换句话说：能给你的一分没少给，不该给的一分没多给。
+  </div>
+  <p class="note">编者注：被拒清单里的「供应链追踪（外部渠道货件）」指需单独入驻的供应链项目；与下文第六节 8 月新增的货件追踪接口不是同一个入口，具体以实测能力表为准。</p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section>
+  <div class="sec-head">
+    <h2>二、今年的三个背景变化</h2>
+    <div class="sub">这三条直接改变技术方案长什么样</div>
+  </div>
+  <div class="grid3">
+    <div class="card">
+      <div class="ct">① 认证只剩 LWA 一层</div>
+      <div class="cm">比过去简单得多</div>
+      <p>实测结论：<strong>refresh token 换 access token，不再需要 AWS 签名那一套。</strong>接入复杂度大幅下降，一个人一两天就能把管道搭起来。</p>
+      <p><span class="pill p-succ">门槛下降</span></p>
+    </div>
+    <div class="card">
+      <div class="ct">② 公共开发者收费取消</div>
+      <div class="cm">目前免费</div>
+      <p>2025 年 11 月宣布公共开发者要收费，一年 1400 美金起；<strong>今年 5 月 12 号邮件确认取消</strong>。当前免费使用。</p>
+      <p><span class="pill p-info">成本预期改写</span></p>
+    </div>
+    <div class="card">
+      <div class="ct">③ 限流才是真门槛</div>
+      <div class="cm">决定架构形态</div>
+      <p>能力不难拿，难在限额。报表创建约一分钟一次、订单搜索约三分钟一次——这直接决定了工具不能做成「点一下查一次」。</p>
+      <p><span class="pill p-warn">真正的约束</span></p>
+    </div>
+  </div>
+  <div class="alert a-info">
+    <b>网络与版本</b>
+    从深圳的服务器直连北美端点，单接口响应约 300–400 毫秒，<strong>没有一个超时</strong>。版本对照官方发布记录核到 9 月 9 号。下面讲的都是今年的变化。
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section>
+  <div class="sec-head">
+    <h2>三、SP-API：今年新出的七块，挑运营用得上的讲</h2>
+    <div class="sub">老接口能干什么，文档写了很多年，这里不重复</div>
+  </div>
+
+  <h3>3.1 新版订单接口<span class="tag">1 月</span></h3>
+  <p>旧版要拉齐一单信息得调十个操作：订单、订单行、买家信息、地址、税、支付……<strong>新版只剩两个：搜订单、查一单。</strong></p>
+  <p>一单的信息用 <code>includedData</code> 点名要，把全部取值试过一遍，都通：收入拆分、费用、促销、取消、配送、包裹、税、支付、Easy Ship 订单号。</p>
+  <div class="alert a-info">
+    <b>收入拆分最有用</b>
+    一单的总收入下面挂着分项，每一项带类型和小计。周会上运营说「这个 SKU 上周 200 单」，老板问「200 单收进来多少？扣完促销呢？」——以前要等财务月底出表，<strong>现在订单接口里就有</strong>。
+  </div>
+  <p>7 月又加了两个字段：取消是怎么执行的，以及面单打印窗口。</p>
+  <div class="alert a-warn">
+    <b>两条要记住的变化</b>
+    旧版订单接口 1 月已宣布淘汰，FBA 订单里的买家邮箱也去掉了。<strong>新做的工具，别再接旧版。</strong>
+  </div>
+
+  <h3>3.2 促销 API<span class="tag">两周前刚上线</span></h3>
+  <p>以前促销这块 API 完全没有入口，跑了多少秒杀、优惠券花了多少预算，只能去后台一个个点。新上线的促销接口三个操作：</p>
+  <div class="grid3">
+    <div class="card">
+      <div class="ct">searchPromotions</div>
+      <div class="cm">按条件搜</div>
+      <p>返回每个促销的标题、预算、起止日期、状态、优惠力度、促销 ID、商城，共 26 个字段，还带费用快照：前置费用多少、按销售额抽多少、封顶多少。秒杀、优惠券、价格折扣、凑单促销都在一张表里。</p>
+    </div>
+    <div class="card">
+      <div class="ct">getPromotion</div>
+      <div class="cm">按 ID 取详情</div>
+      <p>拿某一个促销的完整数据。</p>
+    </div>
+    <div class="card">
+      <div class="ct">getProductSelection</div>
+      <div class="cm">取商品选择</div>
+      <p>支持分页、超过 100 件商品，每件商品带专属优惠。</p>
+    </div>
+  </div>
+  <div class="quote">
+    <strong>这三个操作里最值钱的一行字：验证问题。</strong>促销级的验证问题、商品级的验证问题，接口直接返回。<br><br>
+    周四下午运营建了一场秒杀，30 个 ASIN，后台显示「部分商品不符合条件」。哪几个？为什么？后台不说，只能一个个猜，甚至开 case 让客服查。半天过去找到 4 个：两个价格不满足，一个库存不够，一个上周刚做过折扣。<br>
+    <strong>以前这半天是自己排查，现在这四个原因接口里一次返回。</strong>
+  </div>
+  <p>同一批更新里，优惠券和促销的表现报表加了一个字段，跟促销 API 的 ID 能对上——<strong>促销的花费和促销的效果，头一回能在 API 里对到一起。</strong></p>
+  <div class="alert a-neu">
+    <b>它只有查，没有建</b>
+    秒杀优惠券还得后台手建。但你已经能算清每一场花了多少、换来多少、以及为什么没通过。创建功能年底上，且创建时就能直接验证会不会报错、实际原因是什么。
+  </div>
+
+  <h3>3.3 财务三件新东西<span class="tag">7 月</span></h3>
+  <div class="grid3">
+    <div class="card">
+      <div class="ct">结算周期汇总</div>
+      <p>一行一个结算周期，净收入下面挂拆分。</p>
+    </div>
+    <div class="card">
+      <div class="ct">账户余额</div>
+      <p>按类型分：可用、预留、递延、账户级预留。</p>
+    </div>
+    <div class="card">
+      <div class="ct">预计放款</div>
+      <p>同一天加的独立接口。下一笔什么时候到、多少钱、打到哪张卡的尾号。</p>
+    </div>
+  </div>
+  <div class="quote">
+    老板问：这个月的款什么时候到？<br>
+    以前的答案是「大概月中」。<br>
+    现在有一个字段叫 <code>scheduledDate</code>。
+  </div>
+  <p>顺带一句：交易流水 1 月起能按订单号筛了。一个订单号进去，这单的每一笔收入和扣费出来。</p>
+
+  <h3>3.4 多渠道配送新版 MCF<span class="tag">7 月</span></h3>
+  <p>订单列表可以直接带货件信息，一次拉回 <strong>34 个字段</strong>：状态、配送配置、收件地址、行项目、货件。做独立站或其他平台用 FBA 发货的，接这个。老版本还能用，但新做的接新的。</p>
+
+  <h3>3.5 相似商品与竞品价格<span class="tag">5 月正式推出</span></h3>
+  <p>给定一个 ASIN，返回它的相似商品，<strong>不限自家，任意 ASIN</strong>。现场当场验证：把幻灯片上那个阻力带的 ASIN 丢进去，返回 6 个相似商品；再把这 6 个分别丢进去，每个又返回 6 到 7 个。三层下去，一个品类的竞品图谱就出来了。</p>
+  <p>同一个接口，<code>includedData</code> 里再点三样，竞品的价格一起回来：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>includedData</th><th>返回什么</th><th>做监控时怎么用</th></tr></thead>
+      <tbody>
+        <tr><td><code>featuredBuyingOptions</code></td><td>Buy Box 现价、是谁的、按会员身份分段</td><td>盯 Buy Box 归属与价格变动</td></tr>
+        <tr><td><code>referencePrices</code></td><td>划线价 WasPrice、亚马逊的竞争价 CompetitivePrice</td><td>判断对方是否有价格优势空间</td></tr>
+        <tr><td><code>lowestPricedOffers</code></td><td>该 ASIN 下各卖家的最低报价、运费、是否 FBA</td><td>看同链接的卖家结构与配送方式</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>批量打了 14 个竞品 ASIN，全部 200。<strong>一次最多 20 个，限流每 30 秒一次</strong>——做成监控竞对的工具正合适。</p>
+  <div class="alert a-warn">
+    <b>促销价那一层，如实说明</b>
+    7 月发布记录说每个报价下面加了 <code>promotions</code>：促销类型、减多少或打几折、折后价。字段在官方数据模型里已确认，就挂在每个卖家报价下面。<strong>但这次抽的 14 个 ASIN 当时都没在跑促销，没有亲眼看到它填上值</strong>——先如实说，后续实测再补。
+  </div>
+  <div class="alert a-info">
+    <b>为什么这条重要</b>
+    以前盯竞品价格靠第三方插件，按月付费，数据是它抓的，抓没抓到、准不准，你没法验。现在同一份数据从亚马逊自己的接口出来：<strong>信息是真的，还免费。</strong>
+    另外 Listing 接口 7 月起支持一次查同区域多个站点，美国和加拿大一次带回，多站点改价前先看一眼。
+  </div>
+
+  <h3>3.6 供应链追踪与通知过滤<span class="tag">8 月 / 5 月</span></h3>
+  <p>8 月 5 号出了追踪接口：按<strong>承运商单号、集装箱号、提单号</strong>查外部渠道货件的里程碑和预计送达，配一个新的通知类型。</p>
+  <p>通知这边 5 月加了<strong>过滤表达式</strong>。以前订阅一个订单变化通知，所有订单的所有变化都推给你；现在可以写一条表达式，只推你要的那一类。通知要自备 AWS 队列，这条没变。</p>
+
+  <h3>3.7 Data Kiosk：不是取数据，是取分析结果<span class="tag">重点</span></h3>
+  <p>三种取数方式的区别，一句话讲清：</p>
+  <div class="grid3">
+    <div class="card">
+      <div class="ct">普通接口</div>
+      <div class="cm">取记录</div>
+      <p>订单、库存、Listing。一次一批对象，字段固定。</p>
+    </div>
+    <div class="card">
+      <div class="ct">报表接口</div>
+      <div class="cm">取表</div>
+      <p>报表类型固定，119 个字段全给你，自己再筛。</p>
+    </div>
+    <div class="card">
+      <div class="ct">Data Kiosk</div>
+      <div class="cm">取分析结果</div>
+      <p>你写一段查询，点名要哪些维度、哪些指标、什么粒度，亚马逊在后台聚合好，给你一份结果文档。</p>
+    </div>
+  </div>
+  <p>现场建了一条：近 7 天按日的销售额、件数、退款率、Sessions、页面浏览、Buy Box 占比、转化率。<strong>只点了 19 个字段，回来就是 19 个字段，一行一天。</strong>字段你点名，粒度你定，亚马逊替你算好。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>数据集</th><th>包含什么</th><th>粒度与范围</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>销量流量</strong></td>
+          <td>Sessions、页面浏览、Buy Box 占比、转化率、退款率</td>
+          <td>按日 / 周 / 月；按父 ASIN / 子 ASIN / SKU；可回溯两年。今年 1 月和 2 月加了 B2B 的退款、反馈、索赔指标</td>
+        </tr>
+        <tr>
+          <td><strong>经济学</strong></td>
+          <td>每个 ASIN 的销售额、佣金、FBA 费、仓储费、广告费、净收益，还带费用变更的预估</td>
+          <td>等于官方版的「单品利润」。普通接口没有现成的，只能拉财务流水自己拼</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="quote">
+    周会要看每个 SKU 上个月赚了多少。<br>
+    <strong>以前：</strong>拉订单、拉财务流水、拉广告花费、拉仓储费，Excel 里对 ASIN 拼四张表。<br>
+    <strong>现在：</strong>一条查询，指定月粒度、子 ASIN，字段点净收益和各项费用。等几分钟，文档下来。
+  </div>
+  <div class="alert a-err">
+    <b>它不适合什么，也说清楚</b>
+    ① 不是实时的，数据隔天，出结果几分钟到几十分钟；② 没有调度，定时跑要自己的工人去建查询；③ 同一条查询同时只能跑一个；④ 只有分析数据集，没有订单明细、货件这类业务对象；⑤ 要品牌分析角色，店铺得有品牌备案。
+  </div>
+  <p>卖家后台有个 Schema Explorer，写查询前先去看每个数据集有哪些字段。</p>
+
+  <h3>还有几条，一句话带过</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="ct">订阅省（Subscribe &amp; Save）</div>
+      <p>4 月起给到 offer 级指标；5 月起能按 ASIN、SKU、品牌筛，粒度到天。</p>
+    </div>
+    <div class="card">
+      <div class="ct">报表与 Feed</div>
+      <p>4 月加了一个参数，下载时自动解压。</p>
+    </div>
+    <div class="card">
+      <div class="ct">入库货件</div>
+      <p>7 月起送达窗口带折扣字段，选便宜的窗口有据可查。</p>
+    </div>
+    <div class="card">
+      <div class="ct">商品类型定义</div>
+      <p>5 月起能按「单品、子体、父体」分别拉 schema。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section>
+  <div class="sec-head">
+    <h2>四、Ads API：另一套体系，也只说今年的</h2>
+    <div class="sub">另一个授权、另一份文档。广告工作台从 7 月底起每天拉报表，8 月中接了 AMC</div>
+  </div>
+  <p>这次又拿真账号把 48 个接口只读打了一遍。<strong>老接口不讲，只讲今年新出的。</strong></p>
+
+  <h3>4.1 新的账号模型<span class="tag">6 月 18 日 GA</span></h3>
+  <p>广告主账号管理接口 GA，<strong>一个账号在各国的映射一次带回</strong>。旧的账号接口 2027 年 7 月关停，新做的必须接新的。实测：通过。</p>
+
+  <h3>4.2 品类基准<span class="tag">5 月 18 日全球 GA</span></h3>
+  <p>你的品牌和整个品类比，曝光、点击率、ACOS、ROAS 各给三档：<strong>前 25%、中位、后 25%</strong>。</p>
+  <div class="quote">
+    运营说：我们 ACOS 28%，算不错吧。<br>
+    拉一下基准：这个类目中位 22%，前 25% 是 15%。<br>
+    「不错」这两个字，以后有官方参照了。
+  </div>
+  <div class="alert a-info">
+    <b>这一条对数据分析的意义</b>
+    以前判断广告表现好不好，靠「跟自己上个月比」。有了品类基准，可以<strong>跟类目比</strong>——同一个 ACOS，在低竞争类目算优秀，在高竞争类目可能只是及格。给建议、定目标、做复盘，都有了外部锚点。
+  </div>
+
+  <h3>4.3 官方 MCP Server<span class="tag">2 月开放测试 · 7 月起支持 OAuth 2.1</span></h3>
+  <p>账号、AMC、账单、活动管理、报表、流订阅，<strong>全部做成了 AI 能直接调的工具</strong>，还带十几个官方 skill。用现有的 LWA 客户端就能接，不用另外申请。</p>
+  <p>这意味着：你让 AI 管广告账号，官方已经把接口层铺好了。</p>
+
+  <h3>4.4 三个要注意的变化</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>变化</th><th>时间</th><th>影响</th></tr></thead>
+      <tbody>
+        <tr><td>SB 广告位的<strong>负向竞价调整废止</strong>，只留正向</td><td>6 月 15 日</td><td>工具里带 SB 广告位降价功能的，要改</td></tr>
+        <tr><td>刷新令牌的<strong>过期策略更新</strong></td><td>5 月 26 日</td><td>做长期授权的 SaaS，这条必读</td></tr>
+        <tr><td>统一的<strong>活动管理接口</strong>，一套模型管 SP / SB / SD / ST</td><td>去年 12 月 GA</td><td>官方说这是长期方向，影响今年所有新做的东西</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert a-succ">
+    <b>广告侧的总体判断</b>
+    <strong>读的全开，写的够用，新出的都在往「让 AI 直接接」的方向走。</strong>这和 SP-API 的趋势一致——人负责定义目标与边界，执行层交给系统。
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section>
+  <div class="sec-head">
+    <h2>五、从授权到出表：能力这一头，没有门槛</h2>
+    <div class="sub">拿能力不难，难的在另一头</div>
+  </div>
+  <div class="flow">
+    <div class="flow-step"><div class="n">STEP 1</div><div class="t">拼一条授权链接</div><div class="d">应用 ID + 一个随机串 + 回调地址。文档是公开的，整个过程不调任何接口。</div></div>
+    <div class="flow-step"><div class="n">STEP 2</div><div class="t">群里点开</div><div class="d">在店铺登录着后台的那台环境上，同事点开链接，看到授权页，列着这个应用要哪些权限。</div></div>
+    <div class="flow-step"><div class="n">STEP 3</div><div class="t">点同意</div><div class="d">授权页点「同意」。就像授权一个 ERP 那样简单。</div></div>
+    <div class="flow-step"><div class="n">STEP 4</div><div class="t">令牌落库</div><div class="d">亚马逊跳回回调地址，token 已经落在服务器上。前后不到一分钟，没有人写一行代码。</div></div>
+  </div>
+  <div class="alert a-succ">
+    <b>摸一遍接口要多久</b>
+    85 个接口，从写探测脚本到出表，AI 跑了<strong>十来分钟</strong>；后来对照官方发布记录补今年的新版本，又二十几个，<strong>五六分钟</strong>。
+    中间有十几个接口报 400，<strong>全是传参没传对</strong>——日期格式、枚举值写错、必填漏了。改一轮再跑，又通了一批。
+  </div>
+  <p class="note">唯一的前提：只读探测，只记状态和字段名，一条店铺数据不留。</p>
+</section>
+
+<!-- ============ 6 ============ -->
+<section>
+  <div class="sec-head">
+    <h2>六、真正的门槛：限流</h2>
+    <div class="sub">能力不难拿，难在限额——这决定了架构长什么样</div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>接口</th><th>实测限流</th><th>对架构的含义</th></tr></thead>
+      <tbody>
+        <tr><td><strong>报表创建</strong></td><td>约 1 分钟 1 次</td><td>连建 6 份，第 1 份和第 3 份直接 429。报表要排队，不能并发乱建</td></tr>
+        <tr><td><strong>新版订单搜索</strong></td><td>约 3 分钟 1 次</td><td>最狠的一条，决定了订单同步只能低频批处理</td></tr>
+        <tr><td><strong>相似商品 / 竞品价格</strong></td><td>30 秒 1 次（单次最多 20 个 ASIN）</td><td>适合做批量竞对监控，不适合实时查价</td></tr>
+        <tr><td><strong>财务流水</strong></td><td>每秒 0.5 次</td><td>对账类任务要拉长节奏</td></tr>
+        <tr><td><strong>库存</strong></td><td>每秒 2 次</td><td>可支撑较高频的库存巡检</td></tr>
+        <tr><td><strong>入库货件</strong></td><td>每秒 5 次</td><td>货件类工具可以做得比较顺手</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>限流相对快慢（数值越大越慢）</h3>
+  <div style="position: relative; height: 300px; margin: 8px 0 6px;">
+    <canvas id="rateChart"></canvas>
+  </div>
+  <div class="legend">
+    <span><i class="sq" style="background:#6E9298"></i>两次调用之间的最小间隔（秒）</span>
+  </div>
+
+  <h3>从限流倒推出的四条架构原则</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="ct">① 不能前端直调</div>
+      <p>限流这么紧，前端点一下查一次必然 429。API 只能由服务端在后台消费。</p>
+    </div>
+    <div class="card">
+      <div class="ct">② 不能人盯</div>
+      <p>报表创建一分钟一次、订单搜索三分钟一次，人盯着只会浪费时间。它天生就该是自动化任务。</p>
+    </div>
+    <div class="card">
+      <div class="ct">③ 夜里跑，早上看</div>
+      <p>夜里在服务器上慢慢跑，跑完落到自己的库里；早上人打开网页看结果。</p>
+    </div>
+    <div class="card">
+      <div class="ct">④ 有时间窗的数据必须自己存</div>
+      <p>搜索词那种亚马逊只保留 65 天的数据，必须每天拉、自己存，过期就永久没了。</p>
+    </div>
+  </div>
+  <div class="alert a-info">
+    <b>配套的设计原则：一次调用把活干足</b>
+    库存汇总一次给整个站点，报表一次给一个月。你要的是「把一批 ASIN 一次带上」，别一次调一个数据点。
+    在限流面前，<strong>「少次多量」永远优于「多次少量」</strong>。
+  </div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section>
+  <div class="sec-head">
+    <h2>七、难的是：明天谁看</h2>
+    <div class="sub">数据全在库里，和数据被人用，是两件事</div>
+  </div>
+  <p>有一种做法很诱人：全拉一遍，建一个自己的「数据中台」，所有数据都在库里，想看什么看什么。<strong>这件事最好不要做。</strong></p>
+  <div class="quote">
+    我见过有人花三个月把订单、库存、财务、广告全拉进一个库，看板做了二十几张，上线那天发了一个群公告。<br>
+    一个月后问运营：最近打开过几次？<br>
+    答：<strong>开会前看一眼利润那张。</strong>其他二十几张，谁也说不出是给谁看的。
+  </div>
+
+  <h3>7.1 挑数据只问四个问题</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="ct">② 在哪个会上看？</div>
+      <p>没有会议场景的数据，基本不会有稳定读者。</p>
+    </div>
+    <div class="card">
+      <div class="ct">① 这个数据明天谁看？</div>
+      <p>说不出具体的人，就先放着。<strong>表里躺着不费钱。</strong></p>
+    </div>
+    <div class="card">
+      <div class="ct">③ 它替掉了哪一步手工？</div>
+      <p>替代不了的，是加税不是减负。</p>
+    </div>
+    <div class="card">
+      <div class="ct">④ 能节省多少时间？</div>
+      <p>省不出可量化的时间，优先级就往后排。</p>
+    </div>
+  </div>
+  <p class="note">四个都答得上来，就接；一个答不上来，先放着。</p>
+
+  <h3>7.2 这一刀怎么切：自动创建和核对 FBA 货件</h3>
+  <p>为什么第一刀是它？因为运营每票货有一起发的产品，分仓后要手动核对一遍箱号，然后手抄、对一遍追踪编号、下一遍箱标，最后给到仓库。<strong>箱数多的一票三四十分钟，一周十几票。</strong>这个时间成本看得见、量得出。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>环节</th><th>原来怎么做</th><th>方案怎么做</th></tr></thead>
+      <tbody>
+        <tr><td><strong>发现</strong></td><td>后台创建「Send to Amazon」，把每箱 SKU 和数量抄进公司 Excel 模板，追踪编号一票一票复制，箱标一票一票下载。三个动作，一票二十分钟</td><td>不做「货件管理系统」，只做两件事：<strong>① 识别仓库给的可发数据，据此创建货件；② 创建后把工作流程编号记下来</strong></td></tr>
+        <tr><td><strong>方案</strong></td><td>—</td><td>拉回这票的计划、货件、箱单、箱标，按公司模板生成 Excel，箱标 PDF 打成一个包</td></tr>
+        <tr><td><strong>跑通</strong></td><td>—</td><td>第一票真货件 5 票 51 箱：创建 2 分钟，输出货件信息 41 秒，Excel 与 8 月那份人工样本<strong>逐格一致</strong></td></tr>
+        <tr><td><strong>给团队用</strong></td><td>—</td><td>第二天运营验收，顺手踩出一个坑：<strong>走亚马逊合作承运人的计划，列表接口不列，凭编号直查、或者创建的时候记录才有</strong>。这种事文档里没写，只有真跑才知道</td></tr>
+        <tr><td><strong>好处</strong></td><td>—</td><td>运营一周省回一两个小时；更重要的是<strong>箱单不会抄错了</strong>。从发现到每天在用，两天</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert a-succ">
+    <b>方案里的每一个取舍，都从运营的桌面上来</b>
+    运营手上先有仓库给的可发数据 → 所以入口就是这份数据，不让他重新录一遍。<br>
+    他后台建完货件，手边就是那个工作流程编号 → 所以第二步只要他粘一个编号。<br>
+    他最后要交给仓库的是一份公司模板 Excel 和一包箱标 → 所以输出就是这两样，不多不少。<br>
+    <strong>方案架构做的，就是把工具长在用户已经在做的动作上。</strong>
+  </div>
+
+  <h3>7.3 方法论：解决方案架构师（SA）</h3>
+  <p>有一个岗位干的事很具体：对着一个问题，设计解决它的方案。大会上亚马逊官方的人自我介绍，报的就是这个头衔。</p>
+  <div class="quote">
+    <strong>定位：</strong>站在业务视角，用产品能力、API、系统集成，设计落地方案解决业务问题。重点在方案设计、选型、接口对接规划、风险评估，而不在写多少代码。
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>SA 的五件事</th><th>对应货件那一刀</th></tr></thead>
+      <tbody>
+        <tr><td>① 梳理业务痛点，把业务需求翻译成技术方案</td><td>痛点是手抄箱单</td></tr>
+        <tr><td>② 基于平台提供的 API / SDK / 接口能力，设计系统对接流程</td><td>接口是入库货件那一族</td></tr>
+        <tr><td>③ 画架构图、接口时序、数据流转，定义字段、鉴权、异常处理</td><td>流程是识别可发数据建货件、再粘编号出文件包</td></tr>
+        <tr><td>④ 评估 API 限流、安全、性能、成本，给出集成方案</td><td>限流是每秒五次</td></tr>
+        <tr><td>⑤ 对接开发、测试、业务方，推进方案落地，排查集成问题</td><td>落地是第二天运营验收</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert a-info">
+    <b>为什么单拎出来说：往后，人人都是开发者</b>
+    代码这道门槛，AI 已经拆了。你能把业务说清楚，你就能做出工具。门槛没了，差别在哪？<strong>谁做的工具好用、真有用，看的是设计思路。</strong>
+    工具也是产品，运营就是它的用户——跟做一款产品好不好卖，是同一个道理。
+  </div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section>
+  <div class="sec-head">
+    <h2>八、避坑与取舍清单</h2>
+    <div class="sub">把这一页贴在工位上</div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <div class="ct">接之前</div>
+      <p>① 先确认自己是什么身份——FBM、VC、银行类身份需要的接口，你做 SC/FBA 的根本碰不到，别浪费时间。<br>
+      ② 新工具不要接旧版订单接口（1 月已宣布淘汰）。<br>
+      ③ 想清楚限流能不能支撑你的交互设想。<br>
+      ④ 只读探测先打一遍，只记状态和字段名，别留店铺数据。</p>
+    </div>
+    <div class="card">
+      <div class="ct">做的时候</div>
+      <p>① 400 报错先查传参：日期格式、枚举值、必填项，十有八九是这里。<br>
+      ② 一次调用把活干足，别一次调一个数据点。<br>
+      ③ 有时间窗的数据（如 65 天搜索词）必须每天落库自存。<br>
+      ④ 定时调度、重试、幂等，都得自己写——平台不提供。</p>
+    </div>
+    <div class="card">
+      <div class="ct">上线之后</div>
+      <p>① 别做二十几张看板。先做一张真有人每天开的。<br>
+      ② 走合作承运人的货件计划，列表接口不列，记得凭编号直查或创建时记录。<br>
+      ③ 用品类基准校准「不错」这两个字的含义。<br>
+      ④ 报表与促销 ID 已能对上，促销花费和效果要在同一张表里看。</p>
+    </div>
+    <div class="card">
+      <div class="ct">心态上</div>
+      <p>① 能力是亚马逊给的，方案是你自己的。前者一天摸完，后者决定它是工具还是摆设。<br>
+      ② 第一刀不是周报——周报已经有 ERP 顶着，多一个来源就是给运营加税。<br>
+      ③ 验收标准只有一个：<strong>这个工具明天替谁省掉哪一小时。</strong>答不上来，不做。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 附录 ============ -->
+<section>
+  <div class="sec-head">
+    <h2>附录</h2>
+    <div class="sub">能力表说明与术语对照</div>
+  </div>
+
+  <h3>A. 两张能力表</h3>
+  <p>现场让 AI 用公共开发者应用调出来的两张表，一行一个接口，写清楚<strong>能拿到什么、做什么用、实测状态、限流值</strong>，字段名可以点开看。<strong>不含任何店铺数据。</strong></p>
+  <div class="grid3">
+    <div class="card">
+      <div class="ct">《SP-API 实测能力表》</div>
+      <div class="cm">85 行</div>
+      <p>75 通、10 拒。拒的那 10 条已在第一节逐条说明原因。</p>
+    </div>
+    <div class="card">
+      <div class="ct">《Amazon Ads API 实测能力表》</div>
+      <div class="cm">Ads 侧实测</div>
+      <p>75 条只读实测，3 条被拒；另单独深挖 48 个接口。只讲今年新出的。</p>
+    </div>
+    <div class="card">
+      <div class="ct">合计</div>
+      <div class="cm">约 160 行</div>
+      <p>它们是做工具的地基。你要做自己的，也可以从这里起步，省掉一天摸底。</p>
+    </div>
+  </div>
+
+  <h3>B. 术语中英对照</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>英文</th><th>中文</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>Selling Partner API</td><td>销售伙伴 API</td><td>原 MWS 的继任者</td></tr>
+        <tr><td>Login with Amazon</td><td>亚马逊登录授权</td><td>今年实测中已成为唯一认证层</td></tr>
+        <tr><td>Restricted Data Token</td><td>受限数据令牌</td><td>买家信息等受限数据需专用权限</td></tr>
+        <tr><td>includedData</td><td>按需返回的数据块</td><td>订单 / 相似商品接口里点名要哪些字段</td></tr>
+        <tr><td>Data Kiosk</td><td>数据自助查询</td><td>第三种取数：取分析结果，不是取记录</td></tr>
+        <tr><td>Schema Explorer</td><td>字段浏览器</td><td>卖家后台，写查询前查字段</td></tr>
+        <tr><td>Subscribe &amp; Save</td><td>订阅省</td><td>4 月起给到 offer 级指标</td></tr>
+        <tr><td>MCF</td><td>多渠道配送</td><td>用 FBA 给站外订单发货</td></tr>
+        <tr><td>AMC</td><td>亚马逊营销云</td><td>隐私安全的分析环境</td></tr>
+        <tr><td>MCP Server</td><td>模型上下文协议服务</td><td>官方把广告接口做成了 AI 可直接调用的工具</td></tr>
+        <tr><td>Staged / 预计放款</td><td>Scheduled Payment</td><td>下一笔到账时间、金额、卡尾号</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ REFS ============ -->
+<section>
+  <div class="sec-head">
+    <h2>参考资料</h2>
+    <div class="sub">官方文档与权威来源</div>
+  </div>
+  <ul class="ref">
+    <li><span class="rt">Amazon Selling Partner API 官方文档</span><br><a href="https://developer-docs.amazon.com/sp-api/" target="_blank">https://developer-docs.amazon.com/sp-api/</a></li>
+    <li><span class="rt">SP-API 官方发布记录（版本核对来源）</span><br><a href="https://developer-docs.amazon.com/sp-api/changelog" target="_blank">Release Notes / Changelog</a></li>
+    <li><span class="rt">SP-API 报表类型取值表</span><br><a href="https://developer-docs.amazon.com/sp-api/docs/report-type-values" target="_blank">Report Type Values</a></li>
+    <li><span class="rt">SP-API Data Kiosk 参考</span><br><a href="https://developer-docs.amazon.com/sp-api/docs/data-kiosk-api-v2023-11-15-reference" target="_blank">Data Kiosk API Reference</a></li>
+    <li><span class="rt">SP-API 用量计划与限流</span><br><a href="https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits" target="_blank">Usage Plans and Rate Limits</a></li>
+    <li><span class="rt">Amazon Ads API 官方文档</span><br><a href="https://advertising.amazon.com/API/docs/en-us" target="_blank">https://advertising.amazon.com/API/docs/en-us</a></li>
+    <li><span class="rt">Amazon Ads 数据与洞察解决方案</span><br><a href="https://advertising.amazon.com/solutions" target="_blank">advertising.amazon.com/solutions</a></li>
+    <li><span class="rt">卖家后台 Schema Explorer 入口</span><br><a href="https://sellercentral.amazon.com" target="_blank">https://sellercentral.amazon.com</a></li>
+  </ul>
+  <div class="alert a-neu">
+    <b>口径说明</b>
+    本手册中的接口通过率、限流数值、新功能上线时间，均来自一次真实北美店铺授权下的只读实测与官方发布记录核对，<strong>未留存任何店铺数据</strong>。平台能力会持续变化，实际以官方文档与后台当期公告为准。
+  </div>
+</section>
+
+</div><!-- /body -->
+
+<footer>
+  <svg class="blob" style="width:220px;height:200px;bottom:-100px;left:8%;fill:var(--hero-deco2);" viewBox="0 0 200 200"><path d="M38,-58C52,-47,69,-40,75,-27C81,-14,76,5,68,21C60,37,49,50,35,58C21,66,4,69,-13,66C-30,63,-47,54,-58,41C-69,28,-74,11,-72,-5C-70,-21,-61,-36,-49,-48C-37,-60,-22,-69,-5,-71C12,-73,24,-69,38,-58Z" transform="translate(100 100)"></path></svg>
+  <svg class="blob" style="width:200px;height:180px;top:-80px;right:-30px;fill:var(--hero-deco);" viewBox="0 0 200 200"><path d="M44,-52C55,-42,60,-27,62,-11C64,5,63,22,54,35C45,48,29,57,11,61C-7,65,-27,64,-42,55C-57,46,-67,29,-69,11C-71,-7,-65,-26,-54,-38C-43,-50,-27,-55,-10,-58C7,-61,33,-62,44,-52Z" transform="translate(100 100)"></path></svg>
+  <div class="f-inner">
+    <div class="f-top">
+      <div>
+        <div class="f-brand">亚马逊官方 SP-API 与 Ads API 数据分析实战手册</div>
+        <div class="f-sub">2026 实测版 · 真账号只读验证，只讲今年新出的</div>
+      </div>
+      <div class="f-meta">
+        <div><div class="k">文档版本</div><div class="v">v2.0 实测版</div></div>
+        <div><div class="k">版本核对</div><div class="v">截至 2026-09-09</div></div>
+        <div><div class="k">更新日期</div><div class="v">2026-09-17</div></div>
+        <div><div class="k">数据留存</div><div class="v">无</div></div>
+      </div>
+    </div>
+    <div class="f-hair"></div>
+    <div class="f-bar">
+      <span>本手册由 AllyHub AI 整理生成 · 供内部学习与实操参考</span>
+      <span>&copy; 2026 AllyHub</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /page -->
+
+<script>
+/* ---------- Chart: rate limits ---------- */
+(function(){
+  var ctx = document.getElementById('rateChart');
+  if(!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['新版订单搜索','报表创建','相似商品 / 竞品价格','财务流水','库存','入库货件'],
+      datasets: [{
+        label: '最小调用间隔（秒）',
+        data: [180, 60, 30, 2, 0.5, 0.2],
+        backgroundColor: ['#6E9298','#7FA3A8','#93B2B4','#B4C6C7','#CFDADB','#E2E8E8'],
+        borderRadius: 4,
+        barThickness: 18
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(c){
+              var s = c.parsed.x;
+              return s >= 1 ? s + ' 秒 / 次' : (1/s).toFixed(1) + ' 次 / 秒';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: 'logarithmic',
+          grid: { color: '#E8E6E2' },
+          ticks: {
+            font: { size: 11 }, color: '#717171',
+            callback: function(v){ return v + 's'; }
+          }
+        },
+        y: { grid: { display: false }, ticks: { font: { size: 11.5 }, color: '#3D3D3D' } }
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

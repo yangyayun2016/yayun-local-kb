@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.swp
+.idea/
+.vscode/
+node_modules/
+__pycache__/
+# 未压缩原图与离线包不入库
+原图/
+*.zip

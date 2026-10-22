@@ -1,0 +1,3398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>亚马逊 SP-API 中国开发者大会 2026 · 资料总汇编</title>
+<style>
+:root{
+  --ink:#131820; --ink-2:#39424f; --ink-3:#6b7684;
+  --paper:#ffffff; --paper-2:#f5f6f8; --paper-3:#eceef2;
+  --rule:#dde1e8;
+  --site:#9a6410; --official:#1a5aa0; --tested:#12705180; --tested-s:#127051;
+  --read:#5c4f9c; --todo:#a02b3c;
+  --accent:#1a5aa0;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Songti SC","STSong","Source Han Serif SC","Noto Serif SC",Georgia,serif;
+  --mono:"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#e6e9ee; --ink-2:#b5bdc9; --ink-3:#8a94a3;
+    --paper:#11151b; --paper-2:#171c24; --paper-3:#1f2630;
+    --rule:#2b333e;
+    --site:#d9a253; --official:#6aa8e8; --tested-s:#4fbf95;
+    --read:#a396e8; --todo:#e8808f; --accent:#6aa8e8;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.75;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ---- layout ---- */
+.wrap{display:grid;grid-template-columns:288px minmax(0,1fr);gap:0;max-width:1320px;margin:0 auto}
+aside{position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid var(--rule);
+  padding:28px 18px 56px;background:var(--paper-2)}
+aside .brand{font-family:var(--serif);font-size:17px;line-height:1.5;letter-spacing:.02em;
+  padding-bottom:14px;margin-bottom:12px;border-bottom:1px solid var(--rule);color:var(--ink)}
+aside .brand small{display:block;font-family:var(--sans);font-size:12px;color:var(--ink-3);margin-top:6px;letter-spacing:0}
+nav a{display:flex;gap:9px;align-items:baseline;text-decoration:none;color:var(--ink-2);
+  padding:5px 8px;border-radius:5px;font-size:14px;line-height:1.5}
+nav a i{font-style:normal;color:var(--ink-3);font-variant-numeric:tabular-nums;font-size:12.5px;min-width:26px;flex:none}
+nav a.n2{font-weight:600;color:var(--ink);margin-top:10px}
+nav a.n3{font-size:13.2px;padding-left:16px}
+nav a:hover{background:var(--paper-3)}
+nav a.on{background:var(--paper-3);color:var(--accent);box-shadow:inset 2px 0 0 var(--accent)}
+nav a:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+main{padding:48px 56px 120px;min-width:0}
+article{max-width:74ch}
+
+/* ---- masthead ---- */
+.mast{border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:8px}
+.mast h1{font-family:var(--serif);font-weight:700;font-size:clamp(28px,3.4vw,40px);line-height:1.3;
+  margin:0 0 12px;letter-spacing:.01em}
+.mast p{color:var(--ink-3);font-size:13.6px;line-height:1.85;margin:0 0 8px}
+.mast p strong{color:var(--ink-2);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.legend .ev{cursor:default}
+
+/* ---- headings ---- */
+h2{font-size:24px;margin:64px 0 18px;padding-top:26px;border-top:1px solid var(--rule);
+  font-weight:700;letter-spacing:.01em;line-height:1.4}
+h3{font-size:18.5px;margin:38px 0 12px;font-weight:650;color:var(--ink)}
+h4{font-size:15.5px;margin:26px 0 8px;font-weight:650;color:var(--ink-2)}
+h2:target,h3:target{scroll-margin-top:16px}
+h2,h3,h4{scroll-margin-top:16px}
+
+p{margin:0 0 14px}
+strong{font-weight:650}
+a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0;display:none}
+ul,ol{padding-left:22px;margin:0 0 16px}
+li{margin:4px 0}
+code{font-family:var(--mono);font-size:.875em;background:var(--paper-3);padding:.12em .38em;border-radius:4px}
+pre{background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--ink-3);
+  padding:14px 16px;border-radius:6px;overflow-x:auto;font-size:13.5px;line-height:1.65}
+pre code{background:none;padding:0;font-size:inherit}
+
+/* ---- callouts ---- */
+blockquote{margin:20px 0;padding:14px 18px;background:var(--paper-2);
+  border:1px solid var(--rule);border-left:3px solid var(--todo);border-radius:0 6px 6px 0;color:var(--ink-2)}
+blockquote p:last-child{margin-bottom:0}
+blockquote strong{color:var(--ink)}
+
+/* ---- tables ---- */
+.tw{overflow-x:auto;margin:18px 0 24px;border:1px solid var(--rule);border-radius:7px}
+table{border-collapse:collapse;width:100%;font-size:14.2px;line-height:1.6}
+th,td{padding:9px 13px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule)}
+th{background:var(--paper-2);font-weight:650;white-space:nowrap;color:var(--ink)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even) td{background:var(--paper-2)}
+td code{white-space:nowrap}
+
+/* ---- evidence tags ---- */
+.ev{display:inline-block;font-size:12px;line-height:1.5;padding:1px 7px;border-radius:3px;
+  font-weight:600;letter-spacing:.02em;white-space:nowrap;vertical-align:.06em;
+  border:1px solid currentColor;background:transparent}
+.ev-site{color:var(--site)} .ev-official{color:var(--official)}
+.ev-tested{color:var(--tested-s)} .ev-read{color:var(--read)} .ev-todo{color:var(--todo)}
+
+/* ---- responsive ---- */
+.tocbtn{display:none}
+@media (max-width:1020px){
+  .wrap{grid-template-columns:1fr}
+  aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--rule);padding:20px}
+  aside nav{display:none}
+  aside.open nav{display:block;max-height:60vh;overflow-y:auto;margin-top:12px}
+  .tocbtn{display:inline-block;background:var(--paper-3);color:var(--ink);border:1px solid var(--rule);
+    border-radius:6px;padding:7px 13px;font:inherit;font-size:14px;cursor:pointer}
+  main{padding:26px 20px 90px}
+  body{font-size:15.5px}
+}
+@media print{
+  aside{display:none} .wrap{display:block} main{padding:0} article{max-width:none}
+  h2{page-break-after:avoid} .tw{overflow:visible}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside id="side">
+  <div class="brand">亚马逊 SP-API 中国开发者大会 2026<small>资料总汇编 · v2 主题重组版 · 2026-09-17</small></div>
+  <button class="tocbtn" id="tocbtn">目录</button>
+  <nav><a class="n2" href="#sec-0-使用说明"><i>0</i><span>使用说明</span></a>
+<a class="n3" href="#sec-0-1-这次整理做了什么"><i>0.1</i><span>这次整理做了什么</span></a>
+<a class="n3" href="#sec-0-2-证据分级-阅读时先看这一列"><i>0.2</i><span>证据分级（阅读时先看这一列）</span></a>
+<a class="n3" href="#sec-0-3-新旧对照表"><i>0.3</i><span>新旧对照表</span></a>
+<a class="n3" href="#sec-0-4-记录范围与安全边界"><i>0.4</i><span>记录范围与安全边界</span></a>
+<a class="n2" href="#sec-1-会议速览"><i>1</i><span>会议速览</span></a>
+<a class="n3" href="#sec-1-1-基本信息"><i>1.1</i><span>基本信息</span></a>
+<a class="n3" href="#sec-1-2-完整议程与照片覆盖"><i>1.2</i><span>完整议程与照片覆盖</span></a>
+<a class="n3" href="#sec-1-3-三条主线"><i>1.3</i><span>三条主线</span></a>
+<a class="n3" href="#sec-1-4-最需要保留的四个判断"><i>1.4</i><span>最需要保留的四个判断</span></a>
+<a class="n3" href="#sec-1-5-核心结论"><i>1.5</i><span>核心结论</span></a>
+<a class="n2" href="#sec-2-更新总览"><i>2</i><span>更新总览</span></a>
+<a class="n3" href="#sec-2-1-先分清四种状态"><i>2.1</i><span>先分清四种状态</span></a>
+<a class="n3" href="#sec-2-2-近期发布时间线-官方"><i>2.2</i><span>近期发布时间线官方</span></a>
+<a class="n3" href="#sec-2-3-发布路线图-现场口径-IMG_2375-现场"><i>2.3</i><span>发布路线图（现场口径，IMG_2375）现场</span></a>
+<a class="n2" href="#sec-3-业务接口分主题"><i>3</i><span>业务接口分主题</span></a>
+<a class="n3" href="#sec-3-1-Orders-订单"><i>3.1</i><span>Orders 订单</span></a>
+<a class="n3" href="#sec-3-2-Listings-商品"><i>3.2</i><span>Listings 商品</span></a>
+<a class="n3" href="#sec-3-3-Promotions-促销"><i>3.3</i><span>Promotions 促销</span></a>
+<a class="n3" href="#sec-3-4-Pricing-定价-竞争摘要与-FOEP"><i>3.4</i><span>Pricing 定价：竞争摘要与 FOEP</span></a>
+<a class="n3" href="#sec-3-5-FBM-与-Easy-Ship"><i>3.5</i><span>FBM 与 Easy Ship</span></a>
+<a class="n3" href="#sec-3-6-MCF-多渠道配送"><i>3.6</i><span>MCF 多渠道配送</span></a>
+<a class="n3" href="#sec-3-7-Amazon-Business-企业购"><i>3.7</i><span>Amazon Business 企业购</span></a>
+<a class="n3" href="#sec-3-8-Finances-财务"><i>3.8</i><span>Finances 财务</span></a>
+<a class="n3" href="#sec-3-9-Reports-分析报表"><i>3.9</i><span>Reports 分析报表</span></a>
+<a class="n3" href="#sec-3-10-Data-Kiosk-与-Ads-API-数据分析"><i>3.10</i><span>Data Kiosk 与 Ads API 数据分析</span></a>
+<a class="n2" href="#sec-4-AI-MCP-工作流"><i>4</i><span>AI · MCP · 工作流</span></a>
+<a class="n3" href="#sec-4-1-五个组件各负责什么"><i>4.1</i><span>五个组件各负责什么</span></a>
+<a class="n3" href="#sec-4-2-开发助手的六个工具"><i>4.2</i><span>开发助手的六个工具</span></a>
+<a class="n3" href="#sec-4-3-工作流如何运行"><i>4.3</i><span>工作流如何运行</span></a>
+<a class="n3" href="#sec-4-4-三种版本分开记"><i>4.4</i><span>三种版本分开记</span></a>
+<a class="n3" href="#sec-4-5-AI-辅助迁移演示-MCF-案例-现场-IMG_2390-2392"><i>4.5</i><span>AI 辅助迁移演示（MCF 案例）现场 IMG_2390–2392</span></a>
+<a class="n3" href="#sec-4-6-现场-AI-环境-现场-IMG_2404"><i>4.6</i><span>现场 AI 环境现场 IMG_2404</span></a>
+<a class="n3" href="#sec-4-7-接口目录快照-57-类-实测"><i>4.7</i><span>接口目录快照：57 类实测</span></a>
+<a class="n2" href="#sec-5-接入与授权"><i>5</i><span>接入与授权</span></a>
+<a class="n3" href="#sec-5-1-本地-MCP-不是一个公网网址"><i>5.1</i><span>本地 MCP 不是一个公网网址</span></a>
+<a class="n3" href="#sec-5-2-环境变量-仅列含义-不附真实凭证"><i>5.2</i><span>环境变量（仅列含义，不附真实凭证）</span></a>
+<a class="n3" href="#sec-5-3-应用编号和令牌不要混用"><i>5.3</i><span>应用编号和令牌不要混用</span></a>
+<a class="n3" href="#sec-5-4-自授权和公共应用授权"><i>5.4</i><span>自授权和公共应用授权</span></a>
+<a class="n3" href="#sec-5-5-身份与权限辨别"><i>5.5</i><span>身份与权限辨别</span></a>
+<a class="n2" href="#sec-6-安全与合规"><i>6</i><span>安全与合规</span></a>
+<a class="n3" href="#sec-6-1-数据保护与加密-现场-IMG_2395"><i>6.1</i><span>数据保护与加密现场 IMG_2395</span></a>
+<a class="n3" href="#sec-6-2-漏洞扫描与渗透测试-现场-IMG_2396"><i>6.2</i><span>漏洞扫描与渗透测试现场 IMG_2396</span></a>
+<a class="n3" href="#sec-6-3-身份-认证与访问控制-现场-IMG_2397"><i>6.3</i><span>身份、认证与访问控制现场 IMG_2397</span></a>
+<a class="n3" href="#sec-6-4-安全合规自查评估-现场-IMG_2398"><i>6.4</i><span>安全合规自查评估现场 IMG_2398</span></a>
+<a class="n3" href="#sec-6-5-AI-场景下的写操作边界"><i>6.5</i><span>AI 场景下的写操作边界</span></a>
+<a class="n2" href="#sec-7-实测证据与结论边界"><i>7</i><span>实测证据与结论边界</span></a>
+<a class="n3" href="#sec-7-1-批次说明"><i>7.1</i><span>批次说明</span></a>
+<a class="n3" href="#sec-7-2-实测结果总表"><i>7.2</i><span>实测结果总表</span></a>
+<a class="n3" href="#sec-7-3-Data-Kiosk-工作流的完整过程-实测-B"><i>7.3</i><span>Data Kiosk 工作流的完整过程实测 B</span></a>
+<a class="n3" href="#sec-7-4-余额差异的排查结论-实测-C"><i>7.4</i><span>余额差异的排查结论实测 C</span></a>
+<a class="n3" href="#sec-7-5-仍需继续确认的事项"><i>7.5</i><span>仍需继续确认的事项</span></a>
+<a class="n2" href="#sec-8-运营落地"><i>8</i><span>运营落地</span></a>
+<a class="n3" href="#sec-8-1-把数据对应到五个业务问题"><i>8.1</i><span>把数据对应到五个业务问题</span></a>
+<a class="n3" href="#sec-8-2-三个优先场景"><i>8.2</i><span>三个优先场景</span></a>
+<a class="n3" href="#sec-8-3-统一分析表的拼表顺序"><i>8.3</i><span>统一分析表的拼表顺序</span></a>
+<a class="n3" href="#sec-8-4-一个流程的验收顺序"><i>8.4</i><span>一个流程的验收顺序</span></a>
+<a class="n3" href="#sec-8-5-三个学习卡-新人可直接照做"><i>8.5</i><span>三个学习卡（新人可直接照做）</span></a>
+<a class="n3" href="#sec-8-6-三道判断题"><i>8.6</i><span>三道判断题</span></a>
+<a class="n3" href="#sec-8-7-可复用的-AI-提示词"><i>8.7</i><span>可复用的 AI 提示词</span></a>
+<a class="n3" href="#sec-8-8-真实店铺练习记录模板"><i>8.8</i><span>真实店铺练习记录模板</span></a>
+<a class="n3" href="#sec-8-9-三个优先学习动作"><i>8.9</i><span>三个优先学习动作</span></a>
+<a class="n2" href="#sec-9-术语表"><i>9</i><span>术语表</span></a>
+<a class="n2" href="#sec-10-待核实清单与口径冲突"><i>10</i><span>待核实清单与口径冲突</span></a>
+<a class="n3" href="#sec-10-1-优先核实项目-18-项"><i>10.1</i><span>优先核实项目（18 项）</span></a>
+<a class="n3" href="#sec-10-2-已发现的口径冲突与处理"><i>10.2</i><span>已发现的口径冲突与处理</span></a>
+<a class="n3" href="#sec-10-3-后续资料如何加入"><i>10.3</i><span>后续资料如何加入</span></a>
+<a class="n2" href="#sec-11-资料链接目录"><i>11</i><span>资料链接目录</span></a>
+<a class="n3" href="#sec-11-1-官方总入口与发布记录"><i>11.1</i><span>官方总入口与发布记录</span></a>
+<a class="n3" href="#sec-11-2-官方-MCP-安装与源码"><i>11.2</i><span>官方 MCP 安装与源码</span></a>
+<a class="n3" href="#sec-11-3-Data-Kiosk-与工作流"><i>11.3</i><span>Data Kiosk 与工作流</span></a>
+<a class="n3" href="#sec-11-4-业务接口与报表"><i>11.4</i><span>业务接口与报表</span></a>
+<a class="n3" href="#sec-11-5-授权-权限与安全"><i>11.5</i><span>授权、权限与安全</span></a>
+<a class="n3" href="#sec-11-6-官方渠道补充说明"><i>11.6</i><span>官方渠道补充说明</span></a>
+<a class="n3" href="#sec-11-7-社区项目-仅作线索-未安装-审计或验证"><i>11.7</i><span>社区项目（仅作线索，未安装、审计或验证）</span></a>
+<a class="n2" href="#sec-12-附录"><i>12</i><span>附录</span></a>
+<a class="n3" href="#sec-12-1-接口目录快照-57-类"><i>12.1</i><span>接口目录快照（57 类）</span></a>
+<a class="n3" href="#sec-12-2-照片索引-41-张"><i>12.2</i><span>照片索引（41 张）</span></a>
+<a class="n3" href="#sec-12-3-会场资源清单"><i>12.3</i><span>会场资源清单</span></a>
+<a class="n3" href="#sec-12-4-更新日志"><i>12.4</i><span>更新日志</span></a>
+<a class="n3" href="#sec-12-5-原始分包文件清单"><i>12.5</i><span>原始分包文件清单</span></a></nav>
+</aside>
+<main><article>
+<header class="mast"><h1 id="sec-亚马逊-SP-API-中国开发者大会-2026-资料总汇编">亚马逊 SP-API 中国开发者大会 2026 · 资料总汇编</h1>
+<p><strong>会议日期：2026 年 9 月 16 日（深圳，JEN 1+2）｜原始整理：2026-09-17｜本汇编版本：v2 主题重组版</strong></p>
+<p>本汇编把原分享包中的 9 份文档按<strong>主题</strong>重新组织为一份主文档：同一话题只在一处展开，跨文件重复的内容已合并，结论边界与证据来源全部保留。原始 41 张现场照片、原始分包文档一并保留在同一目录，可随时回查。</p><div class="legend"><span class="ev ev-site">现场 投影片照片</span><span class="ev ev-official">官方 公开文档</span><span class="ev ev-tested">实测 本地跑通</span><span class="ev ev-read">解读 整理者补充</span><span class="ev ev-todo">待核实 证据不足</span></div></header>
+<hr />
+<h2 id="sec-0-使用说明">0 使用说明</h2>
+<h3 id="sec-0-1-这次整理做了什么">0.1 这次整理做了什么</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>动作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主题重组</td>
+<td>原来按"会议记录／合并资料／技术附件"分文件，现改为按业务主题（订单、促销、财务、安全……）组织</td>
+</tr>
+<tr>
+<td>合并去重</td>
+<td>财务七项清单、四类分析报表、身份权限辨别、余额层级、自然销量公式等在原包中出现 2–3 次，现各归一处</td>
+</tr>
+<tr>
+<td>保留边界</td>
+<td>所有"现场口径 / 待核实 / 不能推导"的限定语一字不减，不因为合并而变成确定结论</td>
+</tr>
+<tr>
+<td>保留原件</td>
+<td>原 9 份 Markdown、HTML、DOCX 与 41 张照片全部保留，未覆盖、未压缩</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-0-2-证据分级-阅读时先看这一列">0.2 证据分级（阅读时先看这一列）</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>标记</th>
+<th>含义</th>
+<th>可以用来做什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="ev ev-site">现场</span></td>
+<td>会议投影片／演示屏幕照片可见的内容</td>
+<td>了解官方对外表述，需再核对正式文档</td>
+</tr>
+<tr>
+<td><span class="ev ev-official">官方</span></td>
+<td>官方文档、发布日志、仓库等公开资料</td>
+<td>可作为接入依据，仍需核对版本与站点</td>
+</tr>
+<tr>
+<td><span class="ev ev-tested">实测</span></td>
+<td>本地测试记录中已跑通的链路</td>
+<td>证明"这条路走得通"，不等于生产验收</td>
+</tr>
+<tr>
+<td><span class="ev ev-read">解读</span></td>
+<td>整理者的业务解释与实践建议</td>
+<td>用于培训和需求沟通，不是官方承诺</td>
+</tr>
+<tr>
+<td><span class="ev ev-todo">待核实</span></td>
+<td>证据不足，不下结论</td>
+<td>见第 10 章清单，收到资料后回填</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-0-3-新旧对照表">0.3 新旧对照表</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>本汇编章节</th>
+<th>原分享包来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 会议速览</td>
+<td>会议记录 一、十二</td>
+</tr>
+<tr>
+<td>2 更新总览</td>
+<td>合并版 一；会议记录 8.5</td>
+</tr>
+<tr>
+<td>3 业务接口分主题</td>
+<td>会议记录 四–九、十一；合并版 一、五；技术细节全文</td>
+</tr>
+<tr>
+<td>4 AI·MCP·工作流</td>
+<td>合并版 二；会议记录 二、9.4；接口目录快照</td>
+</tr>
+<tr>
+<td>5 接入与授权</td>
+<td>合并版 三；技术细节 身份与权限辨别</td>
+</tr>
+<tr>
+<td>6 安全与合规</td>
+<td>会议记录 十；合并版 六 共享与操作边界</td>
+</tr>
+<tr>
+<td>7 实测证据</td>
+<td>合并版 四</td>
+</tr>
+<tr>
+<td>8 运营落地</td>
+<td>合并版 五、六；学习卡 二、三、四、六</td>
+</tr>
+<tr>
+<td>9 术语表</td>
+<td>学习卡 一</td>
+</tr>
+<tr>
+<td>10 待核实清单</td>
+<td>待核实清单全文</td>
+</tr>
+<tr>
+<td>11 资料链接目录</td>
+<td>资料链接目录全文</td>
+</tr>
+<tr>
+<td>12 附录</td>
+<td>接口目录快照、照片索引、会议记录 12.1、更新日志</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-0-4-记录范围与安全边界">0.4 记录范围与安全边界</h3>
+<p>会议记录依据 <strong>44 个来源照片文件，按 SHA-256 去掉 3 个完全相同副本后为 41 张</strong>，不是录音逐字稿；讲师姓名、口头讲解、问答答案、酒店名称均未确认。</p>
+<p>本汇编不含真实账号、密钥、原始业务响应、后台截图、运行标识或真实工作流输入。照片属于会场材料，保留现场观众与演示画面，转发请整包发送并完整解压，不要单独移动网页而遗漏照片目录。</p>
+<hr />
+<h2 id="sec-1-会议速览">1 会议速览</h2>
+<h3 id="sec-1-1-基本信息">1.1 基本信息</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>已确认内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中文名称</td>
+<td>亚马逊 SP-API 中国开发者大会</td>
+</tr>
+<tr>
+<td>英文名称</td>
+<td>China Solution Provider Summit 2026</td>
+</tr>
+<tr>
+<td>日期</td>
+<td>2026 年 9 月 16 日</td>
+</tr>
+<tr>
+<td>城市与会场</td>
+<td>深圳；议程牌为 JEN 1+2</td>
+</tr>
+<tr>
+<td>记录依据</td>
+<td>议程牌、演讲投影片、现场演示与展板照片（41 张）</td>
+</tr>
+<tr>
+<td>暂缺</td>
+<td>完整 PPT、录音、讲师名单、问答回答、部分场次正文</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-1-2-完整议程与照片覆盖">1.2 完整议程与照片覆盖</h3>
+<p>以下为议程牌上的<strong>计划时间</strong>，不能据此推定每场实际起止。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>时间</th>
+<th>议程</th>
+<th>本批照片覆盖</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>08:30–09:30</td>
+<td>签到</td>
+<td>议程牌</td>
+</tr>
+<tr>
+<td>09:30–09:45</td>
+<td>开幕致辞</td>
+<td>无正文照片</td>
+</tr>
+<tr>
+<td>09:45–10:15</td>
+<td>AI 构建更强大的集成：SP-API MCP 服务器与年度更新</td>
+<td>有跨场次 AI/MCP 演示，无法确定归属</td>
+</tr>
+<tr>
+<td>10:15–10:45</td>
+<td>2026 财务 API：简化财务数据与付款管理</td>
+<td><strong>无可明确归属的正文</strong>；后场有财务指标页</td>
+</tr>
+<tr>
+<td>10:45–11:00</td>
+<td>茶歇</td>
+<td>—</td>
+</tr>
+<tr>
+<td>11:00–11:45</td>
+<td>构建亚马逊企业购智能 B2B 解决方案</td>
+<td>B2B 工具、BHDR、PO 打印、资源</td>
+</tr>
+<tr>
+<td>11:45–12:15</td>
+<td>全新 Orders API 及产品发布蓝图</td>
+<td>GET 工作流、代码演示</td>
+</tr>
+<tr>
+<td>12:15–13:15</td>
+<td>午餐</td>
+<td>—</td>
+</tr>
+<tr>
+<td>13:15–14:00</td>
+<td>Listings API 最佳实践：首次提交即成功上架 ASIN</td>
+<td>多商城检索、资源页；上架完整流程未拍全</td>
+</tr>
+<tr>
+<td>14:00–14:45</td>
+<td>打造完整的 FBM 工具包</td>
+<td>Easy Ship 流程、现场提问</td>
+</tr>
+<tr>
+<td>14:45–15:00</td>
+<td>茶歇</td>
+<td>—</td>
+</tr>
+<tr>
+<td>15:00–15:45</td>
+<td>掌握促销与定价 API</td>
+<td>覆盖较完整</td>
+</tr>
+<tr>
+<td>15:45–16:15</td>
+<td>拓展站外履约：2026 MCF 新动态</td>
+<td>出库功能、通知、迁移演示、门户</td>
+</tr>
+<tr>
+<td>16:15–16:30</td>
+<td>茶歇</td>
+<td>—</td>
+</tr>
+<tr>
+<td>16:30–17:00</td>
+<td>AI 时代下的 SP-API 安全防护</td>
+<td>加密、扫描、身份、自查评估</td>
+</tr>
+<tr>
+<td>17:00–17:30</td>
+<td>SP-API 与 Ads API 数据分析实战手册</td>
+<td>Data Kiosk、指标体系、统一分析表</td>
+</tr>
+<tr>
+<td>17:30–17:45</td>
+<td>总结与交流</td>
+<td>无正文照片</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-1-3-三条主线">1.3 三条主线</h3>
+<ol>
+<li><strong>接口把订单、商品、履约和经营数据连接起来。</strong></li>
+<li><strong>AI 与 MCP 帮开发者理解、调用和迁移接口。</strong></li>
+<li><strong>运营分析需要把店铺整体表现与广告表现放在一起看。</strong></li>
+</ol>
+<p>对运营新人，最有价值的不是背接口名称，而是知道 ERP 能解决哪些问题、数据是否完整，以及可以向技术人员提出什么具体需求。</p>
+<h3 id="sec-1-4-最需要保留的四个判断">1.4 最需要保留的四个判断</h3>
+<ol>
+<li><strong>读取能力与写入能力分开看。</strong> 促销读取已发布的现场口径，不等于创建更新也已开放。</li>
+<li><strong>AI 输出要回到版本与测试。</strong> 迁移演示有明确的预发布提示，与另一页版本不同，不能直接上线照用。</li>
+<li><strong>数据连接要先统一口径。</strong> 站点、时间、币种、粒度和归因窗口对不上，漂亮的统一看板也可能误导运营。</li>
+<li><strong>API 接入包含持续维护。</strong> 同步、分页、错误处理、权限、删除与测试，都是软件可用性的一部分。</li>
+</ol>
+<h3 id="sec-1-5-核心结论">1.5 核心结论</h3>
+<p>现有测试记录已覆盖官方 MCP 安装与库存读取、部分订单与财务查询，以及一次 Data Kiosk 销售汇总工作流和后台对账。它们证明了<strong>具体链路可以跑通</strong>；完整利润、广告优化和长期自动化仍需要更多数据、权限与运行保障。</p>
+<hr />
+<h2 id="sec-2-更新总览">2 更新总览</h2>
+<h3 id="sec-2-1-先分清四种状态">2.1 先分清四种状态</h3>
+<p>"大会提到""官方发布""某个授权可用""已通过生产验证"不是同一件事。本汇编的实测来自不同对话形成的操作记录，合并时分别标注范围，没有把不同测试视为同一次执行。本次整理未重新连接店铺执行业务测试。</p>
+<p><strong>名称辨析：</strong> SP-API 是 Selling Partner API（销售伙伴业务接口），连接订单、库存、商品、财务；广告投放中的 SP 是 Sponsored Products，含义不同。广告活动及效果数据主要通过 Amazon Ads API 获取。</p>
+<h3 id="sec-2-2-近期发布时间线-官方">2.2 近期发布时间线<span class="ev ev-official">官方</span></h3>
+<p>下表是相关更新摘选，不是全部更新，也不表示均在大会当天首次发布。版本名称中的日期与正式发布日期要分开理解。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>发布日期</th>
+<th>变化</th>
+<th>可以解决的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-01-28</td>
+<td>Orders v2026-01-01 以 getOrder、searchOrders 整合查询</td>
+<td>少拼接订单数据，按需获取获授权的信息</td>
+</tr>
+<tr>
+<td>2026-05-28</td>
+<td>官方仓库发布 Local MCP 公告</td>
+<td>给 AI 提供文档、接口与工作流工具入口</td>
+</tr>
+<tr>
+<td>2026-07-29</td>
+<td>Finances 新增 listBalances、listSummary；Transfers 增加付款查询</td>
+<td>核对余额、收支汇总、付款与预计付款</td>
+</tr>
+<tr>
+<td>2026-07-29</td>
+<td>Listings 支持同一区域多个站点读取</td>
+<td>减少逐站点重复请求</td>
+</tr>
+<tr>
+<td>2026-07-29</td>
+<td>发布 Fulfillment Outbound v2026-07-04</td>
+<td>改善多渠道配送集成、沙盒和异步处理</td>
+</tr>
+<tr>
+<td>2026-08-05</td>
+<td>Tracking API 与货件里程碑通知</td>
+<td>获取物流状态；该次查询发布标明美国站</td>
+</tr>
+<tr>
+<td>2026-08-18</td>
+<td>官方 MCP 工具包 v1.0.5 发布</td>
+<td>本批安装与工作流资料采用的工具版本</td>
+</tr>
+<tr>
+<td>2026-08-26</td>
+<td>Promotions API 发布；效果报表增加 promotionsApiMappingId</td>
+<td>关联活动信息与效果报表</td>
+</tr>
+</tbody>
+</table></div>
+<p>依据：<a href="https://developer-docs.amazon/sp-api/docs/sp-api-release-notes">官方发布日志</a>、<a href="https://github.com/amzn/selling-partner-api-samples/discussions/382">Local MCP 公告</a>、<a href="https://github.com/amzn/selling-partner-api-samples/releases/tag/mcp-server-v1.0.5">v1.0.5 发布记录</a>。适用站点、角色及开放范围需查对应操作。</p>
+<h3 id="sec-2-3-发布路线图-现场口径-IMG_2375-现场">2.3 发布路线图（现场口径，IMG_2375）<span class="ev ev-site">现场</span></h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>现场披露状态／计划</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>促销管理 API 读取操作</td>
+<td>2026 年 9 月初已正式推出</td>
+</tr>
+<tr>
+<td>促销管理 API 创建和更新</td>
+<td>私有测试版：2026 年底；正式推出：2027 年初</td>
+</tr>
+<tr>
+<td>getCompetitiveSummary 相似商品</td>
+<td>自 2026 年 5 月起正式推出</td>
+</tr>
+<tr>
+<td>getCompetitiveSummary 促销</td>
+<td>私有测试版已开启；正式推出计划：2026 年第三季度</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>口径差异已记录：</strong> 促销读取现场称 9 月初推出，官方发布日志列于 8 月 26 日。两种口径并存保留，以正式采用版本的官方定义为准。</p>
+</blockquote>
+<hr />
+<h2 id="sec-3-业务接口分主题">3 业务接口分主题</h2>
+<h3 id="sec-3-1-Orders-订单">3.1 Orders 订单</h3>
+<h4 id="sec-新-GET-工作流-现场-IMG_2331">新 GET 工作流<span class="ev ev-site">现场 IMG_2331</span></h4>
+<ul>
+<li>操作名称：<code>SearchOrders</code></li>
+<li>路径：<code>/orders/2026-01-01/orders</code></li>
+<li>筛选维度：创建时间前后、最近更新时间前后、订单状态、商城 ID、履约渠道（FBM/FBA）、包含的数据集</li>
+</ul>
+<p>标题强调"流程统一，一次调用获取全部信息"。<strong><span class="ev ev-read">解读</span></strong> 以前需要分开查询订单、买家、地址、包裹再拼接；新方向是按需获取更完整的订单对象。但"一次调用"是演示表达，不能理解成任意数量的订单都不用分页或补充查询。权限、分页和业务状态限制依然存在。</p>
+<h4 id="sec-代码演示中的字段变化-现场-IMG_2333">代码演示中的字段变化<span class="ev ev-site">现场 IMG_2333</span></h4>
+<p>Python 演示注释为 "Orders API 2026-01-01"、"1 call per order | no RDT"，用 <code>included_data</code> 请求 <code>BUYER</code>、<code>RECIPIENT</code>、<code>PROCEEDS</code>、<code>PACKAGES</code>。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>演示所列变化</th>
+<th>对开发工作的含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fulfillment_channels</code> → <code>fulfilled_by</code>，<code>MFN</code> → <code>MERCHANT</code></td>
+<td>请求字段与枚举需重新映射</td>
+</tr>
+<tr>
+<td><code>order_statuses</code> → <code>fulfillment_statuses</code>，<code>Unshipped</code> → <code>UNSHIPPED</code></td>
+<td>状态拼写及大小写不可直接沿用</td>
+</tr>
+<tr>
+<td>去掉 <code>payload</code> 外层</td>
+<td>旧响应解析代码可能需要调整</td>
+</tr>
+<tr>
+<td><code>amazon_order_id</code> → <code>order_id</code></td>
+<td>订单标识字段的读取方式需核对</td>
+</tr>
+<tr>
+<td><code>included_data</code> 按需获取多类信息</td>
+<td>数据选择与应用权限需要一起检查</td>
+</tr>
+<tr>
+<td>PII 由应用角色限制，不再往返获取 RDT</td>
+<td>"不需要 RDT"不表示任何应用都能获取敏感信息</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>同组照片存在表达差异<span class="ev ev-todo">待核实 Q04</span></strong>
+IMG_2331 示例使用 <code>status=Unshipped</code>（幻灯片 URL 示例），IMG_2333 使用 <code>fulfillment_statuses=["UNSHIPPED"]</code>（Python 演示）。不要拼接成一段未经验证的可运行请求；最终参数按实际采用版本的接口定义核对。</p>
+</blockquote>
+<p><strong>PII</strong> 是可识别个人的信息；<strong>RDT</strong> 是 Restricted Data Token（受限数据令牌）。新 Orders 不要求额外 RDT，不代表所有 SP-API 都取消 RDT<span class="ev ev-todo">待核实 Q05</span>。</p>
+<h4 id="sec-对运营的实际影响-解读">对运营的实际影响<span class="ev ev-read">解读</span></h4>
+<p>可向 ERP 团队提出的需求：订单同步能否同时带出企业购标识、PO、收货公司、金额与包裹；同步失败是否有提示；更新后的订单能否重复抓取而不重复建单。</p>
+<p>验收时更应看"有没有漏单、重复单、缺地址或丢包裹"，而不只看接口是否返回成功。</p>
+<p>参考：<a href="https://developer-docs.amazon/sp-api/changelog/new-introducing-the-orders-api-v2026-01-01">Orders API v2026-01-01 发布公告</a> · <a href="https://developer-docs.amazon/sp-api/docs/orders-api-migration-guide">迁移指南</a></p>
+<hr />
+<h3 id="sec-3-2-Listings-商品">3.2 Listings 商品</h3>
+<p><strong>Listing</strong> 是卖家在某站点的商品刊登信息；<strong>Marketplace</strong> 是具体销售市场；<strong>ASIN</strong> 是亚马逊商品标识；<strong>SKU</strong> 是卖家管理编码。</p>
+<h4 id="sec-同一区域多商城检索-现场-IMG_2349">同一区域多商城检索<span class="ev ev-site">现场 IMG_2349</span></h4>
+<p><code>getListingsItem</code> 与 <code>searchListingsItems</code>：</p>
+<ol>
+<li>可接受<strong>同一区域</strong>的多个商城 ID，一个请求检索多个商城的商品信息。</li>
+<li>响应可包括概要、报价、属性与问题；各项带商城 ID，便于识别来源。</li>
+<li>可减少对同一商品逐站点连续调用。</li>
+<li>对单商城请求保持向后兼容。</li>
+<li><strong>仅适用于卖家</strong>；投影片说明供应商代码映射至单一商城。</li>
+<li><code>searchListingsItems</code> 的筛选与排序（如 <code>withStatus</code>、<code>sortBy</code>）按第一个 ID（主商城）评估。</li>
+</ol>
+<blockquote>
+<p><strong>容易踩的坑：</strong> 返回多个站点的数据，不等于每个站点都独立执行了一次相同筛选；第一个商城 ID 的选择会影响查询结果。也不能把"同一区域"扩展为任意跨区域组合。报表中必须保留站点维度。</p>
+</blockquote>
+<h4 id="sec-运营场景-解读">运营场景<span class="ev ev-read">解读</span></h4>
+<p>适合建立同一 SKU 在多个站点的属性、报价与问题清单。报表至少保留"卖家／账号、站点、SKU、ASIN、问题类型、抓取时间"，避免不同站点覆盖彼此。</p>
+<p>议程主题是"首次提交即成功上架 ASIN"，但本批没有完整的商品类型要求、提交前校验、问题修复与发布结果页，<strong>因此不重建一套声称来自现场的完整上架 SOP</strong><span class="ev ev-todo">待核实 Q18</span>。</p>
+<p>资源照片 IMG_2352 展示 <code>linktr.ee/amzn_listing</code>，另有"管理商品信息问题""管理可售商品"两个二维码，链接内容尚未访问。</p>
+<hr />
+<h3 id="sec-3-3-Promotions-促销">3.3 Promotions 促销</h3>
+<h4 id="sec-能力地图-现场-IMG_2363">能力地图<span class="ev ev-site">现场 IMG_2363</span></h4>
+<p>四类：卖家／供应商级数据、促销状态、筛选条件、多种促销类型。</p>
+<ul>
+<li>可同步促销当前状态</li>
+<li>按促销类型、ASIN、日期范围、修订版类型筛选</li>
+<li>促销类型包括优惠、优惠券、价格折扣、购物篮构建</li>
+</ul>
+<p>"购物篮构建"可理解为鼓励买家凑单或满足组合购买条件，例如满一定金额减免。准确资格仍要看活动条件。</p>
+<h4 id="sec-三个读取操作-现场-IMG_2364">三个读取操作<span class="ev ev-site">现场 IMG_2364</span></h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>现场说明</th>
+<th>可以回答的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>searchPromotions</code></td>
+<td>按条件搜索，分页返回摘要：标题、预算、起止日期、状态、优惠力度、促销 ID、商城</td>
+<td>有哪些活动，处于什么状态？</td>
+</tr>
+<tr>
+<td><code>getPromotion</code></td>
+<td>获取指定促销 ID 的完整数据及促销验证问题</td>
+<td>某个活动为什么可能有问题？</td>
+</tr>
+<tr>
+<td><code>getProductSelection</code></td>
+<td>分页返回商品选择详情、专属优惠、商品级验证问题，支持超过 100 件商品</td>
+<td>活动里哪些商品参与，哪些有问题？</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>应用建议<span class="ev ev-read">解读</span>：</strong> 活动级"正常"不代表每件商品都无问题；运营看板要能从活动摘要下钻到商品选择。超过 100 件商品的场景尤其应检查分页是否全部读取。</p>
+</blockquote>
+<p><strong>写入能力边界：</strong> 创建更新在会场被列为未来计划（私测 2026 年底、正式 2027 年初），本批没有完成写入测试。<strong>不能从读取可用推导出当前可以批量修改活动</strong><span class="ev ev-todo">待核实 Q06、Q07</span>。</p>
+<p>参考：<a href="https://developer-docs.amazon/sp-api/docs/promotions-api">Promotions API</a></p>
+<hr />
+<h3 id="sec-3-4-Pricing-定价-竞争摘要与-FOEP">3.4 Pricing 定价：竞争摘要与 FOEP</h3>
+<h4 id="sec-getCompetitiveSummary-新增两个数据点-现场-IMG_2368">getCompetitiveSummary 新增两个数据点<span class="ev ev-site">现场 IMG_2368</span></h4>
+<p><strong>Similar Items（相似商品）</strong> 与 <strong>Promotions（促销）</strong>。</p>
+<p><strong>优惠券示例（IMG_2369）：</strong> 商品展示价 99.99 美元，45% 优惠券；字段 <code>percentageOff: 45.0</code>、<code>type: PERCENTAGE_OFF</code>、折后价 <code>54.99 USD</code>、<code>promotionType: COUPON</code>。</p>
+<p><strong>购物篮示例（IMG_2371）：</strong> 标价 14.79 美元，符合条件的商品购买满 30 美元减 5 美元；字段 <code>promotionType: BASKET_BUILDING</code>、<code>AMOUNT_OFF</code>、<code>amountOff</code> 为 5 USD、购买门槛 <code>AT_LEAST</code> 为 30 USD。</p>
+<blockquote>
+<p><strong>判断标准：</strong> 分析价格竞争力时需同时看优惠形式和满足条件。满 30 减 5 不能直接理解为每件商品减 5；优惠券也不能假设所有买家都已领取、适用或与其他活动叠加。金额仅为会议示例，不是当下商品报价。</p>
+</blockquote>
+<h4 id="sec-FOEP-推荐报价预期价格-现场-IMG_2372-2373">FOEP 推荐报价预期价格<span class="ev ev-site">现场 IMG_2372–2373</span></h4>
+<p><strong>FOEP（Featured Offer Expected Price）</strong> 用于评估争取 Featured Offer（推荐报价，运营常称购物车）时的价格参考。<strong>没有承诺按该价格设置就一定获得购物车。</strong></p>
+<ul>
+<li>操作：<code>getFeaturedOfferExpectedPriceBatch</code></li>
+<li>路径：<code>/batches/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice</code></li>
+<li>每个请求最多 40 个 SKU</li>
+<li>输入：商城编号、SKU、位置（可选）</li>
+<li>返回示例含 <code>featuredOfferExpectedPrice</code>、<code>competingFeaturedOffer</code>、<code>currentFeaturedOffer</code>；示例状态 <code>VALID_FOEP</code></li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>用例</th>
+<th>现场描述的方向</th>
+<th>业务检查<span class="ev ev-read">解读</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自动调价</td>
+<td>将价格设为等于或低于 FOEP，提高获得推荐报价的概率</td>
+<td>要同时检查可接受利润与最低售价</td>
+</tr>
+<tr>
+<td>价格竞争分析</td>
+<td>了解目录中商品获得推荐资格的价格限额</td>
+<td>注意站点、配送条件和查询时点</td>
+</tr>
+<tr>
+<td>商品组合优化</td>
+<td>按 FOEP 差值确定优先重新定价的 ASIN</td>
+<td>差值大不一定值得降价，还要看需求与利润</td>
+</tr>
+<tr>
+<td>定价提醒</td>
+<td>重要商品的 FOEP 大幅变化时通知卖家</td>
+<td>先确认变化持续性，再决定动作</td>
+</tr>
+</tbody>
+</table></div>
+<p>满额优惠不能逐件直接扣减，按参考价格调价也不保证取得购物车。</p>
+<hr />
+<h3 id="sec-3-5-FBM-与-Easy-Ship">3.5 FBM 与 Easy Ship</h3>
+<p><strong>FBM（Fulfilled by Merchant）</strong> 由卖家安排履约；<strong>FBA（Fulfillment by Amazon）</strong> 由亚马逊仓储配送体系履约。Easy Ship 的开通站点、仓库与资格未从照片确认。</p>
+<h4 id="sec-外部配送-API-工作流-现场-IMG_2355">外部配送 API 工作流<span class="ev ev-site">现场 IMG_2355</span></h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>顺序</th>
+<th>业务动作</th>
+<th>投影片操作名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>识别 Easy Ship 订单</td>
+<td><code>getShipment</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>确认／拒绝订单</td>
+<td><code>processShipment</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>分享包裹详情</td>
+<td><code>createPackage</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>预约上门取件或线下送交</td>
+<td><code>retrievePickupSlot</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>生成发票与标签</td>
+<td><code>generateShipLabel</code>、<code>generateInvoice</code></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>边界：</strong> 照片没有每个操作的完整请求或预约确认步骤。<code>retrievePickupSlot</code> 名称体现"获取取件时段"，<strong>不能断言一次调用就已完成预约</strong>。</p>
+</blockquote>
+<h4 id="sec-现场问答-只记录问题-答案未获得-现场-IMG_2358">现场问答：只记录问题，答案未获得<span class="ev ev-site">现场 IMG_2358</span></h4>
+<ol>
+<li>中国开发者的软件收入较难获得，Easy Ship 是否能给软件开发者提供推广佣金？</li>
+<li>跨境物流服务商如何支持、参与 FBM Ship+ 或 Easy Ship 履约服务？</li>
+<li>库存在美国第三方仓库而非 Amazon FC，适合什么方案？</li>
+<li>针对中国卖家，应优先考虑哪些工具或项目？</li>
+</ol>
+<p>照片是提问屏幕，不能据此写成已有佣金政策、第三方仓准入规则或官方推荐方案<span class="ev ev-todo">待核实 Q09</span>。</p>
+<hr />
+<h3 id="sec-3-6-MCF-多渠道配送">3.6 MCF 多渠道配送</h3>
+<p><strong>MCF（Multi-Channel Fulfillment）</strong> 指用亚马逊配送能力承接不同销售渠道的订单。照片未覆盖各地区资费、库存资格和渠道限制。<strong>MCF 面向多渠道订单履约，不能与普通站内 FBA 买家订单混为一套业务。</strong></p>
+<h4 id="sec-出库-API-功能清单-现场-IMG_2380-IMG_2387">出库 API 功能清单<span class="ev ev-site">现场 IMG_2380 / IMG_2387</span></h4>
+<ul>
+<li>预览与服务报价：<code>getOrderPreview</code>、<code>getOffers</code></li>
+<li>订单操作：<code>createOrder</code>、<code>getOrder</code>、<code>updateOrder</code>、<code>cancelOrder</code></li>
+<li>沙盒操作：<code>updateOrderStatus</code>、<code>UpdatePackage</code>（投影片大小写如此）</li>
+<li>增值服务、通知 API、上传数据 API、追踪 API</li>
+</ul>
+<p><strong>沙盒</strong>是用于模拟测试的环境，例如模拟包裹延误，验证软件会不会发出正确提醒。</p>
+<h4 id="sec-v2026-07-04-新功能-现场-IMG_2388">v2026-07-04 新功能<span class="ev ev-site">现场 IMG_2388</span></h4>
+<ol>
+<li><code>updatePackage</code> 沙盒操作支持含多批货件的订单，以及已配送、延迟、在途等细化状态模拟</li>
+<li>通过配送服务进行基于渠道的配置，并使用默认设置</li>
+<li>与新版通知 API 数据结构保持一致，包含货件／包裹级事件和更丰富的订单商品内容</li>
+<li>支持 Webhook 订阅与 SQS</li>
+<li>支持商品级定制，如装箱单</li>
+<li>新的 <code>getShipmentTracking</code> 支持投影片所说的"免授权访问"</li>
+</ol>
+<p><strong>Webhook</strong> 即"发生变化时主动通知你的系统"；<strong>SQS</strong> 是消息队列服务。"免授权"在照片中没有完整认证上下文，<strong>不能解释成不需要任何身份验证、密钥或访问控制</strong><span class="ev ev-todo">待核实 Q10</span>。</p>
+<h4 id="sec-追踪与通知的两条路线-现场-IMG_2389">追踪与通知的两条路线<span class="ev ev-site">现场 IMG_2389</span></h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>操作或事件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>通知（投影片推荐）</td>
+<td><code>FULFILLMENT_ORDER_STATUS</code></td>
+<td>接收订单、货件和包裹物流追踪更新</td>
+</tr>
+<tr>
+<td>按追踪编码订阅</td>
+<td><code>SHIPMENT_TRACKING_MILESTONE_CHANGED</code>（图示"免授权"）</td>
+<td>接收详细包裹物流更新</td>
+</tr>
+<tr>
+<td>主动拉取</td>
+<td><code>listOrders</code>，<code>updatedAfter &gt;= 上次检查时间</code></td>
+<td>获取有更新的订单</td>
+</tr>
+<tr>
+<td>主动拉取</td>
+<td><code>getOrder</code></td>
+<td>查看订单、货件和包裹状态</td>
+</tr>
+<tr>
+<td>主动拉取</td>
+<td><code>getShipmentTracking</code>（图示"免授权"）</td>
+<td>查询物流追踪</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong><span class="ev ev-read">解读</span></strong> 若开发通知系统，需考虑重复事件、乱序事件和漏消息后的补查。这是实现可靠提醒时的验证项目，不是照片展示的完整架构。</p>
+<h4 id="sec-开发者门户-现场-IMG_2394">开发者门户<span class="ev ev-site">现场 IMG_2394</span></h4>
+<p>面向构建 MCF 集成的自助门户，资源包括 API 参考文档、动态沙盒指南、MCF 用例指南、代码示例集。二维码原图已归档，目的地址尚未确认<span class="ev ev-todo">待核实 Q16</span>。</p>
+<blockquote>
+<p><strong>版本冲突提示<span class="ev ev-todo">待核实 Q01</span>：</strong> 正式演讲页为 <strong>v2026-07-04</strong>，AI 迁移演示出现 <strong>v2025-09-24 预发布版本</strong>。两套字段不拼接为可运行规范，详见 4.5。</p>
+</blockquote>
+<hr />
+<h3 id="sec-3-7-Amazon-Business-企业购">3.7 Amazon Business 企业购</h3>
+<h4 id="sec-从-B2C-运营走向企业采购运营-现场-IMG_2322">从 B2C 运营走向企业采购运营<span class="ev ev-site">现场 IMG_2322</span></h4>
+<p><strong>B2C</strong> 卖给个人消费者，<strong>B2B</strong> 卖给企业或机构，<strong>AB（Amazon Business）</strong> 指亚马逊企业购。投影片提出的困难是：2C 和 2B 放在一起运营，难以针对企业买家提升选品、流量与曝光。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>现场列出的环节</th>
+<th>代表工具或能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选品与便利</td>
+<td>商机探测器、选品指南针、品牌分析、A+ 与高级 A+</td>
+</tr>
+<tr>
+<td>流量与转化</td>
+<td>买家评论计划、优惠券组合拳、旺季活动、展示型推广、商品推广、品牌推广</td>
+</tr>
+<tr>
+<td>多件订单</td>
+<td>买一送一、订阅并保存</td>
+</tr>
+<tr>
+<td>价格竞争力</td>
+<td>自动定价、价格折扣、多买多省</td>
+</tr>
+<tr>
+<td>物流配送</td>
+<td>供应链智能托管、全球物流、跨境承运伙伴方案、入仓分销网络、多渠道分拨、亚马逊物流、卖家自配送、新品入仓优惠计划</td>
+</tr>
+<tr>
+<td>售后复盘</td>
+<td>退货管理、冗余库存管理</td>
+</tr>
+</tbody>
+</table></div>
+<p>这是会场展示的运营工具地图，不代表本次逐一发布这些工具。</p>
+<h4 id="sec-BHDR-Performance-API-计划中的能力-现场-IMG_2326">BHDR Performance API：计划中的能力<span class="ev ev-site">现场 IMG_2326</span></h4>
+<p>标注"即将推出""将于 2026 年第三季度推出"，列出能力：以编程方式访问 BHDR 数据、生成自动化合规提醒、减少在卖家平台的手动监控、提供卖家实时控制面板、嵌入现有卖家绩效报告。</p>
+<p><strong>状态判断：</strong> 这是发布计划，不确认在整理日已开放。照片未解释 BHDR 全称、计算分母、阈值、支持站点与权限要求<span class="ev ev-todo">待核实 Q03</span>。</p>
+<h4 id="sec-打印-PO-编号与公司名称-现场-IMG_2327">打印 PO 编号与公司名称<span class="ev ev-site">现场 IMG_2327</span></h4>
+<p><strong>PO（Purchase Order，采购订单）编号</strong>：企业内部用于匹配采购、收货和付款的编号。现场列出的痛点：企业客户要及时核对包裹；缺失信息会打乱三方匹配流程；共用收货口难以盲分拣；人工核对拖慢付款；退货与缺陷风险增加。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>实现方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 识别 AB 订单</td>
+<td>检查 Orders API 响应 <code>programs</code> 是否包含 <code>AMAZON_BUSINESS</code></td>
+</tr>
+<tr>
+<td>2. 获取 PO 编号</td>
+<td>Orders API v2026，<code>includedData = BUYER</code>，读取 <code>buyer.buyerPurchaseOrderNumber</code></td>
+</tr>
+<tr>
+<td>3. 获取公司名称</td>
+<td>读取 <code>recipient.deliveryAddress.companyName</code></td>
+</tr>
+<tr>
+<td>4. 打印到标签</td>
+<td>映射到承运人参考字段，例如 FedEx <code>P_O_NUMBER</code>、UPS Reference</td>
+</tr>
+</tbody>
+</table></div>
+<p>脚注称通过"购买配送"购买的货件标签会自动打印 PO 编号和公司名称；具体覆盖条件需后续核实。</p>
+<p><strong><span class="ev ev-read">解读</span>验证方式：</strong> 用一个获授权的企业购测试订单，逐项对照订单字段、ERP 展示和最终标签；检查长公司名称是否截断、PO 缺失时是否明确提示。</p>
+<blockquote>
+<p>使用 FBA 不会把 Seller 变为 Vendor，企业客户使用 PO 也不会改变卖家身份。</p>
+</blockquote>
+<hr />
+<h3 id="sec-3-8-Finances-财务">3.8 Finances 财务</h3>
+<blockquote>
+<p>议程确认有一场"2026 财务 API：简化亚马逊卖家的财务数据与付款管理"，但<strong>本批照片没有可明确归属该场的接口介绍、付款流程或版本说明</strong>，因此不补写未拍到的内容<span class="ev ev-todo">待核实 Q02</span>。本节内容来自官方文档与 C 批运营接口／对账记录。</p>
+</blockquote>
+<h4 id="sec-财务接口七项清单-官方-实测">财务接口七项清单<span class="ev ev-official">官方 + 实测</span></h4>
+<p>以下为本次目录中的 Finances 七项操作，均为读取。<strong>新旧接口可能覆盖相同业务事件，不可将两套数据简单相加。</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>版本</th>
+<th>操作</th>
+<th>请求路径</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024-06-19</td>
+<td>listTransactions</td>
+<td><code>/finances/2024-06-19/transactions</code></td>
+<td>交易、收费、退款等明细</td>
+</tr>
+<tr>
+<td>2024-06-19</td>
+<td>listBalances</td>
+<td><code>/finances/2024-06-19/balances</code></td>
+<td>当前或历史余额</td>
+</tr>
+<tr>
+<td>2024-06-19</td>
+<td>listSummary</td>
+<td><code>/finances/2024-06-19/summary</code></td>
+<td>期间或结算汇总</td>
+</tr>
+<tr>
+<td>v0</td>
+<td>listFinancialEventGroups</td>
+<td><code>/finances/v0/financialEventGroups</code></td>
+<td>财务事件分组</td>
+</tr>
+<tr>
+<td>v0</td>
+<td>listFinancialEventsByGroupId</td>
+<td><code>/finances/v0/financialEventGroups/{eventGroupId}/financialEvents</code></td>
+<td>组内明细</td>
+</tr>
+<tr>
+<td>v0</td>
+<td>listFinancialEventsByOrderId</td>
+<td><code>/finances/v0/orders/{orderId}/financialEvents</code></td>
+<td>订单相关明细</td>
+</tr>
+<tr>
+<td>v0</td>
+<td>listFinancialEvents</td>
+<td><code>/finances/v0/financialEvents</code></td>
+<td>按条件读取财务事件</td>
+</tr>
+</tbody>
+</table></div>
+<p>Transfers 的付款查询是另一个模块，不在这七项内。</p>
+<p>参考：<a href="https://developer-docs.amazon/sp-api/docs/finances-api">Finances 总览</a> · <a href="https://developer-docs.amazon/sp-api/docs/finances-api-v2024-06-19-reference">交易明细参考</a> · <a href="https://developer-docs.amazon/sp-api/reference/listsummary">listSummary</a></p>
+<h4 id="sec-财务数据能辅助对账-不能单独算出完整净利润">财务数据能辅助对账，不能单独算出完整净利润</h4>
+<p>采购、头程、包装、税务处理、汇率、站外成本及广告消耗分摊需要补齐。<strong>订单净额不等于利润；费用优惠抵扣到零不等于费用永久取消。</strong></p>
+<p>按首次记账分析经营收支与按释放日期分析现金流，是两种不同报表。出现 <code>DEFERRED_TRANSACTION_ID</code>、<code>RELEASE_TRANSACTION_ID</code> 等关联时，要核验原始交易与释放交易的关系，避免重复计收入；<strong>也不能无条件删除所有释放记录</strong>，因为原始交易可能在其他期间。</p>
+<p><code>listTransactions</code> 官方提示可能未包含最近 48 小时的订单财务记录。这是完整性与时效限制，<strong>不能扩展为"所有财务接口都延迟 48 小时"或"48 小时内金额必然错误"</strong>。分页要读到结束，空页也可能仍有下一页。</p>
+<h4 id="sec-可用-暂缓和到账">可用、暂缓和到账</h4>
+<p>余额可能包含 AVAILABLE（可用）、RESERVED（预留）及其下层 DEFERRED（暂缓）、ACCOUNT_LEVEL_RESERVE（账户级预留）。<strong>核对层级后再求和，不能把父项与子项重复相加。</strong></p>
+<p>暂缓的常见原因包括配送日期预留 DD7 以及企业买家账期 B2B。DD7 通常与送达后预留期有关，不是等待买家手动点击确认收货；企业账期则可能等待买家支付发票。<strong>预计释放日期不是银行到账日期。</strong></p>
+<p>资金通常经历"暂缓 → 释放 → 纳入结算付款 → 银行到账"。余额少不等于违规冻结。费用支付还取决于卖家扣款方式及广告账单设置；负余额不代表无限赊账，付款失败可能影响广告或账户使用。具体应核对到期账单、备用付款方式和后台通知，而不是仅凭余额判断。</p>
+<p>参考：<a href="https://sellercentral-europe.amazon.com/seller-forums/discussions/t/3fe1fff3-f924-42bc-aa45-69244e8d6f83">暂缓交易说明</a> · <a href="https://advertising.amazon.com/library/news/update-on-advertiser-payments">广告付款方式说明</a> · <a href="https://sellercentral.amazon.com/seller-forums/discussions/t/6e57e55b-9a25-4a8e-a6cd-e837040ec33f">负余额处理说明</a></p>
+<hr />
+<h3 id="sec-3-9-Reports-分析报表">3.9 Reports 分析报表</h3>
+<h4 id="sec-四种值得了解的报表-官方">四种值得了解的报表<span class="ev ev-official">官方</span></h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>reportType</th>
+<th>业务用途</th>
+<th>权限与口径重点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET_BRAND_ANALYTICS_SEARCH_QUERY_PERFORMANCE_REPORT</code></td>
+<td>搜索词与商品的曝光、点击、加购、购买份额</td>
+<td>Brand Analytics 及品牌注册资格；<strong>必填</strong> <code>reportOptions.asin</code></td>
+</tr>
+<tr>
+<td><code>GET_BRAND_ANALYTICS_SEARCH_CATALOG_PERFORMANCE_REPORT</code></td>
+<td>商品在搜索过程中的转化表现</td>
+<td>Brand Analytics 及品牌注册资格；<strong>可选</strong> <code>reportOptions.asins</code></td>
+</tr>
+<tr>
+<td><code>GET_COUPON_PERFORMANCE_REPORT</code></td>
+<td>领券、用券、折扣、预算和销售表现</td>
+<td>卖家 Brand Analytics 角色</td>
+</tr>
+<tr>
+<td><code>GET_PROMOTION_PERFORMANCE_REPORT</code></td>
+<td>促销浏览、销量和销售表现</td>
+<td>卖家 Selling Partner Insights 角色；供应商要求另核对</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>口径要点：</strong></p>
+<ul>
+<li>搜索查询报表必填 <code>reportOptions.asin</code>；商品搜索报表可选 <code>reportOptions.asins</code>，<strong>两者不要混写</strong>。</li>
+<li>前两类支持周、月、季度；按周使用<strong>周日至周六</strong>，单次不跨多个周期。</li>
+<li>搜索表现不能直接当广告效果或全店流量。</li>
+<li>优惠券和促销按<strong>活动开始日期</strong>筛选，可能返回跨月活动累计表现，<strong>并非按筛选月份切片</strong>；两类每日更新。</li>
+<li>卖家促销效果报表当前列出的覆盖为 Best Deal、Lightning Deal，不应假定全部优惠形式都包含。</li>
+</ul>
+<h4 id="sec-通用调用链">通用调用链</h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>HTTP 与路径</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getReports</td>
+<td><code>GET /reports/2021-06-30/reports</code></td>
+<td>查已有报表</td>
+</tr>
+<tr>
+<td>createReport</td>
+<td><code>POST /reports/2021-06-30/reports</code></td>
+<td>生成报表任务，<strong>不是创建促销</strong></td>
+</tr>
+<tr>
+<td>getReport</td>
+<td><code>GET /reports/2021-06-30/reports/{reportId}</code></td>
+<td>查状态及文档标识</td>
+</tr>
+<tr>
+<td>getReportDocument</td>
+<td><code>GET /reports/2021-06-30/documents/{reportDocumentId}</code></td>
+<td>取下载信息，再下载并按需解压</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>createReport</code> 虽使用 POST，用途是生成分析任务；反过来也不能把所有 POST 都当成无业务影响的查询。</p>
+<p>参考：<a href="https://developer-docs.amazon/sp-api/docs/report-type-values-analytics">品牌分析报表及参数</a> · <a href="https://developer-docs.amazon/sp-api/docs/report-type-values-performance">促销及优惠券报表</a></p>
+<hr />
+<h3 id="sec-3-10-Data-Kiosk-与-Ads-API-数据分析">3.10 Data Kiosk 与 Ads API 数据分析</h3>
+<h4 id="sec-Data-Kiosk-查询构建-现场-IMG_2405-2406">Data Kiosk 查询构建<span class="ev ev-site">现场 IMG_2405–2406</span></h4>
+<p><strong>Data Kiosk</strong> 用于按数据结构构建查询。<strong>Schema</strong> 告诉开发者有哪些字段、参数和数据类型；<strong>GraphQL</strong> 是按所需字段描述查询的一种方式。</p>
+<ul>
+<li>数据结构：<code>analytics_salesAndTraffic_2024_04_24</code></li>
+<li>查询：<code>salesAndTrafficByAsin</code></li>
+<li>聚合维度：<code>aggregateBy: CHILD</code>（按子 ASIN）</li>
+<li>参数：<code>startDate</code>、<code>endDate</code>、<code>marketplaceIds</code></li>
+<li>可选字段示例：<code>childAsin</code>、<code>orderedProductSales</code>、<code>orderedProductSalesB2B</code>、移动端浏览与会话相关字段</li>
+</ul>
+<blockquote>
+<p><strong>可确认的是查询构建过程，照片未显示一次成功执行后的真实结果。</strong> 日期和商城输入在画面中是空值或占位内容，不能照抄为生产查询。结构名称中的 2024-04-24 是版本标识，不是大会日期。</p>
+</blockquote>
+<h4 id="sec-跨领域供应商指标地图-现场-IMG_2407">跨领域供应商指标地图<span class="ev ev-site">现场 IMG_2407</span></h4>
+<p>供应商视角<strong>不能</strong>直接等同于普通第三方卖家账号都可读取的字段<span class="ev ev-todo">待核实 Q14</span>。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>领域</th>
+<th>指标方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>选品</td>
+<td>ASIN、商品名称、款式编号、发布日期；IDQ 等级和分数、A+ 覆盖率；可购买报价、可购买 ASIN、转化率</td>
+</tr>
+<tr>
+<td>买家体验</td>
+<td>配送速度与 UFT、可快速追踪的有货商品；可售／不可售库存、售罄率；促销 OPS、SnS 收入渗透率；订购／发货收入；退货与评分</td>
+</tr>
+<tr>
+<td>流量</td>
+<td>搜索词关键词得分、排名、ASIN 占比；目录搜索展示次数、优惠徽章、点击率；广告、浏览量</td>
+</tr>
+<tr>
+<td>卖家运营</td>
+<td>供应商确认率、整体交付周期、信用卡拒付总金额；会计核算；合作推广费、已发货 COGS、销售折扣；第 1–26 周均值、P70、P90 预测；账户状态</td>
+</tr>
+</tbody>
+</table></div>
+<p>IDQ、UFT、OPS、SnS 在照片中无完整定义，保留原缩写；COGS 通常指销售商品成本。<strong>不能把预测分位数当成已发生销量</strong>；供应商确认率、已发货 COGS 也不宜直接套到卖家利润分析。</p>
+<h4 id="sec-卖家财务指标地图-现场-IMG_2408">卖家财务指标地图<span class="ev ev-site">现场 IMG_2408</span></h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>组别</th>
+<th>可见字段内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>广告与净收益</td>
+<td>广告类型名称、广告费用及金额／每单位金额／促销金额／税费；净收益每单位与总额</td>
+</tr>
+<tr>
+<td>成本</td>
+<td>销货成本；亚马逊物流成本、发往亚马逊成本；卖家自配送的配送／仓储成本；杂项成本</td>
+</tr>
+<tr>
+<td>费用</td>
+<td>费用类型名称；汇总明细费用与组件明细费用；金额、每单位金额、促销金额、税费金额、总金额、数量</td>
+</tr>
+<tr>
+<td>销售与关联标识</td>
+<td>平均销售价格、商品净销售额、已订购／已退款商品销售额；净销售量、订购／退款数量；子 ASIN、父 ASIN、MSKU、FNSKU、商城编号</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>"卖了多少"与"赚了多少"需要不同字段。</strong> 照片列出了框架，但没有展示采购成本、头程、汇率是否已录入，不能据此认为系统天然掌握完整利润。该页也<strong>不能替代财务 API 专场的会议记录</strong>。</p>
+<h4 id="sec-Amazon-Marketing-Stream-现场-IMG_2410">Amazon Marketing Stream<span class="ev ev-site">现场 IMG_2410</span></h4>
+<p>三个优势：<strong>统一</strong>（数据一致性有助于减少并行集成和整合成本）、<strong>可定制</strong>（订阅控制可配置数据交付方式、频率和粒度）、<strong>可扩展</strong>（较快获取近实时数据，支持持续、高频使用场景）。</p>
+<p><strong><span class="ev ev-read">解读</span></strong> 可把"定时去索取数据"转为"订阅后接收数据变化"的一部分工作。投影片没有承诺所有指标都即时最终定稿，也没有列明每个数据集的延迟和修订机制。</p>
+<h4 id="sec-构建统一分析表-两个数据域要先对齐-现场-IMG_2411-2412">构建统一分析表：两个数据域要先对齐<span class="ev ev-site">现场 IMG_2411–2412</span></h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>数据域</th>
+<th>现场列出的字段</th>
+<th>业务含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SP-API 商品标识</td>
+<td><code>childAsin</code>、<code>parentAsin</code>、<code>sku</code>、<code>marketplaceId</code></td>
+<td>哪个商品、哪个站点</td>
+</tr>
+<tr>
+<td>SP-API 销售</td>
+<td><code>orderedProductSales</code>、<code>netProductSales</code>、<code>averageSellingPrice</code></td>
+<td>整体订购、净销售与平均售价</td>
+</tr>
+<tr>
+<td>SP-API 流量</td>
+<td><code>sessions</code>、<code>pageViews</code>、<code>buyBoxPercentage</code></td>
+<td>会话、浏览、购物车占比</td>
+</tr>
+<tr>
+<td>Ads API 标识</td>
+<td><code>advertisedAsin</code>、<code>advertisedSku</code>、<code>campaignName</code>、<code>adGroupName</code></td>
+<td>广告推广的商品与投放路径</td>
+</tr>
+<tr>
+<td>Ads API 表现</td>
+<td><code>impressions</code>、<code>clicks</code>、<code>cost</code>、<code>sales7d</code>、<code>orders7d</code></td>
+<td>展示、点击、花费及 7 天归因销售与订单</td>
+</tr>
+</tbody>
+</table></div>
+<p>IMG_2412 的统一输出写了：自然销量 = 总销量 − 广告销量；TACoS = 广告支出 ÷ 总销售额；从展示到点击、从会话到购买贯穿付费与自然渠道。</p>
+<blockquote>
+<p><strong>会议中的简化公式，需要口径校验后才能用于真实店铺<span class="ev ev-todo">待核实 Q15</span></strong>
+<code>orders7d</code> 是订单指标，不能直接当作销量件数；<code>sales7d</code> 是广告归因销售额，不能直接与任意净销售额相减。订单日期与广告归因日期、退款处理、币种、站点、归因窗口及跨商品归因都可能不同。未对齐前，"总量减广告量"最多保留为<strong>待验证差额</strong>，不能命名为准确的自然销量，也不能据此证明广告带来的增量。</p>
+</blockquote>
+<p><strong>ACoS 的分母是广告归因销售额，TACoS 的分母是整体销售额。</strong> 订单数、件数、订购销售额、净销售额和投放日／归因日不能混算。</p>
+<p>SP-API 授权成功不等于广告授权成功。欧洲 SP-API 与 Ads API 地址分别是 <code>sellingpartnerapi-eu.amazon.com</code> 和 <code>advertising-api-eu.amazon.com</code>；后者的账户列表请求还需要广告鉴权。</p>
+<hr />
+<h2 id="sec-4-AI-MCP-工作流">4 AI · MCP · 工作流</h2>
+<h3 id="sec-4-1-五个组件各负责什么">4.1 五个组件各负责什么</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>白话解释</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI Agent</td>
+<td>理解需求、选择工具并解释结果的助手</td>
+<td>理解"查昨天销售，再对账"</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>AI 与工具沟通的协议</td>
+<td>把查询需求交给外部工具</td>
+</tr>
+<tr>
+<td>SP-API</td>
+<td>亚马逊业务接口体系</td>
+<td>读取库存、订单、财务</td>
+</tr>
+<tr>
+<td>Reports API</td>
+<td>按预设类型生成或读取报表</td>
+<td>获取促销效果报表</td>
+</tr>
+<tr>
+<td>Data Kiosk</td>
+<td>在支持的数据集中按字段和条件查询</td>
+<td>只取某完整日期的销售汇总</td>
+</tr>
+</tbody>
+</table></div>
+<p>官方 Local MCP 包含两个可独立使用的服务器：<strong>开发助手</strong>负责找接口和发起请求；<strong>工作流服务器</strong>负责保存及运行多个步骤。它们是官方集成示例，生产使用仍需团队测试、维护与权限控制。</p>
+<h3 id="sec-4-2-开发助手的六个工具">4.2 开发助手的六个工具</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>主要用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sp_api_reference</code></td>
+<td>检索官方文档</td>
+</tr>
+<tr>
+<td><code>sp_api_explore_catalog</code></td>
+<td>查看路径、参数、响应结构与目录</td>
+</tr>
+<tr>
+<td><code>sp_api_execute</code></td>
+<td>执行获授权的真实业务请求</td>
+</tr>
+<tr>
+<td><code>sp_api_generate_code_sample</code></td>
+<td>辅助生成 SDK 代码示例</td>
+</tr>
+<tr>
+<td><code>sp_api_migration_assistant</code></td>
+<td>分析版本迁移与代码变化</td>
+</tr>
+<tr>
+<td><code>sp_api_optimize</code></td>
+<td>检查分页、限流、缓存及错误处理等集成问题</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-4-3-工作流如何运行">4.3 工作流如何运行</h3>
+<p><strong>链路：</strong> 业务目标 → AI 查接口与参数 → 创建或复用 JSON → 校验流程 → 本地执行器调用接口 → 保存结果与日志 → AI 解释结果。</p>
+<p>JSON 用状态和转移规则描述步骤；<strong>ASL</strong> 是 Amazon States Language。本地工作流服务器使用 Node.js 执行器，提供等待、分支、文件获取、暂停恢复和人工输入等工具。某批连接记录发现 30 个工具，这只是该版本的观察值。</p>
+<p><strong>Data Kiosk 查询是异步的：</strong> 创建查询 → 等待完成 → 获取文档下载地址 → 下载 JSONL 文件。JSONL 每行是一条 JSON 数据，便于逐条解析。<strong>提交成功只表示任务已受理</strong>，不能代替完成状态和文件内容校验。</p>
+<blockquote>
+<p><strong>本地 JSON 与云端 JSON 不一定通用。</strong>
+官方云端示例使用 AWS Step Functions 调度 Lambda；本地执行器支持的任务资源不同。测试中 AWS 示例原样导入成功，但运行时因不支持 Lambda 资源而失败，适配成本地任务后才跑通。</p>
+</blockquote>
+<p>已有流程可查找、查看定义、导入、校验和执行。导出 Mermaid 流程图或独立 Node.js 脚本的能力通过工具及源码确认，但<strong>没有单独执行导出脚本</strong>。保存流程也不会自动创建每日定时任务。</p>
+<h3 id="sec-4-4-三种版本分开记">4.4 三种版本分开记</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>版本号</th>
+<th>是什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>v2023-11-15</code></td>
+<td>Data Kiosk 接口版本</td>
+</tr>
+<tr>
+<td><code>analytics_salesAndTraffic_2024_04_24</code></td>
+<td>数据集结构版本</td>
+</tr>
+<tr>
+<td><code>1.0.5</code></td>
+<td>本批 npm 工具包版本</td>
+</tr>
+</tbody>
+</table></div>
+<p>源资料还记录 2025-08-27 新增 <code>salesAndTrafficTrends</code> 趋势查询，但本批工作流使用按日期汇总，<strong>未实测趋势查询</strong>。</p>
+<h3 id="sec-4-5-AI-辅助迁移演示-MCF-案例-现场-IMG_2390-2392">4.5 AI 辅助迁移演示（MCF 案例）<span class="ev ev-site">现场 IMG_2390–2392</span></h3>
+<h4 id="sec-演示链路">演示链路</h4>
+<ol>
+<li>向 AI 提问 Fulfillment Outbound 2020 与 2025 版本有什么区别</li>
+<li>调用 <code>sp_api_migration_assistant</code>，传入源版本与目标版本</li>
+<li>生成请求字段、响应结构、状态和新能力差异</li>
+<li>进一步让 AI 阅读本地 Java 多渠道履约代码目录</li>
+<li>对 4 个 Java 文件输出迁移问题与严重程度</li>
+</ol>
+<blockquote>
+<p><strong>不应合并成同一正式规范<span class="ev ev-todo">待核实 Q01</span></strong>
+演讲页 IMG_2388 使用 <strong>v2026-07-04</strong>；Kiro 演示 IMG_2390–2392 使用 <strong>v2020-07-01 → v2025-09-24</strong>，且屏幕明确提示目标 schema 是 <strong>pre-release，可能变化</strong>。以下仅忠实记录 AI 演示输出，不是已核验的正式迁移指南。</p>
+</blockquote>
+<h4 id="sec-高层变化-演示输出">高层变化（演示输出）</h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>演示中的旧版</th>
+<th>演示中的目标版</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基础路径</td>
+<td><code>/fba/outbound/2020-07-01</code></td>
+<td><code>/fulfillment/outbound/2025-09-24</code></td>
+</tr>
+<tr>
+<td>响应结构</td>
+<td>包在 <code>payload</code> 中</td>
+<td>直接返回对象</td>
+</tr>
+<tr>
+<td>枚举风格</td>
+<td><code>Standard</code>、<code>FillOrKill</code></td>
+<td><code>STANDARD</code>、<code>FILL_OR_KILL</code></td>
+</tr>
+<tr>
+<td>多租户</td>
+<td>表中称不支持</td>
+<td>使用 <code>x-amzn-fulfillment-service-id</code> 请求头</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="sec-请求字段变化-演示输出">请求字段变化（演示输出）</h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>旧字段</th>
+<th>演示建议的新字段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sellerFulfillmentOrderId</code></td>
+<td><code>orderId</code></td>
+</tr>
+<tr>
+<td><code>shippingSpeedCategory</code></td>
+<td><code>deliveryServiceLevel</code></td>
+</tr>
+<tr>
+<td><code>destinationAddress</code></td>
+<td><code>destination.deliveryAddress</code></td>
+</tr>
+<tr>
+<td><code>marketplaceId</code></td>
+<td><code>origin.countryCode</code></td>
+</tr>
+<tr>
+<td><code>items</code></td>
+<td><code>lineItems</code></td>
+</tr>
+<tr>
+<td><code>items[].sellerSKU</code></td>
+<td><code>lineItems[].product.productIdentifier.amazonSku</code></td>
+</tr>
+<tr>
+<td><code>items[].quantity</code>（整数）</td>
+<td><code>lineItems[].amount</code>（对象，含 <code>value</code>、<code>unitOfMeasure</code>）</td>
+</tr>
+<tr>
+<td><code>featureConstraints</code></td>
+<td><code>services</code>（含 packaging、additionalServices 子对象）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>注意：</strong> 尤其是商城 ID 到国家代码，不能理解成只改字段名、值原样照搬；必须进一步检查真实映射规则。</p>
+<h4 id="sec-响应与状态变化-演示输出">响应与状态变化（演示输出）</h4>
+<ul>
+<li>去掉 <code>payload</code>；商品与货件放入 <code>fulfillmentOrder</code> 对象</li>
+<li><code>fulfillmentOrderStatus</code> → <code>status</code></li>
+<li><code>fulfillmentCenterId</code>（字符串）→ 含 id、address 的 <code>fulfillmentCenter</code> 对象</li>
+<li>承运商与追踪号嵌入 <code>carrierTracking</code></li>
+<li><code>nextToken</code> → <code>pagination.pageToken</code></li>
+<li><code>cancelOrder</code> 和 <code>updateOrder</code> 返回无响应体的 <code>202 Accepted</code></li>
+<li>旧的 New、Received、Planning、Processing 映射为 <code>PROCESSING</code>；新增包裹状态 <code>IN_TRANSIT</code>、<code>DELAYED</code>、<code>OUT_FOR_DELIVERY</code>、<code>DELIVERED</code>、<code>UNDELIVERABLE</code></li>
+<li><code>getFeatures</code>、<code>getFeatureSKU</code>、<code>getFeatureInventory</code> 标为弃用并提及 <code>getOrderPreview</code>；<code>createFulfillmentReturn</code>、<code>listReturnReasonCodes</code> 也标为弃用</li>
+<li>新能力列表提到多租户、Webhook 包裹级通知、CEL 事件过滤、沙盒状态模拟、具有过期时间的配送报价</li>
+</ul>
+<h4 id="sec-代码风险清单-演示输出">代码风险清单（演示输出）</h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>演示评级</th>
+<th>主要问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>McfConstants.java</code></td>
+<td>High</td>
+<td>SKU、数量与地址的请求体嵌套重构</td>
+</tr>
+<tr>
+<td><code>McfCreateOnHoldAndShipOrderRecipe.java</code></td>
+<td>Critical</td>
+<td>旧追踪操作被移除、update 返回变化、payload 去除</td>
+</tr>
+<tr>
+<td><code>McfCreateAndCancelOrderRecipe.java</code></td>
+<td>Critical</td>
+<td>cancel 返回 202 且无对象、payload 去除</td>
+</tr>
+<tr>
+<td><code>McfCreateAndTrackOrderRecipe.java</code></td>
+<td>Critical</td>
+<td>旧追踪操作被移除、payload 去除</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>本段能确认的结论：</strong> AI 可以输出版本与文件级迁移清单。照片没有展示编译、集成测试、真实订单执行或回滚验证；High/Critical 是工具评级，不是独立审计评级。</p>
+<h3 id="sec-4-6-现场-AI-环境-现场-IMG_2404">4.6 现场 AI 环境<span class="ev ev-site">现场 IMG_2404</span></h3>
+<p>Kiro 界面标题为 DataKiosk MCP Demo，左侧连接项：<code>builder-mcp</code>（界面显示 36 tools）、<code>sp-api-dev-assistant</code>、<code>sp-api-workflow</code>（工具数量后半被截断，不据此确认总数）。界面还显示 Specs、Agent Hooks、Agent Steering &amp; Skills，以及 Vibe、Spec 两种工作入口。</p>
+<p><strong>能确认演示环境已连接这些服务器；不能确认所有公众账号都能直接使用相同配置。</strong></p>
+<h3 id="sec-4-7-接口目录快照-57-类-实测">4.7 接口目录快照：57 类<span class="ev ev-tested">实测</span></h3>
+<p><strong>本批快照：57 类、370 条方法与路径记录；按 endpoint ID 去重为 349 个。</strong></p>
+<p>该快照用于理解本次 MCP 所包含的业务范围，保留原始目录名称（含拼写和标点差异）；同类名称可能对应不同版本。<strong>数量不代表当前权限，也不代表最新官方总量</strong>；该快照未列入近期 Promotions 类别。完整表见 <a href="#121-接口目录快照57-类">12.1 接口目录快照</a>。</p>
+<hr />
+<h2 id="sec-5-接入与授权">5 接入与授权</h2>
+<h3 id="sec-5-1-本地-MCP-不是一个公网网址">5.1 本地 MCP 不是一个公网网址</h3>
+<p>npm 是软件安装渠道。这个 MCP 在<strong>本机启动</strong>，通过 stdio（标准输入输出）与 AI 客户端通信，再通过 HTTPS 请求亚马逊。因此无需先申请公网 MCP 地址。本地运行仍需联网；数据进入 AI 客户端后如何处理，取决于所用平台及设置。</p>
+<p>以下为本批测试使用的固定版本示例，不表示该版本永远最新。运行环境为 Node.js 20 或以上。</p>
+<pre><code class="language-bash">npm install -g @amazon-sp-api-release/sp-api-dev-mcp@1.0.5
+
+# 开发助手
+sp-api-dev-assistant-mcp-server
+
+# 工作流服务器
+sp-api-workflow-mcp-server
+</code></pre>
+<h3 id="sec-5-2-环境变量-仅列含义-不附真实凭证">5.2 环境变量（仅列含义，不附真实凭证）</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>配置</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SP_API_CLIENT_ID</code></td>
+<td>应用客户端编号</td>
+</tr>
+<tr>
+<td><code>SP_API_CLIENT_SECRET</code></td>
+<td>对应应用密钥</td>
+</tr>
+<tr>
+<td><code>SP_API_REFRESH_TOKEN</code></td>
+<td>卖家授予该应用的长期授权凭证</td>
+</tr>
+<tr>
+<td><code>SP_API_REGION</code></td>
+<td>按实际区域选 na、eu 或 fe</td>
+</tr>
+<tr>
+<td><code>SP_API_BASE_URL</code></td>
+<td>对应区域的公开 API 地址</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong><code>NPM_TOKEN</code> 属于发布软件包到 npm 的流程</strong>，普通用户安装公开包不需要申请；它不是店铺授权令牌。</p>
+<h3 id="sec-5-3-应用编号和令牌不要混用">5.3 应用编号和令牌不要混用</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Application ID</td>
+<td>标识 SP-API 应用</td>
+</tr>
+<tr>
+<td>Client ID / Client Secret</td>
+<td>识别 OAuth 客户端</td>
+</tr>
+<tr>
+<td>Refresh Token</td>
+<td>特定卖家给该客户端的授权</td>
+</tr>
+<tr>
+<td>Access Token</td>
+<td>调用时使用的短期令牌</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>LWA（Login with Amazon）</strong> 是亚马逊的授权实现。建立安全配置文件不会自动获得卖家业务权限，刷新令牌也不能跨客户端混用。测试中曾出现 <code>unauthorized_client</code>，更换为对应应用凭证后成功换取访问令牌；<strong>单看错误码不能判定所有同类失败都出于同一个原因。</strong></p>
+<h3 id="sec-5-4-自授权和公共应用授权">5.4 自授权和公共应用授权</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>适合场景</th>
+<th>关键步骤</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自授权</td>
+<td>自己有资格授权的账号进行接入测试</td>
+<td>在应用管理中授权，安全保存刷新令牌</td>
+</tr>
+<tr>
+<td>公共应用 OAuth</td>
+<td>让其他卖家接入自己的应用</td>
+<td>注册登录与回调地址，验证 state，及时兑换授权码，按卖家隔离令牌和数据</td>
+</tr>
+</tbody>
+</table></div>
+<p>公共应用可用自授权测试；但<strong>自授权成功不等于网站回调已通过验证</strong>。其他卖家不需要获得开发者的 Client Secret。回调网址背后必须有处理程序，仅填一个地址不构成完整授权服务。</p>
+<p>刷新令牌是长期、可撤销的凭证；公共应用还涉及定期重新授权要求，不能承诺永久有效。自动换取 Access Token 也不等于可以自动恢复已撤销的卖家授权。</p>
+<p>参考：<a href="https://developer-docs.amazon/sp-api/docs/self-authorization">自授权</a>（当前页面标题为 Authorize Private Applications）· <a href="https://developer-docs.amazon/sp-api/docs/authorize-public-applications">公共应用授权</a> · <a href="https://developer-docs.amazon/sp-api/docs/renew-authorizations">重新授权</a></p>
+<h3 id="sec-5-5-身份与权限辨别">5.5 身份与权限辨别</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>白话解释</th>
+<th>如何确认</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Seller 第三方卖家</td>
+<td>通过平台向消费者销售</td>
+<td>Seller Central 后台及卖家业务授权</td>
+</tr>
+<tr>
+<td>Vendor 供应商</td>
+<td>向亚马逊供货，由亚马逊零售</td>
+<td>Vendor Central 供应商合同和采购订单</td>
+</tr>
+<tr>
+<td>SPN 服务商网络</td>
+<td>面向卖家提供服务的机构网络</td>
+<td>服务商申请及审核，不是商品销售身份</td>
+</tr>
+<tr>
+<td>Brand Registry 品牌注册</td>
+<td>品牌相关资格体系</td>
+<td>品牌后台及关联角色</td>
+</tr>
+<tr>
+<td>SP-API Role 应用角色</td>
+<td>软件可访问哪些业务资源</td>
+<td>开发者资料、应用配置及重新授权情况</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>使用 FBA 不会把 Seller 变为 Vendor；公司可能同时有卖家与供应商业务，确认其中一个账户类型不能排除另有另一类账户。</li>
+<li><strong>品牌分析可读不能证明操作人是品牌所有者或管理员。</strong></li>
+<li>角色不是唯一身份标签，一个应用可以拥有多项权限。</li>
+<li><strong>读取报表列表返回 200，不足以证明可以生成任意报表</strong>；列表为空既不能证明没权限，也不能证明没有业务。</li>
+<li>新增角色可能需要开发者审核、更新应用并重新授权。</li>
+</ul>
+<p>参考：<a href="https://developer-docs.amazon/sp-api/docs/roles-in-the-selling-partner-api">SP-API 角色定义</a> · <a href="https://developer-docs.amazon/sp-api/lang-zh_CN/docs/role-mappings">接口角色权限对照表</a> · <a href="https://sell.amazon.com/tools/seller-central">Seller Central 与 Vendor Central 区别</a></p>
+<hr />
+<h2 id="sec-6-安全与合规">6 安全与合规</h2>
+<blockquote>
+<p>以下为会场对解决方案提供商的安全要求介绍。<strong>具体适用主体、例外条款、政策全文与生效条件没有在照片中完整呈现，实施时应补齐正式文件</strong><span class="ev ev-todo">待核实 Q11–Q13</span>。</p>
+</blockquote>
+<h3 id="sec-6-1-数据保护与加密-现场-IMG_2395">6.1 数据保护与加密<span class="ev ev-site">现场 IMG_2395</span></h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>主题</th>
+<th>照片记录</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>传输</td>
+<td>TLS 1.2 及以上</td>
+</tr>
+<tr>
+<td>静态数据</td>
+<td>最低加密要求写为 AES-128 或 RSA-2048</td>
+</tr>
+<tr>
+<td>密钥</td>
+<td>管理密钥全生命周期，仅限自有程序和服务访问</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>四类触发条件任一发生即开始计时，30 天内完成删除；四类条件未在图中展开</td>
+</tr>
+<tr>
+<td>PII</td>
+<td>商品送达完成后 30 天内删除</td>
+</tr>
+<tr>
+<td>数据擦除</td>
+<td>遵循 NIST 800-88 等标准</td>
+</tr>
+<tr>
+<td>销毁证明</td>
+<td>应 Amazon 要求提供认证证明</td>
+</tr>
+<tr>
+<td>实践</td>
+<td>覆盖公共网络、跨网络边界与第三方交互；非可信环境端到端加密；独立数据库或来源标签；自动化删除</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong><span class="ev ev-read">解读</span></strong> 把敏感数据接进 ERP 后，还要知道数据在哪里、谁能看、什么时候应删除。照片中的"30 天"不是对所有经营数据统一保留 30 天的结论，也不能脱离完整政策解释例外。</p>
+<h3 id="sec-6-2-漏洞扫描与渗透测试-现场-IMG_2396">6.2 漏洞扫描与渗透测试<span class="ev ev-site">现场 IMG_2396</span></h3>
+<ul>
+<li>至少每 <strong>30 天</strong>开展一次全量扫描</li>
+<li>重大变更后立即重新扫描</li>
+<li>每次软件发布前执行代码扫描</li>
+<li>每 <strong>365 天</strong>开展一次全面渗透测试</li>
+<li>严重漏洞 <strong>7 天</strong>内闭环，高风险漏洞 <strong>30 天</strong>内闭环</li>
+<li>覆盖网络、云端、应用、API 和存储；采用认可的方法，集成自动扫描，保存扫描与修复记录</li>
+</ul>
+<p><strong>漏洞扫描</strong>是查找潜在弱点；<strong>渗透测试</strong>是在约定范围内模拟攻击，验证弱点能否被实际利用。照片没有给出风险分级标准与计时起点，需补正式规则后再制作企业执行表。</p>
+<h3 id="sec-6-3-身份-认证与访问控制-现场-IMG_2397">6.3 身份、认证与访问控制<span class="ev ev-site">现场 IMG_2397</span></h3>
+<p>标题提示："授权要窄、复核要勤、回收要快"。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>会场表述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>登录保护</td>
+<td>所有用户账户启用多因素认证</td>
+</tr>
+<tr>
+<td>身份</td>
+<td>每位用户分配唯一身份标识</td>
+</tr>
+<tr>
+<td>权限</td>
+<td>最小权限，默认拒绝访问</td>
+</tr>
+<tr>
+<td>服务账户</td>
+<td>登记明确责任人</td>
+</tr>
+<tr>
+<td>账户锁定</td>
+<td>连续 10 次验证失败即锁定</td>
+</tr>
+<tr>
+<td>密码</td>
+<td>不少于 12 位字符；最近 10 次密码禁止复用</td>
+</tr>
+<tr>
+<td>闲置访问密钥</td>
+<td>满 90 天无成功调用即由亚马逊删除</td>
+</tr>
+</tbody>
+</table></div>
+<p>最后一项的密钥类别及执行范围照片没有完整说明，<strong>不要据此对所有云平台密钥作相同推断</strong><span class="ev ev-todo">待核实 Q12</span>。</p>
+<h3 id="sec-6-4-安全合规自查评估-现场-IMG_2398">6.4 安全合规自查评估<span class="ev ev-site">现场 IMG_2398</span></h3>
+<p>已同步 2026 年 8 月政策变更；支持多语言；包含 30 多道解决方案提供商政策是非题；免费匿名参与并即时生成整改得分报告。</p>
+<p><strong>记录边界：</strong> 照片能证明会场提供了这个自查入口，<strong>不能证明已参加、通过评估或取得合规认证</strong>。本次没有提交自查表。</p>
+<h3 id="sec-6-5-AI-场景下的写操作边界">6.5 AI 场景下的写操作边界</h3>
+<p><code>sp_api_execute</code> 和工作流<strong>能够触发写操作，不是天然只读</strong>。生产使用应落实程序侧接口白名单、权限隔离和写入校验，<strong>不能仅依赖提示词</strong>。会场安全政策的具体期限与例外应回正式文件核对，照片摘要不能替代完整条款。</p>
+<p><strong>共享边界：</strong> 对外分享保留公开资料、技术结论和会议照片，未附带测试账号、密钥、原始响应、后台截图、运行标识或真实工作流输入。</p>
+<hr />
+<h2 id="sec-7-实测证据与结论边界">7 实测证据与结论边界</h2>
+<h3 id="sec-7-1-批次说明">7.1 批次说明</h3>
+<p>为便于阅读，来源分为三个批次标识。它们用于区分<strong>证据来源</strong>，不表示测试的准确先后顺序，也不表示使用同一账号和完全相同环境。</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>批次</th>
+<th>来源文档</th>
+<th>覆盖内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>《亚马逊 API 更新与官方 MCP 实测资料》</td>
+<td>安装、授权和库存测试</td>
+</tr>
+<tr>
+<td>B</td>
+<td>《Amazon API 与 AI 工作流更新及实测资料》</td>
+<td>Data Kiosk 工作流测试</td>
+</tr>
+<tr>
+<td>C</td>
+<td>《亚马逊 API 大会会后资料与实测总结》</td>
+<td>运营接口和财务排查</td>
+</tr>
+</tbody>
+</table></div>
+<p>C 的网页与 Markdown 为同组内容，不作为两次独立测试。</p>
+<h3 id="sec-7-2-实测结果总表">7.2 实测结果总表</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>测试范围</th>
+<th>记录中的结果</th>
+<th>结论边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A 本机安装与认证</td>
+<td>官方 MCP 初始化、六工具发现、访问令牌获取成功</td>
+<td>证明接入链路可用；网站 OAuth 回调未测</td>
+</tr>
+<tr>
+<td>A 真实库存读取</td>
+<td>直接接口及官方 MCP 均返回有效库存数据</td>
+<td>证明已测试查询可用；当批没有启用工作流服务器</td>
+</tr>
+<tr>
+<td>B 工作流服务</td>
+<td>已启用并识别工作流工具</td>
+<td>补充了 A 批没有覆盖的能力</td>
+</tr>
+<tr>
+<td>B Data Kiosk 完整流程</td>
+<td>本地 JSON 校验通过；查询 DONE；执行 SUCCEEDED；下载并解析成功</td>
+<td>单次小范围流程通过，不等于生产验收</td>
+</tr>
+<tr>
+<td>B 后台对账</td>
+<td>同口径下销售额、订购件数、订单商品项数一致</td>
+<td>未验证所有字段、站点与长期一致性</td>
+</tr>
+<tr>
+<td>C 基础运营读取</td>
+<td>参与站点、订单、销售、库存读取成功</td>
+<td>只证明对应授权和测试范围</td>
+</tr>
+<tr>
+<td>C 财务交易与余额</td>
+<td>交易分页读取成功；余额与后台出现差异</td>
+<td>数据可取，余额差异尚未逐笔解释</td>
+</tr>
+<tr>
+<td>C 商品搜索表现报表</td>
+<td>现有已完成报表下载、解压、解析成功</td>
+<td>不等于新建所有报表均有权限</td>
+</tr>
+<tr>
+<td>C 搜索查询、优惠券、促销列表</td>
+<td>请求成功，返回空列表</td>
+<td>未验证新报表生成与内容读取</td>
+</tr>
+<tr>
+<td>C Ads API 账户列表</td>
+<td><strong>401 UNAUTHORIZED</strong></td>
+<td>该次广告鉴权未通过，根因未完全定位</td>
+</tr>
+<tr>
+<td>写入与生产运行</td>
+<td>促销修改、调价、发货确认、付款、长期运行未完成验证</td>
+<td><strong>不作为已通过能力对外承诺</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>原 A 批中的"工作流未实测"仅对 A 批成立；B 批已有成功流程。合并后的准确表述是：<strong>工作流单次链路已跑通，完整生产应用未验收。</strong>
+本次未附原始响应、配置或后台截图，也没有重新执行这些测试。</p>
+</blockquote>
+<h3 id="sec-7-3-Data-Kiosk-工作流的完整过程-实测-B">7.3 Data Kiosk 工作流的完整过程<span class="ev ev-tested">实测 B</span></h3>
+<ol>
+<li>明确站点、完整日期、聚合维度和目标字段</li>
+<li>创建查询，等待后获取处理状态，设置有限轮询与失败分支</li>
+<li>确认查询完成及结果文档存在，获取下载地址</li>
+<li>下载 JSONL，检查文件存在并可解析</li>
+<li>到卖家中心按同站点、同日期和同筛选条件核对</li>
+</ol>
+<p><strong>耗时说明：</strong> 原记录为约 33 秒、1 条日汇总结果。该耗时包含本次流程的等待设置，<strong>只是一次运行观察，不是效率提升比例或性能保证</strong>。</p>
+<p><strong>核对字段：</strong> <code>orderedProductSales</code>（销售额）、<code>unitsOrdered</code>（订购件数）、<code>totalOrderItems</code>（订单商品项数）。最后一项<strong>不是去重订单数</strong>，实际经营数值不公开。</p>
+<p><strong>遇到的问题与处理：</strong> 过程中曾遇到网络连接重置、查询列表为空，以及最初后台站点或日期不一致。恢复连接、创建查询并统一筛选口径后，下载及三项对账成功。</p>
+<blockquote>
+<p>空列表不能解释为店铺没有销售；导入成功也不能解释为流程一定可执行。</p>
+</blockquote>
+<h3 id="sec-7-4-余额差异的排查结论-实测-C">7.4 余额差异的排查结论<span class="ev ev-tested">实测 C</span></h3>
+<p><strong>排查过程：</strong> 先核对站点、币种与账户类别，再检查 <code>lastUpdatedTime</code> 和本地请求路径，并绕过 MCP 向官方区域端点直接发起两次只读查询。</p>
+<p><strong>观察结果：</strong> 两次直连均返回 HTTP 200；请求标识不同、HTTP Date 变化、X-Cache 显示 Miss from cloudfront，但余额和 <code>lastUpdatedTime</code> 未变。已检查的 MCP 业务路径没有发现余额缓存，工具展示也未完整保留原始响应头。</p>
+<p><strong>可以确认：</strong> 旧余额不只出现在 MCP 中，直连也能复现，<strong>不能把问题简单归咎于 MCP 独有缓存</strong>。</p>
+<p><strong>尚不能确认：</strong> 亚马逊内部是否还有其他缓存、准确刷新周期、页面差额对应哪些交易，或差异是否涉及其他业务口径。此批没有完成后台与接口的逐笔对账。</p>
+<p><strong>方法沉淀：</strong> 记录请求时间、HTTP Date、业务数据的 <code>lastUpdatedTime</code>，可以区分"刚发出的请求"和"返回的是何时更新的数据"。数据更新时间由服务端返回；<strong>重复调用不等于强制刷新</strong>。</p>
+<h3 id="sec-7-5-仍需继续确认的事项">7.5 仍需继续确认的事项</h3>
+<p>尚未完成公共应用网站回调、跨卖家数据隔离、全部接口和站点、长期稳定性、大数据量与异常分支的完整验证。促销写入、广告鉴权、BHDR 开放范围、MCF 预发布版本关系、余额差异逐笔归因，仍需要后续证据。</p>
+<hr />
+<h2 id="sec-8-运营落地">8 运营落地</h2>
+<h3 id="sec-8-1-把数据对应到五个业务问题">8.1 把数据对应到五个业务问题</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>主要数据</th>
+<th>还要补什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>店铺有没有风险</td>
+<td>商品问题、订单与履约异常</td>
+<td>账户绩效、政策通知、工单和退货详情</td>
+</tr>
+<tr>
+<td>卖得怎么样</td>
+<td>订单、销量、销售额、流量（会话、浏览）</td>
+<td>完整日期、订单状态、前日与上周同日基线、退款口径</td>
+</tr>
+<tr>
+<td>赚不赚钱</td>
+<td>交易、费用、退款、净销售</td>
+<td>采购、头程、包装、汇率、税务及外部成本分摊</td>
+</tr>
+<tr>
+<td>广告有没有浪费</td>
+<td>Ads API 花费与归因销售，结合整体销售</td>
+<td>商品利润、归因窗口、投放目的与搜索词</td>
+</tr>
+<tr>
+<td>库存是否安全</td>
+<td>可配送、预留、不可售及在途库存</td>
+<td>销量、补货周期和到货可靠性</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>本汇编没有读取任何店铺数据，因此没有得出"广告浪费""断货"或"利润下降"等店铺诊断结论。</p>
+</blockquote>
+<h3 id="sec-8-2-三个优先场景">8.2 三个优先场景</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>最小可行输出</th>
+<th>验证办法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>销售日报</td>
+<td>单站点、完整日期的销售与销量汇总</td>
+<td>与后台同口径核对，记录更新时间</td>
+</tr>
+<tr>
+<td>商品搜索诊断</td>
+<td>曝光到购买各环节的异常商品及待查原因</td>
+<td>用完整可比周期，一次验证一个主要变量</td>
+</tr>
+<tr>
+<td>促销利润复盘</td>
+<td>活动销售、折扣、费用、广告及成本的对应关系</td>
+<td>比较可比基线或对照，避免把全部活动销售当增量</td>
+</tr>
+</tbody>
+</table></div>
+<p>库存与订单巡检可在上述流程上继续接入，但应分别验证权限、分页与字段含义。<strong>高 ACoS、余额减少或单日销量下降，都不足以单独决定关广告、判断冻结或大量补货。</strong></p>
+<h3 id="sec-8-3-统一分析表的拼表顺序">8.3 统一分析表的拼表顺序</h3>
+<ol>
+<li>先固定账号、商城、币种、站点时区、完整日期与数据更新时间。</li>
+<li>商品级表按<strong>账号＋商城＋日期＋子 ASIN</strong> 汇总；若用 SKU，先确认 SKU 与 ASIN 映射是否一对一。</li>
+<li>广告活动／广告组先聚合到同一商品日期粒度，再关联整体销售；否则多个活动会把同一商品的总销售额<strong>重复计算</strong>。</li>
+<li>保留稳定的活动和广告组 ID，名称主要用于展示。</li>
+<li>同时保存广告归因窗口和字段定义，区分订单数、销量件数、订购销售额、净销售额与广告归因销售额。</li>
+<li>检查缺失、重复、分母为零与广告归因回补，再计算比率；<strong>不能把空值一律当零</strong>。</li>
+</ol>
+<h3 id="sec-8-4-一个流程的验收顺序">8.4 一个流程的验收顺序</h3>
+<p>先确认目标和权限 → 对齐数据口径 → 校验流程定义 → 运行小范围查询 → 确认文件可用、结果与后台一致 → 记录失败情况。</p>
+<p>提交查询不要盲目重复重试，已有查询应支持继续处理。长期运行还需要调度器、持续可用的运行环境、限流控制、失败恢复、日志和人工处理。<strong>单次成功不等于每日自动运行；AI 生成迁移建议也不等于代码已经编译测试通过。</strong></p>
+<h3 id="sec-8-5-三个学习卡-新人可直接照做">8.5 三个学习卡（新人可直接照做）</h3>
+<h4 id="sec-卡-A-企业购标签核对">卡 A：企业购标签核对</h4>
+<ul>
+<li><strong>场景：</strong> 企业客户反馈包裹难以对应采购单</li>
+<li><strong>步骤：</strong> 确认企业购订单 → 核对 PO 字段 → 核对收货公司 → 比对 ERP 展示 → 比对承运人标签</li>
+<li><strong>判断标准：</strong> 原始订单、ERP、标签上的关键内容一致；缺失项明确提示；字段太长不会悄悄截断</li>
+<li><strong>常见错误：</strong> 只有公司名称没有 PO；订单已更新但标签仍用旧缓存；把现场示例当成所有承运人通用字段</li>
+</ul>
+<h4 id="sec-卡-B-促销巡检">卡 B：促销巡检</h4>
+<ul>
+<li><strong>场景：</strong> 活动建好了，但部分商品没有出现预期优惠</li>
+<li><strong>步骤：</strong> 搜索活动 → 看完整活动状态 → 查询全部商品选择页 → 找到商品级问题 → 回后台核对商品资格与买家端展示</li>
+<li><strong>判断标准：</strong> 活动 ID、站点、起止时间、商品范围、优惠条件一致；能解释是活动层还是商品层问题</li>
+<li><strong>常见错误：</strong> 只查第一页；把活动正常当成所有商品正常；把满减直接扣到每件商品上；把能查询误认为能修改</li>
+</ul>
+<h4 id="sec-卡-C-整体销售与广告拼表">卡 C：整体销售与广告拼表</h4>
+<ul>
+<li><strong>场景：</strong> 想判断销量变化与广告投入是否有关</li>
+<li><strong>步骤：</strong> 定账号／站点／完整日期／币种 → 定子 ASIN 或 SKU 粒度 → 先汇总广告 → 关联整体销售 → 查重复与缺失 → 计算指标 → 写证据与待验证原因</li>
+<li><strong>判断标准：</strong> 关联前后整体销售总额不被放大；各字段单位清楚；广告窗口和数据更新时间可见；分母为零不输出误导比例</li>
+<li><strong>常见错误：</strong> 把 <code>sales7d</code> 当作全部销售；订单数当件数；把所有活动行上的整体销售加总；当天未完整数据与完整日直接比较</li>
+</ul>
+<h3 id="sec-8-6-三道判断题">8.6 三道判断题</h3>
+<p><strong>题 1｜自然销量能不能直接相减？</strong> 某天总销量 100 件，广告报表 <code>orders7d</code> 为 30，能否得出自然销量 70 件？</p>
+<blockquote>
+<p><strong>不能。</strong> 总销量是件数，<code>orders7d</code> 是订单数，而且日期、归因窗口、商品归属仍可能不同。先找同口径的广告件数字段并确认归因逻辑；无法对齐时，不输出精确自然销量。</p>
+</blockquote>
+<p><strong>题 2｜这件商品现在便宜了多少？</strong> 某商品标价 14.79 美元，提示"选定商品满 30 美元减 5 美元"，能否记成成交价 9.79 美元？</p>
+<blockquote>
+<p><strong>不能。</strong> 优惠有门槛和适用商品条件，还需确定订单如何满足条件、优惠如何分摊。记录原价、促销形式、门槛与适用范围，比强行写一个无条件折后价更准确。</p>
+</blockquote>
+<p><strong>题 3｜AI 已经把迁移做完了吗？</strong> AI 列出四个 Java 文件的 Critical 问题并给出修改方向，是否表示迁移完成？</p>
+<blockquote>
+<p><strong>不表示。</strong> 照片证明的是分析过程。还需确认正式目标版本、实施修改、编译、测试订单创建／取消／追踪、处理失败和回滚。本次资料里正式演讲页与演示目标版本还不同。</p>
+</blockquote>
+<h3 id="sec-8-7-可复用的-AI-提示词">8.7 可复用的 AI 提示词</h3>
+<p><strong>提示词一｜创建并验收一个数据工作流</strong></p>
+<pre><code class="language-text">请先核对我有权限的站点、所需字段、币种、时区和完整日期。
+创建一个销售汇总工作流，包含有限次数等待、状态分支、文件下载、解析和日志；已有查询时支持继续处理。
+运行后与卖家中心同口径核对。
+将已确认事实、合理假设、待核实信息分开，最多给出三个下一步建议。
+不要把凭证、原始经营数据或临时签名下载链接写入共享资料。
+</code></pre>
+<p><strong>提示词二｜分析单个商品的经营表现</strong></p>
+<pre><code class="language-text">请根据我提供的店铺报表分析一个商品。
+先核对账号、站点、币种、时区、日期是否完整，区分订单数与销量件数、整体销售与广告归因销售。
+广告归因窗口不一致时，先说明哪些指标不能直接相减或比较。
+按店铺风险、销售、广告、库存、今日行动的顺序组织。
+每个结论标注证据，区分已确认事实、合理假设、待验证信息。
+最多给出三个优先动作，每个都写今天怎么做、下一次怎么验证。
+没有的数据明确写缺失，不从会议示例中补造店铺数据。
+</code></pre>
+<h3 id="sec-8-8-真实店铺练习记录模板">8.8 真实店铺练习记录模板</h3>
+<pre><code class="language-text">日期／站点／币种／时区：
+商品与账号范围：
+数据来源与更新时间：
+广告归因窗口：
+已确认异常：
+可能影响：
+合理假设（不要写成已确认原因）：
+还要查什么：
+今天要做什么：
+明天／归因稳定后如何验证：
+结果与下一步：
+</code></pre>
+<h3 id="sec-8-9-三个优先学习动作">8.9 三个优先学习动作</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>优先动作</th>
+<th>当前缺口</th>
+<th>具体操作</th>
+<th>下一次验证</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>补齐会议原始资料</td>
+<td>财务场缺正文，问答无答案，版本关系未解释</td>
+<td>优先补财务手册、官方 PPT、发布与迁移说明</td>
+<td>待核实项是否有原始证据支持并关闭</td>
+</tr>
+<tr>
+<td>做一张商品日级数据口径表</td>
+<td>整体销售与广告数据混用会误判</td>
+<td>选一个站点、一个商品、一个完整周期，先定义字段与单位，再考虑取数</td>
+<td>总销售是否重复、订单与件数是否分开、币种与归因窗口是否标注</td>
+</tr>
+<tr>
+<td>做一个读取演示的小验证</td>
+<td>截图证明演示存在，不证明自己的环境已可用</td>
+<td>有权限后，从订单读取或商品状态查询中选一项，核对后台与返回字段</td>
+<td>记录成功／失败、缺字段、更新时间及与后台的差异</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="sec-9-术语表">9 术语表</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>白话解释</th>
+<th>简单例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API</td>
+<td>软件之间交换信息的接口</td>
+<td>ERP 自动读取订单</td>
+</tr>
+<tr>
+<td>SP-API</td>
+<td>亚马逊销售伙伴业务接口集合</td>
+<td>查询商品、订单或相关经营数据</td>
+</tr>
+<tr>
+<td>Ads API</td>
+<td>广告数据与操作接口</td>
+<td>读取某活动花费与归因销售</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>AI 客户端连接外部工具的约定</td>
+<td>AI 连接查询文档的工具</td>
+</tr>
+<tr>
+<td>ERP</td>
+<td>管理订单、商品、库存等业务的软件系统</td>
+<td>把多个店铺信息放到一起处理</td>
+</tr>
+<tr>
+<td>ASIN</td>
+<td>亚马逊商品编码</td>
+<td>标识一个具体商品或变体</td>
+</tr>
+<tr>
+<td>父／子 ASIN</td>
+<td>变体系列与具体变体</td>
+<td>一个系列下的不同颜色</td>
+</tr>
+<tr>
+<td>SKU／MSKU</td>
+<td>卖家自己的商品管理编码</td>
+<td>给蓝色款起一个仓库可识别的编号</td>
+</tr>
+<tr>
+<td>FNSKU</td>
+<td>亚马逊物流相关库存识别码</td>
+<td>用于库存识别，不能直接当作 ASIN</td>
+</tr>
+<tr>
+<td>Marketplace</td>
+<td>站点／商城</td>
+<td>美国站与德国站分开分析</td>
+</tr>
+<tr>
+<td>AB／B2B</td>
+<td>企业购／企业对企业销售</td>
+<td>企业采购办公室耗材</td>
+</tr>
+<tr>
+<td>PO</td>
+<td>采购订单编号</td>
+<td>公司用采购编号核对包裹</td>
+</tr>
+<tr>
+<td>FBM</td>
+<td>卖家自配送</td>
+<td>卖家安排仓库与承运人发货</td>
+</tr>
+<tr>
+<td>FBA</td>
+<td>亚马逊物流</td>
+<td>使用相关亚马逊仓储配送服务</td>
+</tr>
+<tr>
+<td>MCF</td>
+<td>多渠道配送</td>
+<td>为不同销售渠道订单安排配送</td>
+</tr>
+<tr>
+<td>Sandbox</td>
+<td>沙盒测试环境</td>
+<td>模拟包裹延误，不操作真实订单</td>
+</tr>
+<tr>
+<td>Webhook</td>
+<td>事件发生后主动发通知</td>
+<td>包裹签收后系统收到状态变化</td>
+</tr>
+<tr>
+<td>SQS</td>
+<td>消息队列服务</td>
+<td>帮助系统接收和缓冲消息</td>
+</tr>
+<tr>
+<td>Schema</td>
+<td>数据结构定义</td>
+<td>说明订单有哪些字段、各是什么类型</td>
+</tr>
+<tr>
+<td>GraphQL</td>
+<td>按所需字段描述查询的方式</td>
+<td>只取需要的销售字段</td>
+</tr>
+<tr>
+<td>JSONL</td>
+<td>每行一条 JSON 的文件格式</td>
+<td>便于逐条解析大批量结果</td>
+</tr>
+<tr>
+<td>ASL</td>
+<td>Amazon States Language，描述工作流状态与转移</td>
+<td>用 JSON 写出"等待—判断—下载"的步骤</td>
+</tr>
+<tr>
+<td>PII</td>
+<td>可识别个人的信息</td>
+<td>买家的姓名、地址</td>
+</tr>
+<tr>
+<td>RDT</td>
+<td>受限数据令牌</td>
+<td>部分受限数据访问流程中的凭证</td>
+</tr>
+<tr>
+<td>LWA</td>
+<td>Login with Amazon 授权实现</td>
+<td>用于换取访问令牌</td>
+</tr>
+<tr>
+<td>FOEP</td>
+<td>推荐报价预期价格</td>
+<td>定价参考，不能保证获得购物车</td>
+</tr>
+<tr>
+<td>Sessions</td>
+<td>会话次数</td>
+<td>按平台定义统计的一次访问会话，不等于独立人数</td>
+</tr>
+<tr>
+<td>Page views</td>
+<td>页面浏览次数</td>
+<td>同次访问可浏览多个页面</td>
+</tr>
+<tr>
+<td>Attribution window</td>
+<td>归因窗口</td>
+<td>广告互动后一定时间内的购买被计入广告结果</td>
+</tr>
+<tr>
+<td>ACoS</td>
+<td>广告花费 ÷ 广告归因销售额</td>
+<td>花 20、归因销售 100，则为 20%</td>
+</tr>
+<tr>
+<td>TACoS</td>
+<td>广告花费 ÷ 整体销售额</td>
+<td>花 20、整体销售 200，则为 10%</td>
+</tr>
+<tr>
+<td>COGS</td>
+<td>销售商品成本</td>
+<td>供应商指标中的"已发货 COGS"是亚马逊采购视角</td>
+</tr>
+<tr>
+<td>SPN</td>
+<td>服务商网络</td>
+<td>面向卖家提供服务的机构网络，不是接口本身</td>
+</tr>
+<tr>
+<td>Brand Registry</td>
+<td>品牌注册资格体系</td>
+<td>决定能否使用品牌分析等能力</td>
+</tr>
+<tr>
+<td>DD7</td>
+<td>配送日期预留</td>
+<td>与送达后预留期有关的暂缓原因</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="sec-10-待核实清单与口径冲突">10 待核实清单与口径冲突</h2>
+<h3 id="sec-10-1-优先核实项目-18-项">10.1 优先核实项目（18 项）</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th>待核实内容</th>
+<th>为什么需要核实</th>
+<th>最适合补充的证据</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q01</td>
+<td>MCF v2026-07-04 与迁移演示 v2025-09-24 的关系</td>
+<td>防止把预发布示例当正式接口</td>
+<td>正式 API 参考、发布记录、迁移指南</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q02</td>
+<td>2026 财务 API 专场正文与付款管理流程</td>
+<td>只有议程，没有该场完整内容</td>
+<td>专场 PPT、手册、录音</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q03</td>
+<td>BHDR 全称、指标定义、阈值、站点与正式开放情况</td>
+<td>仅拍到功能与第三季度计划</td>
+<td>产品说明、API 文档、开放公告</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q04</td>
+<td>Orders 2026 的真实请求参数与 SDK 映射</td>
+<td>URL 示例与 Python 示例存在不同写法</td>
+<td>采用版本的 API 定义与 SDK 示例</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q05</td>
+<td>Orders 的 PII 角色要求与 RDT 变化范围</td>
+<td>"无 RDT"不等于不受限</td>
+<td>权限说明、迁移文档</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q06</td>
+<td>促销读取支持的主体、商城、活动范围</td>
+<td>现场概述不等于所有账号均可调用</td>
+<td>Promotions 文档、权限与区域说明</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q07</td>
+<td>创建／更新促销的私测及正式开放时间</td>
+<td>现场给的是未来计划</td>
+<td>官方更新公告、私测资料</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q08</td>
+<td>竞争摘要促销数据的当前开放状态</td>
+<td>第三季度计划不能代替上线证明</td>
+<td>Pricing API 发布记录</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q09</td>
+<td>Easy Ship、FBM Ship+ 的佣金、服务商参与与第三方仓适用条件</td>
+<td>问答照片没有答案</td>
+<td>问答录音、会后答疑、业务手册</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q10</td>
+<td>MCF"免授权"的具体认证含义</td>
+<td>不能理解成完全公开访问</td>
+<td>getShipmentTracking 与通知的鉴权说明</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q11</td>
+<td>安全政策四类删除触发条件与例外</td>
+<td>照片提到但未展开</td>
+<td>2026 年 8 月政策全文</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q12</td>
+<td>90 天闲置密钥删除的密钥类型与范围</td>
+<td>不能推广到所有云平台凭证</td>
+<td>政策原文与账号说明</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q13</td>
+<td>漏洞分级、修复期限起点与测试范围</td>
+<td>会场摘要不含完整条件</td>
+<td>正式政策、自查报告说明</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q14</td>
+<td>Data Kiosk 的供应商／卖家数据集与字段权限</td>
+<td>两类主体不可混用</td>
+<td>Schema 数据字典、角色说明</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q15</td>
+<td>广告与总销售的时间、商品与退款口径</td>
+<td>防止虚算自然销量、重复统计总销售</td>
+<td>报表数据字典、真实样例对账</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q16</td>
+<td>二维码资源的准确地址</td>
+<td>图片不是已访问的网络资料</td>
+<td>原始电子 PPT 或扫码结果</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q17</td>
+<td>讲师名单、具体酒店、现场议程调整</td>
+<td>当前只确认城市、会场和计划议程</td>
+<td>邀请函、会刊、现场笔记</td>
+<td>待补</td>
+</tr>
+<tr>
+<td>Q18</td>
+<td>Listings 首次提交成功的完整步骤</td>
+<td>只有多商城检索和资源页</td>
+<td>Listings 专场 PPT／手册</td>
+<td>待补</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-10-2-已发现的口径冲突与处理">10.2 已发现的口径冲突与处理</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>来源 A</th>
+<th>来源 B</th>
+<th>当前处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCF 目标版本不同</td>
+<td>IMG_2388：v2026-07-04</td>
+<td>IMG_2390–2392：v2025-09-24 pre-release</td>
+<td>两段分别记录，未合并成正式迁移规范</td>
+</tr>
+<tr>
+<td>Orders 筛选写法不同</td>
+<td>IMG_2331：<code>status=Unshipped</code></td>
+<td>IMG_2333：<code>fulfillment_statuses</code> 与 <code>UNSHIPPED</code></td>
+<td>标注 URL／SDK 示例差异，待官方确认</td>
+</tr>
+<tr>
+<td>自然销量公式与字段单位</td>
+<td>IMG_2412：总销量减广告销量</td>
+<td>同页列 <code>orders7d</code>、<code>sales7d</code></td>
+<td>保留现场公式并解释不能混用订单、件数、金额</td>
+</tr>
+<tr>
+<td>促销读取发布时间</td>
+<td>现场 IMG_2375：2026 年 9 月初</td>
+<td>官方发布日志：2026-08-26</td>
+<td>两种口径并存，以正式文档为准</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-10-3-后续资料如何加入">10.3 后续资料如何加入</h3>
+<ol>
+<li>原件保存在 <code>04_原始分包/03_会议记录/后续补充资料目录</code>，保留原始文件名；重名时增加批次前缀，避免覆盖。</li>
+<li>为新资料登记文件名、接收日期、资料日期／版本、相关议题与证据位置。</li>
+<li>优先补充已有章节；遇到不同版本或矛盾表述，<strong>保留两边来源并标注变化，不悄悄替换历史现场口径</strong>。</li>
+<li>新发现回填 10.1 待核实事项；明确区分"照片转录""手册说明""官方在线核验""个人回忆"。</li>
+<li>更新版本与更新日志；图片继续使用库内相对链接。</li>
+</ol>
+<p><strong>接收记录</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>批次</th>
+<th>接收日期</th>
+<th>材料</th>
+<th>数量</th>
+<th>处理状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B01</td>
+<td>2026-09-17</td>
+<td>现场照片</td>
+<td>44 个来源文件，41 张独立照片</td>
+<td>已归档、按主题整理</td>
+</tr>
+<tr>
+<td>B02</td>
+<td>待提供</td>
+<td>会场领取资料／新增照片</td>
+<td>待定</td>
+<td>待接收</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>新资料登记模板</strong></p>
+<pre><code class="language-text">材料编号：B02-01
+文件名：
+接收日期：
+来源类型：现场手册／官方 PPT／照片／个人回忆／官方网页
+资料自身日期或版本：
+对应章节：
+可确认的新信息：
+与旧资料的差异：
+页码、图片编号或网页位置：
+关闭的待核实事项：
+尚不能确认的内容：
+</code></pre>
+<p><strong>维护约定：</strong> 目前没有启动自动监控、注册服务、申请内测、执行接口、提交自查或发送消息。收到资料后再按实际证据更新。</p>
+<hr />
+<h2 id="sec-11-资料链接目录">11 资料链接目录</h2>
+<p><strong>检查日期 2026-09-17｜共 50 个不重复地址，46 个在本轮返回成功页面。</strong> "成功"仅表示页面可访问，不表示所有内容都已逐条重新验证或业务账号已获授权。链接需要联网；会议照片和本地正文可离线阅读。</p>
+<h3 id="sec-11-1-官方总入口与发布记录">11.1 官方总入口与发布记录</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>资料</th>
+<th>说明</th>
+<th>访问情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/welcome">SP-API 文档首页</a></td>
+<td>文档总入口</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/sp-api-release-notes">SP-API 官方发布记录</a></td>
+<td>最近发布了什么</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/sp-api-deprecations">SP-API 弃用时间表</a></td>
+<td>迁移和移除时间表，不能只按会议口头计划执行</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://sellercentral.amazon.com/datakiosk-schema-explorer">Data Kiosk Schema Explorer</a></td>
+<td>交互选择数据字段；可能需登录与资格</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/authorize-public-applications">公共应用授权说明</a></td>
+<td>授权方式</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-sdk">官方 SDK</a></td>
+<td>官方 SDK 仓库</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-models">官方模型仓库</a></td>
+<td>接口模型定义</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples">官方示例仓库</a></td>
+<td>官方示例代码</td>
+<td>可访问</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-11-2-官方-MCP-安装与源码">11.2 官方 MCP 安装与源码</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>资料</th>
+<th>说明</th>
+<th>访问情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/discussions/382">Local MCP 官方发布公告</a></td>
+<td>发布介绍和演示入口</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/sp-api-dev-mcp/README.md">Local MCP 安装与能力说明</a></td>
+<td>安装与能力</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/sp-api-dev-mcp">官方 MCP 源码与使用说明</a></td>
+<td>源码目录</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/releases/tag/mcp-server-v1.0.5">官方 MCP v1.0.5 发布记录</a></td>
+<td>本批使用版本</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server">SP-API Developer MCP Server</a></td>
+<td>开发助手源码</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/blob/main/.github/workflows/consolidate-dev-mcp-server.yml">官方 npm 发布流程与 NPM_TOKEN 用途</a></td>
+<td>普通用户安装不需要 NPM_TOKEN</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp">官方 npm 软件包</a></td>
+<td>软件包分发页</td>
+<td><strong>自动访问受限，需浏览器复核</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-11-3-Data-Kiosk-与工作流">11.3 Data Kiosk 与工作流</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>资料</th>
+<th>说明</th>
+<th>访问情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/data-kiosk-api">Data Kiosk API 概览</a></td>
+<td>按需取销售数据</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/request-and-filter-data-with-graphql">使用 GraphQL 请求与筛选数据</a></td>
+<td>选择查询字段</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/sp-api-dev-mcp/sp-api-workflow-mcp">Workflow MCP 源码与教程</a></td>
+<td>用 AI 构建流程</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/data-kiosk">Data Kiosk 云端样例</a></td>
+<td>AWS Step Functions 版本</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/sp-api-dev-mcp/sp-api-workflow-mcp/src/builder/nodejs-generator.js">独立 Node.js 脚本生成器</a></td>
+<td>导出实现参考；本批未执行导出</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/sp-api-dev-mcp/sp-api-workflow-mcp/test/integration.test.js">工作流端到端测试案例</a></td>
+<td>不代表自己环境已通过这些测试</td>
+<td>可访问</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-11-4-业务接口与报表">11.4 业务接口与报表</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>资料</th>
+<th>说明</th>
+<th>访问情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/changelog/new-introducing-the-orders-api-v2026-01-01">Orders API v2026-01-01 发布公告</a></td>
+<td>订单新版本</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/orders-api-migration-guide">Orders API 迁移指南</a></td>
+<td>迁移订单接口</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://github.com/amzn/selling-partner-api-samples/discussions/253">Orders 交互式迁移教程</a></td>
+<td>区别于正式 API 参考</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/reference/getinventorysummaries">库存查询接口参考</a></td>
+<td>库存状态需分别解释</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/promotions-api">Promotions API</a></td>
+<td>促销读取</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/finances-api">Finances 总览</a></td>
+<td>查询交易和余额</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/finances-api-v2024-06-19-reference">交易明细参考</a></td>
+<td>关注分页、关联交易及最近数据完整性</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/reference/listsummary">listSummary</a></td>
+<td>期间或结算汇总</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/report-type-values-analytics">品牌分析报表及参数</a></td>
+<td>核对主体、角色、周期和参数</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/report-type-values-performance">促销及优惠券报表</a></td>
+<td>核对活动类型、筛选条件和累计口径</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://advertising.amazon.com/about-api">Amazon Ads API 介绍与申请</a></td>
+<td>独立接入入口，SP-API 授权不能替代</td>
+<td><strong>自动访问受限，需浏览器复核</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-11-5-授权-权限与安全">11.5 授权、权限与安全</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>资料</th>
+<th>说明</th>
+<th>访问情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/connecting-to-the-selling-partner-api">SP-API 连接流程</a></td>
+<td>接入总流程</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/self-authorization">自授权流程</a></td>
+<td>当前页面标题为 Authorize Private Applications</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/website-authorization-workflow">网站授权流程</a></td>
+<td>公共应用回调</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/renew-authorizations">应用重新授权</a></td>
+<td>定期重新授权</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/viewing-your-application-information-and-credentials">查看应用信息与凭证</a></td>
+<td>凭证位置</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/roles-in-the-selling-partner-api">SP-API 角色定义</a></td>
+<td>应用角色</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/lang-zh_CN/docs/role-mappings">接口角色权限对照表</a></td>
+<td>中文角色映射</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/sp-api-endpoints">区域接口地址与站点编号</a></td>
+<td>区域与站点 ID</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://sell.amazon.com/tools/seller-central">Seller Central 与 Vendor Central 区别</a></td>
+<td>身份辨别</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer-docs.amazon/sp-api/docs/best-practices">安全最佳实践</a></td>
+<td>正式安全政策需另查</td>
+<td>可访问</td>
+</tr>
+<tr>
+<td><a href="https://developer.amazon.com/de/docs/login-with-amazon/security-profile.html">LWA 安全配置文件说明</a></td>
+<td>授权实现</td>
+<td><strong>自动访问受限，需浏览器复核</strong></td>
+</tr>
+<tr>
+<td><a href="https://developer.amazonservices.com/support">官方开发者支持</a></td>
+<td>可能要求登录或受区域限制</td>
+<td><strong>自动访问受限，需浏览器复核</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-11-6-官方渠道补充说明">11.6 官方渠道补充说明</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>资料</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://sellercentral-europe.amazon.com/seller-forums/discussions/t/3fe1fff3-f924-42bc-aa45-69244e8d6f83">亚马逊暂缓交易说明</a></td>
+<td>官方域名下的论坛说明，须结合发帖人、日期及正式政策，不等同于 API 合同</td>
+</tr>
+<tr>
+<td><a href="https://advertising.amazon.com/library/news/update-on-advertiser-payments">广告付款方式说明</a></td>
+<td>广告账单与付款</td>
+</tr>
+<tr>
+<td><a href="https://sellercentral.amazon.com/seller-forums/discussions/t/6e57e55b-9a25-4a8e-a6cd-e837040ec33f">卖家负余额处理说明</a></td>
+<td>同上，须结合正式政策</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-11-7-社区项目-仅作线索-未安装-审计或验证">11.7 社区项目（仅作线索，未安装、审计或验证）</h3>
+<ul>
+<li><a href="https://github.com/ailumia/amazon-sp-api-mcp">ailumia / amazon-sp-api-mcp</a></li>
+<li><a href="https://github.com/trinknx/amazon-seller-mcp">trinknx / amazon-seller-mcp</a></li>
+<li><a href="https://github.com/haloshin/sp-api-mcp">haloshin / sp-api-mcp</a></li>
+</ul>
+<hr />
+<h2 id="sec-12-附录">12 附录</h2>
+<h3 id="sec-12-1-接口目录快照-57-类">12.1 接口目录快照（57 类）</h3>
+<p><strong>本批快照：57 类、370 条方法与路径记录；按 endpoint ID 去重为 349 个。</strong></p>
+<p>下表仅用于理解本次 MCP 所包含的业务范围，保留原始目录名称（含拼写和标点差异）；同类名称可能对应不同版本。<strong>数量不代表当前权限，也不代表最新官方总量。</strong></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>目录原名</th>
+<th style="text-align: right;">条目数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A+ Content Management</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Amazon External Fulfillment Return Item Processing</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Amazon External Fulfillment Shipments Processing</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Amazon Seller Wallet Open Banking API</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Amazon Shipping API</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Amazon Warehousing and Distribution</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Application Management</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Automotive.</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Catalog Items</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>10</td>
+<td>CustomerFeedback</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Data Kiosk</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Delivery Shipment Invoicing</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Direct Fulfillment Inventory Updates</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Direct Fulfillment Orders</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Direct Fulfillment Payments</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Direct Fulfillment Shipping</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Direct Fulfillment Transaction Status</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Easy Ship</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>19</td>
+<td>External Fulfillment Inventory Management</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>20</td>
+<td>FBA Inbound Eligibilty</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>21</td>
+<td>FBA inbound operations.</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr>
+<td>22</td>
+<td>FBA Inventory</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Feeds</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Finances</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Fulfillment Inbound</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Fulfillment Outbound</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Invoices</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Invoices.</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Listings Items</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Listings Restrictions</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Merchant Fulfillment</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Messaging</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr>
+<td>33</td>
+<td>Notifications</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>34</td>
+<td>Orders</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr>
+<td>35</td>
+<td>Pricing</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td>36</td>
+<td>Product Fees</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>37</td>
+<td>Product Type Definitions</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>38</td>
+<td>Replenishment</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>39</td>
+<td>Reports</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr>
+<td>40</td>
+<td>Retail Procurement Orders</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>41</td>
+<td>Retail Procurement Payments</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>42</td>
+<td>Retail Procurement Shipments</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>43</td>
+<td>Retail Procurement Transaction Status</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>44</td>
+<td>Sales</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>45</td>
+<td>Sellers</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>46</td>
+<td>Selling Partner APIs for Fulfillment Outbound</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr>
+<td>47</td>
+<td>Services</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr>
+<td>48</td>
+<td>Shipment Invoicing</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>49</td>
+<td>Shipping</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr>
+<td>50</td>
+<td>Solicitations</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>51</td>
+<td>Supply Sources</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td>52</td>
+<td>third party application integrations.</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>53</td>
+<td>Tokens</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>54</td>
+<td>tracking services provided by Amazon.</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>55</td>
+<td>Transfers.</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>56</td>
+<td>Uploads</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>57</td>
+<td>Vendor Direct Fulfillment Sandbox Test Data</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-12-2-照片索引-41-张">12.2 照片索引（41 张）</h3>
+<p><strong>归档规则：</strong> 用户提供 44 个文件，按 SHA-256 内容校验发现 3 个完全相同副本（<code>IMG_2390 2.jpg</code>、<code>IMG_2391 2.jpg</code>、<code>IMG_2392 2.jpg</code>），实际归档 41 张独立照片。原件未裁剪、压缩或改写。IMG_2380 与 IMG_2387 等同页不同角度照片均保留；只有字节完全相同的文件才合并。<strong>拍摄先后不等于正式议程归属</strong>，正文按主题归类。</p>
+<p>原图位置：<code>原始分享包/03_会议记录/照片/</code></p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>主题</th>
+<th>内容与限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2320.JPG">IMG_2320.JPG</a></td>
+<td>议程</td>
+<td>全天议程、9月16日、JEN 1+2；计划时间不是实际起止记录</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2311.JPG">IMG_2311.JPG</a></td>
+<td>促销</td>
+<td>Promotions API主题页；不据此确认讲师姓名</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2322.JPG">IMG_2322.JPG</a></td>
+<td>企业购</td>
+<td>B2C工具地图与B2B专属工具需求</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2326.jpg">IMG_2326.jpg</a></td>
+<td>企业购</td>
+<td>BHDR Performance API；2026年第三季度计划</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2327.jpg">IMG_2327.jpg</a></td>
+<td>企业购</td>
+<td>PO编号、公司名称获取与物流标签打印</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2330.JPG">IMG_2330.JPG</a></td>
+<td>资源</td>
+<td>AB API、SP-API MCP Github、AB Power二维码</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2331.jpg">IMG_2331.jpg</a></td>
+<td>订单</td>
+<td>Orders 2026 GET工作流与筛选条件</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2333.jpg">IMG_2333.jpg</a></td>
+<td>订单</td>
+<td>Python示例、included_data、角色限制与no RDT</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2349.jpg">IMG_2349.jpg</a></td>
+<td>Listing</td>
+<td>同一区域多商城查询、卖家限定、主商城筛选</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2352.JPG">IMG_2352.JPG</a></td>
+<td>资源</td>
+<td>Listings短地址与商品问题／可售商品管理二维码</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2355.jpg">IMG_2355.jpg</a></td>
+<td>FBM</td>
+<td>Easy Ship五步流程与外部配送API操作</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2358.jpg">IMG_2358.jpg</a></td>
+<td>问答</td>
+<td>佣金、物流服务商、第三方仓、中国卖家工具选择；没有答案</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2360.JPG">IMG_2360.JPG</a></td>
+<td>生态</td>
+<td>SPN服务商网络、申请流程与邮箱；左侧裁切</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2363.jpg">IMG_2363.jpg</a></td>
+<td>促销</td>
+<td>数据主体、状态、筛选条件与促销类型</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2364.jpg">IMG_2364.jpg</a></td>
+<td>促销</td>
+<td>searchPromotions、getPromotion、getProductSelection</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2368.JPG">IMG_2368.JPG</a></td>
+<td>定价</td>
+<td>竞争摘要新增Similar Items与Promotions</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2369.jpg">IMG_2369.jpg</a></td>
+<td>定价</td>
+<td>45%优惠券示例与结构化促销字段</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2371.JPG">IMG_2371.JPG</a></td>
+<td>定价</td>
+<td>购物篮满30减5示例及购买门槛</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2372.jpg">IMG_2372.jpg</a></td>
+<td>定价</td>
+<td>FOEP操作、路径、每批40 SKU、请求输入</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2373.jpg">IMG_2373.jpg</a></td>
+<td>定价</td>
+<td>FOEP自动调价、竞争分析、商品组合、提醒用例</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2375.JPG">IMG_2375.JPG</a></td>
+<td>发布路线</td>
+<td>促销读取／写入和竞争摘要功能发布时间</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2380.JPG">IMG_2380.JPG</a></td>
+<td>MCF</td>
+<td>出库API概述远景，与IMG_2387同页不同照片</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2387.JPG">IMG_2387.JPG</a></td>
+<td>MCF</td>
+<td>出库API核心操作与沙盒操作近景</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2388.JPG">IMG_2388.JPG</a></td>
+<td>MCF</td>
+<td>v2026-07-04新功能；与迁移演示版本不同</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2389.jpg">IMG_2389.jpg</a></td>
+<td>MCF</td>
+<td>订单与包裹追踪、通知与主动拉取</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2390.jpg">IMG_2390.jpg</a></td>
+<td>AI迁移</td>
+<td>2020与2025版本比较；明确pre-release提示</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2391.jpg">IMG_2391.jpg</a></td>
+<td>AI迁移</td>
+<td>请求／响应／状态变化与新能力；工具输出待核验</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2392.jpg">IMG_2392.jpg</a></td>
+<td>AI迁移</td>
+<td>四个Java文件迁移风险分析；未展示测试通过</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2394.JPG">IMG_2394.JPG</a></td>
+<td>资源</td>
+<td>MCF开发者门户二维码与资源类别</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2395.jpg">IMG_2395.jpg</a></td>
+<td>安全</td>
+<td>数据保护、加密、删除、PII与密钥管理</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2396.jpg">IMG_2396.jpg</a></td>
+<td>安全</td>
+<td>扫描／渗透测试周期与漏洞修复期限</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2397.jpg">IMG_2397.jpg</a></td>
+<td>安全</td>
+<td>身份、MFA、最小权限、密码与闲置密钥</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2398.jpg">IMG_2398.jpg</a></td>
+<td>安全</td>
+<td>2026年8月政策自查评估入口；未参与测评</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2404.jpg">IMG_2404.jpg</a></td>
+<td>AI与数据</td>
+<td>Kiro中DataKiosk MCP Demo连接状态</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2405.jpg">IMG_2405.jpg</a></td>
+<td>数据</td>
+<td>Data Kiosk Query Builder初始选择与Schema</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2406.jpg">IMG_2406.jpg</a></td>
+<td>数据</td>
+<td>销售与流量查询字段；不是查询成功结果</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2407.jpg">IMG_2407.jpg</a></td>
+<td>数据</td>
+<td>跨领域供应商指标地图；主体权限需区分</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2408.jpg">IMG_2408.jpg</a></td>
+<td>数据</td>
+<td>卖家财务指标地图；非财务专场完整正文</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2410.jpg">IMG_2410.jpg</a></td>
+<td>广告数据</td>
+<td>Amazon Marketing Stream统一、可定制、可扩展</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2411.jpg">IMG_2411.jpg</a></td>
+<td>统一分析</td>
+<td>SP-API与Ads API字段拼接；未显示统一输出框</td>
+</tr>
+<tr>
+<td><a href="原始分享包/03_会议记录/照片/IMG_2412.jpg">IMG_2412.jpg</a></td>
+<td>统一分析</td>
+<td>完整统一输出框；自然销量简化公式需要口径校验</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-12-3-会场资源清单">12.3 会场资源清单</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>资源</th>
+<th>照片</th>
+<th>本次处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AB API 概述页、SP-API MCP Github、AB Power</td>
+<td>IMG_2330.JPG</td>
+<td>保存二维码原图，地址待补</td>
+</tr>
+<tr>
+<td>Listings 资源合集（<code>linktr.ee/amzn_listing</code>）、商品信息问题、可售商品管理</td>
+<td>IMG_2352.JPG</td>
+<td>保存原图与可见短地址文字</td>
+</tr>
+<tr>
+<td>MCF 开发者门户</td>
+<td>IMG_2394.JPG</td>
+<td>保存原图与资源类别</td>
+</tr>
+<tr>
+<td>安全合规自查评估</td>
+<td>IMG_2398.jpg</td>
+<td>保存原图，未提交测评</td>
+</tr>
+<tr>
+<td>Amazon Service Provider Network（SPN）展板</td>
+<td>IMG_2360.JPG</td>
+<td>记录可见申请信息</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>SPN 服务商网络（IMG_2360）：</strong> SPN 与 SP-API 接口本身是不同概念。展板可见：第三方服务商网络、9 大服务板块、19 大站点；申请流程为"提交申请 → 官方审核 → 资料补充（如需）→ 审核通过 → 正式上线"。权益包括卖家信任、市场机会、培训支持、资源联动、商业服务机会与沟通。</p>
+<p>展板"重要事务通道"邮箱可读为 <code>cn-gs-spn@amazon.com</code>。这是现场展板转录，<strong>本次未发送邮件，也未核实当前接收范围</strong>。左侧内容裁切，未补写完整服务类别或全部条件。</p>
+<h3 id="sec-12-4-更新日志">12.4 更新日志</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>日期</th>
+<th>版本</th>
+<th>更新内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-09-17</td>
+<td>v1 照片整理版</td>
+<td>归档 44 个来源文件，按 SHA-256 合并 3 个相同副本，保留 41 张独立照片；建立详细会议记录、来源台账、学习卡与待核实清单</td>
+</tr>
+<tr>
+<td>2026-09-17</td>
+<td>v1 合并分享版</td>
+<td>合并 A／B／C 三批测试记录，补充官方发布日志与链接目录，分离技术细节与接口目录附件</td>
+</tr>
+<tr>
+<td>2026-09-17</td>
+<td><strong>v2 主题重组版（本汇编）</strong></td>
+<td>将 9 份文档按主题合并为一份主文档；财务七项、四类报表、身份权限、余额层级、自然销量口径等重复内容各归一处；补充证据分级、新旧对照表与统一术语表；原始文件与照片全部保留未改</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="sec-12-5-原始分包文件清单">12.5 原始分包文件清单</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+<th>在本汇编中的位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00_先读这里.md</code> / <code>.html</code></td>
+<td>原导读与阅读顺序</td>
+<td>第 0 章</td>
+</tr>
+<tr>
+<td><code>01_亚马逊API更新与AI工作流实测_合并分享版.md</code> / <code>.html</code> / <code>.docx</code></td>
+<td>会后更新与实测合并资料</td>
+<td>第 2、4、5、7、8 章</td>
+</tr>
+<tr>
+<td><code>02_资料链接目录.md</code> / <code>.html</code></td>
+<td>50 条公开链接分类目录</td>
+<td>第 11 章</td>
+</tr>
+<tr>
+<td><code>03_会议记录/会议记录.md</code> / <code>.html</code></td>
+<td>图文会议记录（41 张照片）</td>
+<td>第 1、3、4、6 章</td>
+</tr>
+<tr>
+<td><code>03_会议记录/学习卡.md</code> / <code>.html</code></td>
+<td>术语、学习卡、判断题、提示词</td>
+<td>第 8、9 章</td>
+</tr>
+<tr>
+<td><code>03_会议记录/待核实清单.md</code> / <code>.html</code></td>
+<td>Q01–Q18 与口径冲突</td>
+<td>第 10 章</td>
+</tr>
+<tr>
+<td><code>03_会议记录/照片索引.md</code> / <code>.html</code></td>
+<td>41 张照片来源台账</td>
+<td>第 12.2 节</td>
+</tr>
+<tr>
+<td><code>04_接口目录快照.md</code> / <code>.html</code></td>
+<td>57 类接口目录</td>
+<td>第 12.1 节</td>
+</tr>
+<tr>
+<td><code>05_技术细节与数据口径.md</code> / <code>.html</code></td>
+<td>财务、报表、权限细节</td>
+<td>第 3.8、3.9、5.5 节</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<p><em>本汇编不含真实账号、密钥、原始业务响应或后台截图。收到新资料后，按 10.3 的流程补入对应章节并更新 12.4 更新日志。</em></p>
+</article></main>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('tocbtn'), side=document.getElementById('side');
+  if(btn){btn.addEventListener('click',function(){side.classList.toggle('open');});}
+  var links=[].slice.call(document.querySelectorAll('nav a'));
+  var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var heads=[].slice.call(document.querySelectorAll('h2[id],h3[id]'));
+  var cur=null;
+  function spy(){
+    var y=window.scrollY+90, found=null;
+    for(var i=0;i<heads.length;i++){ if(heads[i].offsetTop<=y) found=heads[i]; else break; }
+    var a=found?map[found.id]:null;
+    if(a!==cur){ if(cur)cur.classList.remove('on'); if(a)a.classList.add('on'); cur=a; }
+  }
+  var t=null;
+  window.addEventListener('scroll',function(){ if(t)return; t=setTimeout(function(){t=null;spy();},120);},{passive:true});
+  spy();
+})();
+</script>
+</body>
+</html>

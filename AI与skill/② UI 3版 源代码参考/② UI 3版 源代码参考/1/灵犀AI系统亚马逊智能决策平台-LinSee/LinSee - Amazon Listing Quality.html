@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<title>LinSee · 亚马逊 Listing 智能诊断</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="data.js?v=5"></script>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel" src="components/shared.jsx?v=5"></script>
+<script type="text/babel" src="components/shell.jsx?v=5"></script>
+<script type="text/babel" src="components/page_dashboard.jsx?v=5"></script>
+<script type="text/babel" src="components/page_diagnose.jsx?v=5"></script>
+<script type="text/babel" src="components/page_compare.jsx?v=5"></script>
+<script type="text/babel" src="components/page_rest.jsx?v=5"></script>
+<script type="text/babel" src="components/tweaks.jsx?v=5"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo } = React;
+
+// Editable defaults persisted by the host on __edit_mode_set_keys
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "light",
+  "lang": "zh",
+  "gradeSystem": "percent",
+  "currentAsin": "B09GTRVJQM"
+}/*EDITMODE-END*/;
+
+function App() {
+  const [page, setPage] = useState("dashboard");
+  const [currentAsin, setCurrentAsin] = useState(TWEAK_DEFAULTS.currentAsin);
+  const [theme, setTheme] = useState(TWEAK_DEFAULTS.theme);
+  const [lang, setLang] = useState(TWEAK_DEFAULTS.lang);
+  const [gradeSystem, setGradeSystem] = useState(TWEAK_DEFAULTS.gradeSystem);
+  const [weights, setWeights] = useState(
+    LS_RUBRIC.reduce((m, r) => (m[r.key] = r.weight, m), {})
+  );
+  const [tweaksOpen, setTweaksOpen] = useState(false);
+  const [toast, setToast] = useState("");
+
+  // Apply theme to html
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  // Edit-mode host contract
+  useEffect(() => {
+    const onMsg = (e) => {
+      const d = e.data || {};
+      if (d.type === "__activate_edit_mode") setTweaksOpen(true);
+      if (d.type === "__deactivate_edit_mode") setTweaksOpen(false);
+    };
+    window.addEventListener("message", onMsg);
+    window.parent.postMessage({ type: "__edit_mode_available" }, "*");
+    return () => window.removeEventListener("message", onMsg);
+  }, []);
+
+  // Persist tweak defaults
+  useEffect(() => {
+    window.parent.postMessage({
+      type: "__edit_mode_set_keys",
+      edits: { theme, lang, gradeSystem, currentAsin }
+    }, "*");
+  }, [theme, lang, gradeSystem, currentAsin]);
+
+  const onNewAudit = () => {
+    setToast(lang === "zh" ? "已启动新诊断任务…" : "New audit started…");
+    setTimeout(() => setToast(""), 2200);
+    setPage("diagnose");
+  };
+
+  const showPage = () => {
+    const props = { weights, lang, gradeSystem, setPage };
+    switch (page) {
+      case "dashboard": return <PageDashboard {...props} onSelect={(a) => { setCurrentAsin(a); setPage("diagnose"); }} />;
+      case "diagnose":  return <PageDiagnose asin={currentAsin} {...props} />;
+      case "compare":   return <PageCompare {...props} />;
+      case "history":   return <PageHistory lang={lang} />;
+      case "knowledge": return <PageKnowledge lang={lang} />;
+      case "team":      return <PageTeam lang={lang} />;
+      case "member":    return <PageMember lang={lang} />;
+      default: return null;
+    }
+  };
+
+  return (
+    <div className="app" data-screen-label={`LinSee / ${page}`}>
+      <Shell
+        page={page} setPage={setPage}
+        lang={lang} theme={theme} setTheme={setTheme}
+        openTweaks={() => setTweaksOpen(true)}
+        onNewAudit={onNewAudit}
+      />
+      {/* Portal content into main */}
+      <PagePortal>{showPage()}</PagePortal>
+      <TweaksPanel
+        open={tweaksOpen} onClose={() => setTweaksOpen(false)}
+        weights={weights} setWeights={setWeights}
+        gradeSystem={gradeSystem} setGradeSystem={setGradeSystem}
+        lang={lang} setLang={setLang}
+        theme={theme} setTheme={setTheme}
+        currentAsin={currentAsin} setCurrentAsin={setCurrentAsin}
+      />
+      <div className={`toast ${toast ? "show" : ""}`}>{toast}</div>
+    </div>
+  );
+}
+
+// Move children into the designated content root inside <main>
+function PagePortal({ children }) {
+  const [mount, setMount] = useState(null);
+  useEffect(() => {
+    const el = document.getElementById("content-root");
+    setMount(el);
+  }, []);
+  if (!mount) return null;
+  return ReactDOM.createPortal(children, mount);
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+
+</body>
+</html>

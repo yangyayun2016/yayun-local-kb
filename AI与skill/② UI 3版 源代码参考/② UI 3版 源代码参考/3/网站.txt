@@ -1,0 +1,22 @@
+http://42.193.186.87/os/tools
+
+admin
+密码 admin123456
+
+
+
+
+# 复用天机同一个腾讯云 MySQL（tianji 库，共享 users 表）
+# 直连需腾讯云安全组放行 42.193.186.87:3306 给本机公网 IP
+MYSQL_HOST=42.193.186.87
+MYSQL_PORT=3306
+MYSQL_DATABASE=tianji
+MYSQL_USER=tianji
+MYSQL_PASSWORD=[已移除]
+
+# 会话签名密钥（与天机同值，密码哈希/签名互通）
+SESSION_SECRET=[已移除]
+
+# 超级管理员引导账号（首次启动自动创建或提升 role=admin）
+SUPER_ADMIN_USERNAME=admin
+SUPER_ADMIN_PASSWORD=[已移除]
