@@ -1,0 +1,7 @@
+{
+  "name": "traffic-optimizer",
+  "description": "流量优化 - 站外引流、社交媒体、红人合作、内容营销、流量渠道拓展",
+  "instructions": "这是一个用于流量拓展的技能。\n\n1. 站外引流渠道：\n   - 社交媒体（Facebook、Instagram、TikTok）\n   - 红人营销（YouTube、Instagram红人）\n   - 内容营销（博客、论坛）\n   - 搜索引擎（Google Ads、SEO）\n   - Deal网站（SD、VIP等）\n\n2. 红人合作：\n   - 红人筛选\n   - 合作洽谈\n   - 内容审核\n   - 效果追踪\n\n3. 社交媒体运营：\n   - 内容策划\n   - 账号运营\n   - 社群管理\n   - 广告投放\n\n4. Deal促销：\n   - Deal网站选择\n   - 促销设置\n   - 效果评估\n\n5. 流量分析：\n   - 流量来源\n   - 转化分析\n   - ROI计算\n   - 渠道对比\n\n6. 网红营销：\n   - 网红筛选标准\n   - 合作形式\n   - 效果衡量\n\n7. 内容营销：\n   - 博客/软文\n   - YouTube视频\n   - 评测文章\n   - SEO优化\n\n注意事项：\n- 站外流量需配合站内转化\n- 初期ROI可能较低\n- 选择与产品匹配的红人\n- 持续测试优化渠道",
+  "category": "traffic-optimizer",
+  "tags": ["traffic", "off-site", "influencer", "social-media", "deals"]
+}

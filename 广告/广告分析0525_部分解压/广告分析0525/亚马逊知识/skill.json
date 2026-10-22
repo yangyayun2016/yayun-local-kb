@@ -1,0 +1,7 @@
+{
+  "name": "listing-generator",
+  "description": "Listing生成器 - 自动生成亚马逊产品标题、五点描述、A+内容、搜索关键词",
+  "instructions": "这是一个用于生成亚马逊Listing的技能。\n\n1. 支持的内容类型：\n   - 产品标题（Title，200字符内）\n   - 五点描述（Bullet Points，5条）\n   - 产品描述（Description）\n   - A+页面内容\n   - 搜索关键词（Search Terms）\n   - 后台关键词（Backend Keywords）\n\n2. 输入信息：\n   - 产品基本信息（名称、功能、卖点）\n   - 目标关键词\n   - 竞品ASIN参考\n   - 品类规范要求\n\n3. 生成策略：\n   - 关键词布局（标题前80字符优先）\n   - 卖点提炼（用户痛点+解决方案）\n   - SEO优化（搜索词覆盖）\n   - 合规检查（避免违禁词）\n\n4. 质量检查：\n   - 字符数检查\n   - 违禁词检测\n   - 关键词密度\n   - 可读性评估\n\n5. 应用场景：\n   - 新品上架\n   - Listing优化\n   - 多语言版本生成\n   - 竞品对标分析\n\n注意事项：\n- 遵循亚马逊品类指南\n- 避免使用主观形容词\n- 正确使用数字和单位\n- 标题首字母大写",
+  "category": "listing-generator",
+  "tags": ["amazon", "listing", "product-title", "bullet-points", "seo"]
+}

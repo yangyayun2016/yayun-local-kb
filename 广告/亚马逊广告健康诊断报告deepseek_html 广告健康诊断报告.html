@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B0XX****01 广告健康诊断报告 · 优化版v2.1 · 2026-07-15</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js">
+    </script>
+    <style>
+        :root {
+            --bg: #0d1421;
+            --bg2: #131c2e;
+            --card: #182338;
+            --card2: #1e2b44;
+            --line: #2a3a58;
+            --txt: #dbe4f3;
+            --sub: #8ca0c0;
+            --dim: #5f7396;
+            --green: #34d399;
+            --yellow: #fbbf24;
+            --orange: #fb923c;
+            --red: #f87171;
+            --blue: #60a5fa;
+            --purple: #a78bfa;
+            --cyan: #22d3ee;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+        body {
+            background: var(--bg);
+            color: var(--txt);
+            font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+            line-height: 1.6;
+            padding: 24px 16px
+        }
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto
+        }
+        h1 {
+            font-size: 26px;
+            font-weight: 700
+        }
+        h2 {
+            font-size: 19px;
+            margin: 0 0 14px;
+            padding-left: 12px;
+            border-left: 4px solid var(--blue)
+        }
+        h3 {
+            font-size: 15px;
+            color: var(--blue);
+            margin: 16px 0 8px
+        }
+        .meta {
+            color: var(--sub);
+            font-size: 13px;
+            margin-top: 6px
+        }
+        .sec {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 22px;
+            margin: 18px 0
+        }
+        .grid {
+            display: grid;
+            gap: 14px
+        }
+        .g4 {
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr))
+        }
+        .g3 {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
+        }
+        .g2 {
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr))
+        }
+        .kpi {
+            background: linear-gradient(135deg, var(--card2), #22345a);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 16px
+        }
+        .kpi .lb {
+            font-size: 12px;
+            color: var(--sub)
+        }
+        .kpi .v {
+            font-size: 26px;
+            font-weight: 700;
+            margin: 4px 0
+        }
+        .kpi .d {
+            font-size: 12px;
+            color: var(--dim)
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600
+        }
+        .t-g {
+            background: rgba(52, 211, 153, .15);
+            color: var(--green);
+            border: 1px solid rgba(52, 211, 153, .4)
+        }
+        .t-y {
+            background: rgba(251, 191, 36, .15);
+            color: var(--yellow);
+            border: 1px solid rgba(251, 191, 36, .4)
+        }
+        .t-o {
+            background: rgba(251, 146, 60, .15);
+            color: var(--orange);
+            border: 1px solid rgba(251, 146, 60, .4)
+        }
+        .t-r {
+            background: rgba(248, 113, 113, .15);
+            color: var(--red);
+            border: 1px solid rgba(248, 113, 113, .4)
+        }
+        .t-b {
+            background: rgba(96, 165, 250, .15);
+            color: var(--blue);
+            border: 1px solid rgba(96, 165, 250, .4)
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin: 10px 0
+        }
+        th {
+            background: var(--card2);
+            color: var(--sub);
+            text-align: left;
+            padding: 9px 10px;
+            font-weight: 600;
+            white-space: nowrap
+        }
+        td {
+            padding: 8px 10px;
+            border-top: 1px solid var(--line);
+            white-space: nowrap
+        }
+        tr:hover td {
+            background: rgba(96, 165, 250, .05)
+        }
+        .tbl-x {
+            overflow-x: auto
+        }
+        .num {
+            font-variant-numeric: tabular-nums
+        }
+        .cg {
+            color: var(--green)
+        }
+        .cy {
+            color: var(--yellow)
+        }
+        .co {
+            color: var(--orange)
+        }
+        .cr {
+            color: var(--red)
+        }
+        .cb {
+            color: var(--blue)
+        }
+        .cp {
+            color: var(--purple)
+        }
+        .chart-box {
+            background: var(--bg2);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 16px;
+            height: 340px;
+            position: relative
+        }
+        .note {
+            background: rgba(96, 165, 250, .08);
+            border-left: 3px solid var(--blue);
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: var(--sub);
+            margin: 10px 0
+        }
+        .warn {
+            background: rgba(248, 113, 113, .08);
+            border-left: 3px solid var(--red);
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            margin: 10px 0
+        }
+        .win {
+            background: rgba(52, 211, 153, .08);
+            border-left: 3px solid var(--green);
+            padding: 10px 14px;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            margin: 10px 0
+        }
+        .score-ring {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap
+        }
+        .ring {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(var(--orange) 0% 48%, var(--line) 48% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+        .ring .in {
+            width: 114px;
+            height: 114px;
+            border-radius: 50%;
+            background: var(--card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+        .ring .n {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--orange)
+        }
+        .ring .t {
+            font-size: 11px;
+            color: var(--sub)
+        }
+        .dim-bar {
+            margin: 7px 0
+        }
+        .dim-bar .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 3px
+        }
+        .bar {
+            height: 8px;
+            background: var(--line);
+            border-radius: 4px;
+            overflow: hidden
+        }
+        .bar>i {
+            display: block;
+            height: 100%;
+            border-radius: 4px
+        }
+        .chain {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            font-size: 13px
+        }
+        .chain .step {
+            background: var(--card2);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 8px 12px
+        }
+        .chain .arr {
+            color: var(--dim)
+        }
+        details {
+            background: var(--bg2);
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            margin: 10px 0
+        }
+        summary {
+            cursor: pointer;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 14px;
+            list-style: none
+        }
+        summary::before {
+            content: "▸ ";
+            color: var(--blue)
+        }
+        details[open] summary::before {
+            content: "▾ "
+        }
+        details .body {
+            padding: 0 16px 16px
+        }
+        .prio {
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--line)
+        }
+        .p1 {
+            background: linear-gradient(135deg, rgba(248, 113, 113, .12), var(--card2))
+        }
+        .p2 {
+            background: linear-gradient(135deg, rgba(251, 191, 36, .10), var(--card2))
+        }
+        .p3 {
+            background: linear-gradient(135deg, rgba(96, 165, 250, .10), var(--card2))
+        }
+        .prio h3 {
+            margin-top: 0
+        }
+        .prio ul {
+            margin: 6px 0 0 18px;
+            font-size: 13px
+        }
+        .prio li {
+            margin: 6px 0
+        }
+        .formula {
+            background: var(--bg2);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: Consolas, Menlo, monospace;
+            font-size: 12.5px;
+            color: var(--cyan);
+            margin: 8px 0;
+            overflow-x: auto
+        }
+        .ea {
+            color: var(--purple);
+            font-size: 11px
+        }
+        footer {
+            color: var(--dim);
+            font-size: 12px;
+            text-align: center;
+            margin: 26px 0 10px
+        }
+        .calc-box {
+            background: var(--bg2);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 12px 0
+        }
+        .calc-box .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: end
+        }
+        .calc-box label {
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+            color: var(--sub);
+            flex: 1;
+            min-width: 100px
+        }
+        .calc-box input {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            color: var(--txt);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 100%;
+            margin-top: 4px
+        }
+        .calc-box input:focus {
+            border-color: var(--blue);
+            outline: none
+        }
+        .calc-box .btn {
+            background: var(--blue);
+            border: none;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px
+        }
+        .calc-box .btn:hover {
+            opacity: .8
+        }
+        .calc-result {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px
+        }
+        .calc-result .item {
+            background: var(--card);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center
+        }
+        .calc-result .item .label {
+            font-size: 11px;
+            color: var(--sub)
+        }
+        .calc-result .item .value {
+            font-size: 20px;
+            font-weight: 700
+        }
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 10px 0
+        }
+        .matrix-grid .box {
+            background: var(--bg2);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 14px
+        }
+        .matrix-grid .box h4 {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: var(--cyan)
+        }
+        @media (max-width:700px) {
+            .chart-box {
+                height: 280px
+            }
+            .matrix-grid {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+
+        <!-- ═══════════ 头部 ═══════════ -->
+        <header class="sec" style="background:linear-gradient(135deg,#182338,#1a2a4d)">
+            <h1>B0XX****01 广告健康诊断报告 <span style="font-size:14px;color:var(--sub);font-weight:400;">优化版 v2.1 · 融合关键词库SOP</span></h1>
+            <div class="meta">诊断日期：2026-07-15 ｜ 数据窗口：2025-03 ~ 2026-05 ｜ 数据源：天机OS（领星同步）+ 卖家精灵 + SIF MCP + Amazon BA 搜索词绩效 ｜ SOP版本：v2.1（八层诊断法 + 关键词库量化）</div>
+            <div style="margin-top:14px" class="score-ring">
+                <div class="ring"><div class="in"><span class="n">48</span><span class="t">广告健康分 AHS</span><span class="tag t-o" style="margin-top:4px">承压级</span></div></div>
+                <div style="flex:1;min-width:280px">
+                    <div class="dim-bar"><div class="row"><span>① 经济面（权重30%）— 5月落入亏损档</span><span class="cr">35</span></div><div class="bar"><i style="width:35%;background:var(--red)"></i></div></div>
+                    <div class="dim-bar"><div class="row"><span>② 结构面（20%）— SP单一 + 预算断供</span><span class="cr">40</span></div><div class="bar"><i style="width:40%;background:var(--red)"></i></div></div>
+                    <div class="dim-bar"><div class="row"><span>③ 词效面（25%）— 42%花费投向0转化词</span><span class="cy">45</span></div><div class="bar"><i style="width:45%;background:var(--yellow)"></i></div></div>
+                    <div class="dim-bar"><div class="row"><span>④ 传导面（15%）— 自然占比61%但依赖广告点火</span><span class="cy">60</span></div><div class="bar"><i style="width:60%;background:var(--yellow)"></i></div></div>
+                    <div class="dim-bar"><div class="row"><span>⑤ 基本面（10%）— LQS 95 / 4.7星，评论偏少</span><span class="cg">90</span></div><div class="bar"><i style="width:90%;background:var(--green)"></i></div></div>
+                    <div class="ea">权重与维度评分为 engineering_assumption，可在 weights.json 中校准</div>
+                </div>
+            </div>
+            <div class="warn" style="margin-top:16px"><b>一句话诊断：</b>产品基本面优秀（LQS 95、定价有提价空间、自然单占比61%），病灶不在产品而在广告供给侧——旺季CPC上涨50%后，$2~3的日预算上午即打满，「顶首页」5月1日起彻底断投，广告流量断崖引发自然排名连锁下滑（市场跌1.5倍、我们跌4倍）。<b>这是一次典型的"预算断供杀死飞轮"，不是"ACOS超标该砍广告"。</b></div>
+        </header>
+
+        <!-- ═══════════ L1 经济基线 ═══════════ -->
+        <section class="sec">
+            <h2>L1 · 经济基线（唯一权威线，来源：amazon-ppc-economics）</h2>
+            <div class="grid g4">
+                <div class="kpi"><div class="lb">平本 ACOS（= 广告前毛利率）</div><div class="v cy">31.0%</div><div class="d">2026-04 完整成本推算；历史月度带 26%~30%（广告后毛利率+TACOS 回算）</div></div>
+                <div class="kpi"><div class="lb">目标 ACOS</div><div class="v cg">20.0%</div><div class="d">锚定历史最优期（2025.07-10 实际 15.9%~20.9%）</div></div>
+                <div class="kpi"><div class="lb">实际广告 CVR（近3月词级）</div><div class="v cb">4.91%</div><div class="d">42单 ÷ 856点击；临界点击 = 1/CVR ≈ 20次（×1.5安全系数=31）<span class="ea"> ea</span></div></div>
+                <div class="kpi"><div class="lb">客单价</div><div class="v">$25.99</div><div class="d">含5%优惠券；3月涨价后销量反创新高，定价健康</div></div>
+            </div>
+            <h3>由中心方程 ACOS = CPC ÷ (CVR × 客单价) 推导的四条控制线</h3>
+            <div class="grid g4">
+                <div class="kpi"><div class="lb">CPC 上限（目标口径）</div><div class="v cg">$0.26</div><div class="d">= 20% × $25.99 × 4.91%</div></div>
+                <div class="kpi"><div class="lb">平本 CPC（广告口径）</div><div class="v cy">$0.40</div><div class="d">= 31% × $25.99 × 4.91%；<b class="cr">5月市场CPC $0.48 已越线</b></div></div>
+                <div class="kpi"><div class="lb">等效平本 CPC（TACOS口径）</div><div class="v cg">$1.01</div><div class="d">= $0.40 ÷ (1−自然占比61%)；<b class="cg">$0.48 仍远在可承受区间</b></div></div>
+                <div class="kpi"><div class="lb">CPA 上限 / 平本 CPA</div><div class="v">$5.20 / $8.06</div><div class="d">实际CPA $6.10（介于两者之间）；日预算 = 日单量 × CPA</div></div>
+            </div>
+            <div class="win"><b>本次诊断最关键的一条数学结论：</b>广告口径下 5月CPC $0.48 &gt; 平本CPC $0.40，看起来"该停"；但自然单占比 61% 时，等效平本CPC = $1.01，<b>每一块广告钱背后撬动着 1.6 块自然销售</b>。正确动作是给高效 Campaign 加预算硬扛旺季CPC，而不是任由预算打满断投。5月的断投把 TACOS 口径下本可承受的流量拱手让给了竞品。</div>
+            <div class="formula">CPC上限 = 目标ACOS × Price × CVR ｜ CPA = CPC ÷ CVR ｜ 日预算 = 预计日单量 × CPA ｜ 等效CPC上限 = 基础上限 ÷ (1−自然单占比) ｜ TACOS = ACOS × (1−自然单占比)</div>
+            <h3>日预算测算（恢复期目标）</h3>
+            <div class="tbl-x"><table>
+                    <tr><th>情景</th><th>日单量目标</th><th>目标口径日预算（CPA $5.20）</th><th>现实口径日预算（CPA $6.10）</th><th>对比当前</th></tr>
+                    <tr><td>4月实际水平</td><td class="num">6.4 单</td><td class="num">$33</td><td class="num">$39</td><td class="cr">当前实际 $0.5~8/天，严重断供</td></tr>
+                    <tr><td>恢复目标</td><td class="num">8 单</td><td class="num">$42</td><td class="num">$49</td><td class="cy">建议按 $45~50 配置总盘</td></tr>
+                    <tr><td>7月旺季峰值冲刺</td><td class="num">10 单</td><td class="num">$52</td><td class="num">$61</td><td class="cb">K07 大词布局窗口配套</td></tr>
+                </table></div>
+        </section>
+
+        <!-- ═══════════ L2 五档分区 ═══════════ -->
+        <section class="sec">
+            <h2>L2 · ACOS 五档分区（锚线由经济基线自动推导，非固定阈值）</h2>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;font-size:12px">
+                <span class="tag t-g">优质 ≤14.0%（目标×0.7）</span><span class="tag t-b">健康 ≤20.0%（目标）</span><span class="tag t-y">预警 ≤25.5%（目标+(平本−目标)/2）</span><span class="tag t-o">承压 ≤31.0%（平本）</span><span class="tag t-r">亏损 &gt;31.0%</span>
+            </div>
+            <div class="chart-box"><canvas id="chartZone"></canvas></div>
+            <div class="note">读法：2025年7-10月稳定运行在健康/优质带（这就是目标ACOS取20%的依据）；2026年1月起进入预警-承压震荡，<b>5月 37.7% 首次击穿平本线落入亏损档</b>——但归因是CPC上涨+预算断供导致的分母坍塌（广告销售额萎缩），不是词效突然恶化。毛利率或目标一变，五档锚线整体自动平移。</div>
+        </section>
+
+        <!-- ═══════════ L3 月度趋势 ═══════════ -->
+        <section class="sec">
+            <h2>L3 · 月度经营总览（销售 × 广告 × 毛利三线合一）</h2>
+            <div class="chart-box"><canvas id="chartTrend"></canvas></div>
+            <div class="grid g3" style="margin-top:14px">
+                <div class="kpi"><div class="lb">历史最优期（2025.07-10）</div><div class="v cg">$5.6k~6.6k/月</div><div class="d">ACOS 15.9~20.9%，月毛利 $0.7k~1.1k，安全余量10个点</div></div>
+                <div class="kpi"><div class="lb">2026年3-4月（涨价后）</div><div class="v cb">253 / 192 单</div><div class="d">$25.99 定价下销量创历史同期新高，广告后毛利率 16.8%/18.4%</div></div>
+                <div class="kpi"><div class="lb">2026年5月（事故月）</div><div class="v cr">ACOS 37.7%</div><div class="d">广告日花费 $17~30 → $0.5~8，BSR 从 #700~1,100 跌至 #1,800~3,343</div></div>
+            </div>
+            <details><summary>月度明细数据表（12个月）</summary><div class="body tbl-x"><table>
+                        <tr><th>月份</th><th>销量</th><th>销售额</th><th>广告费</th><th>ACOS</th><th>TACOS</th><th>毛利润</th><th>广告后毛利率</th><th>CPC</th><th>分区</th></tr>
+                        <tr><td>2025-03</td><td class="num">77</td><td class="num">$1,925</td><td class="num">$265</td><td class="num">20.4%</td><td class="num">—</td><td class="num">$168</td><td class="num">8.7%</td><td class="num">$0.34</td><td><span class="tag t-y">预警</span></td></tr>
+                        <tr><td>2025-06</td><td class="num">133</td><td class="num">$3,349</td><td class="num">$535</td><td class="num">22.5%</td><td class="num">9.8%</td><td class="num">$289</td><td class="num">8.6%</td><td class="num">$0.29</td><td><span class="tag t-y">预警</span></td></tr>
+                        <tr><td>2025-07</td><td class="num">231</td><td class="num">$5,773</td><td class="num">$387</td><td class="num">20.9%</td><td class="num">6.8%</td><td class="num">$1,150</td><td class="num">19.9%</td><td class="num">$0.25</td><td><span class="tag t-y">预警</span></td></tr>
+                        <tr><td>2025-08</td><td class="num">226</td><td class="num">$5,648</td><td class="num">$514</td><td class="num">17.2%</td><td class="num">8.5%</td><td class="num">$872</td><td class="num">15.4%</td><td class="num">$0.24</td><td><span class="tag t-b">健康</span></td></tr>
+                        <tr><td>2025-09</td><td class="num">236</td><td class="num">$5,896</td><td class="num">$537</td><td class="num">15.9%</td><td class="num">7.9%</td><td class="num">$696</td><td class="num">11.8%</td><td class="num">$0.26</td><td><span class="tag t-b">健康</span></td></tr>
+                        <tr><td>2025-10</td><td class="num">262</td><td class="num">$6,604</td><td class="num">$456</td><td class="num">16.1%</td><td class="num">7.5%</td><td class="num">$1,113</td><td class="num">16.9%</td><td class="num">$0.26</td><td><span class="tag t-b">健康</span></td></tr>
+                        <tr><td>2025-11</td><td class="num">131</td><td class="num">$3,344</td><td class="num">$387</td><td class="num">23.2%</td><td class="num">12.8%</td><td class="num">$272</td><td class="num">8.1%</td><td class="num">$0.28</td><td><span class="tag t-y">预警</span></td></tr>
+                        <tr><td>2025-12</td><td class="num">137</td><td class="num">$3,425</td><td class="num">$429</td><td class="num">19.3%</td><td class="num">11.4%</td><td class="num">$212</td><td class="num">6.2%</td><td class="num">$0.30</td><td><span class="tag t-b">健康</span></td></tr>
+                        <tr><td>2026-01</td><td class="num">136</td><td class="num">$3,399</td><td class="num">$481</td><td class="num">29.8%</td><td class="num">15.2%</td><td class="num">$311</td><td class="num">9.2%</td><td class="num">$0.29</td><td><span class="tag t-o">承压</span></td></tr>
+                        <tr><td>2026-02</td><td class="num">153</td><td class="num">$3,951</td><td class="num">$603</td><td class="num">20.8%</td><td class="num">11.0%</td><td class="num">$368</td><td class="num">9.3%</td><td class="num">$0.31</td><td><span class="tag t-y">预警</span></td></tr>
+                        <tr><td>2026-03</td><td class="num">253</td><td class="num">$6,575</td><td class="num">$590</td><td class="num">25.0%</td><td class="num">9.8%</td><td class="num">$1,104</td><td class="num">16.8%</td><td class="num">$0.32</td><td><span class="tag t-y">预警</span></td></tr>
+                        <tr><td>2026-04</td><td class="num">192</td><td class="num">$4,976</td><td class="num">$510</td><td class="num">26.2%</td><td class="num">11.3%</td><td class="num">$915</td><td class="num">18.4%</td><td class="num">$0.32</td><td><span class="tag t-o">承压</span></td></tr>
+                        <tr style="background:rgba(248,113,113,.06)"><td>2026-05</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num cr">37.7%</td><td class="num">13%</td><td class="num">—</td><td class="num">29.5%</td><td class="num cr">~$0.48</td><td><span class="tag t-r">亏损</span></td></tr>
+                    </table></div></details>
+        </section>
+
+        <!-- ═══════════ L4 结构诊断 ═══════════ -->
+        <section class="sec">
+            <h2>L4 · 投放结构诊断（Campaign × 广告位 × 预算）</h2>
+            <div class="grid g3">
+                <div class="kpi"><div class="lb">广告类型结构</div><div class="v cr">仅 SP</div><div class="d">12个SP手动精准为主，无SB/SD/SBV，无详情页定投补充——单点故障结构，一断全断</div></div>
+                <div class="kpi"><div class="lb">预算打满（4月以来）</div><div class="v cr">30/29/28次</div><div class="d">「第二层级-常规」「K07-重开」「第二层级-低竞价」几乎每天上午6-9点打满，下午整段裸奔</div></div>
+                <div class="kpi"><div class="lb">最高效 Campaign</div><div class="v cg">销量词低竞价</div><div class="d">详情页 ACOS 16.6% / 其他搜索位 16.9%，全表最优，却只有 $3 日预算</div></div>
+            </div>
+            <h3>广告位下钻（原则：不看汇总广告位ACOS，必须下钻到 Campaign×位置）</h3>
+            <div class="chart-box" style="height:300px"><canvas id="chartPlacement"></canvas></div>
+            <div class="tbl-x"><table>
+                    <tr><th>Campaign</th><th>广告位</th><th>花费</th><th>订单</th><th>ACOS</th><th>判定</th><th>动作</th></tr>
+                    <tr><td>销量词低竞价</td><td>详情页</td><td class="num">$138</td><td class="num">32</td><td class="num cg">16.6%</td><td><span class="tag t-g">优质</span></td><td>预算 $3→$10，优先放量</td></tr>
+                    <tr><td>销量词低竞价</td><td>其他搜索位</td><td class="num">$164</td><td class="num">36</td><td class="num cg">16.9%</td><td><span class="tag t-g">优质</span></td><td>同上</td></tr>
+                    <tr><td>海王</td><td>详情页</td><td class="num">$127</td><td class="num">28</td><td class="num cg">17.1%</td><td><span class="tag t-g">优质</span></td><td rowspan="3">三位置均健康，预算 $3→$8</td></tr>
+                    <tr><td>海王</td><td>其他搜索位</td><td class="num">$307</td><td class="num">58</td><td class="num cb">20.4%</td><td><span class="tag t-b">健康</span></td></tr>
+                    <tr><td>海王</td><td>搜索首位</td><td class="num">$33</td><td class="num">5</td><td class="num cy">25.3%</td><td><span class="tag t-y">预警</span></td></tr>
+                    <tr><td>顶首页</td><td>详情页</td><td class="num">$39</td><td class="num">8</td><td class="num cb">18.9%</td><td><span class="tag t-b">健康</span></td><td rowspan="2"><b>不停活动，只关首位</b>：顶部倍增系数降至0%</td></tr>
+                    <tr><td>顶首页</td><td>搜索首位</td><td class="num">$103</td><td class="num">6</td><td class="num cr">65.9%</td><td><span class="tag t-r">亏损</span></td></tr>
+                    <tr><td>K07-重开</td><td>详情页</td><td class="num">$94</td><td class="num">8</td><td class="num cr">45.3%</td><td><span class="tag t-r">亏损</span></td><td rowspan="2">整体暂停重建（三位置38~51%全面亏损）</td></tr>
+                    <tr><td>K07-重开</td><td>其他搜索位</td><td class="num">$173</td><td class="num">13</td><td class="num cr">51.2%</td><td><span class="tag t-r">亏损</span></td></tr>
+                </table></div>
+            <div class="note"><b>结构层三条铁律（本案例验证）：</b>① 搜索首位本身不是问题——「海王」首位 25.3% 正常，「顶首页」首位 65.9% 是词错了，同一位置结论相反；② 亏损 Campaign 先下钻再决定停整个还是停位置；③ 预算打满次数 &gt; 20次/月 = 高效流量被人为掐断，是比 ACOS 更早的先行预警指标。</div>
+        </section>
+
+        <!-- ═══════════ L5 词级诊断 + 关键词库量化（优化核心） ═══════════ -->
+        <section class="sec">
+            <h2>L5 · 词级三维验证 + 关键词库量化（流量/相关性/有序性/属性打标）</h2>
+            <div class="chart-box" style="height:320px"><canvas id="chartKw"></canvas></div>
+            <div class="note">气泡图读法：X=近3月花费，Y=广告ACOS（虚线为目标20%/平本31%两条锚线），气泡大小=月搜索量。<b>右上角大泡（K01/K02）是出血口，左下角小泡（K04/K09/K10）是被饿死的现金牛。</b></div>
+
+            <!-- 新增：关键词库量化决策表（融合知识库打标逻辑） -->
+            <h3 style="margin-top:18px;">关键词库量化与决策矩阵（流量档位 / 相关性 / 有序性 / 匹配方式）</h3>
+            <div class="tbl-x"><table>
+                    <tr><th>关键词</th><th>ABA排名</th><th>流量档位</th><th>相关性</th><th>有序性</th><th>词属性</th><th>推荐匹配方式</th><th>建议CPC</th><th>三维结论</th></tr>
+                    <tr style="background:rgba(248,113,113,.06)"><td><b>K01</b></td><td class="num">8,205</td><td><span class="tag t-r">大词</span></td><td>弱相关</td><td>无序</td><td>功能</td><td>广泛/自动</td><td>—</td><td><span class="tag t-r">立即停投</span></td></tr>
+                    <tr style="background:rgba(248,113,113,.06)"><td><b>K02</b></td><td class="num">12,999</td><td><span class="tag t-r">大词</span></td><td>弱相关</td><td>无序</td><td>场景</td><td>广泛/自动</td><td>—</td><td><span class="tag t-r">立即停投</span></td></tr>
+                    <tr><td>K05</td><td class="num">62,146</td><td><span class="tag t-y">中尾</span></td><td>较相关</td><td>无序</td><td>功能</td><td>广泛</td><td>$0.15</td><td><span class="tag t-r">暂停</span></td></tr>
+                    <tr><td>K06</td><td class="num">107,386</td><td><span class="tag t-b">长尾</span></td><td>较相关</td><td>无序</td><td>错别词</td><td>广泛</td><td>否词</td><td><span class="tag t-r">否词</span></td></tr>
+                    <tr><td><b>K07</b></td><td class="num">1,025</td><td><span class="tag t-r">大词</span></td><td>强相关</td><td>有序</td><td>品牌</td><td>精准/词组</td><td>$0.50</td><td><span class="tag t-b">养排名</span></td></tr>
+                    <tr><td>K03</td><td class="num">48,687</td><td><span class="tag t-y">中尾</span></td><td>强相关</td><td>有序</td><td>功能</td><td>词组</td><td>$0.40</td><td><span class="tag t-g">保持微增</span></td></tr>
+                    <tr style="background:rgba(52,211,153,.06)"><td><b>K04</b></td><td class="num">120,230</td><td><span class="tag t-b">长尾</span></td><td>强相关</td><td>有序</td><td>场景</td><td>精准</td><td>$0.60</td><td><span class="tag t-g">加投</span></td></tr>
+                    <tr style="background:rgba(52,211,153,.06)"><td><b>K09</b></td><td class="num">150,230</td><td><span class="tag t-b">长尾</span></td><td>强相关</td><td>有序</td><td>人群</td><td>精准</td><td>$0.55</td><td><span class="tag t-g">加投</span></td></tr>
+                    <tr style="background:rgba(52,211,153,.06)"><td><b>K10</b></td><td class="num">198,927</td><td><span class="tag t-b">长尾</span></td><td>强相关</td><td>有序</td><td>场景</td><td>精准</td><td>$0.90</td><td><span class="tag t-g">最优先加投</span></td></tr>
+                </table></div>
+            <div class="note"><b>知识库量化规则速查：</b>① 流量档位：ABA＜3w=大词，3w-10w=中尾，＞10w=长尾（可自定义）；② 相关性：搜索页相似度＞80%=强，50%=较，20%=弱；③ 有序性：能被大词词组匹配为有序，反之为无序；④ 匹配方式：强相关+有序→精准，长尾+有序→词组，无序→广泛/自动；⑤ 属性标签（功能/场景/人群/尺寸/错别词等）用于单独建活动。</div>
+
+            <div class="warn"><b>词效错位量化：</b>K01+K02 合计 $147（占近3月总花费 <b>42%</b>）投向 BA 购买占比为 0 的词；而 BA 购买占比 80% 的 K10 只拿到 $2。这不是竞价问题，是<b>预算与真实转化的映射彻底倒挂</b>——把 $147 平移到 K10/K04/K09/K03，按其 7~11% ACOS 估算可多产出约 $1,500~2,000 广告销售额/3月。</div>
+
+            <!-- 新增：否定词策略矩阵（有序/无序） -->
+            <h3>否定词策略矩阵（基于有序性）</h3>
+            <div class="matrix-grid">
+                <div class="box">
+                    <h4>✅ 有序词（能被词组匹配）</h4>
+                    <p style="font-size:13px;color:var(--sub);">推荐 <b class="cy">词组否定</b>，因为结构规整，词组否定可一次性拦截整组变体，避免漏网。</p>
+                    <p style="font-size:12px;color:var(--dim);">示例：若否定 "red portable power station"，则 "red portable power station for camping" 也会被拦截。</p>
+                </div>
+                <div class="box">
+                    <h4>✅ 无序词（结构杂乱）</h4>
+                    <p style="font-size:13px;color:var(--sub);">推荐 <b class="cr">精准否定</b>，因为变体无序，词组否定可能误伤其他相关有序词。</p>
+                    <p style="font-size:12px;color:var(--dim);">示例：若否定 "power station red portable"，只拦截该精准词序，不影响 "portable power station red"。</p>
+                </div>
+            </div>
+            <div class="note"><b>操作建议：</b>对 K06（错别词、无序）执行精准否定；对表现差的有序长尾词（如某场景词）优先考虑词组否定，节省预算。</div>
+
+            <!-- 新增：动态预算计算器（基于PPC经济学公式） -->
+            <h3>预算计算器（由中心方程驱动）</h3>
+            <div class="calc-box">
+                <div class="row">
+                    <label>客单价 ($) <input type="number" id="calcPrice" value="25.99" step="0.01"></label>
+                    <label>目标 ACOS (%) <input type="number" id="calcAcos" value="20" step="0.5"></label>
+                    <label>广告 CVR (%) <input type="number" id="calcCvr" value="4.91" step="0.1"></label>
+                    <label>预计日单量 <input type="number" id="calcOrders" value="8" step="1"></label>
+                    <button class="btn" onclick="runCalculator()">计算预算锚点</button>
+                </div>
+                <div class="calc-result" id="calcResult">
+                    <div class="item"><span class="label">CPC 上限</span><div class="value cb" id="resCpc">$0.26</div></div>
+                    <div class="item"><span class="label">CPA (单笔广告成本)</span><div class="value cy" id="resCpa">$5.20</div></div>
+                    <div class="item"><span class="label">日预算 (目标口径)</span><div class="value cg" id="resBudget">$41.60</div></div>
+                    <div class="item"><span class="label">TACOS 等效 CPC (s=61%)</span><div class="value cp" id="resTacos">$0.66</div></div>
+                </div>
+                <div style="font-size:12px;color:var(--dim);margin-top:8px;">公式：CPC上限 = 目标ACOS × 客单价 × CVR；CPA = CPC ÷ CVR；日预算 = 日单量 × CPA；等效CPC = CPC上限 ÷ (1−自然单占比)。当前自然单占比取61%。</div>
+            </div>
+        </section>
+
+        <!-- ═══════════ L6 外部对标 ═══════════ -->
+        <section class="sec">
+            <h2>L6 · 竞品对标归因（先问：是市场跌还是我跌？）</h2>
+            <div class="chart-box" style="height:300px"><canvas id="chartBsr"></canvas></div>
+            <div class="grid g3" style="margin-top:14px">
+                <div class="kpi"><div class="lb">市场整体（竞品同步性）</div><div class="v cy">同步回落</div><div class="d">BOYY-A、BOYY-D 5月均下滑约1.5倍 → 存在市场性因素</div></div>
+                <div class="kpi"><div class="lb">我们的下滑倍数</div><div class="v cr">~4倍</div><div class="d">#700~1,100 → #1,800~3,343，远超市场跌幅</div></div>
+                <div class="kpi"><div class="lb">归因结论</div><div class="v co">混合原因</div><div class="d">市场回落（外因，1.5x）+ 广告断投加速（内因，贡献剩余2.5x）</div></div>
+            </div>
+            <div class="note"><b>归因三分法（SOP固化）：</b>竞品同步下滑=市场现象，按兵不动；只有我们下滑=纯内部问题，全力自查；我们跌幅显著更大=混合原因，剥离市场β后处理内部α。本案例属第三类。</div>
+        </section>
+
+        <!-- ═══════════ L7 根因链 ═══════════ -->
+        <section class="sec">
+            <h2>L7 · 5月下滑根因链还原（AOT 飞轮断裂全过程）</h2>
+            <div class="chain">
+                <span class="step">进入5月品类旺季</span><span class="arr">→</span>
+                <span class="step">竞品加大投放，CPC $0.25~0.32 → <b class="cr">$0.48（+50%）</b></span><span class="arr">→</span>
+                <span class="step">$2~3日预算上午6-9点打满</span><span class="arr">→</span>
+                <span class="step cr" style="border-color:var(--red)">「顶首页」5月1日彻底断投</span><span class="arr">→</span>
+                <span class="step">广告日花费 $17~30 → <b class="cr">$0.5~8</b></span><span class="arr">→</span>
+                <span class="step">广告流量断崖</span><span class="arr">→</span>
+                <span class="step">销量不足 → 自然排名（L3权重）失血</span><span class="arr">→</span>
+                <span class="step cr" style="border-color:var(--red)">BSR 恶化4倍，飞轮反转</span>
+            </div>
+            <div class="tbl-x" style="margin-top:14px"><table>
+                    <tr><th>日期</th><th>广告花费</th><th>总销量</th><th>关键事件</th></tr>
+                    <tr><td>4月中旬</td><td class="num cg">$18~30/天</td><td class="num">6~10单/天</td><td>正常运行</td></tr>
+                    <tr><td>4月26-30</td><td class="num cy">$15~22/天</td><td class="num">5~8单/天</td><td>「顶首页」上午已打满（预警信号被漏看）</td></tr>
+                    <tr><td>5月1日</td><td class="num cr">$0</td><td class="num">3单</td><td>「顶首页」最后一条活动记录</td></tr>
+                    <tr><td>5月6日</td><td class="num cr">$0.50</td><td class="num">4单</td><td>广告几乎停止</td></tr>
+                    <tr><td>5月11日</td><td class="num cr">$0</td><td class="num">3单</td><td>—</td></tr>
+                </table></div>
+            <div class="warn"><b>飞轮视角：</b>该链接自然单占比61%，是靠13个月广告持续点火沉淀出来的L3权重资产。断投14天的真实代价不是省下的 ~$300 广告费，而是自然位排名回吐——重建这部分权重预计需要4~6周的超额投放。<b>预算打满监控（&gt;3次/周即告警）应写入天机OS巡店闭环的日检项。</b></div>
+        </section>
+
+        <!-- ═══════════ L8 行动清单 ═══════════ -->
+        <section class="sec">
+            <h2>L8 · 分级行动清单（止损 → 修复 → 布局）</h2>
+            <div class="grid g3">
+                <div class="prio p1">
+                    <h3 class="cr">P1 · 今日止损</h3>
+                    <ul>
+                        <li><b>停投 K01、K02</b>：释放 $147/3月的出血口（42%花费、0 BA购买）</li>
+                        <li><b>暂停「K07-重开」Campaign</b>：三广告位 38~51% 全面亏损，吃掉88%曝光</li>
+                        <li><b>恢复总预算供给</b>：总盘按 $45~50/天 重配（8单×CPA $6.10），优先给下列高效活动</li>
+                        <li>「销量词低竞价」$3→$10；「海王」$3→$8；「第二层级-低竞价」$2→$5</li>
+                    </ul>
+                </div>
+                <div class="prio p2">
+                    <h3 class="cy">P2 · 本周修复</h3>
+                    <ul>
+                        <li><b>「顶首页」只关位置不关活动</b>：搜索顶部倍增系数降至0%（详情页18.9%是健康的）</li>
+                        <li><b>高效词提价</b>：K10 → $0.90~1.10（BA购买80%）；K04 → $0.60；K09 → $0.55；K03 保持微增</li>
+                        <li>K05 降至 $0.15 或暂停；K06 否词；K08 暂停</li>
+                        <li><b>新词上线</b>：K14（$0.80）、K16（$0.70）精准；K11/K12 借自然排名加广告强化</li>
+                        <li>设置预算打满告警：任一 Campaign 周打满 &gt;3次 → Feishu 推送</li>
+                    </ul>
+                </div>
+                <div class="prio p3">
+                    <h3 class="cb">P3 · 中期布局（≤12周）</h3>
+                    <ul>
+                        <li><b>K07 大词（月搜201K）自然排名布局</b>：真旺季峰值在7月，当前正是养排名窗口——低竞价词组+详情页定投双轨收录</li>
+                        <li><b>补广告类型短板</b>：上线 SB（品牌防御）+ SD（详情页再营销），消除 SP 单点故障</li>
+                        <li><b>评论加速</b>：65条→150条（开启 Request a Review 自动化），拉升 CVR 分母质量</li>
+                        <li>每周运行 economics export → diagnosis → calibrate 闭环；广告 CVR 漂移超 ±15% 触发锚线重算</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="win" style="margin-top:14px"><b>预期效果（engineering_assumption）：</b>P1+P2 执行后，$147 亏损预算平移至 7~17% ACOS 词群，叠加预算恢复，预计 2~3 周内 ACOS 回落到 22~26% 预警带、4~6 周随 K07 排名重建回到 ≤20% 健康带；BSR 目标 6 周内收复 #1,000~1,400 区间。以上述锚线为验收标准，下次诊断日期建议 2026-07-29（两周复检）。</div>
+        </section>
+
+        <!-- ═══════════ SOP 附录 ═══════════ -->
+        <section class="sec">
+            <h2>附录 · 本报告执行的标准SOP（八层诊断法 v2.1 + 关键词库量化）</h2>
+            <div class="tbl-x"><table>
+                    <tr><th>层</th><th>诊断问题</th><th>核心数据</th><th>判定规则</th></tr>
+                    <tr><td><b>L0 数据准备</b></td><td>八项前提数据齐了吗？</td><td>搜索词报告/订单拆分/类目CVR/临界值/目标CVR/竞品CVR/实际广告CVR/广告前毛利率</td><td>缺项先补，不编造；四个CVR必须同桌</td></tr>
+                    <tr><td><b>L1 经济基线</b></td><td>盈亏线在哪？</td><td>平本ACOS=广告前毛利率；CPC上限/CPA/日预算/等效CPC</td><td>目标ACOS必须&lt;平本ACOS；出价用广告CVR，飞轮判断用整体CVR</td></tr>
+                    <tr><td><b>L2 五档分区</b></td><td>当前处于哪一档？</td><td>月度ACOS序列</td><td>优质≤目标×0.7 / 健康≤目标 / 预警≤目标+(平本−目标)/2 / 承压≤平本 / 超平本亏损</td></tr>
+                    <tr><td><b>L3 月度趋势</b></td><td>是趋势恶化还是单月事故？</td><td>销售/广告/毛利/TACOS/CPC 12月序列</td><td>连续2月降档=趋势；单月跳档=先查事件日志</td></tr>
+                    <tr><td><b>L4 结构诊断</b></td><td>钱花在哪个容器里？</td><td>Campaign结构/广告位下钻/预算打满次数</td><td>广告位必须下钻到Campaign级；打满&gt;20次/月=红色预警；亏损活动先拆位置再定生死</td></tr>
+                    <tr><td><b>L5 词级三维+量化</b></td><td>每个词该加该停？匹配方式？</td><td>广告ACOS × BA购买占比 × SIF时机 + 流量/相关性/有序性/属性打标</td><td>点击&gt;临界仍0单→否词；ACOS超平本+BA为0→停投；三维全绿→加投；有序→词组否定，无序→精准否定</td></tr>
+                    <tr><td><b>L6 外部对标</b></td><td>是市场还是我？</td><td>竞品BSR同期序列</td><td>同步跌=市场β；独家跌=内部α；跌幅更大=混合，剥β治α</td></tr>
+                    <tr><td><b>L7 根因链</b></td><td>因果链能否闭合到日级？</td><td>日级广告花费×销量×操作日志</td><td>还原到具体日期+具体Campaign+具体动作；结论必须可被时间线证伪</td></tr>
+                    <tr><td><b>L8 行动分级</b></td><td>先做什么？</td><td>P1止损/P2修复/P3布局</td><td>每条动作带预期锚线+复检日期；执行后回写日志形成 export→diagnosis→calibrate 闭环</td></tr>
+                </table></div>
+            <div class="note">完整SOP文档（含公式推导、阈值表、数据字段映射、与 amazon-ppc-economics / amazon-ppc-profit-diagnosis 的接口契约）见随附 <b>《ASIN广告健康诊断标准SOP v2.1》</b>。新增关键词库量化模块，覆盖流量档位/相关性/有序性/属性打标及否定词策略。</div>
+        </section>
+
+        <footer>天机智能决策OS · 广告健康诊断报告 · 优化版v2.1 · 生成于 2026-07-15 · 脱敏口径与源报告一致（ASIN/品牌/关键词均为占位符）· 所有 engineering_assumption 已标注</footer>
+    </div>
+
+    <script>
+        // ================= Chart Configs =================
+        const C = { green: '#34d399', yellow: '#fbbf24', orange: '#fb923c', red: '#f87171', blue: '#60a5fa', purple: '#a78bfa',
+            cyan: '#22d3ee', grid: 'rgba(90,115,150,.15)', tick: '#8ca0c0' };
+        Chart.defaults.color = C.tick;
+        Chart.defaults.borderColor = C.grid;
+        Chart.defaults.font.family = '"PingFang SC","Microsoft YaHei",sans-serif';
+
+        const months = ['25-03', '25-06', '25-07', '25-08', '25-09', '25-10', '25-11', '25-12', '26-01', '26-02', '26-03',
+            '26-04', '26-05'
+        ];
+        const acos = [20.4, 22.5, 20.9, 17.2, 15.9, 16.1, 23.2, 19.3, 29.8, 20.8, 25.0, 26.2, 37.7];
+        const tacos = [null, 9.8, 6.8, 8.5, 7.9, 7.5, 12.8, 11.4, 15.2, 11.0, 9.8, 11.3, 13.0];
+
+        // L2 五档分区图
+        new Chart(document.getElementById('chartZone'), {
+            type: 'line',
+            data: { labels: months, datasets: [
+                    { label: '月度ACOS %', data: acos, borderColor: C.blue, backgroundColor: C.blue, pointRadius: 5,
+                        pointBackgroundColor: acos.map(v => v > 31 ? C.red : v > 25.5 ? C.orange : v > 20 ? C.yellow :
+                            v > 14 ? C.blue : C.green), tension: .25, borderWidth: 2 },
+                    { label: 'TACOS %', data: tacos, borderColor: C.purple, borderDash: [4, 4], pointRadius: 3,
+                        tension: .25, borderWidth: 1.5 }
+                ] },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { boxWidth: 12 } }, tooltip: { callbacks: { label: c =>
+                                ` ${c.dataset.label}: ${c.parsed.y}%` } } },
+                scales: { y: { min: 0, max: 45, title: { display: true, text: '%' }, grid: { color: C.grid } },
+                    x: { grid: { display: false } } }
+            },
+            plugins: [{
+                id: 'zones',
+                beforeDraw(ch) {
+                    const { ctx, chartArea: a, scales: { y } } = ch;
+                    if (!a) return;
+                    const bands = [
+                        [0, 14, 'rgba(52,211,153,.08)'],
+                        [14, 20, 'rgba(96,165,250,.07)'],
+                        [20, 25.5, 'rgba(251,191,36,.07)'],
+                        [25.5, 31, 'rgba(251,146,60,.08)'],
+                        [31, 45, 'rgba(248,113,113,.09)']
+                    ];
+                    bands.forEach(([lo, hi, col]) => { ctx.fillStyle = col;
+                        ctx.fillRect(a.left, y.getPixelForValue(hi), a.right - a.left, y.getPixelForValue(lo) - y
+                            .getPixelForValue(hi)); });
+                    [
+                        [20, C.blue, '目标 20%'],
+                        [31, C.red, '平本 31%']
+                    ].forEach(([v, col, lb]) => {
+                        ctx.save();
+                        ctx.strokeStyle = col;
+                        ctx.setLineDash([6, 4]);
+                        ctx.lineWidth = 1.2;
+                        ctx.beginPath();
+                        ctx.moveTo(a.left, y.getPixelForValue(v));
+                        ctx.lineTo(a.right, y.getPixelForValue(v));
+                        ctx.stroke();
+                        ctx.fillStyle = col;
+                        ctx.font = '11px sans-serif';
+                        ctx.fillText(lb, a.right - 64, y.getPixelForValue(v) - 4);
+                        ctx.restore();
+                    });
+                }
+            }]
+        });
+
+        // L3 月度趋势
+        new Chart(document.getElementById('chartTrend'), {
+            data: { labels: months, datasets: [
+                    { type: 'bar', label: '销售额 $', data: [1925, 3349, 5773, 5648, 5896, 6604, 3344, 3425, 3399, 3951,
+                            6575, 4976, null
+                        ], backgroundColor: 'rgba(96,165,250,.35)', borderColor: C.blue, borderWidth: 1,
+                        yAxisID: 'y' },
+                    { type: 'bar', label: '毛利润 $', data: [168, 289, 1150, 872, 696, 1113, 272, 212, 311, 368, 1104,
+                            915, null
+                        ], backgroundColor: 'rgba(52,211,153,.45)', borderColor: C.green, borderWidth: 1,
+                        yAxisID: 'y' },
+                    { type: 'line', label: '广告费 $', data: [265, 535, 387, 514, 537, 456, 387, 429, 481, 603, 590,
+                            510, null
+                        ], borderColor: C.orange, pointRadius: 3, tension: .25, yAxisID: 'y' },
+                    { type: 'line', label: 'CPC $', data: [0.34, 0.29, 0.25, 0.24, 0.26, 0.26, 0.28, 0.30, 0.29, 0.31,
+                            0.32, 0.32, 0.48
+                        ], borderColor: C.red, borderDash: [4, 3], pointRadius: 3, tension: .25, yAxisID: 'y2' }
+                ] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { boxWidth: 12 } } },
+                scales: { y: { position: 'left', title: { display: true, text: '金额 $' }, grid: { color: C.grid } },
+                    y2: { position: 'right', min: 0, max: 0.6, title: { display: true, text: 'CPC $' },
+                        grid: { drawOnChartArea: false } },
+                    x: { grid: { display: false } } } }
+        });
+
+        // L4 广告位下钻
+        new Chart(document.getElementById('chartPlacement'), {
+            type: 'bar',
+            data: { labels: ['销量词·详情页', '销量词·其他搜索', '海王·详情页', '海王·其他搜索', '海王·搜索首位', '顶首页·详情页', '顶首页·搜索首位',
+                    'K07重开·详情页', 'K07重开·其他搜索'
+                ],
+                datasets: [{ label: 'ACOS %', data: [16.6, 16.9, 17.1, 20.4, 25.3, 18.9, 65.9, 45.3, 51.2],
+                    backgroundColor: [C.green, C.green, C.green, C.blue, C.yellow, C.blue, C.red, C.red, C.red].map(
+                        c => c + '99'), borderColor: [C.green, C.green, C.green, C.blue, C.yellow, C.blue, C.red,
+                        C.red, C.red
+                    ], borderWidth: 1.5 }] },
+            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+                scales: { x: { max: 70, title: { display: true, text: 'ACOS %' }, grid: { color: C.grid } },
+                    y: { grid: { display: false } } } },
+            plugins: [{
+                id: 'lines2',
+                beforeDraw(ch) { const { ctx, chartArea: a, scales: { x } } = ch; if (!a) return;
+                    [
+                        [20, C.blue],
+                        [31, C.red]
+                    ].forEach(([v, col]) => { ctx.save();
+                        ctx.strokeStyle = col;
+                        ctx.setLineDash([5, 4]);
+                        ctx.lineWidth = 1.2;
+                        ctx.beginPath();
+                        ctx.moveTo(x.getPixelForValue(v), a.top);
+                        ctx.lineTo(x.getPixelForValue(v), a.bottom);
+                        ctx.stroke();
+                        ctx.restore(); }); }
+            }]
+        });
+
+        // L5 词级气泡
+        const kws = [
+            { l: 'K01', x: 88, y: 33.8, v: 86205, c: C.red }, { l: 'K02', x: 59, y: 32.5, v: 50999, c: C.red },
+            { l: 'K03', x: 52, y: 16.7, v: 48687, c: C.green }, { l: 'K04', x: 23, y: 11.1, v: 20230, c: C.green },
+            { l: 'K05', x: 13, y: 49.6, v: 62146, c: C.red }, { l: 'K09', x: 6, y: 7.3, v: 20230, c: C.green },
+            { l: 'K10', x: 2, y: 8.8, v: 18927, c: C.green }, { l: 'K07(0单,养排名)', x: 6, y: 0, v: 201025, c: C.blue }
+        ];
+        new Chart(document.getElementById('chartKw'), {
+            type: 'bubble',
+            data: { datasets: kws.map(k => ({ label: k.l, data: [{ x: k.x, y: k.y, r: Math.sqrt(k.v) / 28 }],
+                    backgroundColor: k.c + '55', borderColor: k.c, borderWidth: 1.5 })) },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 11 } } },
+                    tooltip: { callbacks: { label: c =>
+                                ` ${c.dataset.label}: 花费$${c.raw.x} / ACOS ${c.raw.y}%` } } },
+                scales: { x: { title: { display: true, text: '近3月花费 $' }, grid: { color: C.grid } },
+                    y: { min: -3, max: 55, title: { display: true, text: '广告ACOS %' }, grid: { color: C.grid } } } },
+            plugins: [{
+                id: 'lines3',
+                beforeDraw(ch) { const { ctx, chartArea: a, scales: { y } } = ch; if (!a) return;
+                    [
+                        [20, C.blue, '目标20%'],
+                        [31, C.red, '平本31%']
+                    ].forEach(([v, col, lb]) => { ctx.save();
+                        ctx.strokeStyle = col;
+                        ctx.setLineDash([5, 4]);
+                        ctx.lineWidth = 1.2;
+                        ctx.beginPath();
+                        ctx.moveTo(a.left, y.getPixelForValue(v));
+                        ctx.lineTo(a.right, y.getPixelForValue(v));
+                        ctx.stroke();
+                        ctx.fillStyle = col;
+                        ctx.font = '11px sans-serif';
+                        ctx.fillText(lb, a.left + 6, y.getPixelForValue(v) - 4);
+                        ctx.restore(); }); }
+            }]
+        });
+
+        // L6 BSR 对标
+        new Chart(document.getElementById('chartBsr'), {
+            type: 'line',
+            data: { labels: ['4月中旬', '4月下旬', '5月1-5日', '5月6-10日'], datasets: [
+                    { label: 'B0XX-01（我们）', data: [900, 1200, 1950, 2570], borderColor: C.red, pointRadius: 4,
+                        tension: .25, borderWidth: 2.5 },
+                    { label: 'BOYY-A（竞品1）', data: [1050, 1100, 1500, 2330], borderColor: C.yellow, pointRadius: 3,
+                        tension: .25, borderDash: [4, 3] },
+                    { label: 'BOYY-D（竞品2，最强）', data: [595, 770, 1240, 1455], borderColor: C.green, pointRadius: 3,
+                        tension: .25, borderDash: [4, 3] }
+                ] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { boxWidth: 12 } },
+                    tooltip: { callbacks: { label: c =>
+                                ` ${c.dataset.label}: BSR区间中值 #${c.parsed.y}` } } },
+                scales: { y: { reverse: true, title: { display: true, text: '大类BSR（区间中值，越低越好）' },
+                        grid: { color: C.grid } }, x: { grid: { display: false } } } }
+        });
+
+        // ================= Budget Calculator =================
+        function runCalculator() {
+            const price = parseFloat(document.getElementById('calcPrice').value) || 25.99;
+            const targetAcos = parseFloat(document.getElementById('calcAcos').value) || 20;
+            const cvr = parseFloat(document.getElementById('calcCvr').value) || 4.91;
+            const orders = parseFloat(document.getElementById('calcOrders').value) || 8;
+            const naturalRatio = 0.61; // 固定从报告取
+
+            const cpcLimit = (targetAcos / 100) * price * (cvr / 100);
+            const cpa = cpcLimit / (cvr / 100);
+            const dailyBudget = orders * cpa;
+            const tacosCpc = cpcLimit / (1 - naturalRatio);
+
+            document.getElementById('resCpc').innerText = '$' + cpcLimit.toFixed(2);
+            document.getElementById('resCpa').innerText = '$' + cpa.toFixed(2);
+            document.getElementById('resBudget').innerText = '$' + dailyBudget.toFixed(2);
+            document.getElementById('resTacos').innerText = '$' + tacosCpc.toFixed(2);
+        }
+        // 自动初始化
+        window.onload = runCalculator;
+    </script>
+</body>
+</html>

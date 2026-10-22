@@ -1,0 +1,7 @@
+{
+  "name": "brand-manager",
+  "description": "品牌管理 - 品牌备案、A+页面设计、品牌旗舰店、侵权监控、品牌保护",
+  "instructions": "这是一个用于品牌管理的技能。\n\n1. 品牌备案：\n   - 商标注册\n   - 品牌备案流程\n   - 品牌功能解锁\n   - 品牌旗舰店\n\n2. A+页面设计：\n   - 模块选择\n   - 内容策划\n   - 图片制作\n   - 上传发布\n\n3. 品牌旗舰店：\n   - 店铺设计\n   - 页面管理\n   - 商品陈列\n   - 数据分析\n\n4. 品牌保护：\n   - 侵权监控\n   - 假货投诉\n   - 商标维权\n   - 赶跟卖\n\n5. 品牌分析：\n   - 品牌指标\n   - 搜索词报告\n   - 消费者画像\n   - 竞品对比\n\n6. 内容管理：\n   - 主图视频\n   - 图文版品牌描述\n   - 产品故事\n\n注意事项：\n- 品牌备案是基础，建议尽早完成\n- A+页面可提升转化15-20%\n- 品牌旗舰店提升品牌形象\n- 持续监控侵权行为",
+  "category": "brand-manager",
+  "tags": ["brand", "amazon-brand-registry", "a+content", "storefront", "brand-protection"]
+}

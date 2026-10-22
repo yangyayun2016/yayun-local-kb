@@ -1,0 +1,314 @@
+terny 分享笔记+蜂爪的系统 解决借鉴问题
+模型：在线表格-网页-插件- APP
+模块， 亚马逊所有数据80-20，常用20%， 原理 逻辑， 流量 seccion,访问次数PC APP,总访问次数，转化率，总转化率， 广告转化率，自然转化， 自然订单 ：广告订单，   花费，广告销售额，ACOS TCOS TACOS,CPA,亚马逊利润最大化，逻辑，BSR排名逻辑 ECPM,=CTR CVR,FBA CPC广告
+自然订单：关键词搜索量 关键词收录数量，质量，机会指数，竞价，竞争难度，自然位波动，ASIN自然位滚动率，自然位赢得率，     广告流量对自然流量拉升情况， 广告位对自然位拉升 情况  吸力值
+利润情况，毛利验算，转化率，自然：广告占比，
+多个目标竞品ASIN,分布在不同关键词下 流量占比  /曝光份额占比，
+把所有想到的因子，综合考虑，每个因子给一个常数，影响系数比例，综合得分，
+插件 页面布局  UI VI
+web 页面布局  UI VI
+
+
+跨境助手1.0
+亚马逊助手 亚马逊运营助手
+荔枝助手 lizhizhushou.com
+
+
+按照我们目前项目根据表数据模型，进行反推演算， 链接整体发展，发现分析每一个ASIN 每一个品；全周期，全部数据，（已知 可查，可推算出）  定位 找到大SAAS (领星 赛狐狸 船长BI)插件 关键词SIF,西柚找词， 极目 飞鱼，中间的空缺  空间 合适的地带   海豹助手  荔枝助手  海星分析
+结合亚马逊后台有的数据，选品指南针，商机探测器，   ABA 数据，篮子（市场定位，人群分析），以及亚马逊广告后台 品牌指标， 绩效，  品类中位数，首位TOP,以及自己的转换 顾客转化率，
+BSR排名逻辑，  ECPM,逻辑 去定量分析，参数， 常数R,ECPM=R*CTR*CVR*PRICE*佣金比例+FBA+other
+关键词下自然获得率 赢得率， 关键词竞争格局，已经在我们自己的自然流量，除以自然位赢得率，得到整个类目自然流量（曝光得分）    再按照每个ASIN 赢得率  得到每个ASIN自然流量（曝光得分）
+每个曝光得分（定义 自己的自然流量，整体流量） 曝光得分，定量分析，
+做一个联动，全量分析     全季全链条 全品类 联动   全量分析
+关键词  竞争难度 ，流量位竞品数量和    流量位竞争格局
+竞争视角选词
+流量位竞品数量
+    流量位竞争格局
+ ASIN   B0F1F7J8V3  获得了关键词  milbensauger für matratzen      1.62% 的自然曝光流量  假设我们的自然流量300     整个类目的自然流量 是18518，按照每一个ASIN的比例 得到 每一个ASIN自然流量
+
+
+自然位赢得率，自然流量份额  SIF说法是根据该关键词在亚马逊前台搜索，在自然位上，根据 关键词的搜索量*a,自然位置 *b,曝光时长*c，3个常数 按照一定比例（SIF的算法 不公开）进行加权，排名 得分，得到自然流量份额，也是SIF 反查关键词流量 ，流量得分
+
+
+关键词的搜索量大小，占比 常数a  假设80%
+关键词在自然位，自然位前后排名 占比常数b 假设10%
+关键词曝光时长   占比常数c             假设10%
+
+关键词的搜索量  流量大小，常数a  占比80%，
+
+根据我们自己的ASIN 在固定一个时间段，自然流量 假设100 （Z）
+用Z除以自然位赢得率（自然流量份额）  Z/0.68%=得到整个品类的自然搜索量（整个品类的自然流量） 14705，一个一个按照竞品ASIN 的自然流量份额（自然流量占比）   得到每一个ASIN的自然流量，
+
+
+AI 数据库支持 支撑 我们对标是 keepa SIF插件功能，目前更倾向是SIF 运营时光机 界面  UI FIGMA UI设计，数据模块，解析  liu Liul流量时光机  查坑位 坑位快照，每小时排位，   ECPM   
+坑位快照，  https://opeblk6n4y.feishu.cn/docx/doxcnv6ghbl6D8g3hRuSxd7jdLf#share-Czj8dzBX2oz0Xux5L32cOxKAnrb
+
+搜索 点击 购买
+
+搜索 没点击
+搜索点击
+搜索点击没购买
+搜索点击 购买
+
+
+
+
+笔记随想：
+按照盈亏模型峰爪的模型去评估每一个阶段，半年，几个节点：  每个季度每个月月 每一周， 周目标，日计划，目标拆解下来； 知道有哪些？重要的 点有哪些，作用，每一个模型模版都要加入自己的思考 创新点，思路在里面 突破目标目的是什么
+
+计划的维度在上面 第一个板块  目标
+中间是我们现实的 实际的数据， 实际完成情况
+这中间有一个差异的，，差距的地方在哪里
+
+竞品的 数据，
+PDCA, 
+不做SaaS 不做CRM, AI智能体  做插件，网页，参考SIF  KEEPA
+数据可以参考Python 的图像，
+军事的概念
+catch the key point
+
+
+生成子任务， task
+
+
+
+
+
+
+
+
+PRD的详细解释是 product   requirements document   产品需求文件， 包含产品相关的所有信息，逻辑思路
+比如产品所有的功能特性 feature functionalities
+goal of building the application 应用创建的目标
+target audience目标人群受众
+tech stack技术栈
+the web app is called XXX and is specially made for people who xx
+
+my reqirements:
+
+整理所有需求和目标，再用chatgpt 来创建  PRD （提示词 ）是让它扮演专家角色来帮我们生产专业的PRD
+包含了 项目目标，用户画像，和所有关键功能特性，技术栈，目标
+sub tasks子任务
+PRD 产品需求文件
+taskmaster是把产品需求文档分解成多个小型 子任务，
+任务管理系统taskmaster
+
+
+
+
+
+
+代号wish.new  taste.ai
+定位 给开发者 消费者搭建框架，构建思路，做子任务，思路规矩 评估项目所需时间预算费用token技术难度
+品位  解决具体需求，思路
+
+
+分类 类目数， 在线网页 app ,saas erp crm ,mcp  亚马逊的类目 ALL   解决案例 思路 可以参考的模板，目标明确
+ 加上
+ 顺序  从属关系，重要的顺序，（子任务先后顺序等级）
+
+Add on
+Sequence,Hierarchy/Dependency, Priority Order, (Subtask Priority Levels)   Subordination, Important sequence, (Subtask sequence order level)
+
+开发者，纯小白，消费者，想要通过AI开发网页软件实现500万美金目标的人 vibe coding 结合base44  same.new claude cursor trae
+
+Appliances  (家电)
+75,500
+Arts, Crafts & Sewing (艺术、手工艺)
+446,502
+Automotive (汽车)
+1,132,621
+Baby Products 
+(婴儿产品)
+117,547
+Beauty & Personal Care 
+(美容与护理)
+554,339
+Books 
+(图书)
+16,552
+Cell Phones & Accessories 
+(手机)
+272,094
+Clothing, Shoes & Jewelry 
+(服装、鞋履和珠宝)
+1,126,160
+Electronics 
+(电子产品)
+325,594
+Grocery & Gourmet Food 
+(杂货店)
+312,219
+Health & Household 
+(健康与家居)
+530,767
+Home & Kitchen 
+(家居用品)
+1,367,504
+Hunting & Fishing 
+(狩猎&渔具)
+935
+Industrial & Scientific 
+(工业类)
+464,836
+Lights & Lighting Accessories 
+(灯具&配件)
+2,771
+Musical Instruments 
+(乐器)
+124,394
+Office Products 
+(办公产品)
+503,459
+Patio, Lawn & Garden 
+(庭院、草坪和园艺)
+646,856
+Pet Supplies 
+(宠物用品)
+273,103
+Power & Hand Tools 
+(电动和手动工具)
+8,913
+Small Appliance Parts & Accessories 
+(小家电配件)
+3,881
+Sports & Outdoors 
+(运动与户外)
+623,366
+Tools & Home Improvement 
+(工具)
+727,640
+Toys & Games 
+(玩具)
+570,770
+Video Games 
+(视频游戏)
+71,775
+
+
+
+加上
+ 顺序  从属关系，重要的顺序，（子任务先后顺序等级）
+
+
+
+Here’s the full English translation of your detailed plan for creating a website and software development platform (codename: **wish.new taste.ai**):
+
+---
+
+### **Detailed Plan: Creating a Website and Software Development Platform (Codename: wish.new taste.ai)**
+
+#### 1. **Project Overview**
+   - **Platform Name**: wish.new taste.ai (codename)  
+   - **Positioning**: A framework for developers and consumers to build projects, helping to break down requirements, generate executable subtasks, and evaluate project resources (time/budget/technical difficulty).  
+   - **Core Value**:  
+     - Solves the "idea to execution" gap by providing structured thinking.  
+     - Uses AI to generate professional documents (e.g., PRD) and task breakdowns.  
+     - Offers industry case templates and resource evaluation tools.  
+
+---
+
+#### 2. **Target Audience**  
+   - **Primary Users**:  
+     1. **Independent Developers/Small Teams**: Lack product managers and need to quickly clarify requirements.  
+     2. **Entrepreneurs/Non-Technical Users**: Have ideas but don’t know how to translate them into technology.  
+     3. **Product Managers**: Want to standardize PRD and task management processes.  
+   - **User Pain Points**:  
+     - Vague requirements that are hard to break into actionable tasks.  
+     - Lack of expertise in writing professional PRDs.  
+     - No clear understanding of project budgets or tech stack choices.  
+
+---
+
+#### 3. **Core Features (Key Features)**  
+   - **Feature Module 1: Structured Requirement Input**  
+     - Form/chat-based input: Guides users to fill in project goals, audience, scenarios, etc.  
+     - Supports uploading vague requirements (text/voice), with AI extracting key details.  
+   - **Feature Module 2: AI-Generated PRD**  
+     - Generates industry-standard **Product Requirement Documents** (including goals, user personas, feature lists, tech stack recommendations).  
+     - Customizable PRD templates (e.g., SaaS/e-commerce/ERP categories).  
+   - **Feature Module 3: Task Breakdown (TaskMaster)**  
+     - Automatically decomposes PRDs into subtasks (e.g., UI design, API development, testing).  
+     - Tasks support priority tagging, dependencies, and time/cost estimates.  
+   - **Feature Module 4: Resource Estimation**  
+     - Estimates development costs (labor/cloud expenses) based on tech stack and task volume.  
+     - Provides technical difficulty ratings (Low/Medium/High) and learning resources.  
+   - **Feature Module 5: Case Library & Templates**  
+     - Categorized industry examples (e.g., SaaS/CRM/Amazon category templates).  
+     - Users can reference PRDs and task lists from similar projects.  
+
+---
+
+#### 4. **Tech Stack**  
+   - **Frontend**: React/Vue + TypeScript (responsive design, supports Web/App).  
+   - **Backend**: Node.js/Django (handles AI requests and task management logic).  
+   - **AI Tools**:  
+     - ChatGPT API: For PRD generation and requirement analysis.  
+     - Potential fine-tuned models: Optimized for tech stack recommendations and task breakdowns.  
+   - **Database**: PostgreSQL/MongoDB (stores user projects and templates).  
+   - **Deployment**: AWS/Azure (SaaS support).  
+
+---
+
+#### 5. **PRD Generation Prompt (ChatGPT Expert Mode)**  
+   ```markdown
+   Role: You are a senior product manager skilled in transforming vague requirements into structured PRDs.  
+   Task: Generate a professional **Product Requirement Document** based on user input, including:  
+   1. **Project Goal**: 1-2 sentences clearly stating core value.  
+   2. **User Personas**: Key user groups and pain points.  
+   3. **Feature List**: Modular descriptions with priorities (P0/P1/P2).  
+   4. **Tech Stack Suggestions**: Recommendations for frontend/backend/database based on project scale.  
+   5. **Non-Functional Requirements**: Security, performance, etc.  
+   Requirements: Output in Markdown, use professional terminology, and maintain logical rigor.  
+   ```
+
+---
+
+#### 6. **Subtask Breakdown (TaskMaster Example)**  
+   - **Example Requirement**: User wants to develop a cross-border e-commerce SaaS tool.  
+   - **Breakdown Logic**:  
+     1. **Market Research**: Analyze competitors (e.g., Shopify), target country compliance.  
+     2. **Core Features**:  
+        - Multi-currency payment integration (subtask: Stripe/PayPal API integration).  
+        - Product category management (subtask: Design category tree database structure).  
+     3. **Tech Selection**: Compare React (frontend) vs. Ruby on Rails (backend).  
+     4. **Risk Assessment**: E.g., currency conversion latency issues.  
+
+---
+
+#### 7. **Project Category Reference**  
+   - **Supported Categories**:  
+     | Category   | Example Template         | Tech Stack Reference      |  
+     |------------|--------------------------|---------------------------|  
+     | SaaS       | Notion-like tools        | MERN (MongoDB + React)    |  
+     | E-commerce | Amazon category management | Java/Spring Boot         |  
+     | ERP/CRM    | Odoo/Salesforce          | Python/Django            |  
+
+---
+
+#### 8. **Development Roadmap (MVP First)**  
+   - **Phase 1**: Basic requirement input + AI-assisted PRD generation.  
+   - **Phase 2**: Task breakdown system + simple resource calculator.  
+   - **Phase 3**: Case library integration + team collaboration features.  
+
+---
+
+#### 9. **Risks & Mitigation**  
+   - **Risk 1**: AI-generated PRDs lack precision.  
+     - **Solution**: Add manual review steps with editable templates.  
+   - **Risk 2**: Outdated tech stack recommendations.  
+     - **Solution**: Regular database updates + user-customizable tech weights.  
+
+---
+
+### **Next Steps**:  
+1. Draft a detailed PRD using the above framework (use ChatGPT for initial draft).  
+2. Design an MVP prototype (Figma/Wireframe).  
+3. Develop the core requirement input and AI interaction module.  
+
+Let me know if you'd like to expand on any section (e.g., PRD template samples or tech stack comparisons)!
+
+
+
+ 孵化器YC  VC
+  

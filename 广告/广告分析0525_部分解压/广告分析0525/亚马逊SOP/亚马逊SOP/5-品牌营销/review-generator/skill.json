@@ -1,0 +1,8 @@
+{
+  "name": "review-generator",
+  "description": "评价管理 - 好评引导、差评回复、评价监控、Vine计划、Request a Review",
+  "instructions": "这是一个用于评价管理的技能。\n\n1. 评价获取：\n   - 自然评价优化\n   - Vine计划\n   - Request a Review\n   - 站外评价渠道\n\n2. 好评引导：\n   - 产品插页\n   - 邮件跟进\n   - Facebook群组\n   - Review Club\n\n3. 差评管理：\n   - 差评监控\n   - 站内消息回复\n   - 差评申诉\n   - 评价修改\n\n4. 合规评价：\n   - 禁止的行为\n   - 合规引导方式\n   - 亚马逊政策\n\n5. 评价分析：\n   - 评价情感分析\n   - 关键词提取\n   - 问题分类统计\n   - 改进建议\n\n6. 评价工具：\n   - FeedbackFive\n   - Jungle Scout
+   - Helium10\n\n7. Vine计划：\n   - 注册条件\n   - 费用和流程\n   - 评论管理\n   - 风险控制\n\n注意事项：\n- 严禁刷单、购买评价\n- 评价请求要自然\n- 差评24小时内回复\n- 关注评价趋势",
+  "category": "review-generator",
+  "tags": ["review", "rating", "vine", "feedback", "review-management"]
+}
