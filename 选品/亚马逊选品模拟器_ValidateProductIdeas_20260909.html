@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>选品模拟器 · 新品上市决策</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --ink:#0b1c2c; --ink2:#33475b; --mut:#6b7a8d; --line:#dfe4ea; --paper:#fbfcfd; --card:#fff;
+  --sea:#0a6e8a; --sea2:#0e8bb0; --gold:#e8a33d; --grn:#1a8a4a; --grn-bg:#e6f5ec;
+  --amb:#c9781a; --amb-bg:#fdf1e1; --red:#c0392b; --red-bg:#fbe9e7; --sea-bg:#e7f2f6;
+  --shadow:0 1px 2px rgba(11,28,44,.06),0 4px 16px rgba(11,28,44,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Segoe UI",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.55}
+.top{background:linear-gradient(100deg,#07394a,#0a6e8a 60%,#0e8bb0);color:#fff;padding:22px 26px}
+.top h1{margin:0;font-size:22px;letter-spacing:.2px}
+.top p{margin:5px 0 0;opacity:.9;font-size:13px}
+.top .brand{font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-bottom:6px}
+.wrap{max-width:1240px;margin:0 auto;padding:20px}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:18px;margin-bottom:18px}
+.panel h2{font-size:14px;margin:0 0 14px;color:var(--sea);display:flex;align-items:center;gap:8px}
+.panel h2 .n{width:22px;height:22px;border-radius:6px;background:var(--sea-bg);color:var(--sea);
+  display:grid;place-items:center;font-size:12px;font-weight:700}
+label{display:block;font-size:12px;color:var(--ink2);margin:10px 0 4px;font-weight:600}
+input,select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--sea2);border-color:var(--sea2)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.hint{font-size:11px;color:var(--mut);margin-top:3px}
+.verdict{border-radius:12px;padding:16px 18px;color:#fff;margin-bottom:18px;box-shadow:var(--shadow)}
+.verdict .big{font-size:30px;font-weight:800;line-height:1}
+.verdict .lab{font-size:12px;opacity:.9;text-transform:uppercase;letter-spacing:1.5px}
+.v-go{background:linear-gradient(120deg,#157a43,#1fa85c)}
+.v-cau{background:linear-gradient(120deg,#b06a12,#d8901f)}
+.v-no{background:linear-gradient(120deg,#a5271b,#cf3a2b)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+@media(max-width:640px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:rgba(255,255,255,.14);border-radius:9px;padding:10px 12px}
+.kpi .v{font-size:19px;font-weight:700}
+.kpi .l{font-size:11px;opacity:.9}
+.stat{display:grid;grid-template-columns:1fr auto;gap:6px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.stat:last-child{border-bottom:none}
+.stat .k{color:var(--ink2)}
+.stat .val{font-weight:700;font-variant-numeric:tabular-nums}
+.pos{color:var(--grn)} .neg{color:var(--red)} .warn{color:var(--amb)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tab{padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;font-size:12.5px;color:var(--ink2)}
+.tab.on{background:var(--sea);color:#fff;border-color:var(--sea)}
+.tabpane{display:none} .tabpane.on{display:block}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{border-bottom:1px solid var(--line);padding:8px 9px;text-align:left;vertical-align:top}
+th{background:#f4f7f9;color:var(--mut);font-weight:600}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.pill.g{background:var(--grn-bg);color:var(--grn)} .pill.a{background:var(--amb-bg);color:var(--amb)} .pill.r{background:var(--red-bg);color:var(--red)} .pill.s{background:var(--sea-bg);color:var(--sea)}
+.bar{height:9px;border-radius:5px;background:#eef2f5;overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--sea2),var(--sea))}
+.assump{background:var(--amb-bg);border:1px solid #f0d9b5;border-radius:8px;padding:8px 11px;font-size:11.5px;color:#7a5410;margin-top:10px}
+.mini{font-size:11px;color:var(--mut)}
+.chip{display:inline-block;background:var(--sea-bg);color:var(--sea);border-radius:6px;padding:2px 8px;font-size:11px;margin:2px 3px 0 0}
+.split3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:760px){.split3{grid-template-columns:1fr}}
+.card2{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.card2 h4{margin:0 0 6px;font-size:13px;color:var(--sea)}
+ul.tight{margin:6px 0;padding-left:18px} ul.tight li{margin:3px 0}
+.foot{color:var(--mut);font-size:11px;text-align:center;padding:14px}
+.scoreline{display:flex;align-items:center;gap:8px;margin:7px 0}
+.scoreline .nm{width:120px;font-size:12px;color:var(--ink2)}
+.scoreline .bar{flex:1}
+.scoreline .sc{width:34px;text-align:right;font-weight:700;font-size:12px}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{flex:1;border:none;background:#fff;padding:7px;font-size:12px;cursor:pointer;color:var(--ink2)}
+.seg button.on{background:var(--sea);color:#fff}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="brand">Validate Product Ideas · 选品验证模拟器</div>
+  <h1>新品上市决策模拟器</h1>
+  <p>对标亚马逊官方「产品创意验证」工具 —— 季节性 · 广告投产 · 利润与现金流 · 供应链成本 · 价格情景 · 跨市场 · 客户画像 · VOC · 相似品对比</p>
+</div>
+
+<div class="wrap">
+<div class="grid">
+
+<!-- ============ LEFT: INPUTS ============ -->
+<div>
+  <div class="panel">
+    <h2><span class="n">✎</span>产品与定价</h2>
+    <label>产品概念</label>
+    <input id="pname" value="不锈钢/PP双面切菜板 · Frankfurter Brett">
+    <label>目标站点</label>
+    <select id="site">
+      <option value="DE" data-vat="0.19" data-cur="€">德国 DE (VAT 19%)</option>
+      <option value="FR" data-vat="0.20" data-cur="€">法国 FR (VAT 20%)</option>
+      <option value="UK" data-vat="0.20" data-cur="£">英国 UK (VAT 20%)</option>
+      <option value="US" data-vat="0" data-cur="$">美国 US (无VAT)</option>
+    </select>
+    <div class="row2">
+      <div><label>零售价(含税)</label><input id="price" type="number" value="21.99" step="0.5"></div>
+      <div><label>佣金比例 %</label><input id="ref" type="number" value="15" step="1"></div>
+    </div>
+    <div class="row2">
+      <div><label>采购价/件</label><input id="cogs" type="number" value="4.0" step="0.5"></div>
+      <div><label>头程/件</label><input id="freight" type="number" value="0.9" step="0.1"></div>
+    </div>
+    <div class="row2">
+      <div><label>FBA配送费/件</label><input id="fba" type="number" value="3.6" step="0.1"></div>
+      <div><label>退货率 %</label><input id="ret" type="number" value="5" step="1"></div>
+    </div>
+    <div class="assump">FBA 物流费已计入利润测算（对标官方"已计入亚马逊物流费用"）。欧盟站自动先剥离 VAT 再算佣金与毛利。</div>
+  </div>
+
+  <div class="panel">
+    <h2><span class="n">▣</span>广告与转化</h2>
+    <div class="row2">
+      <div><label>整体转化率 CVR %</label><input id="cvr" type="number" value="10.5" step="0.5"></div>
+      <div><label>市场CPC</label><input id="cpc" type="number" value="0.56" step="0.05"></div>
+    </div>
+    <div class="row2">
+      <div><label>目标ACoS %</label><input id="acos" type="number" value="30" step="1"></div>
+      <div><label>广告订单占比 %</label><input id="adshare" type="number" value="50" step="5"></div>
+    </div>
+    <label>整体点击率 CTR %（用于 eCPM 预演）</label>
+    <input id="ctr" type="number" value="6" step="0.5">
+  </div>
+
+  <div class="panel">
+    <h2><span class="n">☷</span>需求 · 季节 · 备货</h2>
+    <div class="row2">
+      <div><label>核心词月搜索量</label><input id="sv" type="number" value="29700" step="500"></div>
+      <div><label>预计首月日均单</label><input id="dord" type="number" value="15" step="1"></div>
+    </div>
+    <div class="row2">
+      <div><label>季节峰月</label>
+        <select id="peak"><option>1月</option><option>2月</option><option>3月</option><option>4月</option><option>5月</option><option>6月</option><option>7月</option><option>8月</option><option>9月</option><option>10月</option><option selected>11月</option><option>12月</option></select>
+      </div>
+      <div><label>季节振幅(峰/谷)</label><input id="amp" type="number" value="1.8" step="0.1"></div>
+    </div>
+    <div class="row3">
+      <div><label>交期(天)</label><input id="lead" type="number" value="40"></div>
+      <div><label>安全库存(天)</label><input id="safe" type="number" value="20"></div>
+      <div><label>可投资金</label><input id="cap" type="number" value="30000" step="1000"></div>
+    </div>
+    <div class="row2">
+      <div><label>一次性成本(认证/模具/拍摄)</label><input id="fix" type="number" value="2500" step="500"></div>
+      <div><label>回款周期(天)</label><input id="payout" type="number" value="14"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ RIGHT: OUTPUTS ============ -->
+<div>
+  <div id="verdict" class="verdict v-go">
+    <div class="lab">上市决策</div>
+    <div class="big" id="v-title">评估中…</div>
+    <div id="v-sub" style="font-size:13px;opacity:.95;margin-top:6px"></div>
+    <div class="kpis" id="v-kpis"></div>
+  </div>
+
+  <div class="panel">
+    <div class="tabs">
+      <div class="tab on" data-t="fin">① 利润与现金流</div>
+      <div class="tab" data-t="ad">② 广告投产 · eCPM</div>
+      <div class="tab" data-t="season">③ 季节性预测</div>
+      <div class="tab" data-t="whatif">④ 价格情景建模</div>
+      <div class="tab" data-t="cross">⑤ 跨市场潜力</div>
+      <div class="tab" data-t="cust">⑥ 客户画像 · 购物旅程</div>
+      <div class="tab" data-t="voc">⑦ VOC 评论洞察</div>
+      <div class="tab" data-t="sim">⑧ 相似品逐项对比</div>
+      <div class="tab" data-t="tools">⑨ 调研工具与概要</div>
+    </div>
+
+    <!-- ① 利润与现金流 -->
+    <div class="tabpane on" data-p="fin">
+      <div class="split3">
+        <div class="card2"><h4>单位经济（剥VAT口径）</h4><div id="fin-unit"></div></div>
+        <div class="card2"><h4>盈亏平衡</h4><div id="fin-be"></div></div>
+        <div class="card2"><h4>备货与现金流</h4><div id="fin-cash"></div></div>
+      </div>
+      <div class="assump" id="fin-note"></div>
+    </div>
+
+    <!-- ② 广告 eCPM -->
+    <div class="tabpane" data-p="ad">
+      <div class="split3">
+        <div class="card2"><h4>广告经济账</h4><div id="ad-econ"></div></div>
+        <div class="card2"><h4>CPC 上限判定</h4><div id="ad-cap"></div></div>
+        <div class="card2"><h4>eCPM 预演（每千曝光收益）</h4><div id="ad-ecpm"></div></div>
+      </div>
+      <div style="margin-top:14px"><canvas id="ecpmChart" height="90"></canvas></div>
+      <div class="assump">eCPM = 1000 × CTR × CVR × 单均平台收益(佣金+FBA)。这是亚马逊坑位排序的收益逻辑（推断量化，非官方公式）。曲线示意"提价 vs 你的单均净贡献"，帮你找最优价位。</div>
+    </div>
+
+    <!-- ③ 季节性 -->
+    <div class="tabpane" data-p="season">
+      <canvas id="seasonChart" height="110"></canvas>
+      <div id="season-txt" style="margin-top:12px"></div>
+    </div>
+
+    <!-- ④ 价格情景 -->
+    <div class="tabpane" data-p="whatif">
+      <div class="mini" style="margin-bottom:8px">"假设"情景建模：同一成本结构下，不同价位的毛利、盈亏平衡CVR与预计净利。</div>
+      <table id="whatif-tbl"></table>
+    </div>
+
+    <!-- ⑤ 跨市场 -->
+    <div class="tabpane" data-p="cross">
+      <div class="mini" style="margin-bottom:8px">跨市场潜力：以当前站点为基准，按 VAT、平均CPC、平均客单价系数外推（系数为经验值，需各站实测校准）。</div>
+      <table id="cross-tbl"></table>
+      <div class="assump">拓展顺序建议：先在数据最厚的站点验证 listing 与转化，再复制到 VAT/CPC 结构相近的邻近站；合规清单按目标站单独前置。</div>
+    </div>
+
+    <!-- ⑥ 客户画像 -->
+    <div class="tabpane" data-p="cust">
+      <div class="split3">
+        <div class="card2"><h4>人群画像（画像信号反推）</h4>
+          <ul class="tight">
+            <li>核心：25–55 岁家庭厨房主理人，独栋/公寓自住</li>
+            <li>动机：自用为主 + 送礼(节日峰)；环保/健康诉求强</li>
+            <li>收入行为：中端消费，愿为"无塑料/卫生/耐用"溢价</li>
+          </ul>
+        </div>
+        <div class="card2"><h4>购物旅程（Search→Buy）</h4>
+          <ul class="tight">
+            <li>搜索：edelstahl schneidebrett / ohne plastik</li>
+            <li>对比：主图厚度/防滑/尺寸 → 评论星级 → 价格</li>
+            <li>决策关键：第一屏信任（认证/去毛刺/材质）</li>
+          </ul>
+        </div>
+        <div class="card2"><h4>顾虑与信任因素</h4>
+          <ul class="tight">
+            <li>顾虑：伤刀、打滑、太薄变形、边缘割手</li>
+            <li>信任：食品接触认证徽章、真实评论数、A+内容</li>
+            <li>情绪价值：环保认同 / 德国工艺 / 健康守护</li>
+          </ul>
+        </div>
+      </div>
+      <div class="assump">客户画像由高CVR属性词 + 场景词反推（对标官方"最可能历史购买者画像"）。人口/收入精确数据需 ABA 品牌分析或第三方面板补充。</div>
+    </div>
+
+    <!-- ⑦ VOC -->
+    <div class="tabpane" data-p="voc">
+      <table>
+        <tr><th>差评痛点</th><th>可解决性</th><th>产品切口(概念优化建议)</th></tr>
+        <tr><td>伤刀 / 对刀不友好</td><td><span class="pill r">高</span></td><td>背面加软性护刀层做双面板</td></tr>
+        <tr><td>打滑 / 不稳</td><td><span class="pill r">高</span></td><td>四角硅胶脚 + 加厚≥1.2mm</td></tr>
+        <tr><td>刀痕 / 划伤表面</td><td><span class="pill a">中</span></td><td>拉丝/哑光面，弱化划痕视觉</td></tr>
+        <tr><td>太薄 / 变形</td><td><span class="pill a">中</span></td><td>1.2–1.5mm 实心，主图标厚度</td></tr>
+        <tr><td>边缘毛刺割手</td><td><span class="pill a">中</span></td><td>激光去毛刺 + 圆角</td></tr>
+      </table>
+      <div style="margin-top:10px"><b>好评卖点（转化驱动）：</b>
+        <span class="chip">无塑料/无微塑料</span><span class="chip">卫生不吸味</span><span class="chip">洗碗机安全</span><span class="chip">耐用不发霉</span><span class="chip">Made in Germany</span></div>
+      <div class="assump">VOC 由评分/规格/属性词反推（本模拟器无评论抓取）。落地需卖家精灵 review / ABA 实抓 1–2 星评论验证频次。对标官方"客户反馈分析：评论洞察"。</div>
+    </div>
+
+    <!-- ⑧ 相似品对比 -->
+    <div class="tabpane" data-p="sim">
+      <div class="mini" style="margin-bottom:8px">相似产品逐项功能对比（对标官方"Similar products / 逐项功能对比"）。★为你的目标概念。</div>
+      <table id="sim-tbl">
+        <tr><th>产品</th><th>价</th><th>评分</th><th>评论</th><th>月销</th><th>厚度</th><th>防滑</th><th>双面护刀</th><th>无塑料主张</th><th>尺寸</th></tr>
+        <tr><td>iWangDunD 三件套(Titan名)</td><td>€23.44</td><td>3.8★</td><td>116</td><td>800+</td><td>—</td><td>✗</td><td>✗</td><td>◑蹭Titan</td><td>S/M/L</td></tr>
+        <tr><td>Tosean 大板</td><td>€19.99</td><td>4.5★</td><td>37</td><td>400+</td><td>0.2mm薄</td><td>✗</td><td>✗</td><td>✗</td><td>40×30</td></tr>
+        <tr><td>HOCKER Made in Germany</td><td>€29.95</td><td>4.4★</td><td>56</td><td>100+</td><td>1.5mm</td><td>✓硅胶脚</td><td>✗</td><td>✗</td><td>多尺寸</td></tr>
+        <tr style="background:var(--sea-bg)"><td>★ 你的概念</td><td>€21.99</td><td>目标≥4.4</td><td>0→冲</td><td>—</td><td><b>1.2–1.5mm</b></td><td><b>✓</b></td><td><b>✓独有</b></td><td><b>✓ohne Mikroplastik</b></td><td>S/M/L</td></tr>
+      </table>
+      <div class="assump">差异化落点：双面护刀 + 无微塑料主张 是竞品全空白的两格 —— 这是概念的核心卖点与主图第一屏要打的点。</div>
+    </div>
+
+    <!-- ⑨ 工具 -->
+    <div class="tabpane" data-p="tools">
+      <div class="split3">
+        <div class="card2"><h4>人工调研</h4><ul class="tight"><li>Google Trends 5年季节曲线</li><li>竞争对手清单(前台TOP100)</li><li>前台真实"近30天购买"档位</li></ul></div>
+        <div class="card2"><h4>第三方工具</h4><ul class="tight"><li>SIF 关键词/流量/广告结构</li><li>Helium10 / Jungle Scout 销量估算</li><li>卖家精灵 评论 & 市场分析</li></ul></div>
+        <div class="card2"><h4>亚马逊官方工具</h4><ul class="tight"><li>商机探测器 · 产品机会探索器</li><li>ABA 品牌分析(搜索词/点击集中)</li><li>选品指南针 · 退货率</li></ul></div>
+      </div>
+      <div class="card2" style="margin-top:12px"><h4>产品概念概要（自动生成）</h4><div id="concept"></div></div>
+      <div class="card2" style="margin-top:12px"><h4>产品优化建议 & 市场细分</h4>
+        <ul class="tight">
+          <li><b>优化</b>：双面板(钢面+护刀面) + 1.5mm实心 + 四硅胶脚 + 激光去毛刺；标题主打 Edelstahl + ohne Mikroplastik，弃 Titan 噱头。</li>
+          <li><b>细分</b>：环保健康人群(无微塑料词月搜2万，头部弱) / 送礼场景(节日峰) / 大尺寸揉面烘焙。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2><span class="n">◎</span>综合评分（决策雷达）</h2>
+    <div id="radar"></div>
+    <div class="assump">七项各 0–100，加权成上市信心分。权重对标"上市决策"关注点：利润35% · 广告25% · 需求/季节15% · 竞争15% · 现金流10%。软性维度(画像/VOC/品牌)作证据，不进硬分。</div>
+  </div>
+</div>
+
+</div>
+</div>
+<div class="foot">对标亚马逊 Seller Central「Validate Product Ideas」· 本地测算，物流费已计入 · 代理指标(eCPM/画像/VOC)为推断量化，非平台官方值 · 生成于模拟器 v1</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const num=id=>parseFloat($(id).value)||0;
+let ecpmChart,seasonChart;
+
+function fmt(x,d=2){return (x<0?'-':'')+Math.abs(x).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d});}
+function cur(){return $('site').selectedOptions[0].dataset.cur;}
+function vat(){return parseFloat($('site').selectedOptions[0].dataset.vat);}
+
+function compute(){
+  const C=cur(), V=vat();
+  const price=num('price'), ref=num('ref')/100, cogs=num('cogs'), fr=num('freight'),
+        fba=num('fba'), ret=num('ret')/100, cvr=num('cvr')/100, cpc=num('cpc'),
+        acos=num('acos')/100, adshare=num('adshare')/100, ctr=num('ctr')/100,
+        dord=num('dord'), lead=num('lead'), safe=num('safe'), cap=num('cap'),
+        fix=num('fix'), payout=num('payout'), amp=num('amp');
+
+  const net=price/(1+V), vatAmt=price-net;
+  const refFee=net*ref, landed=cogs+fr, retLoss=net*ret*0.5;
+  const gp=net-refFee-fba-landed-retLoss;      // 广告前毛利
+  const gm=gp/net;
+  const beACoS=gm;                              // 盈亏平衡ACoS(广告销售额口径)
+  const beCPC=beACoS*net*cvr;                   // 盈亏平衡CPC
+  const cpcCap=acos*net*cvr;                    // 目标ACoS下CPC上限
+  const tacos=acos*adshare;
+  const adUnit=net*tacos;
+  const netUnit=gp-adUnit;                      // 单位净贡献
+  const nm=netUnit/net;
+  // 平台每单收益(佣金+FBA) 用于eCPM
+  const platTake=refFee+fba;
+  const eCPM=1000*ctr*cvr*platTake;
+  const beCVR=cpc/(net*beACoS||1);              // 广告打平最低CVR ≈ cpc/(net*gm)
+
+  // 备货现金流
+  const firstBatch=Math.round(dord*(lead+safe));
+  const invCost=firstBatch*landed;
+  const ad90=dord*90*adUnit;
+  const capNeed=invCost+ad90+fix;
+  const cashCycle=lead+ (firstBatch/Math.max(dord,1)) + payout; // 交期+售罄+回款
+  const monthNet=dord*30*netUnit;
+  const roiBatch=(firstBatch*netUnit-fix)/(capNeed||1);
+  const stopAd=firstBatch*gp*0.5;
+
+  return {C,V,price,net,vatAmt,refFee,fba,landed,retLoss,gp,gm,beACoS,beCPC,cpcCap,cpc,tacos,adUnit,netUnit,nm,
+    platTake,eCPM,ctr,cvr,beCVR,firstBatch,invCost,ad90,capNeed,cashCycle,monthNet,roiBatch,stopAd,cap,fix,dord,amp};
+}
+
+function scoreAll(m){
+  const s={};
+  // 利润：广告前毛利 25%门槛→40%满分
+  s.profit=clamp((m.gm-0.10)/(0.45-0.10)*100);
+  // 净利率
+  s.net=clamp((m.nm-0)/(0.20)*100);
+  // 广告：CPC/上限 ≤1 满分, ≥1.5 零
+  const capr=m.cpc/(m.cpcCap||1e-6);
+  s.ad=clamp((1.5-capr)/(1.5-0.7)*100);
+  // 需求/季节：搜索量 + 季节温和度
+  const sv=num('sv');
+  s.demand=clamp((Math.log10(Math.max(sv,100))-2.7)/(5-2.7)*100*0.7 + (2.5-Math.min(m.amp,2.5))/2.5*100*0.3);
+  // 竞争：用CVR做代理(转化好=可切)
+  s.comp=clamp((m.cvr-0.05)/(0.13-0.05)*100);
+  // 现金流：资金够+ROI
+  s.cash=clamp((m.cap>=m.capNeed?60:m.cap/m.capNeed*60) + clamp(m.roiBatch/0.3*40,0,40));
+  return s;
+}
+function clamp(x,a=0,b=100){return Math.max(a,Math.min(b,x));}
+
+function render(){
+  const m=compute(), C=m.C, s=scoreAll(m);
+  // weighted confidence
+  const conf=Math.round(s.profit*.20+s.net*.15+s.ad*.25+s.demand*.15+s.comp*.15+s.cash*.10);
+  const vd=$('verdict'), vt=$('v-title'), vs=$('v-sub');
+  let tier,cls,sub;
+  const hardFail = m.gm<0.15 || (m.cpc/(m.cpcCap||1e-6))>1.5;
+  if(hardFail){tier='暂不上市';cls='v-no';sub='结构性障碍：'+(m.gm<0.15?'剥VAT后毛利过低':'广告CPC远超上限')+'，先改成本/定价或换概念。';}
+  else if(conf>=70){tier='建议上市';cls='v-go';sub='经济账与需求同时成立，按下方切入点执行，注意季节备货节奏。';}
+  else if(conf>=50){tier='谨慎推进';cls='v-cau';sub='存在薄弱项，先小批量测款 + 优化 listing 转化后再放量。';}
+  else {tier='暂不上市';cls='v-no';sub='多项不达标，补齐关键数据或调整概念后重估。';}
+  vd.className='verdict '+cls; vt.textContent=tier+' · 信心 '+conf; vs.textContent=sub;
+  $('v-kpis').innerHTML=`
+    <div class="kpi"><div class="v">${(m.gm*100).toFixed(1)}%</div><div class="l">广告前毛利</div></div>
+    <div class="kpi"><div class="v">${(m.nm*100).toFixed(1)}%</div><div class="l">净利率</div></div>
+    <div class="kpi"><div class="v">${C}${fmt(m.netUnit)}</div><div class="l">单位净贡献</div></div>
+    <div class="kpi"><div class="v">${C}${fmt(m.capNeed,0)}</div><div class="l">启动资金需求</div></div>`;
+
+  // ① fin
+  const st=(k,v,c='')=>`<div class="stat"><span class="k">${k}</span><span class="val ${c}">${v}</span></div>`;
+  $('fin-unit').innerHTML=
+    st('含税价',C+fmt(m.price))+st('VAT',C+fmt(m.vatAmt))+st('净价',C+fmt(m.net))+
+    st('佣金',C+fmt(m.refFee))+st('FBA',C+fmt(m.fba))+st('到岸成本',C+fmt(m.landed))+
+    st('退货损耗',C+fmt(m.retLoss))+st('广告前毛利',C+fmt(m.gp),m.gm>=.25?'pos':(m.gm>=.15?'warn':'neg'));
+  $('fin-be').innerHTML=
+    st('毛利率',(m.gm*100).toFixed(1)+'%',m.gm>=.25?'pos':'warn')+
+    st('盈亏平衡ACoS',(m.beACoS*100).toFixed(1)+'%')+
+    st('盈亏平衡CPC',C+fmt(m.beCPC))+
+    st('目标ACoS下CPC上限',C+fmt(m.cpcCap),m.cpc<=m.cpcCap?'pos':'neg')+
+    st('市场CPC',C+fmt(m.cpc),m.cpc<=m.cpcCap?'pos':'neg')+
+    st('广告打平最低CVR',(m.beCVR*100).toFixed(1)+'%')+
+    st('净利率',(m.nm*100).toFixed(1)+'%',m.nm>=.10?'pos':'neg');
+  $('fin-cash').innerHTML=
+    st('首批备货',m.firstBatch+' 件')+st('货值',C+fmt(m.invCost,0))+
+    st('90天广告预算',C+fmt(m.ad90,0))+st('启动资金需求',C+fmt(m.capNeed,0))+
+    st('可用资金',C+fmt(m.cap,0),m.cap>=m.capNeed?'pos':'neg')+
+    st('回款周期',Math.round(m.cashCycle)+' 天')+
+    st('月净利(首月)',C+fmt(m.monthNet,0),m.monthNet>0?'pos':'neg')+
+    st('单批ROI',(m.roiBatch*100).toFixed(1)+'%',m.roiBatch>0?'pos':'neg')+
+    st('止损线(广告累计)','>'+C+fmt(m.stopAd,0));
+  $('fin-note').textContent=m.V>0?`已按 ${(m.V*100).toFixed(0)}% VAT 剥离后计算佣金与毛利（欧盟站必须，否则毛利虚高约 ${(m.V*100).toFixed(0)} 个百分点）。`:'美国站无 VAT，售价即净价口径。';
+
+  // ② ad
+  const capr=m.cpc/(m.cpcCap||1e-6);
+  $('ad-econ').innerHTML=
+    st('目标ACoS',(num('acos')).toFixed(0)+'%')+st('假设TACoS',(m.tacos*100).toFixed(1)+'%')+
+    st('单位广告费',C+fmt(m.adUnit))+st('单均平台收益(佣+FBA)',C+fmt(m.platTake))+
+    st('CVR',(m.cvr*100).toFixed(1)+'%')+st('CTR',(m.ctr*100).toFixed(1)+'%');
+  $('ad-cap').innerHTML=
+    st('CPC上限',C+fmt(m.cpcCap))+st('市场CPC',C+fmt(m.cpc))+
+    st('CPC/上限',capr.toFixed(2)+'×',capr<=1?'pos':(capr<=1.3?'warn':'neg'))+
+    st('判定',capr<=1?'🟢 广告可推':(capr<=1.3?'🟡 偏高需提转化':'🔴 推不起'),capr<=1?'pos':(capr<=1.3?'warn':'neg'));
+  $('ad-ecpm').innerHTML=
+    st('你的 eCPM','~'+C+fmt(m.eCPM))+
+    st('= 1000×CTR×CVR×单均收益','')+
+    st('CTR×CVR(转化链)',(m.ctr*m.cvr*100).toFixed(2)+'%')+
+    `<div class="mini" style="margin-top:6px">eCPM 越高，同一坑位亚马逊越愿意给你更多曝光。抬 eCPM 优先级：主图/评论(CTR) → 详情页(CVR) → 再谈提价。</div>`;
+  drawEcpm(m);
+
+  // ③ season
+  drawSeason(m);
+  const peakIdx=$('peak').selectedIndex;
+  $('season-txt').innerHTML=`<div class="split3">
+    <div class="card2"><h4>季节判定</h4>${st('峰月',$('peak').value)}${st('季节振幅',m.amp.toFixed(1)+'×',m.amp<=2.5?'pos':'warn')}${st('淡旺季差',m.amp>2.5?'强季节，需专项备货':'温和')}</div>
+    <div class="card2"><h4>备货倒推</h4>${st('交期+安全库存',(num('lead')+num('safe'))+' 天')}${st('峰前下单截止','峰月前约 '+Math.round((num('lead')+num('safe'))/7)+' 周')}${st('现在到峰月','按曲线约 '+((peakIdx-new Date().getMonth()+12)%12||12)+' 个月')}</div>
+    <div class="card2"><h4>行动</h4><ul class="tight"><li>淡季入场成本最低，先起量沉淀评论</li><li>峰月前 6–8 周备足旺季货</li><li>季节振幅>2.5 时资金周转单独测</li></ul></div></div>`;
+
+  // ④ whatif
+  whatif(m);
+  // ⑤ cross
+  crossMarket(m);
+  // concept
+  $('concept').innerHTML=`<b>${$('pname').value}</b> · ${$('site').value} 站 · 目标价 ${C}${fmt(m.price)}<br>
+    核心需求词月搜 ${num('sv').toLocaleString()}；广告前毛利 ${(m.gm*100).toFixed(1)}%，${capr<=1.3?'广告账可行':'广告偏贵'}；
+    差异化：双面护刀 + 无微塑料主张（竞品空白）。上市信心 ${conf}/100 → ${tier}。`;
+
+  // radar
+  const rl=(nm,v)=>`<div class="scoreline"><span class="nm">${nm}</span><span class="bar"><i style="width:${v}%"></i></span><span class="sc">${Math.round(v)}</span></div>`;
+  $('radar').innerHTML=rl('利润能力',s.profit)+rl('净利率',s.net)+rl('广告投产',s.ad)+rl('需求/季节',s.demand)+rl('竞争可切',s.comp)+rl('现金流',s.cash);
+}
+
+function drawEcpm(m){
+  const C=m.C, pts=[]; const base=m.price;
+  for(let f=-0.3;f<=0.4;f+=0.05){
+    const p=base*(1+f), net=p/(1+m.V);
+    const gp=net-net*num('ref')/100-num('fba')-(num('cogs')+num('freight'))-net*num('ret')/100*0.5;
+    const platTake=net*num('ref')/100+num('fba');
+    // CVR 随提价温和下降的示意：每+10%价, CVR-0.6pt
+    const cvr=Math.max(0.01,m.cvr-(f/0.1)*0.006);
+    const ecpm=1000*m.ctr*cvr*platTake;
+    pts.push({x:+(p).toFixed(2),y:+(ecpm).toFixed(2),gp:+gp.toFixed(2)});
+  }
+  const ctx=$('ecpmChart');
+  if(ecpmChart)ecpmChart.destroy();
+  ecpmChart=new Chart(ctx,{type:'line',
+    data:{labels:pts.map(p=>C+p.x),datasets:[
+      {label:'eCPM(每千曝光收益)',data:pts.map(p=>p.y),borderColor:'#0a6e8a',backgroundColor:'rgba(10,110,138,.12)',fill:true,tension:.35,yAxisID:'y'},
+      {label:'单位毛利',data:pts.map(p=>p.gp),borderColor:'#e8a33d',tension:.35,yAxisID:'y2'}
+    ]},
+    options:{plugins:{legend:{labels:{boxWidth:12,font:{size:11}}}},
+      scales:{y:{title:{display:true,text:'eCPM'}},y2:{position:'right',grid:{drawOnChartArea:false},title:{display:true,text:'毛利'}}}}});
+}
+
+function drawSeason(m){
+  const peak=$('peak').selectedIndex, amp=m.amp;
+  const months=['1','2','3','4','5','6','7','8','9','10','11','12'];
+  const data=months.map((_,i)=>{
+    const d=Math.min(Math.abs(i-peak),12-Math.abs(i-peak));
+    const t=1-d/6; // 0..1
+    return +(1 + (amp-1)*t).toFixed(2);
+  });
+  const ctx=$('seasonChart'); if(seasonChart)seasonChart.destroy();
+  seasonChart=new Chart(ctx,{type:'bar',
+    data:{labels:months.map(x=>x+'月'),datasets:[{label:'相对需求指数',data:data,
+      backgroundColor:data.map((v,i)=>i===peak?'#0a6e8a':'rgba(10,110,138,.35)')}]},
+    options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'需求(峰='+amp+'×谷)'}}}}});
+}
+
+function whatif(m){
+  const C=m.C, rows=[[-0.15],[-0.07],[0],[0.07],[0.15]].map(([f])=>{
+    const p=m.price*(1+f), net=p/(1+m.V);
+    const gp=net-net*num('ref')/100-num('fba')-(num('cogs')+num('freight'))-net*num('ret')/100*0.5;
+    const gm=gp/net;
+    const beCVR=num('cpc')/(net*gm||1);
+    const adUnit=net*(num('acos')/100)*(num('adshare')/100);
+    const nu=gp-adUnit; const nm=nu/net;
+    return {p,gm,beCVR,nu,nm,f};
+  });
+  let h='<tr><th>价位</th><th>净价</th><th>毛利率</th><th>盈亏平衡CVR</th><th>单位净贡献</th><th>净利率</th></tr>';
+  rows.forEach(r=>{
+    const hl=r.f===0?' style="background:var(--sea-bg)"':'';
+    h+=`<tr${hl}><td>${C}${fmt(r.p)}${r.f===0?' ★当前':''}</td><td>${C}${fmt(r.p/(1+m.V))}</td>
+      <td><span class="pill ${r.gm>=.25?'g':(r.gm>=.15?'a':'r')}">${(r.gm*100).toFixed(1)}%</span></td>
+      <td>${(r.beCVR*100).toFixed(1)}%</td><td>${C}${fmt(r.nu)}</td>
+      <td class="${r.nm>=.10?'pos':'neg'}">${(r.nm*100).toFixed(1)}%</td></tr>`;
+  });
+  $('whatif-tbl').innerHTML=h;
+}
+
+function crossMarket(m){
+  // 系数：VAT、CPC倍数、客单价倍数(相对当前站)
+  const M=[
+    {s:'DE',vat:.19,cpc:1.0,pr:1.0},{s:'FR',vat:.20,cpc:.9,pr:1.0},
+    {s:'UK',vat:.20,cpc:1.05,pr:1.05},{s:'US',vat:0,cpc:1.4,pr:1.1},
+    {s:'IT',vat:.22,cpc:.8,pr:.95},{s:'ES',vat:.21,cpc:.8,pr:.92}
+  ];
+  const C=m.C;
+  let h='<tr><th>站点</th><th>VAT</th><th>净价(同售价)</th><th>相对毛利</th><th>相对CPC压力</th><th>进入优先级</th></tr>';
+  M.forEach(x=>{
+    const net=m.price*x.pr/(1+x.vat);
+    const gp=net-net*num('ref')/100-num('fba')-(num('cogs')+num('freight'))-net*num('ret')/100*0.5;
+    const gm=gp/net;
+    const cpcPress=x.cpc; // >1 更贵
+    const prio = gm>=.25&&cpcPress<=1.05?'高':(gm>=.15?'中':'低');
+    h+=`<tr${x.s===$('site').value?' style="background:var(--sea-bg)"':''}><td>${x.s}${x.s===$('site').value?' ★当前':''}</td>
+      <td>${(x.vat*100).toFixed(0)}%</td><td>${C}${fmt(net)}</td>
+      <td><span class="pill ${gm>=.25?'g':(gm>=.15?'a':'r')}">${(gm*100).toFixed(0)}%</span></td>
+      <td>${cpcPress.toFixed(2)}×</td><td><span class="pill ${prio==='高'?'g':(prio==='中'?'a':'r')}">${prio}</span></td></tr>`;
+  });
+  $('cross-tbl').innerHTML=h;
+}
+
+// tabs
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.tabpane').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on'); document.querySelector('.tabpane[data-p="'+t.dataset.t+'"]').classList.add('on');
+});
+// live
+document.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',render));
+render();
+</script>
+</body>
+</html>

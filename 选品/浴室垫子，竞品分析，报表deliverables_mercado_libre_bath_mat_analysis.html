@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis Competitivo — Tapetes de Baño | Mercado Libre México</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Serif:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --outer-bg: #E4E1DC;
+  --page-bg: #FDFCF9;
+  --surface: #FFFFFF;
+  --border: #E8E6E2;
+  --divider: #C5C0BA;
+  --text-primary: #151515;
+  --text-body: #3D3D3D;
+  --text-secondary: #717171;
+  --hero-bg: #D7EDE2;
+  --hero-deco: #8FC5A8;
+  --hero-deco2: #5FA882;
+  --success-bg: #E8FBCF; --success-fg: #3D4826;
+  --warning-bg: #FFF0DC; --warning-fg: #E47700;
+  --info-bg: #DEE5F7; --info-fg: #3E54CE;
+  --error-bg: #FDECEA; --error-fg: #C4433A;
+  --neutral-bg: #FDF9F2; --neutral-fg: #7C746F;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Inter Tight', sans-serif;
+  background: var(--outer-bg);
+  color: var(--text-body);
+  line-height: 1.5;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px;
+}
+.page {
+  max-width: 1200px;
+  width: 100%;
+  background: var(--page-bg);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+}
+/* Hero */
+.hero {
+  position: relative;
+  background: var(--hero-bg);
+  padding: 40px 40px 36px;
+  overflow: hidden;
+}
+.hero-blob { position: absolute; border-radius: 60% 40% 65% 35% / 40% 55% 45% 60%; opacity: 0.15; pointer-events: none; }
+.hero-blob-1 { width: 180px; height: 140px; top: -40px; right: 8%; background: var(--hero-deco); transform: rotate(-15deg); }
+.hero-blob-2 { width: 140px; height: 100px; bottom: -30px; left: 15%; background: var(--hero-deco2); transform: rotate(20deg); border-radius: 45% 55% 50% 50% / 55% 45% 50% 50%; }
+.hero-blob-3 { width: 90px; height: 120px; top: 30%; right: 35%; background: var(--hero-deco); opacity: 0.12; transform: rotate(35deg); border-radius: 55% 45% 40% 60% / 45% 55% 55% 45%; }
+.hero-eyebrow {
+  font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-secondary); margin-bottom: 8px; position: relative;
+}
+.hero-title {
+  font-size: 28px; font-weight: 700; color: var(--text-primary); position: relative; margin-bottom: 6px;
+}
+.hero-subtitle { font-size: 14px; color: var(--text-secondary); position: relative; margin-bottom: 20px; }
+.hero-divider { width: 100%; height: 0.5px; background: rgba(0,0,0,0.1); margin-bottom: 20px; position: relative; }
+.hero-stats {
+  display: flex; gap: 32px; flex-wrap: wrap; position: relative;
+}
+.hero-stat-value {
+  font-family: 'Noto Serif', serif; font-size: 48px; font-weight: 500; letter-spacing: -0.02em;
+  color: var(--text-primary); line-height: 1;
+}
+.hero-stat-label { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+/* Sections */
+.section { padding: 32px 40px; }
+.section-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.section-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
+.section-rule { width: 100%; height: 0.5px; background: var(--border); margin-bottom: 20px; }
+
+/* Metric cards grid */
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 28px; }
+.metric-card {
+  background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px;
+  padding: 18px 20px;
+}
+.metric-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.metric-value { font-size: 26px; font-weight: 600; color: var(--text-primary); line-height: 1.2; }
+.metric-delta { font-size: 12px; font-weight: 500; margin-top: 2px; }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 768px) { .card-grid { grid-template-columns: 1fr; } }
+.card {
+  background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 20px;
+}
+.card-title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+.card-body { font-size: 14px; color: var(--text-body); }
+.card-meta { font-size: 12px; color: var(--text-secondary); margin-top: 6px; }
+
+/* Table wrapper */
+.table-wrap { overflow-x: auto; margin-bottom: 24px; border-radius: 12px; border: 0.5px solid var(--border); }
+.table-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
+.table-wrap th {
+  font-size: 12px; font-weight: 500; color: var(--text-secondary); text-align: left;
+  padding: 10px 14px; border-bottom: 1px solid var(--divider); white-space: nowrap;
+  background: var(--surface); position: sticky; top: 0;
+}
+.table-wrap td { padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text-body); }
+.table-wrap tr:last-child td { border-bottom: none; }
+.table-wrap tr:hover td { background: #fafaf8; }
+.table-rank { font-weight: 600; color: var(--text-primary); min-width: 32px; }
+.table-product { min-width: 260px; }
+.table-product a { color: var(--text-primary); text-decoration: none; font-weight: 500; }
+.table-product a:hover { text-decoration: underline; color: #3E54CE; }
+
+/* Pills */
+.pill {
+  display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500;
+  white-space: nowrap;
+}
+.pill-success { background: var(--success-bg); color: var(--success-fg); }
+.pill-warning { background: var(--warning-bg); color: var(--warning-fg); }
+.pill-info { background: var(--info-bg); color: var(--info-fg); }
+.pill-error { background: var(--error-bg); color: var(--error-fg); }
+.pill-neutral { background: var(--neutral-bg); color: var(--neutral-fg); }
+
+/* Rating stars */
+.stars { color: #E4A100; font-size: 13px; letter-spacing: 1px; }
+
+/* Alert */
+.alert { border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; }
+.alert-info { background: var(--info-bg); color: var(--info-fg); }
+.alert-warning { background: var(--warning-bg); color: var(--warning-fg); }
+.alert-success { background: var(--success-bg); color: var(--success-fg); }
+.alert-title { font-weight: 600; margin-bottom: 4px; }
+
+/* Chart row */
+.chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+@media (max-width: 768px) { .chart-row { grid-template-columns: 1fr; } }
+.chart-box {
+  background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px;
+  padding: 20px;
+}
+.chart-box-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 14px; }
+
+/* Progress bar */
+.progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.progress-label { font-size: 12px; color: var(--text-secondary); min-width: 90px; text-align: right; }
+.progress-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+.progress-val { font-size: 12px; font-weight: 500; color: var(--text-primary); min-width: 50px; }
+
+/* Footer */
+.footer {
+  background: var(--hero-bg); padding: 36px 40px 24px; position: relative; overflow: hidden;
+}
+.footer-blob { position: absolute; border-radius: 55% 45% 50% 50% / 45% 55% 55% 45%; opacity: 0.12; pointer-events: none; }
+.footer-blob-1 { width: 160px; height: 120px; top: -40px; left: 5%; background: var(--hero-deco2); }
+.footer-blob-2 { width: 100px; height: 140px; bottom: -50px; right: 15%; background: var(--hero-deco); border-radius: 50% 50% 45% 55% / 45% 55% 55% 45%; }
+.footer-inner { position: relative; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+.footer-brand-title { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+.footer-brand-sub { font-size: 12px; color: var(--text-secondary); }
+.footer-col-title { font-size: 12px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+.footer-col a { display: block; font-size: 13px; color: var(--text-body); text-decoration: none; margin-bottom: 4px; }
+.footer-col a:hover { color: var(--text-primary); text-decoration: underline; }
+.footer-divider { width: 100%; height: 0.5px; background: rgba(0,0,0,0.1); margin: 20px 0; position: relative; }
+.footer-bottom { position: relative; display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); flex-wrap: wrap; gap: 8px; }
+
+/* Section insights */
+.insight-list { list-style: none; }
+.insight-list li { position: relative; padding: 8px 0 8px 20px; border-bottom: 0.5px solid var(--border); font-size: 14px; }
+.insight-list li:last-child { border-bottom: none; }
+.insight-list li::before { content: ''; position: absolute; left: 0; top: 14px; width: 8px; height: 8px; border-radius: 50%; background: var(--hero-deco2); }
+
+/* Mobile */
+@media (max-width: 768px) {
+  body { padding: 0; }
+  .page { border-radius: 0; box-shadow: none; }
+  .hero { padding: 28px 20px 24px; }
+  .section { padding: 24px 20px; }
+  .hero-title { font-size: 22px; }
+  .hero-stat-value { font-size: 36px; }
+  .metric-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-blob hero-blob-3"></div>
+  <div class="hero-eyebrow">Análisis Competitivo · Mercado Libre México</div>
+  <h1 class="hero-title">Tapetes de Baño — Top 20 Más Vendidos</h1>
+  <p class="hero-subtitle">Categoría: Hogar &gt; Baños &gt; Tapetes de Baño · Datos extraídos en tiempo real</p>
+  <div class="hero-divider"></div>
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-value">20</div>
+      <div class="hero-stat-label">Productos analizados</div>
+    </div>
+    <div>
+      <div class="hero-stat-value">$91–$398</div>
+      <div class="hero-stat-label">Rango de precios (MXN)</div>
+    </div>
+    <div>
+      <div class="hero-stat-value">4.6 ★</div>
+      <div class="hero-stat-label">Calificación promedio</div>
+    </div>
+    <div>
+      <div class="hero-stat-value">42%</div>
+      <div class="hero-stat-label">Descuento promedio</div>
+    </div>
+  </div>
+</header>
+
+<!-- Key Metrics -->
+<section class="section">
+  <h2 class="section-title">Indicadores Clave del Mercado</h2>
+  <p class="section-sub">Resumen de los 20 productos más vendidos en Tapetes de Baño</p>
+  <div class="section-rule"></div>
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div class="metric-label">Precio Actual Promedio</div>
+      <div class="metric-value">$163</div>
+      <div class="metric-delta" style="color:var(--success-fg);">MXN</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Precio Original Promedio</div>
+      <div class="metric-value">$282</div>
+      <div class="metric-delta" style="color:var(--text-secondary);">Antes del descuento</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Descuento Promedio</div>
+      <div class="metric-value">42.2%</div>
+      <div class="metric-delta" style="color:var(--success-fg);">↑ Alta competitividad</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Calificación Promedio</div>
+      <div class="metric-value">4.6 ★</div>
+      <div class="metric-delta" style="color:var(--success-fg);">Muy buena</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Envío Gratis</div>
+      <div class="metric-value">60%</div>
+      <div class="metric-delta" style="color:var(--text-secondary);">12 de 20 productos</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Top Seller Ventas</div>
+      <div class="metric-value">+10mil</div>
+      <div class="metric-delta" style="color:var(--info-fg);">RAGANET #1</div>
+    </div>
+  </div>
+</section>
+
+<!-- Price Distribution Chart -->
+<section class="section" style="padding-top:0;">
+  <div class="chart-row">
+    <div class="chart-box">
+      <div class="chart-box-title">Distribución de Precios Actuales (MXN)</div>
+      <div style="position:relative; height:260px;">
+        <canvas id="priceChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-box-title">Descuento vs Calificación</div>
+      <div style="position:relative; height:260px;">
+        <canvas id="discountRatingChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Top 20 Table -->
+<section class="section" style="padding-top:0;">
+  <h2 class="section-title">Ranking Completo — Top 20 Tapetes de Baño</h2>
+  <p class="section-sub">Ordenado por ranking de ventas en Mercado Libre México</p>
+  <div class="section-rule"></div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Producto</th>
+          <th>Marca</th>
+          <th>Calif.</th>
+          <th>Ventas</th>
+          <th>Precio Orig.</th>
+          <th>Precio Act.</th>
+          <th>Desc.</th>
+          <th>Envío</th>
+          <th>Tipo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="table-rank">1</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapete-absorbente-alfombrilla-secado-rapido-para-bano-memory-color-negro-liso/p/MLM33590190" target="_blank">Tapete Memory Secado Rápido Negro Liso</a></td>
+          <td>RAGANET</td>
+          <td><span class="stars">★★★★½</span> 4.7</td>
+          <td><span class="pill pill-success">+10mil</span></td>
+          <td>$199.00</td>
+          <td><strong>$110.20</strong></td>
+          <td><span class="pill pill-warning">44% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Memory</td>
+        </tr>
+        <tr>
+          <td class="table-rank">2</td>
+          <td class="table-product"><a href="https://articulo.mercadolibre.com.mx/MLM-5241756160-2pzs-tapete-de-bano-ultra-suave-antideslizante-absorbente-_JM" target="_blank">2pzs Tapete Ultra Suave Antideslizante</a></td>
+          <td>—</td>
+          <td><span class="stars">★★★★</span> 4.0</td>
+          <td><span class="pill pill-neutral">+100</span></td>
+          <td>$173.70</td>
+          <td><strong>$97.45</strong></td>
+          <td><span class="pill pill-warning">43% OFF</span></td>
+          <td>—</td>
+          <td>Suave 2pzs</td>
+        </tr>
+        <tr>
+          <td class="table-rank">3</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/3pz-tapete-bano-ultra-suave-alfombra-antidesliz-absorbente/up/MLMU3177139730" target="_blank">3pz Tapete Baño Ultra Suave Geométrico Azul</a></td>
+          <td>JISHOP</td>
+          <td><span class="stars">★★★★½</span> 4.5</td>
+          <td><span class="pill pill-success">+1000</span></td>
+          <td>$298.00</td>
+          <td><strong>$189.99</strong></td>
+          <td><span class="pill pill-warning">36% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Suave 3pzs</td>
+        </tr>
+        <tr>
+          <td class="table-rank">4</td>
+          <td class="table-product"><a href="https://articulo.mercadolibre.com.mx/MLM-5401003604-tapete-bano-ultra-suave-antideslizante-absorbente-de-agua-_JM" target="_blank">Tapete Baño Ultra Suave Antideslizante</a></td>
+          <td>JIARUI</td>
+          <td><span class="stars">★★★★½</span> 4.5</td>
+          <td><span class="pill pill-neutral">+100</span></td>
+          <td>$208.44</td>
+          <td><strong>$112.56</strong></td>
+          <td><span class="pill pill-warning">46% OFF</span></td>
+          <td>—</td>
+          <td>Suave</td>
+        </tr>
+        <tr>
+          <td class="table-rank">5</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapete-bano-tejida-conformadegofre-antideslizante-absorbente/up/MLMU3807988275" target="_blank">Tapete Tejida Gofre Antideslizante Marrón</a></td>
+          <td>TAPETE BAÑO</td>
+          <td><span class="stars">★★★★★</span> 4.9</td>
+          <td><span class="pill pill-success">+1000</span></td>
+          <td>$298.00</td>
+          <td><strong>$162.96</strong></td>
+          <td><span class="pill pill-warning">45% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Tejida</td>
+        </tr>
+        <tr>
+          <td class="table-rank">6</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapete-de-bano-piedra-de-diatomeas-secado-ultra-rapido/up/MLMU3514722527" target="_blank">Tapete Piedra Diatomeas Secado Ultra Rápido</a></td>
+          <td>—</td>
+          <td><span class="stars">★★★★½</span> 4.8</td>
+          <td><span class="pill pill-info">+500</span></td>
+          <td>$599.00</td>
+          <td><strong>$398.00</strong></td>
+          <td><span class="pill pill-warning">33% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Piedra</td>
+        </tr>
+        <tr>
+          <td class="table-rank">7</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapete-absorbente-en-forma-de-hoja-para-bano-secado-rapido/up/MLMU3632109458" target="_blank">Tapete Forma de Hoja Secado Rápido Verde</a></td>
+          <td>KEAN</td>
+          <td><span class="stars">★★★★½</span> 4.8</td>
+          <td><span class="pill pill-info">+500</span></td>
+          <td>$198.00</td>
+          <td><strong>$128.00</strong></td>
+          <td><span class="pill pill-warning">35% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Diseño</td>
+        </tr>
+        <tr>
+          <td class="table-rank">8</td>
+          <td class="table-product"><a href="https://articulo.mercadolibre.com.mx/MLM-4603148538-2pzs-tapete-bano-ultra-suave-alfombra-antidesliz-absorbente-_JM" target="_blank">2pzs Tapete Ultra Suave Alfombra Antidesliz</a></td>
+          <td>HUIRAN</td>
+          <td><span class="stars">★★★★½</span> 4.8</td>
+          <td><span class="pill pill-neutral">+100</span></td>
+          <td>$347.40</td>
+          <td><strong>$120.90</strong></td>
+          <td><span class="pill pill-error">65% OFF</span></td>
+          <td>—</td>
+          <td>Suave 2pzs</td>
+        </tr>
+        <tr>
+          <td class="table-rank">9</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapetes-de-bano-3-piezas-tapete-absorbente-juegos-de-bano-tapete-para-bano-alfombra-antideslizante-ultra-suave-juego-de-tapetes-para-bano-accesorios-para-bano-bano-60-x-40-cm-tapete-rectangular/p/MLM65936506" target="_blank">Tapetes 3 Piezas Rectangular 60x40cm</a></td>
+          <td>HOOSUFU</td>
+          <td><span class="stars">★★★★</span> 4.1</td>
+          <td><span class="pill pill-info">+500</span></td>
+          <td>$500.00</td>
+          <td><strong>$178.00</strong></td>
+          <td><span class="pill pill-error">64% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Juego 3pzs</td>
+        </tr>
+        <tr>
+          <td class="table-rank">10</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapete-de-piedra-de-diatomeas-secado-ultra-rapido-60x39cm/up/MLMU3063727390" target="_blank">Tapete Piedra Diatomeas 60x39cm Gris</a></td>
+          <td>FOUORTUNATE-BEE</td>
+          <td><span class="stars">★★★★½</span> 4.7</td>
+          <td><span class="pill pill-success">+1000</span></td>
+          <td>$298.00</td>
+          <td><strong>$199.66</strong></td>
+          <td><span class="pill pill-warning">33% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Piedra</td>
+        </tr>
+        <tr>
+          <td class="table-rank">11</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapete-para-mingitorio-anti-salpicaduras-wiese-1-pza-color-lavanda/p/MLM29612256" target="_blank">Tapete Mingitorio Anti-salpicaduras Lavanda</a></td>
+          <td>WIESE</td>
+          <td><span class="stars">★★★★½</span> 4.8</td>
+          <td><span class="pill pill-success">+1000</span></td>
+          <td>$99.00</td>
+          <td><strong>$94.05</strong></td>
+          <td><span class="pill pill-neutral">5% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Mingitorio</td>
+        </tr>
+        <tr>
+          <td class="table-rank">12</td>
+          <td class="table-product"><a href="https://articulo.mercadolibre.com.mx/MLM-2304502603-tapete-antiderrapante-para-banoalmohadilla-absorbente-agua-_JM" target="_blank">Tapete Antiderrapante + Almohadilla</a></td>
+          <td>TAPETE BAÑO</td>
+          <td><span class="stars">★★★★½</span> 4.8</td>
+          <td><span class="pill pill-neutral">+100</span></td>
+          <td>$298.00</td>
+          <td><strong>$201.24</strong></td>
+          <td><span class="pill pill-warning">32% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Antiderrapante</td>
+        </tr>
+        <tr>
+          <td class="table-rank">13</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/juego-de-bano-pelo-largo-4-piezas-tapetes-para-bano-peluche/up/MLMU3642704431" target="_blank">Juego Baño Pelo Largo 4 Piezas Peluche Negro</a></td>
+          <td>—</td>
+          <td><span class="stars">★★★★</span> 3.9</td>
+          <td><span class="pill pill-info">+500</span></td>
+          <td>$297.00</td>
+          <td><strong>$198.60</strong></td>
+          <td><span class="pill pill-warning">33% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Peluche 4pzs</td>
+        </tr>
+        <tr>
+          <td class="table-rank">14</td>
+          <td class="table-product"><a href="https://articulo.mercadolibre.com.mx/MLM-2452883025-tapete-absorbente-alfombrilla-suave-secado-antideslizante-_JM" target="_blank">Tapete Absorbente Alfombrilla Suave</a></td>
+          <td>BEST SEASON</td>
+          <td><span class="stars">★★★★½</span> 4.8</td>
+          <td><span class="pill pill-info">+500</span></td>
+          <td>$259.00</td>
+          <td><strong>$246.05</strong></td>
+          <td><span class="pill pill-neutral">5% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Suave</td>
+        </tr>
+        <tr>
+          <td class="table-rank">15</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapete-de-piedra-absorbente-60x39cm-gris-fouortunate-bee/p/MLM59873640" target="_blank">Tapete Piedra Absorbente 60x39cm Gris</a></td>
+          <td>FOUORTUNATE-BEE</td>
+          <td><span class="stars">★★★★½</span> 4.7</td>
+          <td><span class="pill pill-success">+1000</span></td>
+          <td>$434.25</td>
+          <td><strong>$225.81</strong></td>
+          <td><span class="pill pill-warning">48% OFF</span></td>
+          <td>—</td>
+          <td>Piedra</td>
+        </tr>
+        <tr>
+          <td class="table-rank">16</td>
+          <td class="table-product"><a href="https://articulo.mercadolibre.com.mx/MLM-2661148719-tapete-banotapete-para-bano-absorbenteantideslizante-60x40-_JM" target="_blank">Tapete Baño Absorbente Antideslizante 60x40</a></td>
+          <td>WAYFUN</td>
+          <td><span class="stars">★★★★½</span> 4.8</td>
+          <td><span class="pill pill-info">+500</span></td>
+          <td>—</td>
+          <td><strong>$97.27</strong></td>
+          <td>—</td>
+          <td>—</td>
+          <td>Básico</td>
+        </tr>
+        <tr>
+          <td class="table-rank">17</td>
+          <td class="table-product"><a href="https://articulo.mercadolibre.com.mx/MLM-2852599333-tapete-bano-ultra-suave-antideslizante-absorbente-de-agua-_JM" target="_blank">Tapete Baño Ultra Suave Antideslizante</a></td>
+          <td>BIAOJUE</td>
+          <td><span class="stars">★★★★★</span> 5.0</td>
+          <td><span class="pill pill-neutral">+100</span></td>
+          <td>$297.20</td>
+          <td><strong>$124.54</strong></td>
+          <td><span class="pill pill-error">58% OFF</span></td>
+          <td>—</td>
+          <td>Suave</td>
+        </tr>
+        <tr>
+          <td class="table-rank">18</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/wegalife-tapete-bano-tejida-conformadegofre-antideslizante-absorbente-alfombra-absorbente-plegable-tapete-salida-de-bano-antiderrapante-estera-hipoalergenica-lavable-marron/p/MLM75777624" target="_blank">WEGALIFE Tapete Tejida Gofre Marrón</a></td>
+          <td>WEGALIFE</td>
+          <td><span class="stars">★★★★½</span> 4.5</td>
+          <td><span class="pill pill-neutral">+50</span></td>
+          <td>$269.00</td>
+          <td><strong>$129.99</strong></td>
+          <td><span class="pill pill-error">51% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Tejida</td>
+        </tr>
+        <tr>
+          <td class="table-rank">19</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapete-antiderrapante-gris-35x70-cm-pvc-con-ventosas-y-drenaje-para-bano/p/MLM53211958" target="_blank">Tapete PVC con Ventosas 35x70cm Gris</a></td>
+          <td>AWVUQ</td>
+          <td><span class="stars">★★★★★</span> 4.9</td>
+          <td><span class="pill pill-info">+500</span></td>
+          <td>$251.87</td>
+          <td><strong>$129.06</strong></td>
+          <td><span class="pill pill-warning">48% OFF</span></td>
+          <td>—</td>
+          <td>PVC</td>
+        </tr>
+        <tr>
+          <td class="table-rank">20</td>
+          <td class="table-product"><a href="https://www.mercadolibre.com.mx/tapetes-para-bano-absorbentes-antideslizante-vanance-juego-de-bano-4060cm-tapetes-coral-fleece-pebble-patron-forma-tapete-para-bano-gris-oscuro/p/MLM60104508" target="_blank">VANANCE Juego Coral Fleece 40x60cm</a></td>
+          <td>VANANCE</td>
+          <td><span class="stars">★★★★½</span> 4.7</td>
+          <td><span class="pill pill-success">+1000</span></td>
+          <td>$219.00</td>
+          <td><strong>$91.98</strong></td>
+          <td><span class="pill pill-error">58% OFF</span></td>
+          <td><span class="pill pill-info">Gratis</span></td>
+          <td>Coral Fleece</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Material Analysis -->
+<section class="section" style="padding-top:0;">
+  <h2 class="section-title">Análisis por Tipo de Material</h2>
+  <p class="section-sub">Segmentación por material y formato dominante</p>
+  <div class="section-rule"></div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title">🧽 Ultra Suave / Antideslizante (45%)</div>
+      <div class="card-body">
+        Segmento dominante con 9 productos. Material textil suave y absorbente, generalmente poliéster o microfibra. Precio actual promedio: <strong>$136</strong>. Calificación promedio: <strong>4.6 ★</strong>.
+      </div>
+      <div class="card-meta">Ej: RAGANET, JIARUI, HUIRAN, BIAOJUE</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🪨 Piedra de Diatomeas (15%)</div>
+      <div class="card-body">
+        Segmento premium con tecnología de secado ultra rápido. Precio actual más alto: <strong>$199–$398</strong>. Alta calificación: <strong>4.7 ★</strong>. Nicho en crecimiento con 3 productos en Top 20.
+      </div>
+      <div class="card-meta">Ej: FOUORTUNATE-BEE (2 productos), sin marca (#6)</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🧶 Tejida / Gofre (15%)</div>
+      <div class="card-body">
+        Diseño tejido tipo waffle, antideslizante y absorbente. Precio: <strong>$130–$163</strong>. Calificación alta: <strong>4.7 ★</strong>. Buena relación calidad-precio.
+      </div>
+      <div class="card-meta">Ej: TAPETE BAÑO, WEGALIFE</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🐑 Peluche / Coral Fleece (10%)</div>
+      <div class="card-body">
+        Sets de múltiples piezas con textura afelpada. Precio: <strong>$92–$199</strong>. Calificación: <strong>4.3 ★</strong> (menor, posiblemente por expectativas de calidad).
+      </div>
+      <div class="card-meta">Ej: VANANCE, Peluche 4pzs</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🧠 Memory Foam (5%)</div>
+      <div class="card-body">
+        El #1 en ventas (+10mil). Espuma viscoelástica con secado rápido. Precio: <strong>$110</strong>. Excelente desempeño comercial. Único en su categoría.
+      </div>
+      <div class="card-meta">Ej: RAGANET</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔩 PVC / Especiales (10%)</div>
+      <div class="card-body">
+        PVC con ventosas, tapetes para mingitorio. Precio bajo: <strong>$94–$129</strong>. Nicho específico con buena calificación: <strong>4.9 ★</strong>.
+      </div>
+      <div class="card-meta">Ej: AWVUQ, WIESE</div>
+    </div>
+  </div>
+</section>
+
+<!-- Competitive Insights Chart -->
+<section class="section" style="padding-top:0;">
+  <div class="chart-row">
+    <div class="chart-box">
+      <div class="chart-box-title">Participación por Tipo de Material</div>
+      <div style="position:relative; height:260px;">
+        <canvas id="materialChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-box-title">Precio Actual por Segmento (Promedio MXN)</div>
+      <div style="display:flex; flex-direction:column; gap:4px; padding-top:8px;">
+        <div class="progress-row"><span class="progress-label">Piedra</span><div class="progress-track"><div class="progress-fill" style="width:100%;background:#5FA882;"></div></div><span class="progress-val">$275</span></div>
+        <div class="progress-row"><span class="progress-label">Peluche/Set</span><div class="progress-track"><div class="progress-fill" style="width:53%;background:#8FC5A8;"></div></div><span class="progress-val">$145</span></div>
+        <div class="progress-row"><span class="progress-label">Tejida</span><div class="progress-track"><div class="progress-fill" style="width:53%;background:#8FC5A8;"></div></div><span class="progress-val">$147</span></div>
+        <div class="progress-row"><span class="progress-label">Suave</span><div class="progress-track"><div class="progress-fill" style="width:49%;background:#A3C9B5;"></div></div><span class="progress-val">$136</span></div>
+        <div class="progress-row"><span class="progress-label">PVC/Especial</span><div class="progress-track"><div class="progress-fill" style="width:41%;background:#C4DCD0;"></div></div><span class="progress-val">$112</span></div>
+        <div class="progress-row"><span class="progress-label">Memory</span><div class="progress-track"><div class="progress-fill" style="width:40%;background:#D7EDE2;"></div></div><span class="progress-val">$110</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Key Insights -->
+<section class="section" style="padding-top:0;">
+  <h2 class="section-title">Hallazgos Competitivos Clave</h2>
+  <p class="section-sub">Lo que revelan los datos para entrar o competir en este mercado</p>
+  <div class="section-rule"></div>
+
+  <div class="alert alert-warning">
+    <div class="alert-title">⚠️ Mercado altamente promocionado</div>
+    El descuento promedio es del 42%. Solo 2 productos se venden sin descuento. Entrar sin una estrategia de descuento agresiva (35%+) es casi inviable. Los consumidores mexicanos en Mercado Libre esperan ofertas.
+  </div>
+
+  <div class="alert alert-info">
+    <div class="alert-title">💡 Oportunidad: Piedra de Diatomeas</div>
+    Es el segmento de mayor precio ($275 promedio) con solo 3 competidores y calificación alta (4.7★). Barrera de entrada baja — los vendedores actuales no son marcas reconocidas. Un producto bien presentado con buen precio ($180–$250) podría capturar rápidamente este nicho premium.
+  </div>
+
+  <div class="alert alert-success">
+    <div class="alert-title">🏆 Fórmula ganadora: Sets de 2–3 piezas</div>
+    Los productos en set (2pzs, 3pzs, 4pzs) representan el 40% del Top 20 y logran tickets más altos. El valor percibido es mayor. Combinar "set" + "ultra suave" + "antideslizante" + descuento 40%+ parece la fórmula más replicable.
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title">📊 Perfil del Consumidor</div>
+      <div class="card-body">
+        <ul class="insight-list">
+          <li>Busca <strong>calidad a precio bajo</strong> — el precio promedio final es $163 pero el original es $282</li>
+          <li>Prioriza <strong>antideslizante</strong> y <strong>absorbente</strong> como atributos clave</li>
+          <li>Confía en calificaciones — productos bajo 4.0★ tienen bajo volumen de ventas</li>
+          <li>60% prefiere productos con <strong>envío gratis</strong></li>
+          <li>Alta sensibilidad al descuento — los % OFF grandes atraen más ventas</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🎯 Recomendaciones para Competir</div>
+      <div class="card-body">
+        <ul class="insight-list">
+          <li><strong>Precio de entrada:</strong> $120–$180 MXN (zona de mayor volumen)</li>
+          <li><strong>Descuento mínimo:</strong> 40% OFF desde un precio original inflado</li>
+          <li><strong>Diferenciación:</strong> Piedra de diatomeas o diseño único (hoja, geométrico)</li>
+          <li><strong>Formato:</strong> Set de 2–3 piezas para maximizar ticket</li>
+          <li><strong>Calidad:</strong> Apuntar a 4.5★+, responder reseñas, fotos reales</li>
+          <li><strong>Envío:</strong> Ofertar envío gratis (Fullfilment de Mercado Libre si es posible)</li>
+          <li><strong>Marca:</strong> Los Top 5 vendedores no tienen marcas fuertes — oportunidad de branding</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-blob footer-blob-1"></div>
+  <div class="footer-blob footer-blob-2"></div>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-title">Análisis Competitivo</div>
+      <div class="footer-brand-sub">Tapetes de Baño · Mercado Libre México</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Referencias</div>
+      <a href="https://www.mercadolibre.com.mx/mas-vendidos/MLM151569#origin=vip" target="_blank">Mercado Libre — Más Vendidos</a>
+      <a href="https://www.mercadolibre.com.mx/c/hogar-muebles-y-jardin" target="_blank">Categoría Hogar</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Datos</div>
+      <a>20 productos analizados</a>
+      <a>Agosto 2026</a>
+    </div>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">
+    <span>Datos extraídos de Mercado Libre México · Tapetes de Baño (MLM151569)</span>
+    <span>Generado por <a href="https://allyhub.com" target="_blank" style="color:var(--text-secondary);">AllyHub AI</a></span>
+  </div>
+</footer>
+
+</div>
+
+<script>
+// Price Distribution Chart
+const priceCtx = document.getElementById('priceChart').getContext('2d');
+const prices = [110.20,97.45,189.99,112.56,162.96,398,128,120.90,178,199.66,94.05,201.24,198.60,246.05,225.81,97.27,124.54,129.99,129.06,91.98];
+const labels = prices.map((_,i) => '#'+(i+1));
+new Chart(priceCtx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [{
+      data: prices,
+      backgroundColor: prices.map(p => p > 200 ? '#5FA882' : p > 150 ? '#8FC5A8' : '#C4DCD0'),
+      borderRadius: 4,
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: { grid: { color: '#E8E6E2' }, ticks: { callback: v => '$'+v, font: { size: 11 } } }
+    }
+  }
+});
+
+// Discount vs Rating Scatter
+const drCtx = document.getElementById('discountRatingChart').getContext('2d');
+const products = [
+  {r:4.7, d:44, l:'RAGANET', s:'+10mil'},{r:4.0, d:43, l:'#2', s:'+100'},{r:4.5, d:36, l:'JISHOP', s:'+1k'},
+  {r:4.5, d:46, l:'JIARUI', s:'+100'},{r:4.9, d:45, l:'T.BAÑO', s:'+1k'},{r:4.8, d:33, l:'Piedra', s:'+500'},
+  {r:4.8, d:35, l:'KEAN', s:'+500'},{r:4.8, d:65, l:'HUIRAN', s:'+100'},{r:4.1, d:64, l:'HOOSUFU', s:'+500'},
+  {r:4.7, d:33, l:'F-BEE', s:'+1k'},{r:4.8, d:5, l:'WIESE', s:'+1k'},{r:4.8, d:32, l:'T.BAÑO', s:'+100'},
+  {r:3.9, d:33, l:'Peluche', s:'+500'},{r:4.8, d:5, l:'BEST S.', s:'+500'},{r:4.7, d:48, l:'F-BEE', s:'+1k'},
+  {r:4.8, d:0, l:'WAYFUN', s:'+500'},{r:5.0, d:58, l:'BIAOJUE', s:'+100'},{r:4.5, d:51, l:'WEGALIFE', s:'+50'},
+  {r:4.9, d:48, l:'AWVUQ', s:'+500'},{r:4.7, d:58, l:'VANANCE', s:'+1k'}
+];
+new Chart(drCtx, {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      data: products.map(p => ({x: p.d, y: p.r})),
+      backgroundColor: products.map(p => p.d > 50 ? '#E47700' : p.d > 30 ? '#5FA882' : '#717171'),
+      pointRadius: products.map(p => {
+        const s = p.s;
+        if (s === '+10mil') return 14;
+        if (s === '+1k') return 10;
+        if (s === '+500') return 7;
+        return 5;
+      }),
+      pointHoverRadius: 12
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const p = products[ctx.dataIndex];
+            return p.l + ': ' + p.r + '★ | ' + p.d + '% OFF | ' + p.s + ' vendidos';
+          }
+        }
+      }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Descuento %', font: { size: 11 } }, grid: { color: '#E8E6E2' }, min: -5, max: 70 },
+      y: { title: { display: true, text: 'Calificación ★', font: { size: 11 } }, grid: { color: '#E8E6E2' }, min: 3.5, max: 5.2 }
+    }
+  }
+});
+
+// Material Pie Chart
+const matCtx = document.getElementById('materialChart').getContext('2d');
+new Chart(matCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Ultra Suave', 'Piedra Diatomeas', 'Tejida/Gofre', 'Peluche/Set', 'PVC/Especial', 'Memory'],
+    datasets: [{
+      data: [9, 3, 3, 2, 2, 1],
+      backgroundColor: ['#5FA882','#8FC5A8','#A3C9B5','#C4DCD0','#D7EDE2','#E8F0EB'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '60%',
+    plugins: {
+      legend: { display: false }
+    }
+  }
+});
+</script>
+</body>
+</html>
