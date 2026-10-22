@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美客多墨西哥站 · LED镜子竞争分析报告</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Noto+Serif:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --outer-bg: #E4E1DC;
+  --page-bg: #FDFCF9;
+  --surface: #FFFFFF;
+  --border: #E8E6E2;
+  --divider: #C5C0BA;
+  --text-primary: #151515;
+  --text-body: #3D3D3D;
+  --text-secondary: #717171;
+  --hero-bg: #E2E8E8;
+  --hero-deco: #96B4B4;
+  --hero-deco2: #6A9898;
+  --success-bg: #E8FBCF; --success-fg: #3D4826;
+  --warning-bg: #FFF0DC; --warning-fg: #E47700;
+  --info-bg: #DEE5F7; --info-fg: #3E54CE;
+  --error-bg: #FDECEA; --error-fg: #C4433A;
+  --neutral-bg: #FDF9F2; --neutral-fg: #7C746F;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter Tight', sans-serif;
+  background: var(--outer-bg);
+  color: var(--text-body);
+  line-height: 1.6;
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 40px auto;
+  background: var(--page-bg);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: var(--hero-bg);
+  padding: 48px 56px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-blob {
+  position: absolute;
+  border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+  pointer-events: none;
+}
+.hero-blob-1 { width: 180px; height: 160px; top: -40px; right: 12%; background: var(--hero-deco); opacity: 0.15; transform: rotate(15deg); }
+.hero-blob-2 { width: 140px; height: 120px; bottom: -30px; left: 8%; background: var(--hero-deco2); opacity: 0.13; transform: rotate(-20deg); border-radius: 30% 70% 50% 60% / 60% 40% 60% 40%; }
+.hero-blob-3 { width: 100px; height: 90px; top: 20px; left: 55%; background: var(--hero-deco); opacity: 0.1; transform: rotate(45deg); border-radius: 70% 30% 40% 60% / 40% 60% 50% 50%; }
+
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.hero-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.hero-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.hero-divider {
+  border: none;
+  border-top: 0.5px solid rgba(255,255,255,0.5);
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  position: relative;
+}
+
+.hero-stat {
+  text-align: left;
+}
+
+.hero-stat-value {
+  font-family: 'Noto Serif', serif;
+  font-size: 48px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* ===== CONTENT ===== */
+.content {
+  padding: 40px 56px 48px;
+}
+
+/* Section */
+.section {
+  margin-bottom: 44px;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.section-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.section-rule {
+  border: none;
+  border-top: 0.5px solid var(--border);
+  margin-bottom: 20px;
+}
+
+/* Metric Cards */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.metric-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.metric-value {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.metric-delta {
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.metric-delta.up { color: var(--success-fg); }
+.metric-delta.info { color: var(--info-fg); }
+
+/* Two-column grid */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.card-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+/* Chart container */
+.chart-container {
+  position: relative;
+  height: 280px;
+}
+
+/* Table */
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--divider);
+  white-space: nowrap;
+}
+
+tbody td {
+  font-size: 13px;
+  padding: 10px 12px;
+  border-bottom: 0.5px solid var(--border);
+  vertical-align: top;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Pills */
+.pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+.pill-green { background: var(--success-bg); color: var(--success-fg); }
+.pill-blue { background: var(--info-bg); color: var(--info-fg); }
+.pill-warm { background: var(--warning-bg); color: var(--warning-fg); }
+.pill-neutral { background: var(--neutral-bg); color: var(--neutral-fg); }
+
+/* Alert */
+.alert {
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.alert-info { background: var(--info-bg); color: var(--info-fg); }
+.alert-warning { background: var(--warning-bg); color: var(--warning-fg); }
+
+.alert-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+/* Progress bar */
+.progress-row {
+  margin-bottom: 12px;
+}
+
+.progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.progress-label { color: var(--text-body); }
+.progress-value { color: var(--text-secondary); font-weight: 500; }
+
+.progress-track {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.progress-fill.blue { background: #7F8FE0; }
+.progress-fill.mist { background: #6A9898; }
+.progress-fill.warm { background: #E47700; }
+
+/* Feature grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.feature-card-value {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.feature-card-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.feature-card-pct {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--hero-bg);
+  padding: 32px 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer .hero-blob-1 { width: 120px; height: 100px; top: 10px; right: 6%; }
+.footer .hero-blob-2 { width: 100px; height: 80px; bottom: -20px; left: 5%; }
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.footer-brand {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.footer-brand-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.footer-meta {
+  display: flex;
+  gap: 40px;
+}
+
+.footer-meta-col {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.footer-meta-col div + div { margin-top: 6px; }
+
+.footer-divider {
+  border: none;
+  border-top: 0.5px solid rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.footer-bottom a { color: var(--info-fg); text-decoration: none; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .page { margin: 0; border-radius: 0; }
+  .hero { padding: 32px 20px 28px; }
+  .content { padding: 24px 20px; }
+  .footer { padding: 24px 20px; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+  .hero-stat-value { font-size: 36px; }
+  .footer-top { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-blob hero-blob-3"></div>
+
+  <div class="hero-eyebrow">Competitive Analysis · Julio 2026</div>
+  <h1 class="hero-title">美客多墨西哥站 · LED 镜子竞争分析</h1>
+  <p class="hero-subtitle">
+    基于 Mercado Libre México 搜索 "espejo"、"espejo LED"、"espejo pared" 的前排数据，
+    共收集 <strong>92 款独立商品</strong>，覆盖 8 个搜索页面，进行全方位的竞争格局分析。
+  </p>
+
+  <hr class="hero-divider">
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-value">79%</div>
+      <div class="hero-stat-label">LED 镜子占比（Top 搜索结果）</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">$295</div>
+      <div class="hero-stat-label">LED 镜子中位价 (MXN)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">9,999+</div>
+      <div class="hero-stat-label">"espejo" 搜索结果总数</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">4.8</div>
+      <div class="hero-stat-label">LED 镜子平均评分 / 5</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTENT ===== -->
+<div class="content">
+
+<!-- SECTION 1: Market Overview -->
+<section class="section">
+  <h2 class="section-title">📊 市场总览</h2>
+  <p class="section-subtitle">美客多墨西哥站镜子品类的搜索量与品类结构</p>
+  <hr class="section-rule">
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">"espejo" 结果数</div>
+      <div class="metric-value">9,999+</div>
+      <div class="metric-delta info">LED 主导</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">"espejo LED" 结果数</div>
+      <div class="metric-value">2,820</div>
+      <div class="metric-delta info">细分市场</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">"espejo pared" 结果数</div>
+      <div class="metric-value">9,999+</div>
+      <div class="metric-delta info">含大量LED</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">采集商品数</div>
+      <div class="metric-value">92</div>
+      <div class="metric-delta info">去重后</div>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <div class="alert-title">💡 关键发现</div>
+    在 "espejo"（镜子）大类搜索中，前 3 页几乎 <strong>100% 为 LED 镜子</strong>，说明 LED 镜子已成为墨西哥镜子市场的主流品类。非 LED 普通镜子在前排几乎不出现，需要在 "espejo decorativo" 等更细分的搜索中才能找到。
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">LED vs 非LED 比例</div>
+      <div class="card-meta">92 款采集商品中的分布</div>
+      <div class="chart-container">
+        <canvas id="ledVsNonled"></canvas>
+      </div>
+      <div class="legend" style="justify-content: center;">
+        <div class="legend-item"><span class="legend-dot" style="background:#6A9898;"></span> LED 镜子 (73)</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#C5C0BA;"></span> 非LED镜子 (19)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">各搜索词贡献</div>
+      <div class="card-meta">不同搜索词收集到的商品数（去重后）</div>
+      <div class="chart-container">
+        <canvas id="searchContribution"></canvas>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-dot" style="background:#6A9898;"></span> espejo</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#96B4B4;"></span> espejo LED</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#D5E0E0;"></span> espejo pared</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: Price Analysis -->
+<section class="section">
+  <h2 class="section-title">💰 价格竞争分析</h2>
+  <p class="section-subtitle">LED 镜子价格分布、主力价格带及定价策略</p>
+  <hr class="section-rule">
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">最低价</div>
+      <div class="metric-value">$156</div>
+      <div class="metric-delta">≈ $8 USD</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">中位价</div>
+      <div class="metric-value">$295</div>
+      <div class="metric-delta">≈ $15 USD</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">平均价</div>
+      <div class="metric-value">$453</div>
+      <div class="metric-delta">≈ $23 USD</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">最高价</div>
+      <div class="metric-value">$1,619</div>
+      <div class="metric-delta">≈ $83 USD</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">价格带分布</div>
+      <div class="card-meta">73 款 LED 镜子在各价格区间的分布</div>
+      <div class="chart-container">
+        <canvas id="priceDistribution"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">价格竞争强度分析</div>
+      <div class="card-meta">核心价格带的卖家密度</div>
+      <div style="margin-top: 8px;">
+        <div class="progress-row">
+          <div class="progress-label-row">
+            <span class="progress-label">$150–$300 MXN（核心区）</span>
+            <span class="progress-value">39 款 · 53%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill blue" style="width: 53%;"></div>
+          </div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label-row">
+            <span class="progress-label">$300–$500 MXN（中端区）</span>
+            <span class="progress-value">18 款 · 25%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill mist" style="width: 25%;"></div>
+          </div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label-row">
+            <span class="progress-label">$500–$800 MXN（中高端）</span>
+            <span class="progress-value">3 款 · 4%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill warm" style="width: 4%;"></div>
+          </div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label-row">
+            <span class="progress-label">$800+ MXN（高端）</span>
+            <span class="progress-value">13 款 · 18%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: 18%; background: #C5C0BA;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning" style="margin-top: 16px;">
+        <div class="alert-title">⚠️ 价格红海警告</div>
+        <strong>$150–$300 MXN 区间占了 53% 的商品</strong>，竞争极为激烈。该区间产品同质化严重（多为 3 色调光触摸LED镜），价格战明显。建议关注 <strong>$500–$800 MXN 中高端区间（仅 4% 商品）</strong>或 <strong>$800+ 高端区间</strong>作为差异化切入点。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: Seller Competition -->
+<section class="section">
+  <h2 class="section-title">🏪 卖家竞争格局</h2>
+  <p class="section-subtitle">头部卖家、品牌识别度与市场集中度</p>
+  <hr class="section-rule">
+
+  <div class="alert alert-info">
+    <div class="alert-title">📌 市场特征：高度碎片化</div>
+    LED 镜子市场呈现典型的 <strong>长尾分布</strong>——大部分商品来自无法直接识别品牌的独立卖家（多使用店铺名如 "扬泽克的拉加内特"、"基斯特拉" 等），品牌化程度低，存在品牌突围机会。
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">可识别品牌 Top 10</div>
+      <div class="card-meta">按估计销量排序</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>品牌</th><th>产品数</th><th>估算总销量</th><th>均价</th><th>均分</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>EINNOE</strong></td><td>2</td><td>~11,000</td><td>$289</td><td><span class="pill pill-green">4.8</span></td></tr>
+            <tr><td><strong>TLIMAST</strong></td><td>1</td><td>~10,000</td><td>$238</td><td><span class="pill pill-green">4.8</span></td></tr>
+            <tr><td><strong>OWKUAN</strong></td><td>2</td><td>~6,000</td><td>$214</td><td><span class="pill pill-green">4.8</span></td></tr>
+            <tr><td><strong>DASHLINE</strong></td><td>1</td><td>~5,000</td><td>$218</td><td><span class="pill pill-green">4.9</span></td></tr>
+            <tr><td><strong>KIXTLA</strong></td><td>2</td><td>~2,000</td><td>$428</td><td><span class="pill pill-green">4.9</span></td></tr>
+            <tr><td><strong>MIHAYU</strong></td><td>2</td><td>~2,000</td><td>$240</td><td><span class="pill pill-green">4.9</span></td></tr>
+            <tr><td><strong>Casavidi</strong></td><td>3</td><td>~2,000</td><td>$229</td><td><span class="pill pill-green">4.8</span></td></tr>
+            <tr><td><strong>JIAHONGLONG</strong></td><td>1</td><td>~1,000</td><td>$387</td><td><span class="pill pill-green">4.9</span></td></tr>
+            <tr><td><strong>PTHTECHUS</strong></td><td>1</td><td>~1,000</td><td>$212</td><td><span class="pill pill-green">4.7</span></td></tr>
+            <tr><td><strong>Rivalink</strong></td><td>1</td><td>~500</td><td>$1,260</td><td><span class="pill pill-green">4.8</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Top 爆款单品</div>
+      <div class="card-meta">销量最高的 LED 镜子（估算）</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>商品</th><th>售价</th><th>销量</th><th>评分</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Espejo Luz Led Touch Pared Tocador Baño 3 Luces</td>
+              <td>$199</td>
+              <td><span class="pill pill-warm">~250K</span></td>
+              <td>4.8</td>
+            </tr>
+            <tr>
+              <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Espejo Luz Led Pared Tocador Baño Touch 3 Luces (50x70cm)</td>
+              <td>$369</td>
+              <td><span class="pill pill-warm">~100K</span></td>
+              <td>4.8</td>
+            </tr>
+            <tr>
+              <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Espejo Luz Led Pared Tocador Baño Touch 3 Luces</td>
+              <td>$349</td>
+              <td><span class="pill pill-warm">~100K</span></td>
+              <td>4.8</td>
+            </tr>
+            <tr>
+              <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">LED触摸壁镜 浴室梳妆台 50x50cm 白色</td>
+              <td>$268</td>
+              <td><span class="pill pill-blue">~10K</span></td>
+              <td>4.9</td>
+            </tr>
+            <tr>
+              <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Espejo Luz Led Touch Pared Baño 3 Luces (矩形)</td>
+              <td>$203</td>
+              <td><span class="pill pill-blue">~10K</span></td>
+              <td>4.8</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size: 12px; color: var(--text-secondary); margin-top: 12px;">
+        * 销量为基于美客多页面显示 "vendidos" 标签的估算值，实际可能更高。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: Product Features -->
+<section class="section">
+  <h2 class="section-title">🔧 产品特性分析</h2>
+  <p class="section-subtitle">LED 镜子的功能配置趋势与差异化机会</p>
+  <hr class="section-rule">
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-card-value">68%</div>
+      <div class="feature-card-label">触控开关</div>
+      <div class="feature-card-pct">50 / 73 款</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-value">48%</div>
+      <div class="feature-card-label">3 色温调光</div>
+      <div class="feature-card-pct">35 / 73 款</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-value">16%</div>
+      <div class="feature-card-label">带边框</div>
+      <div class="feature-card-pct">12 / 73 款</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-value">12%</div>
+      <div class="feature-card-label">防雾功能</div>
+      <div class="feature-card-pct">9 / 73 款</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-value">4%</div>
+      <div class="feature-card-label">无框设计</div>
+      <div class="feature-card-pct">3 / 73 款</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-card-value">3%</div>
+      <div class="feature-card-label">带时钟</div>
+      <div class="feature-card-pct">2 / 73 款</div>
+    </div>
+  </div>
+
+  <div class="alert alert-info" style="margin-top: 16px;">
+    <div class="alert-title">💡 差异化机会</div>
+    <strong>防雾功能</strong>（仅 12%）、<strong>带时钟</strong>（仅 3%）和 <strong>无框设计</strong>（仅 4%）是目前覆盖率很低的差异化特性，适合作为产品升级的切入点。另外，<strong>智能家居集成</strong>（如 Alexa/Google Home 联动）、<strong>人体感应</strong>等高级功能在美客多墨西哥站几乎空白。
+  </div>
+</section>
+
+<!-- SECTION 5: Shape & Size -->
+<section class="section">
+  <h2 class="section-title">📐 形状与尺寸分析</h2>
+  <p class="section-subtitle">流行款式与规格分布</p>
+  <hr class="section-rule">
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">形状分布</div>
+      <div class="card-meta">LED 镜子的款型偏好</div>
+      <div class="chart-container" style="height: 250px;">
+        <canvas id="shapeChart"></canvas>
+      </div>
+      <div class="legend" style="justify-content: center;">
+        <div class="legend-item"><span class="legend-dot" style="background:#6A9898;"></span> 矩形 30%</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#96B4B4;"></span> 圆形 12%</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#B8D0D0;"></span> 拱形 5%</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#D5E0E0;"></span> 异形 4%</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#C5C0BA;"></span> 椭圆/方形 4%</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">热门尺寸排行</div>
+      <div class="card-meta">出现频率最高的产品尺寸</div>
+      <div style="margin-top: 8px;">
+        <div class="progress-row">
+          <div class="progress-label-row">
+            <span class="progress-label">40×60 cm</span>
+            <span class="progress-value">5 款</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill blue" style="width: 100%;"></div>
+          </div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label-row">
+            <span class="progress-label">50×70 cm</span>
+            <span class="progress-value">4 款</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill blue" style="width: 80%;"></div>
+          </div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label-row">
+            <span class="progress-label">110×40 cm（长条形）</span>
+            <span class="progress-value">4 款</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill mist" style="width: 80%;"></div>
+          </div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label-row">
+            <span class="progress-label">60×40 cm</span>
+            <span class="progress-value">3 款</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill mist" style="width: 60%;"></div>
+          </div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label-row">
+            <span class="progress-label">45×45 cm（方形）</span>
+            <span class="progress-value">1 款</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill warm" style="width: 20%;"></div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size: 12px; color: var(--text-secondary); margin-top: 12px;">
+        <strong>40×60cm</strong> 是最主流的尺寸，适合浴室/梳妆台。长条形 <strong>110×40cm</strong> 是新兴趋势，用于全身镜场景。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: Rating Analysis -->
+<section class="section">
+  <h2 class="section-title">⭐ 评分与口碑分析</h2>
+  <p class="section-subtitle">买家满意度与质量信号</p>
+  <hr class="section-rule">
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">平均评分</div>
+      <div class="metric-value">4.8</div>
+      <div class="metric-delta up">非常高</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">最高频评分</div>
+      <div class="metric-value">4.8</div>
+      <div class="metric-delta info">最常见</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">4.5+ 占比</div>
+      <div class="metric-value">92%</div>
+      <div class="metric-delta up">优秀</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">满分 5.0 数</div>
+      <div class="metric-value">7 款</div>
+      <div class="metric-delta info">高质量标杆</div>
+    </div>
+  </div>
+
+  <div class="alert alert-warning">
+    <div class="alert-title">⚠️ 评分门槛高</div>
+    LED 镜子品类的整体评分水平很高（均值 4.8），意味着 <strong>低评分产品很难获得曝光</strong>。新品进入需要确保产品质量过硬，评分低于 4.5 将是明显的竞争劣势。
+  </div>
+</section>
+
+<!-- SECTION 7: Opportunity Assessment -->
+<section class="section">
+  <h2 class="section-title">🎯 机会评估与建议</h2>
+  <p class="section-subtitle">基于数据洞察的市场进入策略</p>
+  <hr class="section-rule">
+
+  <div class="grid-2">
+    <div class="card" style="border-left: 3px solid #6A9898;">
+      <div class="card-title">🟢 蓝海机会 1：中高端差异化</div>
+      <div class="card-meta">$500–$800 MXN 区间仅 4% 商品</div>
+      <p style="font-size:13px; color: var(--text-body); margin-top:8px;">
+        该价格带竞争低，可以用<strong>防雾+时钟+无框设计</strong>的组合打造差异化产品，避开 $150–$300 的红海。建议零售定价 $599–$799 MXN。
+      </p>
+    </div>
+
+    <div class="card" style="border-left: 3px solid #96B4B4;">
+      <div class="card-title">🟢 蓝海机会 2：大尺寸全身镜</div>
+      <div class="card-meta">110×40cm 长条形为新兴趋势</div>
+      <p style="font-size:13px; color: var(--text-body); margin-top:8px;">
+        大尺寸 LED 全身镜（如 150×50cm 或 160×60cm）在搜索结果中几乎不存在。可作为品类开创者进入，配合落地支架设计，定价 $800–$1,200 MXN。
+      </p>
+    </div>
+
+    <div class="card" style="border-left: 3px solid #B8D0D0;">
+      <div class="card-title">🟢 蓝海机会 3：品牌化运营</div>
+      <div class="card-meta">市场高度碎片化，缺乏强势品牌</div>
+      <p style="font-size:13px; color: var(--text-body); margin-top:8px;">
+        当前 75%+ 的商品来自不可识别品牌。建立一个<strong>清晰的墨西哥本地化品牌</strong>（西班牙语品牌名+本地化的产品描述+品牌故事），可以在消费者心智中占据先发优势。
+      </p>
+    </div>
+
+    <div class="card" style="border-left: 3px solid #D5E0E0;">
+      <div class="card-title">🟡 需谨慎：低价红海</div>
+      <div class="card-meta">$150–$300 区间 53% 商品在此竞争</div>
+      <p style="font-size:13px; color: var(--text-body); margin-top:8px;">
+        该区间虽然销量最大（头部爆款销量达 25 万件），但<strong>同质化极其严重</strong>，几乎全部是 "3 色触摸 LED 壁镜" 的翻版。除非有供应链成本优势，否则不推荐从该区间切入。
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top: 20px;" class="card">
+    <div class="card-title">📋 行动建议总结</div>
+    <div style="margin-top: 12px;">
+      <table>
+        <thead>
+          <tr><th>维度</th><th>建议</th><th>优先级</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>定价策略</td>
+            <td>主攻 $500–$800 MXN 中高端段，避开 $150–$300 红海</td>
+            <td><span class="pill pill-green">高</span></td>
+          </tr>
+          <tr>
+            <td>产品差异</td>
+            <td>防雾+时钟+无框设计组合，或智能家居集成</td>
+            <td><span class="pill pill-green">高</span></td>
+          </tr>
+          <tr>
+            <td>尺寸选择</td>
+            <td>优先上架 40×60cm（主流），差异化推 110×40cm 全身镜</td>
+            <td><span class="pill pill-blue">中</span></td>
+          </tr>
+          <tr>
+            <td>品牌建设</td>
+            <td>注册西班牙语品牌名，优化 Listing 本地化描述</td>
+            <td><span class="pill pill-green">高</span></td>
+          </tr>
+          <tr>
+            <td>质量把控</td>
+            <td>确保评分不低于 4.5，目标 4.7+（品类均值 4.8）</td>
+            <td><span class="pill pill-green">高</span></td>
+          </tr>
+          <tr>
+            <td>物流策略</td>
+            <td>使用 Mercado Envíos Full 获得 "FULL" 标签和快速配送曝光</td>
+            <td><span class="pill pill-blue">中</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8: References -->
+<section class="section">
+  <h2 class="section-title">📎 数据来源</h2>
+  <p class="section-subtitle">本次分析所参考的美客多页面链接</p>
+  <hr class="section-rule">
+
+  <div style="font-size: 13px; color: var(--text-secondary); line-height: 2;">
+    <div>· <a href="https://listado.mercadolibre.com.mx/espejo" target="_blank" style="color: var(--info-fg);">Mercado Libre México — "espejo" 搜索结果</a></div>
+    <div>· <a href="https://listado.mercadolibre.com.mx/espejo-led" target="_blank" style="color: var(--info-fg);">Mercado Libre México — "espejo LED" 搜索结果</a></div>
+    <div>· <a href="https://listado.mercadolibre.com.mx/espejo-pared" target="_blank" style="color: var(--info-fg);">Mercado Libre México — "espejo pared" 搜索结果</a></div>
+    <div>· <a href="https://www.mercadolibre.com.mx/" target="_blank" style="color: var(--info-fg);">Mercado Libre México 首页</a></div>
+    <div style="margin-top:8px; font-size: 12px;">
+      数据采集日期：2026年7月28日 · 采集页数：共 8 页 · 商品样本：92 款（去重后）
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<section class="footer">
+  <div class="hero-blob hero-blob-1" style="width:100px;height:80px;top:10px;right:8%;"></div>
+  <div class="hero-blob hero-blob-2" style="width:80px;height:70px;bottom:-15px;left:5%;"></div>
+
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">美客多墨西哥站 · LED 镜子竞争分析</div>
+      <div class="footer-brand-sub">Competitive Landscape Report</div>
+    </div>
+    <div class="footer-meta">
+      <div class="footer-meta-col">
+        <div>品类：Home, Furniture & Garden</div>
+        <div>子类：Mirrors</div>
+        <div>市场：México (MLM)</div>
+      </div>
+      <div class="footer-meta-col">
+        <div>商品样本：92 款</div>
+        <div>LED 占比：79%</div>
+        <div>价格中位数：$295 MXN</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="footer-divider">
+
+  <div class="footer-bottom">
+    <div>数据采集于 2026年7月28日 · 来源：Mercado Libre México</div>
+    <div>Generated by <a href="https://allyhub.com" target="_blank">AllyHub AI</a></div>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<script>
+// Color palette
+const mist = '#6A9898', mistLight = '#96B4B4', mistLighter = '#B8D0D0', mistLightest = '#D5E0E0';
+const grey = '#C5C0BA';
+const blue = '#7F8FE0';
+
+// Chart default
+Chart.defaults.font.family = "'Inter Tight', sans-serif";
+Chart.defaults.font.size = 12;
+
+// LED vs Non-LED Donut
+new Chart(document.getElementById('ledVsNonled'), {
+  type: 'doughnut',
+  data: {
+    labels: ['LED 镜子', '非LED 镜子'],
+    datasets: [{
+      data: [73, 19],
+      backgroundColor: [mist, grey],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '65%',
+    plugins: { legend: { display: false } }
+  }
+});
+
+// Search contribution bar chart
+new Chart(document.getElementById('searchContribution'), {
+  type: 'bar',
+  data: {
+    labels: ['espejo', 'espejo LED', 'espejo pared'],
+    datasets: [{
+      data: [64, 15, 13],
+      backgroundColor: [mist, mistLight, mistLightest],
+      borderRadius: 6,
+      borderWidth: 0,
+      barThickness: 40
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#717171' } },
+      y: { grid: { color: '#E8E6E2' }, ticks: { color: '#717171' }, border: { display: false } }
+    }
+  }
+});
+
+// Price Distribution
+new Chart(document.getElementById('priceDistribution'), {
+  type: 'bar',
+  data: {
+    labels: ['$150–$300', '$300–$500', '$500–$800', '$800+'],
+    datasets: [{
+      label: '商品数',
+      data: [39, 18, 3, 13],
+      backgroundColor: [mist, mistLight, mistLighter, mistLightest],
+      borderRadius: 6,
+      borderWidth: 0,
+      barThickness: 36
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: '#717171' } },
+      y: { grid: { color: '#E8E6E2' }, ticks: { color: '#717171', stepSize: 10 }, border: { display: false } }
+    }
+  }
+});
+
+// Shape Distribution
+new Chart(document.getElementById('shapeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['矩形', '圆形', '拱形', '异形', '椭圆', '方形'],
+    datasets: [{
+      data: [22, 9, 4, 3, 2, 1],
+      backgroundColor: [mist, mistLight, mistLighter, mistLightest, '#E2E8E8', grey],
+      borderRadius: 6,
+      borderWidth: 0,
+      barThickness: 24
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: '#E8E6E2' }, ticks: { color: '#717171' }, border: { display: false } },
+      y: { grid: { display: false }, ticks: { color: '#717171' }, border: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

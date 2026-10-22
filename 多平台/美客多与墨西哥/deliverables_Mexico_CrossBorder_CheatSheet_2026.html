@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>墨西哥跨境 · 四大平台 + RFC 一页纸速查卡（2026版）</title>
+<style>
+:root{--bg:#F5F4F1;--card:#FFFFFF;--border:#E0DED8;--text:#1A1A1A;--sub:#6B6B6B;--orange:#E47911;--yellow:#F4C542;--blue:#0071DC;--black:#1A1A1A;--green:#3D8240;--red:#C4433A;--info:#3E54CE}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter Tight',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;padding:16px}
+.sheet{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:1024px){.sheet{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.sheet{grid-template-columns:1fr}}
+
+.panel{background:var(--card);border:.5px solid var(--border);border-radius:10px;overflow:hidden}
+.panel-header{padding:10px 14px;font-weight:700;font-size:14px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.panel-body{padding:10px 14px}
+.panel-header .dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+.panel-meli .panel-header{background:#FFF8E7;color:#8B6914}.panel-meli .dot{background:var(--yellow)}
+.panel-amz  .panel-header{background:#FFF3E8;color:#8B4A0F}.panel-amz  .dot{background:var(--orange)}
+.panel-tt   .panel-header{background:#F5F5F5;color:#3A3A3A}.panel-tt   .dot{background:var(--black)}
+.panel-wmt  .panel-header{background:#EAF3FB;color:#0D4580}.panel-wmt  .dot{background:var(--blue)}
+.panel-rfc  .panel-header{background:#EDF0F8;color:#1E3180}.panel-rfc  .dot{background:var(--info)}
+
+.row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:.5px solid var(--border);font-size:12px}
+.row:last-child{border-bottom:none}
+.row .k{color:var(--sub);flex-shrink:0;margin-right:8px}
+.row .v{text-align:right;font-weight:500}
+.row .v.highlight{font-weight:700;color:var(--text)}
+
+.big-num{font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.big-num-sub{font-size:11px;color:var(--sub)}
+
+.tag{display:inline-block;padding:1px 6px;border-radius:10px;font-size:10px;font-weight:600}
+.tag-green{background:#E8FBCF;color:#3D4826}
+.tag-yellow{background:#FFF0DC;color:#E47700}
+.tag-red{background:#FDECEA;color:#C4433A}
+.tag-blue{background:#DEE5F7;color:#3E54CE}
+
+.full-width{grid-column:1/-1}
+
+.section-title{font-size:12px;font-weight:600;color:var(--sub);text-transform:uppercase;letter-spacing:.04em;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+
+.cost-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;text-align:center}
+.cost-grid .cost-item{padding:8px 4px;border-radius:6px;background:#FAFAF8;font-size:11px}
+.cost-grid .cost-item .val{font-size:15px;font-weight:700}
+.cost-grid .cost-item .lbl{color:var(--sub);font-size:10px}
+
+.pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.pill-row .pill{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;border:.5px solid var(--border);white-space:nowrap}
+
+.vs-table{width:100%;font-size:11px;border-collapse:collapse}
+.vs-table th{text-align:left;padding:6px 8px;font-weight:600;color:var(--sub);font-size:10px;text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--border)}
+.vs-table td{padding:6px 8px;border-bottom:.5px solid var(--border);vertical-align:top}
+.vs-table tr:last-child td{border-bottom:none}
+.vs-table td:first-child{font-weight:500}
+.vs-table .best{background:#F6FFF0}
+
+.footer-note{font-size:10px;color:var(--sub);text-align:center;padding:12px 0 0;grid-column:1/-1}
+
+@media print{
+body{background:white;padding:0}
+.sheet{gap:4px;max-width:100%}
+.panel{border-radius:4px;break-inside:avoid}
+.panel-header{padding:6px 10px;font-size:12px}
+.panel-body{padding:6px 10px}
+.row{padding:3px 0;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+<!-- ====== MELI ====== -->
+<div class="panel panel-meli">
+<div class="panel-header"><span class="dot"></span>Mercado Libre MX</div>
+<div class="panel-body">
+<div class="big-num">38% <span class="big-num-sub">市场份额</span></div>
+<div class="row"><span class="k">月活用户</span><span class="v">65M+</span></div>
+<div class="row"><span class="k">佣金率</span><span class="v">11%-19%</span></div>
+<div class="row"><span class="k">月费</span><span class="v highlight">¥0</span></div>
+<div class="row"><span class="k">低单价附加</span><span class="v">≤MXN 299 +MXN 33</span></div>
+<div class="row"><span class="k">仓储物流</span><span class="v">FULL / Direct</span></div>
+<div class="row"><span class="k">FULL转化加成</span><span class="v highlight">+15-30%</span></div>
+<div class="row"><span class="k">入驻门槛</span><span class="v"><span class="tag tag-yellow">中</span></span></div>
+<div class="row"><span class="k">RFC要求</span><span class="v"><span class="tag tag-red">强烈推荐</span></span></div>
+<div class="pill-row"><span class="pill">中国公司可入驻</span><span class="pill">Global Selling</span><span class="pill">MELI SPN</span><span class="pill">分期付款</span></div>
+<div class="section-title">最适合</div>
+<p style="font-size:11px">有本地仓的品牌卖家 · ASP MXN 300+ · 愿意用FULL履约</p>
+<div class="section-title">避坑重点</div>
+<p style="font-size:11px">别做 < MXN 200的单品（附加费吃利润）；2026.8 FULL全面开放是窗口期</p>
+</div>
+</div>
+
+<!-- ====== AMAZON ====== -->
+<div class="panel panel-amz">
+<div class="panel-header"><span class="dot"></span>Amazon MX</div>
+<div class="panel-body">
+<div class="big-num">35% <span class="big-num-sub">市场份额</span></div>
+<div class="row"><span class="k">月访问量</span><span class="v">98M/mo</span></div>
+<div class="row"><span class="k">佣金率</span><span class="v">8%-15%</span></div>
+<div class="row"><span class="k">月费</span><span class="v highlight">MXN 75 (低销)/¥0首年</span></div>
+<div class="row"><span class="k">FBA费(2026)</span><span class="v">↓MXN 19/件</span></div>
+<div class="row"><span class="k">仓储物流</span><span class="v">FBA / Flex / FBM</span></div>
+<div class="row"><span class="k">IPI及格线</span><span class="v highlight">450分</span></div>
+<div class="row"><span class="k">入驻门槛</span><span class="v"><span class="tag tag-green">中低</span></span></div>
+<div class="row"><span class="k">RFC要求</span><span class="v"><span class="tag tag-red">FBA必须</span></span></div>
+<div class="pill-row"><span class="pill">Brand Registry</span><span class="pill">A+ Content</span><span class="pill">Prime</span><span class="pill">NOM认证</span></div>
+<div class="section-title">最适合</div>
+<p style="font-size:11px">FBA标准化产品 · 有品牌备案 · 愿意投入广告 · ASP MXN 300+</p>
+<div class="section-title">避坑重点</div>
+<p style="font-size:11px">电子产品/玩具/纺织品必须NOM认证；FNSKU 2026.3.31起强制；IPI<450限制仓储</p>
+</div>
+</div>
+
+<!-- ====== TIKTOK ====== -->
+<div class="panel panel-tt">
+<div class="panel-header"><span class="dot"></span>TikTok Shop MX</div>
+<div class="panel-body">
+<div class="big-num">8% <span class="big-num-sub">市场份额(快速增长)</span></div>
+<div class="row"><span class="k">月活用户</span><span class="v">57.5M+</span></div>
+<div class="row"><span class="k">佣金率</span><span class="v">0%(前90天)/5-8%</span></div>
+<div class="row"><span class="k">月费</span><span class="v highlight">¥0</span></div>
+<div class="row"><span class="k">GMV增长</span><span class="v highlight">59x (首发年)</span></div>
+<div class="row"><span class="k">仓储物流</span><span class="v">FBT / 自发货</span></div>
+<div class="row"><span class="k">核心模式</span><span class="v">短视频+直播</span></div>
+<div class="row"><span class="k">入驻门槛</span><span class="v"><span class="tag tag-green">低</span></span></div>
+<div class="row"><span class="k">RFC要求</span><span class="v"><span class="tag tag-yellow">本地仓需RFC</span></span></div>
+<div class="pill-row"><span class="pill">内容驱动</span><span class="pill">直播带货</span><span class="pill">联盟营销</span><span class="pill">新卖家补贴</span></div>
+<div class="section-title">最适合</div>
+<p style="font-size:11px">有内容能力 · 工厂型 · 新品测款 · 美妆/时尚/家居品类 · 低门槛试水</p>
+<div class="section-title">避坑重点</div>
+<p style="font-size:11px">内容能力是核心壁垒（不是上架就出单）；珠宝/医疗/母婴有品类限制</p>
+</div>
+</div>
+
+<!-- ====== WALMART ====== -->
+<div class="panel panel-wmt">
+<div class="panel-header"><span class="dot"></span>Walmart MX</div>
+<div class="panel-body">
+<div class="big-num">12% <span class="big-num-sub">市场份额</span></div>
+<div class="row"><span class="k">月访问量</span><span class="v">30M+</span></div>
+<div class="row"><span class="k">佣金率</span><span class="v">8%-15%</span></div>
+<div class="row"><span class="k">月费</span><span class="v highlight">¥0</span></div>
+<div class="row"><span class="k">WFS订单占比</span><span class="v">~45%</span></div>
+<div class="row"><span class="k">仓储物流</span><span class="v">WFS / 门店自提</span></div>
+<div class="row"><span class="k">实体门店</span><span class="v highlight">2,800+</span></div>
+<div class="row"><span class="k">入驻门槛</span><span class="v"><span class="tag tag-yellow">中</span></span></div>
+<div class="row"><span class="k">RFC要求</span><span class="v"><span class="tag tag-yellow">本地仓需RFC</span></span></div>
+<div class="pill-row"><span class="pill">全渠道</span><span class="pill">OXXO自提</span><span class="pill">Walmart Connect</span><span class="pill">83%墨产</span></div>
+<div class="section-title">最适合</div>
+<p style="font-size:11px">有本地供应链 · 食品/日用/家居 · 想触达线下客群 · 中大型卖家</p>
+<div class="section-title">避坑重点</div>
+<p style="font-size:11px">83%产品为墨西哥制造——纯中国进口品竞争有劣势；入驻审核较严；中国卖家比例低</p>
+</div>
+</div>
+
+<!-- ====== FULL-WIDTH: PLATFORM QUICK COMPARE ====== -->
+<div class="panel full-width" style="margin-top:0">
+<div class="panel-header" style="background:#F8F8F6;color:var(--text)"><span class="dot" style="background:var(--sub)"></span>四大平台 · 关键决策维度速查</div>
+<div class="panel-body">
+<div style="overflow-x:auto">
+<table class="vs-table">
+<tr><th>决策维度</th><th style="background:#FFF8E7">Mercado Libre</th><th style="background:#FFF3E8">Amazon MX</th><th style="background:#F5F5F5">TikTok Shop</th><th style="background:#EAF3FB">Walmart MX</th></tr>
+<tr><td>市场份额</td><td class="best"><strong>38% 🥇</strong></td><td>35% 🥈</td><td>8% (增速最快)</td><td>12% 🥉</td></tr>
+<tr><td>佣金率</td><td>11%-19%</td><td class="best"><strong>8%-15% 🥇</strong></td><td class="best">0-8% (最低)</td><td>8%-15%</td></tr>
+<tr><td>月费</td><td class="best">¥0</td><td>MXN 75-600</td><td class="best">¥0</td><td class="best">¥0</td></tr>
+<tr><td>入驻难度</td><td>中等</td><td class="best"><strong>中低 🥇</strong></td><td class="best"><strong>低 🥇</strong></td><td>中高</td></tr>
+<tr><td>物流体验</td><td>FULL · 极佳</td><td class="best">FBA · 最佳</td><td>FBT · 发展中</td><td>WFS · 良好</td></tr>
+<tr><td>品牌要求</td><td>低</td><td>中 (Brand Registry加分)</td><td class="best">极低</td><td>中</td></tr>
+<tr><td>广告体系</td><td>Mercado Ads · 完善</td><td class="best">SP+SB+DSP · 最完善</td><td>内容即广告</td><td>Walmart Connect</td></tr>
+<tr><td>中国卖家占比</td><td>15-20%</td><td>25-30%</td><td>20-25%</td><td class="best">5-10% (蓝海)</td></tr>
+<tr><td>本地化要求</td><td>西语</td><td>西语+NOM认证</td><td class="best">内容创作力 🥇</td><td>本地供应链加分</td></tr>
+<tr><td>推荐起步月销</td><td>MXN 80K+</td><td>MXN 100K+</td><td>MXN 30K+</td><td>MXN 150K+</td></tr>
+<tr><td>单平台月利润(估,合规)</td><td>15-25%</td><td>12-22%</td><td>10-25%</td><td>10-20%</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ====== FULL-WIDTH: RFC DECISION ====== -->
+<div class="panel panel-rfc full-width">
+<div class="panel-header"><span class="dot"></span>RFC税务合规 · 速查决策卡</div>
+<div class="panel-body">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
+<div>
+<div class="section-title">⚠️ 不用RFC的代价</div>
+<div class="big-num" style="color:var(--red)">36%</div>
+<div style="font-size:11px;color:var(--sub)">平台代扣 (IVA 16%+ISR 20%)</div>
+<div class="row" style="margin-top:8px"><span class="k">月销MXN 50万时</span><span class="v" style="color:var(--red)">年损¥58万</span></div>
+<div class="row"><span class="k">月销MXN 100万时</span><span class="v" style="color:var(--red)">年损¥116万</span></div>
+</div>
+<div>
+<div class="section-title">✅ 有RFC的税负</div>
+<div class="big-num" style="color:var(--green)">10.5%</div>
+<div style="font-size:11px;color:var(--sub)">企业RFC (IVA 8%+ISR 2.5%)</div>
+<div class="row" style="margin-top:8px"><span class="k">个人RFC (过渡)</span><span class="v" style="color:var(--warning)">18.5%</span></div>
+<div class="row"><span class="k">税率差</span><span class="v" style="color:var(--green);font-weight:700">节省25.5pp</span></div>
+</div>
+<div>
+<div class="section-title">💰 一次性成本</div>
+<div class="big-num">$3.2K-7K</div>
+<div style="font-size:11px;color:var(--sub)">公司注册+RFC (约¥2.3-5万)</div>
+<div class="row" style="margin-top:8px"><span class="k">年度维护</span><span class="v">$3.5K-8K</span></div>
+<div class="row"><span class="k">回本周期</span><span class="v" style="color:var(--green);font-weight:700">1-2个月</span></div>
+<div class="row"><span class="k">注册周期</span><span class="v">4-8周</span></div>
+</div>
+<div>
+<div class="section-title">🔑 合规底线清单</div>
+<div style="font-size:11px">
+<p style="margin:3px 0"><span class="tag tag-green">必须</span> 公司名与CSF完全一致</p>
+<p style="margin:3px 0"><span class="tag tag-green">必须</span> 每月17日前IVA/ISR申报</p>
+<p style="margin:3px 0"><span class="tag tag-green">必须</span> 保存进项CFDI ≥5年</p>
+<p style="margin:3px 0"><span class="tag tag-red">严禁</span> 一号多绑</p>
+<p style="margin:3px 0"><span class="tag tag-red">严禁</span> 代理代收款项</p>
+<p style="margin:3px 0"><span class="tag tag-red">严禁</span> 零销售不申报</p>
+<p style="margin:3px 0"><span class="tag tag-yellow">注意</span> e.firma安全保管</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ====== FULL-WIDTH: SELLER DECISION TREE ====== -->
+<div class="panel full-width">
+<div class="panel-header" style="background:#F8F8F6;color:var(--text)"><span class="dot" style="background:var(--text)"></span>卖家平台选择 · 决策速查框架</div>
+<div class="panel-body">
+<div class="cost-grid">
+<div class="cost-item"><div class="lbl">新手 · 测品 · 低预算</div><div class="val" style="color:var(--black);font-size:13px">TikTok → MELI</div><div class="lbl">先TikTok内容测品 → 验证后MELI Direct → 爆品转FULL</div></div>
+<div class="cost-item"><div class="lbl">品牌卖家 · 标品 · 愿意投广告</div><div class="val" style="color:var(--orange);font-size:13px">Amazon → MELI</div><div class="lbl">先Amazon Brand Registry+FBA → 同步MELI Premium → 考虑Walmart</div></div>
+<div class="cost-item"><div class="lbl">工厂型 · 极致性价比</div><div class="val" style="color:var(--yellow);font-size:13px">TikTok → TEMU/SHEIN</div><div class="lbl">全托管模式测试 → 验证市场 → 再考虑MELI/Amazon开店</div></div>
+<div class="cost-item"><div class="lbl">有本地供应链 · 中大型</div><div class="val" style="color:var(--blue);font-size:13px">Walmart → MELI → Amazon</div><div class="lbl">Walmart全渠道优势 → MELI覆盖线上 → Amazon品牌建设</div></div>
+</div>
+</div>
+</div>
+
+<!-- ====== FULL-WIDTH: MONTHLY COST BENCHMARK ====== -->
+<div class="panel full-width">
+<div class="panel-header" style="background:#F8F8F6;color:var(--text)"><span class="dot" style="background:var(--text)"></span>月度成本基准速算 (ASP MXN 500 · 月销MXN 30万 · 600单)</div>
+<div class="panel-body">
+<div style="overflow-x:auto">
+<table class="vs-table">
+<tr><th>成本项</th><th style="background:#FFF8E7">MELI Classic</th><th style="background:#FFF3E8">Amazon FBA</th><th style="background:#F5F5F5">TikTok(自发货)</th><th style="background:#EAF3FB">Walmart WFS</th></tr>
+<tr><td>平台佣金</td><td>13%=MXN 39,000</td><td class="best">8%=MXN 24,000</td><td class="best">5%=MXN 15,000</td><td>12%=MXN 36,000</td></tr>
+<tr><td>履约费</td><td>FULL≈MXN 55×600=MXN 33,000</td><td>FBA≈MXN 50×600=MXN 30,000</td><td>直发≈MXN 80×600=MXN 48,000</td><td>WFS≈MXN 50×600=MXN 30,000</td></tr>
+<tr><td>平台代扣税(有RFC)</td><td>10.5%=MXN 31,500</td><td>10.5%=MXN 31,500</td><td>仅关税≈MXN 60,000</td><td>10.5%=MXN 31,500</td></tr>
+<tr><td>广告(估)</td><td>8%=MXN 24,000</td><td>10%=MXN 30,000</td><td>5%(内容)=MXN 15,000</td><td>8%=MXN 24,000</td></tr>
+<tr><td><strong>综合费用率</strong></td><td><strong>~42.5%</strong></td><td class="best"><strong>~38.5%</strong></td><td><strong>~46%</strong></td><td><strong>~40.5%</strong></td></tr>
+<tr><td><strong>到手金额(估)</strong></td><td><strong>MXN 172,500</strong></td><td class="best"><strong>MXN 184,500</strong></td><td><strong>MXN 162,000</strong></td><td><strong>MXN 178,500</strong></td></tr>
+</table>
+</div>
+<p style="font-size:10px;color:var(--sub);margin-top:8px">⚠️ 以上为快速估算，不含关税、仓储费、退货损耗。实际到手率会有±5%浮动。有RFC企业卖家基准。</p>
+</div>
+</div>
+
+<div class="footer-note">墨西哥跨境 · 四大平台 + RFC 一页纸速查卡 · 2026年7月版 · 数据来源：公开信息综合整理 · 具体以各平台最新政策为准</div>
+
+</div>
+</body>
+</html>
