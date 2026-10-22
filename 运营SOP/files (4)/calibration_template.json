@@ -1,0 +1,116 @@
+{
+  "weight_groups": {
+    "pqs.sub_weights.listing_quality": {
+      "features": [
+        "idq",
+        "glance_views",
+        "reviews_ratings",
+        "sales_trend"
+      ],
+      "samples": [
+        {
+          "features": {
+            "idq": 0.8,
+            "glance_views": 0.6,
+            "reviews_ratings": 0.7,
+            "sales_trend": 0.5
+          },
+          "actual_outcome": 0.72
+        },
+        {
+          "features": {
+            "idq": 0.5,
+            "glance_views": 0.4,
+            "reviews_ratings": 0.5,
+            "sales_trend": 0.3
+          },
+          "actual_outcome": 0.45
+        },
+        {
+          "features": {
+            "idq": 0.9,
+            "glance_views": 0.8,
+            "reviews_ratings": 0.85,
+            "sales_trend": 0.7
+          },
+          "actual_outcome": 0.88
+        }
+      ],
+      "_说明": "actual_outcome 建议填：该ASIN真实的Listing Quality相对表现（0-1归一化），可用后台展示的排名/CTR/转化率等指标做归一化代理"
+    },
+    "scs.weights": {
+      "features": [
+        "ranking_badges",
+        "platform_badges",
+        "category_structure",
+        "recommendation_signals"
+      ],
+      "samples": [
+        {
+          "features": {
+            "ranking_badges": 0.6,
+            "platform_badges": 0.5,
+            "category_structure": 0.9,
+            "recommendation_signals": 0.4
+          },
+          "actual_outcome": 0.65
+        },
+        {
+          "features": {
+            "ranking_badges": 0.2,
+            "platform_badges": 0.3,
+            "category_structure": 0.8,
+            "recommendation_signals": 0.2
+          },
+          "actual_outcome": 0.3
+        },
+        {
+          "features": {
+            "ranking_badges": 0.9,
+            "platform_badges": 0.8,
+            "category_structure": 1.0,
+            "recommendation_signals": 0.7
+          },
+          "actual_outcome": 0.9
+        }
+      ],
+      "_说明": "actual_outcome 建议填：该ASIN在叶节点内的真实曝光/流量份额（0-1归一化）"
+    }
+  },
+  "thresholds": {
+    "scs.featured_brand_thresholds": {
+      "metrics": [
+        "brand_review_count",
+        "brand_positive_review_pct",
+        "brand_recent_orders"
+      ],
+      "samples": [
+        {
+          "metrics": {
+            "brand_review_count": 5200,
+            "brand_positive_review_pct": 0.93,
+            "brand_recent_orders": 11000
+          },
+          "achieved": true
+        },
+        {
+          "metrics": {
+            "brand_review_count": 6000,
+            "brand_positive_review_pct": 0.94,
+            "brand_recent_orders": 15000
+          },
+          "achieved": true
+        },
+        {
+          "metrics": {
+            "brand_review_count": 3000,
+            "brand_positive_review_pct": 0.9,
+            "brand_recent_orders": 8000
+          },
+          "achieved": false
+        }
+      ],
+      "_说明": "achieved=True 表示该品牌已被亚马逊官方授予Featured Brand标签的真实样本"
+    }
+  }
+}

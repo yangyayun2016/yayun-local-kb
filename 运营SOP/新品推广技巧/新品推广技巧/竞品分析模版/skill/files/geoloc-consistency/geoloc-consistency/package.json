@@ -1,0 +1,10 @@
+{
+  "name": "geoloc-consistency",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Chrome MV3 extension: keep browser location/timezone/language consistent with egress IP.",
+  "scripts": {
+    "test": "node --test"
+  }
+}

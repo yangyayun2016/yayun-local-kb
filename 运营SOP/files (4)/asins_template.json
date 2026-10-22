@@ -1,0 +1,136 @@
+[
+  {
+    "asin": "B0GDCZ7XXX",
+    "cdq": {
+      "title": {
+        "text": "Acme Brand Stainless Steel Water Bottle | 32oz Insulated Sports Bottle for Kids Adults",
+        "has_brand": true,
+        "has_main_keyword": true,
+        "core_attribute_count": 3,
+        "has_audience_or_scenario": true,
+        "no_grammar_errors": true,
+        "has_pipe_or_separator": true,
+        "policy_index_suppressed": false,
+        "policy_website_rejected": false
+      },
+      "structured_attributes": {
+        "top10_attributes": {
+          "material": true,
+          "capacity": true,
+          "color": true,
+          "item_weight": false,
+          "maximum_current": false,
+          "closure_type": true,
+          "lid_type": true,
+          "insulation_type": true,
+          "age_range": true,
+          "care_instructions": true
+        },
+        "top6_rai_errors": 0,
+        "is_softline_pt": false
+      },
+      "bullets": {
+        "bullets": [
+          "Keeps drinks cold for 24 hours",
+          "Leak-proof design",
+          "BPA-free stainless steel",
+          "Fits standard cup holders"
+        ]
+      },
+      "image": {
+        "image_count": 24,
+        "has_defects": false,
+        "iai_score": 0.6,
+        "main_image_supports_zoom": true
+      },
+      "aplus": {
+        "has_aplus": true
+      },
+      "variation": {
+        "is_orphan": false,
+        "variation_count": 3
+      },
+      "discoverability": {
+        "has_accurate_leaf_node": true,
+        "keyword_coverage_ratio": 0.9
+      }
+    },
+    "pqs": {
+      "idq": {
+        "keywords": {
+          "covered_keywords": 18,
+          "target_keywords": 25
+        }
+      },
+      "glance_views": {
+        "current_per_100k": 1200,
+        "prior_per_100k": 1000
+      },
+      "reviews_ratings": {
+        "review_count_current": 340,
+        "review_count_prior": 300,
+        "rating_current": 4.4,
+        "rating_prior": 4.3
+      },
+      "sales_trend": {
+        "trailing_30d_sales": 52000,
+        "prior_30d_sales": 48000
+      },
+      "pricing": {
+        "current_price": 19.99,
+        "category_avg_price": 22.5,
+        "category_avg_discount_pct": 0.1,
+        "current_discount_pct": 0.15,
+        "recent_90d_non_promo_min_price": 21.99
+      },
+      "brand": {
+        "brand_ops_current": 210000,
+        "brand_ops_prior": 180000,
+        "unique_customers_current": 15000,
+        "unique_customers_prior": 13000,
+        "brand_review_count_current": 2100,
+        "brand_review_count_prior": 1900
+      }
+    },
+    "scs": {
+      "ranking_badges": {
+        "best_sellers_rank": null,
+        "hot_new_release_rank": 12,
+        "movers_shakers_rank": null,
+        "most_wished_for_rank": 45,
+        "gift_ideas_rank": null,
+        "max_rank_shown": 100
+      },
+      "platform_badges": {
+        "has_amazons_choice": true,
+        "has_customers_keep_item": false,
+        "is_featured_brand": false,
+        "brand_review_count": 4200,
+        "brand_positive_review_pct": 0.93,
+        "brand_recent_orders": 8500,
+        "has_climate_pledge_friendly": false
+      },
+      "category_structure": {
+        "l1_category": "Home & Kitchen",
+        "l2_category": "Vacuum Cleaners & Floor Care",
+        "leaf_node": "Electric Brooms",
+        "has_correct_leaf_node": true,
+        "category_relevance_score": 0.95,
+        "leaf_node_competing_asins": 1200
+      },
+      "recommendation_signals": {
+        "fbt_pairs_count": 2,
+        "compare_similar_items_included": true,
+        "compare_similar_items_win_rate": 0.6,
+        "viewed_together_inclusion_rate": 0.5,
+        "rufus_ai_recommended": false,
+        "active_promotions": {
+          "BD": false,
+          "LD": true,
+          "DOTD": false,
+          "Outlet": false
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "_source": "engineering_assumption — 全部为工程假设阈值(份额单位:%), 按类目/竞争强度调优。非亚马逊或卖家精灵官方参数。",
+  "tags": {
+    "leak_ad_min": 1.0,
+    "leak_org_max": 0.5,
+    "defend_org_min": 2.0,
+    "opp_org_min": 0.5,
+    "opp_org_max": 2.0,
+    "opp_sv_min": 1000,
+    "gap_comp_org_min": 2.0,
+    "gap_self_total_max": 0.5,
+    "blue_sv_min": 5000,
+    "blue_all_total_max": 1.0,
+    "_note": "判定顺序 LEAK→DEFEND→OPP→GAP→BLUE→TAIL, 互斥。LEAK=广告份额≥1%且自然<0.5%; DEFEND=自然≥2%; OPP=自然0.5~2%且SV≥1000; GAP=竞品自然max≥2%且我方总<0.5%; BLUE=SV≥5000且全员总份额<1%。"
+  },
+  "score": {
+    "top3_penalty": true,
+    "_note": "进攻类得分除以(1+Top3点击集中度/100)作难度惩罚: 集中度越高, 前排越垄断, 打进成本越高。"
+  }
+}

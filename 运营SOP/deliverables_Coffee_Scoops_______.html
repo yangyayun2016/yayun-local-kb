@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coffee Scoops · 美国亚马逊类目市场调研</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Noto+Serif:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF; --border:#E8E6E2; --divider:#C5C0BA;
+  --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+  --hero-bg:#F0E4D8; --hero-deco:#D4A882; --hero-deco2:#B87D50;
+  --success-bg:#E8FBCF; --success-fg:#3D4826; --warning-bg:#FFF0DC; --warning-fg:#E47700;
+  --info-bg:#DEE5F7; --info-fg:#3E54CE; --error-bg:#FDECEA; --error-fg:#C4433A; --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--outer-bg);font-family:'Inter Tight',system-ui,-apple-system,sans-serif;color:var(--text-body);-webkit-font-smoothing:antialiased}
+.page{max-width:1200px;margin:24px auto;background:var(--page-bg);border-radius:24px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.hero{position:relative;background:var(--hero-bg);padding:38px 44px 30px;overflow:hidden}
+.blob{position:absolute;opacity:.18}
+.hero-content{position:relative;z-index:1}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--hero-deco2);margin-bottom:14px}
+.hero h1{font-size:30px;font-weight:600;color:var(--text-primary);margin:0 0 10px;letter-spacing:-.01em}
+.hero-metric{font-family:'Noto Serif',serif;font-size:48px;font-weight:500;letter-spacing:-.02em;color:var(--text-primary);line-height:1.05;margin:6px 0 4px}
+.hero-sub{font-size:14px;color:var(--text-body);max-width:760px;line-height:1.6}
+.hr{height:1px;background:rgba(255,255,255,.85);margin:22px 0 18px}
+.statrow{display:flex;flex-wrap:wrap;gap:26px 44px}
+.statrow .s{min-width:110px}
+.statrow .v{font-size:22px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em}
+.statrow .l{font-size:12px;color:var(--text-secondary);margin-top:2px}
+main{padding:34px 44px 10px}
+section{margin-bottom:38px}
+.sec-h{font-size:17px;font-weight:600;color:var(--text-primary);margin:0 0 4px}
+.sec-sub{font-size:12px;color:var(--text-secondary);margin-bottom:12px}
+.rule{height:.5px;background:var(--border);margin-bottom:18px}
+p{font-size:14px;line-height:1.72;margin:0 0 12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px}
+.card h3{font-size:15px;font-weight:600;color:var(--text-primary);margin:0 0 8px}
+.card .meta{font-size:12px;color:var(--text-secondary);margin-bottom:10px}
+.mcard{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:14px 16px}
+.mcard .l{font-size:12px;color:var(--text-secondary)}
+.mcard .v{font-size:26px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em;margin-top:4px}
+.mcard .d{font-size:12px;font-weight:500;margin-top:3px}
+.grid-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.pill{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;margin:2px 4px 2px 0}
+.p-success{background:var(--success-bg);color:var(--success-fg)}
+.p-warning{background:var(--warning-bg);color:var(--warning-fg)}
+.p-info{background:var(--info-bg);color:var(--info-fg)}
+.p-error{background:var(--error-bg);color:var(--error-fg)}
+.p-neutral{background:var(--neutral-bg);color:var(--neutral-fg)}
+.alert{border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.65}
+.alert b{color:var(--text-primary)}
+.a-warn{background:var(--warning-bg);color:#5a3b0a}
+.a-err{background:var(--error-bg);color:#5a2019}
+.a-info{background:var(--info-bg);color:#243a8f}
+.a-ok{background:var(--success-bg);color:#33421c}
+.tablewrap{overflow-x:auto;border:.5px solid var(--border);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px}
+th{font-size:12px;font-weight:500;color:var(--text-secondary);text-align:left;padding:10px 12px;border-bottom:1px solid var(--divider);white-space:nowrap}
+td{font-size:13px;padding:9px 12px;border-bottom:.5px solid var(--border);color:var(--text-body)}
+tr:last-child td{border-bottom:none}
+.chartbox{position:relative;height:280px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:12px;color:var(--text-secondary)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.bar{margin:10px 0}
+.bar .top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px}
+.bar .track{height:4px;background:var(--border);border-radius:3px}
+.bar .fill{height:4px;border-radius:3px}
+ul{padding-left:18px;margin:6px 0 12px}
+li{font-size:13.5px;line-height:1.7;margin-bottom:4px}
+footer{position:relative;background:var(--hero-bg);padding:30px 44px 20px;margin-top:20px;overflow:hidden}
+.f-content{position:relative;z-index:1}
+.f-top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.f-brand{font-size:15px;font-weight:600;color:var(--text-primary)}
+.f-sub{font-size:12px;color:var(--text-secondary);margin-top:3px}
+.f-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px 26px;font-size:12px;color:var(--text-secondary)}
+.f-rule{height:1px;background:rgba(255,255,255,.85);margin:18px 0 12px}
+.f-bar{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--text-secondary)}
+.refs{font-size:12px;line-height:1.9}
+.refs a{color:#8a5a2b;text-decoration:none;border-bottom:.5px solid rgba(138,90,43,.4)}
+@media(max-width:720px){
+  body{background:var(--page-bg)}
+  .page{margin:0;border-radius:0;max-width:100%}
+  .hero{padding:26px 20px 22px}
+  main{padding:24px 20px 6px}
+  footer{padding:24px 20px 16px}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .hero h1{font-size:24px}
+  .hero-metric{font-size:38px}
+  .f-meta{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <svg class="blob" style="top:-30px;left:-20px;width:230px" viewBox="0 0 200 200"><path fill="var(--hero-deco)" d="M45,20 C90,5 150,25 165,70 C182,120 150,175 95,180 C45,185 10,150 12,100 C14,55 15,32 45,20 Z"/></svg>
+    <svg class="blob" style="bottom:-50px;right:60px;width:180px" viewBox="0 0 200 200"><path fill="var(--hero-deco2)" d="M60,25 C110,10 160,40 168,90 C176,140 135,180 85,175 C40,170 15,135 20,90 C25,52 25,36 60,25 Z"/></svg>
+    <svg class="blob" style="top:40px;right:-30px;width:140px" viewBox="0 0 200 200"><path fill="var(--hero-deco)" d="M50,30 C95,15 145,30 158,72 C172,116 145,165 95,168 C50,170 22,140 25,95 C28,60 22,40 50,30 Z"/></svg>
+    <div class="hero-content">
+      <div class="eyebrow">Amazon US · 类目市场调研</div>
+      <h1>Coffee Scoops（咖啡勺）· 美国站</h1>
+      <div class="hero-metric">$9.1</div>
+      <div class="hero-sub">类目均价（中位 $7.99）——一个典型的超低价、小体积、低门槛红海配件类目。本报告基于 Coffee Scoops 畅销榜 <b>Top100</b> 实时快照（99 条有效链接），拆解价格带、竞争结构、材质形态、需求趋势与机会清单，并对齐你现有的选品标准给出结论。</div>
+      <div class="hr"></div>
+      <div class="statrow">
+        <div class="s"><div class="v">87</div><div class="l">参与品牌数</div></div>
+        <div class="s"><div class="v">25,550</div><div class="l">月销下限合计 · 件/月</div></div>
+        <div class="s"><div class="v">53%</div><div class="l">Amazon's Choice 占比</div></div>
+        <div class="s"><div class="v">156</div><div class="l">评论数中位数</div></div>
+        <div class="s"><div class="v">4</div><div class="l">亚马逊自营链接</div></div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- 结论速览 -->
+    <section>
+      <div class="sec-h">结论速览</div>
+      <div class="sec-sub">一句话：类目真实存在且刚需高频，但客单太低，与你当前“40–80€ 客单 + FBA 费用占比低”的主攻标准严重错配。</div>
+      <div class="rule"></div>
+      <div class="grid2" style="margin-bottom:16px">
+        <div class="alert a-err">
+          <b>❌ 不建议作为主攻类目</b><br>
+          类目均价仅 $9.1、中位 $7.99，主力价格带 $5–8（占 44% 链接、62.5% 销量）。远低于你的 40–80€ 目标客单。低价意味着单件毛利绝对值极小，而 FBA 履约费、退货处理、广告开支是“按件固定成本”，会严重吞噬利润；即便 CPC 便宜（该类目竞争分散、长尾词便宜），也难以跑出你期望的利润体量。
+        </div>
+        <div class="alert a-warn">
+          <b>⚠️ 可作为“练手 / 流量 / 配件搭售”类目</b><br>
+          供应链门槛极低（体积 &lt;0.35kg、采购几元人民币）、起量快、评论壁垒不高（38/99 链接评论 ≤100），适合作为新品运营练兵、店铺流量入口，或与咖啡器具/咖啡豆类目做关联搭售、提升客单价。要做就做“功能差异化”而非纯白牌同质。
+        </div>
+      </div>
+      <div class="grid3">
+        <div class="mcard"><div class="l">结构友好度</div><div class="v">中</div><div class="d" style="color:var(--warning-fg)">87品牌/99链接，极度分散，无垄断品牌</div></div>
+        <div class="mcard"><div class="l">需求趋势</div><div class="v">持平略降</div><div class="d" style="color:var(--error-fg)">“coffee spoon” 需求 23Q3→24Q4 约 −3%</div></div>
+        <div class="mcard"><div class="l">评论壁垒</div><div class="v">低–中</div><div class="d" style="color:var(--success-fg)">中位 156 条，新品有切入窗口</div></div>
+      </div>
+    </section>
+
+    <!-- 1 类目全景 -->
+    <section>
+      <div class="sec-h">1 · 类目全景与容量</div>
+      <div class="sec-sub">节点 Coffee Scoops（Home &amp; Kitchen &gt; Kitchen &amp; Dining &gt; Coffee, Tea &amp; Espresso）</div>
+      <div class="rule"></div>
+      <p>该节点是 Coffee, Tea &amp; Espresso 下的一个极细配件子类。畅销榜 Top100 中解析出的 99 条有效链接，覆盖 <b>87 个不同品牌</b>——平均每个品牌不到 1.2 个上榜链接，说明这是一个<b>没有品牌统治力、由中小卖家 FBA 白牌构成的碎片化市场</b>。真实类目长尾远大于榜单可见部分，本报告的“容量”口径统一采用 <b>榜单披露月销下限求和 = 25,550 件/月</b>，仅代表头部可见部分，不应等同于类目总量。</p>
+      <div class="grid-metrics">
+        <div class="mcard"><div class="l">榜单链接数</div><div class="v">99</div></div>
+        <div class="mcard"><div class="l">品牌数</div><div class="v">87</div></div>
+        <div class="mcard"><div class="l">已披露月销下限合计</div><div class="v">2.56万</div><div class="d" style="color:var(--text-secondary)">件 / 月</div></div>
+        <div class="mcard"><div class="l">最大单链接月销</div><div class="v">3K+</div><div class="d" style="color:var(--text-secondary)">Flezoo 4件套不锈钢勺</div></div>
+        <div class="mcard"><div class="l">Amazon's Choice</div><div class="v">52</div><div class="d" style="color:var(--text-secondary)">占 53%</div></div>
+        <div class="mcard"><div class="l">亚马逊自营</div><div class="v">4</div><div class="d" style="color:var(--success-fg)">自营参与度低</div></div>
+      </div>
+      <p style="margin-top:14px"><b>销量集中度：</b>头部效应存在但不算极端——已披露口径下 <b>TOP10 链接约占 47% 的月销量</b>，而 TOP10 链接占据了约 <b>63% 的总评论量</b>。也就是说，销量可由“低评论新爆款”拿到，但评论存量仍高度集中在少数老链接手上。<span class="pill p-neutral">口径说明：月销为榜单披露下限（X+），未披露项按 0 计入</span></p>
+    </section>
+
+    <!-- 2 价格带 -->
+    <section>
+      <div class="sec-h">2 · 价格带与单位经济</div>
+      <div class="sec-sub">价格带分析基于 99 条链接的售价与销量下限</div>
+      <div class="rule"></div>
+      <div class="card" style="margin-bottom:16px">
+        <h3>价格带分布：链接占比 vs 销量占比</h3>
+        <div class="meta">$5–8 是绝对主战场；$13+ 高价带靠“礼品/木质感”支撑但销量有限</div>
+        <div class="chartbox"><canvas id="priceChart"></canvas></div>
+        <div class="legend"><span><i style="background:#B87D50"></i>链接占比 %</span><span><i style="background:#8FA9C4"></i>销量占比 %</span></div>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>价格带</th><th>链接数</th><th>链接占比</th><th>销量占比</th><th>平均评分</th><th>解读</th></tr></thead>
+          <tbody>
+            <tr><td>&lt; $5</td><td>8</td><td>8.1%</td><td>11.9%</td><td>4.14</td><td>低价引流款，评分明显偏低（质量妥协）</td></tr>
+            <tr><td><b>$5–8</b></td><td>44</td><td>44.4%</td><td><b>62.5%</b></td><td>4.70</td><td>主战场：走量、走性价比</td></tr>
+            <tr><td>$8–10</td><td>23</td><td>23.2%</td><td>16.3%</td><td>4.71</td><td>不锈钢“质感款”集中区</td></tr>
+            <tr><td>$10–13</td><td>10</td><td>10.1%</td><td>3.8%</td><td>4.73</td><td>礼品/木柄/复古风</td></tr>
+            <tr><td>$13+</td><td>14</td><td>14.1%</td><td>5.5%</td><td>4.59</td><td>手工柚木、陶瓷、多件套、豆量杯</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:14px"><b>单位经济提示：</b>价格与销量呈弱负相关（r ≈ −0.27），说明低价确有流量优势，但优势不显著——用户更在意“对不对得起身价”。在 $5–8 区间，扣除亚马逊佣金（约 15%）+ FBA 履约费（小件约 $3 上下）+ 采购与头程后，<b>单件净利空间通常只有 $1–2</b>。这与你的选品标准（客单 40–80€）差距在两个数量级。<span class="pill p-error">与选品标准：不匹配</span></p>
+    </section>
+
+    <!-- 3 结构与材质 -->
+    <section>
+      <div class="sec-h">3 · 竞争结构、材质与形态</div>
+      <div class="sec-sub">谁在卖、卖什么材质、卖什么形态</div>
+      <div class="rule"></div>
+      <div class="grid2" style="margin-bottom:16px">
+        <div class="card">
+          <h3>材质结构（链接数）</h3>
+          <div class="meta">不锈钢是销量绝对主力，木/竹走颜值与礼品，塑料靠“功能创新”突围</div>
+          <div class="chartbox" style="height:240px"><canvas id="matChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>各材质：均价 / 销量 / 评论中位</h3>
+          <div class="meta">对比“量、价、壁垒”三个维度</div>
+          <div class="bar"><div class="top"><span>不锈钢（53条）· 销量15,150</span><span>均价 $8.17 · 评论中位 287</span></div><div class="track"><div class="fill" style="width:100%;background:#8FA9C4"></div></div></div>
+          <div class="bar"><div class="top"><span>塑料（15条）· 销量7,500</span><span>均价 $7.44 · 评论中位 418</span></div><div class="track"><div class="fill" style="width:50%;background:#B87D50"></div></div></div>
+          <div class="bar"><div class="top"><span>木/竹（26条）· 销量2,500</span><span>均价 $11.32 · 评论中位 73</span></div><div class="track"><div class="fill" style="width:17%;background:#C8BB9F"></div></div></div>
+          <div class="bar"><div class="top"><span>陶瓷/其他（5条）· 销量1,000</span><span>均价 $12–15</span></div><div class="track"><div class="fill" style="width:7%;background:#C4A890"></div></div></div>
+          <p style="font-size:12.5px;color:var(--text-secondary);margin-top:14px">不锈钢：竞争最卷、评论壁垒最高（中位 287）但销量最大；木/竹：评论壁垒最低（中位 73）、单价最高，是“低门槛高溢价”的差异化方向；塑料：靠结构创新（漏斗/量平/封口夹）撑起第二销量。</p>
+        </div>
+      </div>
+      <div class="grid3">
+        <div class="card"><h3>竞争结构</h3><p style="font-size:13px">品牌销量 <b>CR3 ≈ 24% / CR10 ≈ 49%</b>（已披露口径）。无一家品牌形成壁垒，头部全是“单链接爆款”（Flezoo、Mudygelay 各 1 条即进 Top3）。<span class="pill p-success">结构分散 · 对新品友好</span></p></div>
+        <div class="card"><h3>评论壁垒</h3><p style="font-size:13px">21 条链接评论 &gt;1000（头部护城河）；<b>38 条评论 ≤100</b>（新品可切入的缝隙）。整体中位 156 条，冷启动难度中等偏低。</p></div>
+        <div class="card"><h3>评分健康度</h3><p style="font-size:13px">93/99 条评分 ≥4.5，<b>仅 1 条 &lt;4.3</b>。说明类目“及格线很高”，差评会立刻反映到排名——品质与尺寸准确性是生死线。</p></div>
+      </div>
+    </section>
+
+    <!-- 4 销量榜 -->
+    <section>
+      <div class="sec-h">4 · 头部销量榜（月销下限）</div>
+      <div class="sec-sub">谁在真正拿量</div>
+      <div class="rule"></div>
+      <div class="card">
+        <h3>TOP15 链接 · 月销下限</h3>
+        <div class="chartbox" style="height:420px"><canvas id="topChart"></canvas></div>
+      </div>
+      <p style="margin-top:12px">值得注意的是：销量榜前列出现大量<b>低于 $6 的功能型塑料款</b>（Mudygelay 2000+、Lov Sprout 1000+、LimanChef 700+），它们几乎全是“<b>勺 + 漏斗/量平，一键填装可重复使用 K-Cup</b>”这一形态。而传统不锈钢单勺的最高销量者（Flezoo 4 件套、3000+）靠的是“<b>多件套 + 极低价</b>”。<span class="pill p-info">打法=功能创新 或 多件套低价</span></p>
+    </section>
+
+    <!-- 5 低评论高销量机会 -->
+    <section>
+      <div class="sec-h">5 · 机会清单：低评论 × 高销量（蓝海效率）</div>
+      <div class="sec-sub">Score 效率值 ≈ 月销下限 ÷ 评论数（越高代表“用更少评论拿到更多销量”）</div>
+      <div class="rule"></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>ASIN</th><th>品牌</th><th>售价</th><th>评分</th><th>评论数</th><th>月销下限</th><th>Score</th><th>形态/材质</th></tr></thead>
+          <tbody>
+            <tr><td>B0H35X6YHX</td><td>Juehuodaji</td><td>$6.99</td><td>4.8</td><td>9</td><td>400</td><td><b>44.4</b></td><td>3件套不锈钢（多件套低价）</td></tr>
+            <tr><td>B0H75SLMNJ</td><td>Twisina</td><td>$8.99</td><td>5.0</td><td>4</td><td>100</td><td>25.0</td><td>木勺（橡胶木）</td></tr>
+            <tr><td>B0GK9H39B9</td><td>KFHENSOMR</td><td>$7.99</td><td>5.0</td><td>5</td><td>100</td><td>20.0</td><td>相思木窄口罐勺</td></tr>
+            <tr><td>B0H5PFHF7V</td><td>Vunpok</td><td>$5.58</td><td>4.8</td><td>21</td><td>400</td><td>19.0</td><td>勺+漏斗 2件套（塑料）</td></tr>
+            <tr><td>B0H25D8FY8</td><td>Tulieko</td><td>$5.29</td><td>4.7</td><td>83</td><td>1,000</td><td>12.0</td><td>4件套不锈钢短柄</td></tr>
+            <tr><td>B0GXK76FNN</td><td>WPDYAET</td><td>$5.99</td><td>4.8</td><td>54</td><td>500</td><td>9.3</td><td>4件套不锈钢长柄</td></tr>
+            <tr><td>B0GF1RPD6D</td><td>houlishu</td><td>$8.99</td><td>4.7</td><td>72</td><td>500</td><td>6.9</td><td>2件套不锈钢短柄</td></tr>
+            <tr><td>B0F8HBQNP2</td><td>JUNJLLC</td><td>$7.99</td><td>4.8</td><td>47</td><td>200</td><td>4.3</td><td>Ninja 双头勺（塑料）</td></tr>
+            <tr><td>B0GSKCZ9BN</td><td>SAYUANVA</td><td>$6.29</td><td>4.8</td><td>24</td><td>100</td><td>4.2</td><td>黑胡桃木勺</td></tr>
+            <tr><td>B0GHYTXRXC</td><td>Qulkws</td><td>$11.39</td><td>4.9</td><td>56</td><td>200</td><td>3.6</td><td>相思木 4件套（高价木勺）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:12px"><b>机会读法：</b>高 Score 名单里，<b>多件套不锈钢</b> 和 <b>勺+漏斗功能款</b> 反复出现，且多为新链接。这说明“<b>用套装形态提升客单 &amp; 用功能形态做差异</b>”是当前最有效的两个切入点。注意：Score 是排序信号而非销量预测，低分高销量（如 OXO，10,207 评论 ÷ 1000 件）反而是“老牌护城河型”，不适合正面硬刚。</p>
+    </section>
+
+    <!-- 6 趋势与季节 -->
+    <section>
+      <div class="sec-h">6 · 需求趋势与季节性</div>
+      <div class="sec-sub">关键词口径与外部市场数据</div>
+      <div class="rule"></div>
+      <div class="grid2">
+        <div>
+          <p><b>大方向：</b>全球咖啡市场持续增长（2026 年约 $2,678 亿，预计 2035 年到 $3,975 亿，CAGR 约 4.5%），居家手冲/意式咖啡需求上行——“<b>咖啡器具在涨</b>”。</p>
+          <p><b>但细分品类背离：</b>“coffee spoons”这一细分需求在 2023Q3 → 2024Q4 大约 <b>−3%</b>，同期滴滤咖啡机 +66%、意式咖啡机 +50%、整豆咖啡 +46%。解读：<b>咖啡消费在升级，但“单独买一把勺”的需求被“咖啡机/量具一体化”“定量勺随机附赠”替代</b>，是典型“大盘涨、配件被蚕食”的类目。</p>
+          <p><b>搜索量参考：</b>“coffee scoop for ground coffee” 月搜索量约 <b>13,078</b>（第三方工具口径），属于中等体量长尾词。</p>
+        </div>
+        <div class="card">
+          <h3>季节性节律</h3>
+          <p style="font-size:13px">作为咖啡配件，需求跟随咖啡消费与送礼场景：
+          <br>· <b>Q4 + 节假日</b>（11–12月）：礼品化木勺/套装走强，礼品季峰值；
+          <br>· <b>秋季（9–10月）</b>：秋季烘焙、热饮回归，配件需求抬升；
+          <br>· <b>Prime Day / 会员日</b>：咖啡器具与配件集中放量，是冲排名与评论的窗口。</p>
+          <p style="font-size:12.5px;color:var(--text-secondary)">结论：无强季节刚性，但 Q4 与会员日是明确脉冲。备货需提前 6–8 周。</p>
+        </div>
+      </div>
+      <div class="alert a-info" style="margin-top:6px">
+        <b>运营指标参考（来自你提供的表格口径）：</b>该关键词平均客单价约 <b>$8.41</b>、转化率约 <b>13.7%</b>（2023.11–2024.10 区间均值）。这与本次榜单测算的均价水平一致。转化率 13–15% 在配件类目属中上水平——说明“<b>点进来的人购买意愿强</b>，瓶颈不在转化，而在客单与利润绝对值”。
+      </div>
+    </section>
+
+    <!-- 7 选品标准对照 -->
+    <section>
+      <div class="sec-h">7 · 与你现有选品标准的对照</div>
+      <div class="sec-sub">逐条硬闸门核对</div>
+      <div class="rule"></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>你的标准</th><th>咖啡勺类目实际</th><th>匹配</th></tr></thead>
+          <tbody>
+            <tr><td>体积小</td><td>0.01–0.33kg，绝大多数 &lt;0.15kg，单件小、头程与仓储成本极低</td><td><span class="pill p-success">✅ 符合</span></td></tr>
+            <tr><td>行业需求在涨</td><td>咖啡大盘在涨，但“咖啡勺”细分需求 −3% 持平略降</td><td><span class="pill p-warning">⚠️ 部分符合</span></td></tr>
+            <tr><td>目标售价 40–80€（$45–90）</td><td>均价 $9.1、主力 $5–8，最高 $27</td><td><span class="pill p-error">❌ 严重不符</span></td></tr>
+            <tr><td>采购价 ≤100 元</td><td>几元–十几元人民币即可，采购门槛极低</td><td><span class="pill p-success">✅ 符合</span></td></tr>
+            <tr><td>头程 / FBA 费用少</td><td>小件轻货，头程与 FBA 绝对费用低；但占售价比例高</td><td><span class="pill p-warning">⚠️ 绝对低、占比高</span></td></tr>
+            <tr><td>CPC ≤1.1€（约 $1.2）</td><td>竞争分散、长尾词多，关键词 CPC 通常远低于 $1</td><td><span class="pill p-success">✅ 符合</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:14px"><b>综合判断：</b>6 项标准中 3 项符合、2 项部分符合、<b>1 项（核心的客单价）严重不符</b>。因此本类目<b>不适合作为你的主攻类目</b>，但“小体积 + 采购便宜 + CPC 低 + 结构分散”这四个优点，使它非常适合作为<b>练手/流量/搭售</b>用途。</p>
+    </section>
+
+    <!-- 8 建议 -->
+    <section>
+      <div class="sec-h">8 · 若要做，怎么做（行动建议）</div>
+      <div class="sec-sub">差异化切口 + 落地方向</div>
+      <div class="rule"></div>
+      <div class="grid2">
+        <div class="card">
+          <h3>推荐切口</h3>
+          <ul>
+            <li><b>勺 + 漏斗 / 量平一体</b>：面向可重复使用 K-Cup / Nespresso 用户，一勺一冲、零洒漏。这是近两年最清晰的增量形态（Mudygelay、Lov Sprout、LimanChef 均靠此起量）。</li>
+            <li><b>多件套（2–4 件）</b>：用套装把客单从 $6 拉到 $9–13，同时摊薄单件履约成本——Juehuodaji、Tulieko、Flezoo 均验证有效。</li>
+            <li><b>勺 + 封口夹</b>（防潮保鲜）或 <b>勺 + 刻度量 / 双头 1Tbsp&amp;2Tbsp</b>：结构差异明显、易做专利规避。</li>
+            <li><b>颜值/礼品线</b>：木/竹/复古木柄 + 礼盒包装，客单可做到 $12–22，评论壁垒最低，适合独立小爆款。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>必须踩准的产品红线</h3>
+          <ul>
+            <li><b>材质如实标注</b>：18/8(304) 不锈钢是标配，避免“宣称 304 实为 201”被差评反噬。</li>
+            <li><b>尺寸精准</b>：差评高频词是“不是真 1Tbsp / 比标称大”，务必实测容量。</li>
+            <li><b>焊接与边缘</b>：手柄焊接处断裂、边缘毛刺是主要质量投诉点，出厂需做拉拔与去毛刺检验。</li>
+            <li><b>木制品</b>：避开发霉/开裂/上色不均，明确 hand wash，避免 dishwasher 差评。</li>
+            <li><b>合规</b>：食品接触材料需符合 US FDA 食品级要求，木竹制品注意熏蒸/植物检疫。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid3" style="margin-top:16px">
+        <div class="card"><h3>定价</h3><p style="font-size:13px">单勺 $6.99–9.99；套装/功能款 $9.99–12.99；礼品木勺 $12–18。避开 &lt;$5 红海（该带评分最差）。</p></div>
+        <div class="card"><h3>广告</h3><p style="font-size:13px">用 SP 抢“k cup scoop / coffee scoop funnel / 2 tbsp scoop”长尾词（CPC 低）；ACOS 目标可设较宽，靠自然流量回本。</p></div>
+        <div class="card"><h3>评论</h3><p style="font-size:13px">评论壁垒低（中位 156），可走 Vine + 请求评论。新品 30–50 条评论即有机会进细分前列。</p></div>
+      </div>
+    </section>
+
+    <!-- 数据说明 -->
+    <section>
+      <div class="sec-h">数据说明与口径</div>
+      <div class="rule"></div>
+      <ul>
+        <li><b>样本</b>：Amazon US Coffee Scoops 畅销榜 Top100 实时快照，解析有效链接 99 条（榜单节点偶尔混入少量邻接商品，如柠檬榨汁盖、红糖保湿盘、咖啡量豆杯，已在结构分析中标注但未剔除）。</li>
+        <li><b>月销</b>：所有“月销”均为亚马逊前台披露的区间下限（如 “1K+ bought in past month” 取 1000），未披露项按 0 计入；“合计 25,550 件/月”为下限口径，不代表类目真实总量。</li>
+        <li><b>集中度</b>：CR3/CR10 为“品牌×已披露月销量”口径，因部分链接未披露月销，真实集中度会略高。</li>
+        <li><b>价格带</b>：按链接售价划分；销量占比 = 该带月销下限合计 ÷ 全部月销下限合计。</li>
+        <li><b>Score 效率值</b>＝月销下限 ÷ 评论数，仅作“低评论高销量”排序信号，不等于销量预测，也不代表合规/质量风险低。</li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="sec-h">参考来源</div>
+      <div class="rule"></div>
+      <div class="refs">
+        [1] Amazon 美国站 Coffee Scoops 畅销榜（本报告主数据源，快照日 2026-10-07）：<a href="https://www.amazon.com/gp/bestsellers/home-garden/3118168011/" target="_blank">amazon.com/gp/bestsellers/home-garden/3118168011</a><br>
+        [2] Amazon Coffee Scoops 类目节点页：<a href="https://www.amazon.com/Coffee-Scoops/b?node=3118168011" target="_blank">amazon.com/Coffee-Scoops/b?node=3118168011</a><br>
+        [3] 全球咖啡市场规模与 CAGR（2026–2035）：<a href="https://www.precedenceresearch.com/coffee-market" target="_blank">precedenceresearch.com/coffee-market</a><br>
+        [4] 咖啡器具与配件需求结构变化（咖啡勺 −3% 等）：<a href="https://www.pattern.com" target="_blank">pattern.com</a><br>
+        [5] 居家咖啡与季节性消费趋势：<a href="https://nielseniq.com" target="_blank">nielseniq.com</a><br>
+        [6] 关键词月搜索量参考：<a href="https://www.amzchart.com" target="_blank">amzchart.com</a><br>
+        [7] 用户提供的类目运营指标表（平均客单价 $8.41、转化率 ≈13.7%，2023.11–2024.10）——作为内部口径参考。
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <svg class="blob" style="top:-40px;left:30px;width:170px" viewBox="0 0 200 200"><path fill="var(--hero-deco)" d="M55,25 C100,12 150,35 160,80 C170,128 140,172 92,175 C48,178 20,145 22,95 C24,58 22,36 55,25 Z"/></svg>
+    <svg class="blob" style="bottom:-40px;right:-20px;width:150px" viewBox="0 0 200 200"><path fill="var(--hero-deco2)" d="M48,22 C95,10 148,32 160,78 C172,124 142,170 90,172 C44,174 18,140 22,92 C26,55 20,33 48,22 Z"/></svg>
+    <div class="f-content">
+      <div class="f-top">
+        <div>
+          <div class="f-brand">Coffee Scoops · 美国亚马逊类目市场调研</div>
+          <div class="f-sub">超低价小体积配件类目 · 与现有选品标准错配评估</div>
+        </div>
+        <div class="f-meta">
+          <div>站点：Amazon US</div>
+          <div>数据源：Coffee Scoops 畅销榜 Top100</div>
+          <div>样本：99 条有效 ASIN</div>
+          <div>快照日期：2026-10-07</div>
+        </div>
+      </div>
+      <div class="f-rule"></div>
+      <div class="f-bar">
+        <div>报告类型：类目市场调研 · 快照数据仅供参考，不构成销量承诺</div>
+        <div>Generated by <a href="https://allyhub.com" target="_blank" style="color:inherit">AllyHub AI</a></div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+Chart.defaults.font.family = "'Inter Tight', sans-serif";
+Chart.defaults.color = '#717171';
+const grid = { color:'#E8E6E2' };
+
+new Chart(document.getElementById('priceChart'), {
+  type:'bar',
+  data:{ labels:['<$5','$5-8','$8-10','$10-13','$13+'],
+    datasets:[
+      { label:'链接占比 %', data:[8.1,44.4,23.2,10.1,14.1], backgroundColor:'#B87D50', borderRadius:5, maxBarThickness:38 },
+      { label:'销量占比 %', data:[11.9,62.5,16.3,3.8,5.5], backgroundColor:'#8FA9C4', borderRadius:5, maxBarThickness:38 }
+    ]},
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{ x:{grid:{display:false}}, y:{grid:grid, ticks:{callback:v=>v+'%'}} } }
+});
+
+new Chart(document.getElementById('matChart'), {
+  type:'doughnut',
+  data:{ labels:['不锈钢 53','木/竹 26','塑料 15','其他 3','陶瓷 2'],
+    datasets:[{ data:[53,26,15,3,2], backgroundColor:['#8FA9C4','#C8BB9F','#B87D50','#C4A890','#D4A882'], borderWidth:0, cutout:'65%' }]},
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} }
+});
+
+const topLabels=['Flezoo 4件套','Mudygelay 勺+漏斗','OXO POP勺','Lov Sprout 勺+漏斗','Tulieko 4件套','izelokay 长柄','U-Taste 2Tbsp','Qoarxui 2件套','Chef Craft 塑料','zhuohai 2in1','LimanChef 勺+漏斗','yuntop 2Tbsp','Gonzone 木柄','Planetary 2Tbsp','WPDYAET 4件套'];
+const topVals=[3000,2000,1000,1000,1000,1000,1000,800,800,700,700,600,600,600,500];
+new Chart(document.getElementById('topChart'), {
+  type:'bar',
+  data:{ labels:topLabels, datasets:[{ data:topVals, backgroundColor:'#B87D50', borderRadius:5, maxBarThickness:18 }]},
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{ x:{grid:grid}, y:{grid:{display:false}, ticks:{font:{size:11.5}}} } }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="popup.css" />
+  <title>Geo Consistency</title>
+</head>
+<body>
+  <header>
+    <h1>Geo Consistency</h1>
+    <span id="src" class="badge" title="coordinate source"></span>
+  </header>
+
+  <section class="toggles">
+    <label class="row"><span>Location (geolocation)</span>
+      <input type="checkbox" id="locationEnabled" /></label>
+    <label class="row"><span>Timezone</span>
+      <input type="checkbox" id="timezoneEnabled" /></label>
+    <label class="row"><span>Language</span>
+      <input type="checkbox" id="languageEnabled" /></label>
+  </section>
+
+  <section class="fields">
+    <label class="row"><span>Precision</span>
+      <select id="precisionMeters">
+        <option value="50">Precise (~50 m)</option>
+        <option value="500">Neighborhood (~500 m)</option>
+        <option value="1500">District (~1.5 km)</option>
+        <option value="5000">City (~5 km)</option>
+      </select>
+    </label>
+    <label class="row"><span>Refresh every (min)</span>
+      <input type="number" id="refreshMinutes" min="5" max="1440" step="5" /></label>
+    <label class="row"><span>ipinfo token (optional)</span>
+      <input type="text" id="ipinfoToken" placeholder="leave blank to skip" /></label>
+  </section>
+
+  <section class="actions">
+    <button id="save">Save</button>
+    <button id="refresh" class="primary">Refresh now</button>
+  </section>
+
+  <section id="status" class="status">
+    <div class="muted">No profile yet — click “Refresh now”.</div>
+  </section>
+
+  <footer class="muted">
+    Local-only · no telemetry · external requests only for IP/geo lookup
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

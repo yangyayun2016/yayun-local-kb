@@ -1,0 +1,926 @@
+{
+  "LEAK 烧而不沉": [
+    {
+      "keyword": "air purifiers for home 2 pack",
+      "sv": 222.0,
+      "score": 2.4,
+      "action": "广告在烧但自然未沉淀(AOT-L3词级): 查该词CVR是否低于市场; 达标则续投等沉淀, 不达标降位/换匹配"
+    },
+    {
+      "keyword": "air purifier cute",
+      "sv": 0.0,
+      "score": 0.0,
+      "action": "广告在烧但自然未沉淀(AOT-L3词级): 查该词CVR是否低于市场; 达标则续投等沉淀, 不达标降位/换匹配"
+    }
+  ],
+  "GAP 短板词": [
+    {
+      "keyword": "aroeve air purifier",
+      "sv": 2535.0,
+      "score": 61.43,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "room accessories",
+      "sv": 5934.0,
+      "score": 49.96,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "dust eliminator",
+      "sv": 348.0,
+      "score": 48.81,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "aroeve",
+      "sv": 368.0,
+      "score": 48.51,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "smoke eaters for cigarette smoke",
+      "sv": 368.0,
+      "score": 42.94,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "aerove air purifier",
+      "sv": 166.0,
+      "score": 41.82,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "dust eliminator air purifier",
+      "sv": 161.0,
+      "score": 41.77,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "smoke air purifier",
+      "sv": 459.0,
+      "score": 41.7,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "smoke remover",
+      "sv": 202.0,
+      "score": 41.56,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "heavy smoker air purifier",
+      "sv": 181.0,
+      "score": 40.81,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "air purifier for smoke smell",
+      "sv": 207.0,
+      "score": 40.61,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "air filter purifier",
+      "sv": 303.0,
+      "score": 39.91,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "smoke air filter",
+      "sv": 166.0,
+      "score": 39.68,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "aroveve air purifier",
+      "sv": 171.0,
+      "score": 39.41,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "aeroeve air purifier",
+      "sv": 166.0,
+      "score": 38.61,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "room deodorizer machine",
+      "sv": 126.0,
+      "score": 38.36,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "smell eliminator for home",
+      "sv": 585.0,
+      "score": 37.04,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "airfilters for home",
+      "sv": 601.0,
+      "score": 36.41,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "air odor eliminator",
+      "sv": 358.0,
+      "score": 34.43,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "home smell good must haves",
+      "sv": 353.0,
+      "score": 33.72,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "air filter for house",
+      "sv": 156.0,
+      "score": 32.23,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "apartment living room essentials",
+      "sv": 217.0,
+      "score": 32.03,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "air filter machine",
+      "sv": 469.0,
+      "score": 31.76,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "room odor eliminator",
+      "sv": 1126.0,
+      "score": 31.7,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "air purifier essential oil",
+      "sv": 292.0,
+      "score": 31.33,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "air pirifier",
+      "sv": 267.0,
+      "score": 30.97,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "room accesories",
+      "sv": 171.0,
+      "score": 30.56,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "air filter home",
+      "sv": 217.0,
+      "score": 30.53,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "smoke remover for home",
+      "sv": 520.0,
+      "score": 30.44,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    },
+    {
+      "keyword": "room upgrades",
+      "sv": 252.0,
+      "score": 30.01,
+      "action": "竞品自然验证过而我方缺席: 先补收录(埋词/ST), 再SP低位测试"
+    }
+  ],
+  "OPP 临门一脚": [
+    {
+      "keyword": "air purifier",
+      "sv": 350951.0,
+      "score": 20.8,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "hepa air purifier",
+      "sv": 19949.0,
+      "score": 14.36,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "room air purifier",
+      "sv": 4469.0,
+      "score": 14.25,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "purifier",
+      "sv": 4282.0,
+      "score": 14.11,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifier for mold",
+      "sv": 2282.0,
+      "score": 12.66,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "purificador de aire",
+      "sv": 4797.0,
+      "score": 12.26,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "levoit mini air purifier",
+      "sv": 2166.0,
+      "score": 12.24,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifer",
+      "sv": 1616.0,
+      "score": 11.44,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "purificador de aire para el cuarto",
+      "sv": 1929.0,
+      "score": 11.26,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "levoit air purifier small room",
+      "sv": 1070.0,
+      "score": 9.7,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "clarion air ionizer purifier for home",
+      "sv": 1085.0,
+      "score": 9.69,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifyer",
+      "sv": 1080.0,
+      "score": 9.33,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "airpurifier for home",
+      "sv": 1989.0,
+      "score": 9.09,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifiers for home",
+      "sv": 155072.0,
+      "score": 9.08,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifiers for home pets",
+      "sv": 25979.0,
+      "score": 9.07,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifier for smoke",
+      "sv": 1595.0,
+      "score": 8.96,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "purificador de aire para casa",
+      "sv": 10833.0,
+      "score": 8.89,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "knka air purifier",
+      "sv": 1181.0,
+      "score": 8.22,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifiers",
+      "sv": 5666.0,
+      "score": 8.18,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifier hepa",
+      "sv": 3363.0,
+      "score": 7.79,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "￼air purifier",
+      "sv": 1121.0,
+      "score": 7.74,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "tolife air purifier",
+      "sv": 3459.0,
+      "score": 7.73,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air cleaner",
+      "sv": 1904.0,
+      "score": 7.4,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "labcharge ionic air purifiers for home",
+      "sv": 1550.0,
+      "score": 7.39,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "hepa air purifiers",
+      "sv": 1757.0,
+      "score": 7.36,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifier for pets",
+      "sv": 4439.0,
+      "score": 7.01,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifier for home",
+      "sv": 1717.0,
+      "score": 6.88,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "air purifier hepa filter",
+      "sv": 1156.0,
+      "score": 6.54,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "smoke eliminator for home smoking",
+      "sv": 1348.0,
+      "score": 6.49,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    },
+    {
+      "keyword": "pet air purifier",
+      "sv": 6217.0,
+      "score": 6.39,
+      "action": "已收录未打透: SP集中加码, 按SPR/8定日单量目标冲前3页"
+    }
+  ],
+  "DEFEND 防守词": [
+    {
+      "keyword": "fulminare air purifier",
+      "sv": 838.0,
+      "score": 53.92,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "small hepa air purifier",
+      "sv": 398.0,
+      "score": 38.31,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "small room air purifier",
+      "sv": 1919.0,
+      "score": 36.79,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "small air purifier",
+      "sv": 6883.0,
+      "score": 36.34,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "desk air purifier",
+      "sv": 1176.0,
+      "score": 36.01,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier small room",
+      "sv": 868.0,
+      "score": 31.56,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier small",
+      "sv": 1282.0,
+      "score": 30.81,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier for dorm room",
+      "sv": 12439.0,
+      "score": 30.7,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifiers for dorm",
+      "sv": 434.0,
+      "score": 28.43,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier for dorm",
+      "sv": 1833.0,
+      "score": 28.05,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "mini air purifier",
+      "sv": 4368.0,
+      "score": 27.97,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier for small room",
+      "sv": 358.0,
+      "score": 27.57,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "dorm air purifier",
+      "sv": 1176.0,
+      "score": 27.25,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "desk air purifier for office",
+      "sv": 333.0,
+      "score": 27.17,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier dorm room",
+      "sv": 287.0,
+      "score": 26.15,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "cheap air purifier",
+      "sv": 191.0,
+      "score": 26.08,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "compact air purifiers small bedroom",
+      "sv": 207.0,
+      "score": 25.83,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "mini air filter",
+      "sv": 222.0,
+      "score": 25.65,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier desk",
+      "sv": 156.0,
+      "score": 25.28,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier mini",
+      "sv": 479.0,
+      "score": 25.21,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier for office space",
+      "sv": 156.0,
+      "score": 23.97,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "compact air purifiers for small rooms",
+      "sv": 166.0,
+      "score": 23.79,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "compact air purifiers for dorm room",
+      "sv": 176.0,
+      "score": 23.43,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "small space air purifier",
+      "sv": 151.0,
+      "score": 22.95,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "small office air purifier",
+      "sv": 136.0,
+      "score": 22.54,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "mini hepa air purifier",
+      "sv": 166.0,
+      "score": 22.53,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "ultra quiet air purifier bedroom",
+      "sv": 146.0,
+      "score": 22.34,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifiers for bedroom small",
+      "sv": 161.0,
+      "score": 22.31,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "air purifier dorm",
+      "sv": 823.0,
+      "score": 22.11,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    },
+    {
+      "keyword": "desk top air purifiers for office",
+      "sv": 126.0,
+      "score": 21.65,
+      "action": "护城河词: 保排名, 广告降配, 监控竞品份额侵蚀"
+    }
+  ],
+  "BLUE 蓝海词": [
+    {
+      "keyword": "dorm room essentials",
+      "sv": 93296.0,
+      "score": 4.97,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "woozoo fan",
+      "sv": 91090.0,
+      "score": 4.96,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "levoit air purifier",
+      "sv": 90084.0,
+      "score": 4.95,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "air freshener",
+      "sv": 77709.0,
+      "score": 4.89,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "humidifiers for bedroom",
+      "sv": 67975.0,
+      "score": 4.83,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "home",
+      "sv": 61175.0,
+      "score": 4.79,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "apartment essentials",
+      "sv": 62181.0,
+      "score": 4.79,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "azuna fresh odor eliminator kit",
+      "sv": 49830.0,
+      "score": 4.7,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "purepod",
+      "sv": 36449.0,
+      "score": 4.56,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "filter",
+      "sv": 30999.0,
+      "score": 4.49,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "dorm essentials",
+      "sv": 30247.0,
+      "score": 4.48,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "home improvement",
+      "sv": 29757.0,
+      "score": 4.47,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "odor eliminator",
+      "sv": 22378.0,
+      "score": 4.35,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "dorm",
+      "sv": 22439.0,
+      "score": 4.35,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "dorm room essentials for girls",
+      "sv": 21292.0,
+      "score": 4.33,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "azuna",
+      "sv": 19964.0,
+      "score": 4.3,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "pets",
+      "sv": 19550.0,
+      "score": 4.29,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "pet",
+      "sv": 17636.0,
+      "score": 4.25,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "levoit fan",
+      "sv": 17732.0,
+      "score": 4.25,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "mini",
+      "sv": 17984.0,
+      "score": 4.25,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "activated charcoal odor absorber",
+      "sv": 17797.0,
+      "score": 4.25,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "ozone machine",
+      "sv": 17297.0,
+      "score": 4.24,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "freidora de aire",
+      "sv": 17560.0,
+      "score": 4.24,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "dyson air purifier",
+      "sv": 17040.0,
+      "score": 4.23,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "woozoo",
+      "sv": 16676.0,
+      "score": 4.22,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "smoke buddy",
+      "sv": 16429.0,
+      "score": 4.22,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "vornado",
+      "sv": 16636.0,
+      "score": 4.22,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "new home essentials",
+      "sv": 16030.0,
+      "score": 4.2,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "winix air purifier",
+      "sv": 15393.0,
+      "score": 4.19,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    },
+    {
+      "keyword": "air purifier filter",
+      "sv": 15252.0,
+      "score": 4.18,
+      "action": "全员份额低的大词: 验证相关性后低价卡位, 差异化埋词"
+    }
+  ],
+  "TAIL 长尾观察": [
+    {
+      "keyword": "aor purifier for home",
+      "sv": 712.0,
+      "score": 5.17,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air purifier for smokers",
+      "sv": 510.0,
+      "score": 5.02,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "dust absorber for room",
+      "sv": 252.0,
+      "score": 4.72,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "purificadores de aire para el hogar",
+      "sv": 227.0,
+      "score": 4.59,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "dust collector for home",
+      "sv": 242.0,
+      "score": 4.42,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air purifier for cat litter",
+      "sv": 186.0,
+      "score": 4.41,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "filtro de aire para casa",
+      "sv": 186.0,
+      "score": 4.32,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "￼air purifiers",
+      "sv": 151.0,
+      "score": 4.27,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air purifier for kitchen cooking odors",
+      "sv": 176.0,
+      "score": 4.15,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "aire purifiers for home",
+      "sv": 146.0,
+      "score": 4.13,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "- air purifier",
+      "sv": 595.0,
+      "score": 4.1,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air purifier for smokers weed",
+      "sv": 136.0,
+      "score": 4.08,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "cat litter air purifier",
+      "sv": 393.0,
+      "score": 3.92,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air cleaner for bedroom",
+      "sv": 661.0,
+      "score": 3.89,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "home dust remover",
+      "sv": 202.0,
+      "score": 3.81,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air filter for home",
+      "sv": 318.0,
+      "score": 3.78,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air cleaners",
+      "sv": 247.0,
+      "score": 3.71,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "sir purifier for home",
+      "sv": 424.0,
+      "score": 3.67,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air ourifier",
+      "sv": 929.0,
+      "score": 3.54,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "rv air purifier",
+      "sv": 171.0,
+      "score": 3.49,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air purifiers for smokers",
+      "sv": 257.0,
+      "score": 3.39,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "eliminador de olores para casa",
+      "sv": 373.0,
+      "score": 3.24,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "purificador",
+      "sv": 292.0,
+      "score": 3.1,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air pruifier",
+      "sv": 166.0,
+      "score": 3.04,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "aur purifier",
+      "sv": 207.0,
+      "score": 2.98,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "smoke purifier for smoking indoors",
+      "sv": 464.0,
+      "score": 2.96,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "room purifiers for home",
+      "sv": 191.0,
+      "score": 2.94,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "airpurifier",
+      "sv": 479.0,
+      "score": 2.88,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "silent air purifier",
+      "sv": 505.0,
+      "score": 2.81,
+      "action": "暂不投入, 季度复查"
+    },
+    {
+      "keyword": "air purfier",
+      "sv": 454.0,
+      "score": 2.78,
+      "action": "暂不投入, 季度复查"
+    }
+  ]
+}

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>细分市场转化率怎么判 · 五源交叉验证手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Noto+Serif:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF; --border:#E8E6E2; --divider:#C5C0BA;
+  --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+  --hero-bg:#DDE3E8; --hero-deco:#9BADB0; --hero-deco2:#6E9298;
+  --success-bg:#E8FBCF; --success-fg:#3D4826;
+  --warning-bg:#FFF0DC; --warning-fg:#E47700;
+  --info-bg:#DEE5F7; --info-fg:#3E54CE;
+  --error-bg:#FDECEA; --error-fg:#C4433A;
+  --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+  --accent:#6E9298; --accent2:#9BADB0;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--outer-bg);
+  color:var(--text-body);
+  font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  font-size:14px; line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  padding:28px 20px;
+}
+.page{
+  max-width:1200px; margin:0 auto; background:var(--page-bg);
+  border-radius:24px; overflow:hidden;
+  box-shadow:0 1px 2px rgba(0,0,0,.04), 0 18px 50px rgba(0,0,0,.07);
+}
+/* ---------- hero ---------- */
+.hero{position:relative; background:var(--hero-bg); padding:40px 44px 34px; overflow:hidden}
+.blob{position:absolute; opacity:.17; pointer-events:none}
+.blob.b1{width:340px;height:230px;top:-70px;right:6%;background:var(--hero-deco);
+  border-radius:62% 38% 47% 53% / 55% 47% 53% 45%; transform:rotate(-8deg)}
+.blob.b2{width:220px;height:180px;bottom:-80px;left:12%;background:var(--hero-deco2);
+  border-radius:44% 56% 61% 39% / 48% 62% 38% 52%; transform:rotate(14deg)}
+.blob.b3{width:150px;height:120px;top:22%;left:38%;background:var(--hero-deco);
+  border-radius:57% 43% 39% 61% / 43% 56% 44% 57%; transform:rotate(24deg)}
+.hero-content{position:relative; z-index:1}
+.eyebrow{font-size:11px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#4A5E63; margin-bottom:14px}
+.hero h1{margin:0 0 14px; font-size:31px; line-height:1.28; font-weight:600; color:var(--text-primary); letter-spacing:-.015em; max-width:760px}
+.hero p.sub{margin:0; font-size:14px; color:#415257; max-width:780px; line-height:1.75}
+.hero-sep{height:1px; background:rgba(255,255,255,.72); margin:24px 0 18px; border:0}
+.statrow{display:flex; flex-wrap:wrap; gap:38px}
+.stat .v{font-size:26px; font-weight:600; color:var(--text-primary); letter-spacing:-.02em; line-height:1.1}
+.stat .l{font-size:12px; color:#415257; margin-top:5px}
+/* ---------- layout ---------- */
+main{padding:8px 44px 20px}
+section{padding:34px 0; border-bottom:.5px solid var(--border)}
+section:last-of-type{border-bottom:0}
+.sec-head{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+h2{margin:0; font-size:17px; font-weight:600; color:var(--text-primary); letter-spacing:-.01em}
+.sub-label{font-size:12px; color:var(--text-secondary)}
+.rule{height:.5px; background:var(--border); margin:12px 0 20px}
+h3{margin:26px 0 10px; font-size:15px; font-weight:600; color:var(--text-primary)}
+h3:first-child{margin-top:0}
+p{margin:0 0 12px}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+.card{background:var(--surface); border:.5px solid var(--border); border-radius:12px; padding:16px 18px}
+.card .ct{font-size:15px; font-weight:600; color:var(--text-primary); margin-bottom:4px}
+.card .cm{font-size:12px; color:var(--text-secondary); margin-bottom:10px}
+.card p{font-size:13px; margin:0 0 8px}
+.card p:last-child{margin-bottom:0}
+/* ---------- alert ---------- */
+.alert{border-radius:10px; padding:14px 16px; margin:16px 0; font-size:13px; line-height:1.7}
+.alert .t{font-weight:600; margin-bottom:4px}
+.a-info{background:var(--info-bg); color:var(--info-fg)}
+.a-warn{background:var(--warning-bg); color:var(--warning-fg)}
+.a-err{background:var(--error-bg); color:var(--error-fg)}
+.a-succ{background:var(--success-bg); color:var(--success-fg)}
+.a-neutral{background:var(--neutral-bg); color:var(--neutral-fg)}
+/* ---------- table ---------- */
+.tw{overflow-x:auto; margin:14px 0; border:.5px solid var(--border); border-radius:12px; background:var(--surface)}
+table{width:100%; border-collapse:collapse; min-width:640px}
+th{font-size:12px; font-weight:500; color:var(--text-secondary); text-align:left; padding:11px 14px; border-bottom:1px solid var(--divider); white-space:nowrap; background:#FCFBF8}
+td{font-size:13px; padding:11px 14px; border-bottom:.5px solid var(--border); vertical-align:top; color:var(--text-body)}
+tr:last-child td{border-bottom:0}
+td strong{color:var(--text-primary); font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; background:#F3F1EC; padding:1px 5px; border-radius:4px; color:#3D3D3D}
+/* ---------- pills ---------- */
+.pill{display:inline-block; font-size:11px; font-weight:500; padding:3px 9px; border-radius:20px; white-space:nowrap}
+.p-up{background:var(--info-bg); color:var(--info-fg)}
+.p-mid{background:var(--neutral-bg); color:var(--neutral-fg)}
+.p-low{background:var(--warning-bg); color:var(--warning-fg)}
+.p-ref{background:var(--success-bg); color:var(--success-fg)}
+.p-err{background:var(--error-bg); color:var(--error-fg)}
+/* ---------- progress ---------- */
+.pb{margin:9px 0}
+.pb .row{display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px; gap:12px}
+.pb .row .name{color:var(--text-primary)}
+.pb .row .val{color:var(--text-secondary); white-space:nowrap}
+.track{height:4px; background:var(--border); border-radius:4px; overflow:hidden}
+.fill{height:100%; border-radius:4px}
+/* ---------- source block ---------- */
+.src{border:.5px solid var(--border); border-radius:12px; background:var(--surface); padding:18px 20px; margin-bottom:14px}
+.src-h{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:6px}
+.src-h .n{width:22px;height:22px;border-radius:6px;background:var(--hero-bg);color:#3B4E53;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.src-h .t{font-size:15px; font-weight:600; color:var(--text-primary)}
+.src-h .en{font-size:12px; color:var(--text-secondary)}
+.line{font-size:13px; margin:0 0 8px}
+.line .k{color:var(--text-secondary); font-size:12px; display:inline-block; min-width:74px}
+.formula{background:#2F3A3C; color:#E7EDEE; border-radius:8px; padding:11px 14px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; line-height:1.8; margin:10px 0; overflow-x:auto}
+/* ---------- chart ---------- */
+.chart-card{background:var(--surface); border:.5px solid var(--border); border-radius:12px; padding:18px 20px; margin:16px 0}
+.chart-title{font-size:15px; font-weight:600; color:var(--text-primary); margin-bottom:2px}
+.chart-note{font-size:12px; color:var(--text-secondary); margin-bottom:14px}
+.legend{display:flex; flex-wrap:wrap; gap:16px; margin-bottom:12px}
+.legend .li{display:flex; align-items:center; gap:6px; font-size:12px; color:var(--text-secondary)}
+.legend .sq{width:9px;height:9px;border-radius:2px}
+.seg{display:inline-flex; background:#F3F1EC; border-radius:20px; padding:3px; margin-bottom:14px}
+.seg button{border:0; background:transparent; font-family:inherit; font-size:12px; font-weight:500; color:var(--text-secondary); padding:5px 13px; border-radius:16px; cursor:pointer}
+.seg button.on{background:var(--surface); color:var(--text-primary); box-shadow:0 1px 2px rgba(0,0,0,.07)}
+/* ---------- checklist ---------- */
+.chk{list-style:none; padding:0; margin:10px 0 0}
+.chk li{position:relative; padding:9px 0 9px 30px; border-bottom:.5px solid var(--border); font-size:13px}
+.chk li:last-child{border-bottom:0}
+.chk li:before{content:""; position:absolute; left:0; top:12px; width:14px;height:14px; border:1px solid var(--divider); border-radius:4px; background:var(--surface)}
+/* ---------- misc ---------- */
+.mis{border-left:2px solid var(--accent2); padding:2px 0 2px 14px; margin:0 0 14px}
+.mis .h{font-size:13px; font-weight:600; color:var(--text-primary)}
+.mis .d{font-size:13px; color:var(--text-body)}
+.term{background:var(--surface); border:.5px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:10px}
+.term .e{font-size:12px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:var(--accent); word-break:break-word}
+.term .c{font-size:13px; color:var(--text-body); margin-top:3px}
+.refs{list-style:none; padding:0; margin:0}
+.refs li{padding:10px 0; border-bottom:.5px solid var(--border); font-size:13px}
+.refs li:last-child{border-bottom:0}
+.refs a{color:var(--info-fg); text-decoration:none; border-bottom:.5px solid rgba(62,84,206,.35)}
+.refs a:hover{border-bottom-color:var(--info-fg)}
+.refs .d{display:block; font-size:12px; color:var(--text-secondary); margin-top:3px}
+/* ---------- footer ---------- */
+footer{background:var(--hero-bg); position:relative; overflow:hidden; padding:34px 44px 18px; margin-top:8px}
+.foot-content{position:relative; z-index:1}
+.foot-top{display:flex; justify-content:space-between; gap:26px; flex-wrap:wrap}
+.foot-brand .b{font-size:15px; font-weight:600; color:var(--text-primary)}
+.foot-brand .s{font-size:12px; color:#415257; margin-top:4px; max-width:420px}
+.foot-meta{display:grid; grid-template-columns:auto 1fr; gap:5px 16px; font-size:12px}
+.foot-meta .k{color:#5A6C71}
+.foot-meta .v{color:var(--text-primary)}
+.foot-sep{height:1px; background:rgba(255,255,255,.72); margin:22px 0 14px; border:0}
+.foot-bar{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:12px; color:#415257}
+.foot-bar a{color:#37474B}
+@media (max-width:820px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  .hero{padding:32px 22px 26px}
+  .hero h1{font-size:25px}
+  main{padding:6px 22px 16px}
+  footer{padding:28px 22px 16px}
+  .statrow{gap:24px}
+}
+@media (max-width:720px){
+  body{padding:0}
+  .page{border-radius:0; max-width:none; box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="hero-content">
+      <div class="eyebrow">亚马逊选品 · 数据口径 · 深度解析</div>
+      <h1>细分市场转化率怎么判：五个数据源，不是五个答案</h1>
+      <p class="sub">它们量的是同一条漏斗上的不同层。有人天然给你<b>上限</b>，有人天然给你<b>下限</b>，官方品类中位数给你<b>参照系</b>。判读的正确顺序不是「找到一个准确数字」，而是「先把区间圈出来，再看自己的产品落在哪」。</p>
+      <hr class="hero-sep">
+      <div class="statrow">
+        <div class="stat"><div class="v">5</div><div class="l">可交叉验证的数据源</div></div>
+        <div class="stat"><div class="v">2 端</div><div class="l">上限口径 / 下限口径</div></div>
+        <div class="stat"><div class="v">3 层</div><div class="l">顾客级 · 会话级 · 浏览级</div></div>
+        <div class="stat"><div class="v">12 个月</div><div class="l">最小观察窗（按月拆）</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============ 1 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>一、先把结论放在最前面</h2>
+        <span class="sub-label">判断动作是「圈区间 + 定位自己」，不是「找一个标准值」</span>
+      </div>
+      <div class="rule"></div>
+
+      <div class="grid3">
+        <div class="card">
+          <div class="ct">转化率不是一个数</div>
+          <div class="cm">同一细分市场，换一个分母就换一个数</div>
+          <p>「搜索→购买」「点击→成交」「浏览→成交」是三个不同的比率。任何来源报给你的转化率，先问三件事：<b>分子是什么、分母是什么、去重没有</b>。</p>
+        </div>
+        <div class="card">
+          <div class="ct">每个源自带立场</div>
+          <div class="cm">高意图口径偏高，全量口径偏低</div>
+          <p>越靠近「明确搜索意图」的口径，分母越窄、读数越高，天然是<b>上限</b>；越靠近「详情页被瞥一眼」的口径，分母越宽、读数越低，天然是<b>下限</b>。</p>
+        </div>
+        <div class="card">
+          <div class="ct">交叉验证才敢下注</div>
+          <div class="cm">单源决策 = 赌博，五源夹逼 = 下注</div>
+          <p>上限、下限、中位参照三样凑齐，才能回答真正的问题：<b>「我做到多少算合格，做到多少算优秀」</b>。</p>
+        </div>
+      </div>
+
+      <div class="alert a-info">
+        <div class="t">重要声明</div>
+        本手册只讲「怎么读口径」，<b>不提供任何行业标准转化率数字</b>。亚马逊不同站点、不同类目、不同版本后台的字段与分位定义会变，所有口径以你账号当下后台的文案与说明为准。文中出现的具体百分比一律为「示意」，仅用于说明方向。
+      </div>
+
+      <h3>读数的方向：同一个市场，换分母就换故事</h3>
+      <div class="pb"><div class="row"><span class="name">① 商机探测器 · 搜索→购买口径</span><span class="val">读数最高</span></div><div class="track"><div class="fill" style="width:100%;background:#6E9298"></div></div></div>
+      <div class="pb"><div class="row"><span class="name">③ 品牌指标 · 品类首位（头部品牌水平）</span><span class="val">参照上限</span></div><div class="track"><div class="fill" style="width:76%;background:#7E9CA2"></div></div></div>
+      <div class="pb"><div class="row"><span class="name">⑤ 广告后台 · 广告点击口径</span><span class="val">高意图，不可当自然</span></div><div class="track"><div class="fill" style="width:71%;background:#9BADB0"></div></div></div>
+      <div class="pb"><div class="row"><span class="name">③ 品牌指标 · 品类中位数（50 分位）</span><span class="val">最贴近「合格线」</span></div><div class="track"><div class="fill" style="width:50%;background:#C5C0BA"></div></div></div>
+      <div class="pb"><div class="row"><span class="name">② 选品指南针 · 售出件数 ÷ 浏览量</span><span class="val">读数最低</span></div><div class="track"><div class="fill" style="width:24%;background:#D8B48A"></div></div></div>
+      <div class="chart-note" style="margin-top:10px">上图条长仅为口径间的<b>相对方向示意</b>，不代表任何真实类目的数值。下一节的柱状图会给出同一组示意数值。</div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>二、五个数据源，逐个拆到口径层</h2>
+        <span class="sub-label">每个源都按同一模板看：定义 → 公式 → 给的是上限还是下限 → 前置条件 → 最容易错的地方</span>
+      </div>
+      <div class="rule"></div>
+
+      <!-- 1 -->
+      <div class="src">
+        <div class="src-h">
+          <span class="n">①</span>
+          <span class="t">商机探测器（商品表 + 搜索词表）</span>
+          <span class="en">Product Opportunity Explorer</span>
+          <span class="pill p-up">上限口径</span>
+        </div>
+        <p class="line"><span class="k">它是什么</span>用买家真实搜索行为，反推一个需求场景的规模与成交效率。「搜索词」页签给需求量与转化，「商品」页签给供给端的点击分布。</p>
+        <p class="line"><span class="k">你能拿到</span>搜索词侧：搜索量、搜索量增长、<b>点击份额</b>、<b>搜索转化率</b>、Top 3 点击商品；商品侧：父 ASIN、品牌、类目、上架日期、<b>点击量</b>、<b>点击份额</b>、平均售价、评论数、评分。</p>
+        <div class="formula">
+搜索转化率（后台口径） = 销售量 ÷ <b>搜索量</b>　←　注意：分母不是点击量
+点击口径转化率 = (搜索量 × 搜索转化率) ÷ (细分市场总点击量 × 点击份额)
+        </div>
+        <p class="line"><span class="k">为什么是上限</span>这是全漏斗里「意图最明确」的一段流量——买家已经主动打字搜了。用它去代表整个细分市场的成交效率，必然偏高。</p>
+        <div class="alert a-warn" style="margin:10px 0 0">
+          <div class="t">最常踩的坑</div>
+          把「搜索转化率」当成「点击转化率」直接引用。后台这一列的分母是<b>搜索量</b>，不是点击量；不做这一步换算，你会把一个偏高的数当成落地指标，广告投产预期直接崩掉。
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="src">
+        <div class="src-h">
+          <span class="n">②</span>
+          <span class="t">选品指南针 / 细分市场</span>
+          <span class="en">Niche · Marketplace Product Guidance</span>
+          <span class="pill p-low">下限口径</span>
+        </div>
+        <p class="line"><span class="k">它是什么</span>把相关搜索词与商品归集成一个「买家需求集合」，给你这个集合近 12 个月的<b>售出件数</b>与<b>浏览量</b>，以及搜索购买转化比、价格带分布。</p>
+        <div class="formula">
+类目平均转化率（你口中的下限） = 近 12 个月售出件数 ÷ 近 12 个月浏览量（Glance Views）
+        </div>
+        <p class="line"><span class="k">为什么是下限</span>Glance Views 是「详情页被看了一眼」的次数：推荐位、广告位、比价、凑单全都算进去，意图最杂、分母最宽，所以读出来最低。</p>
+        <div class="alert a-warn" style="margin:10px 0 0">
+          <div class="t">两个口径陷阱</div>
+          <b>一单多件：</b>分子是「件数」，分母是「浏览次数」，一个订单带走 3 件会把读数虚高。真正对应的口径应该是「订单数 ÷ 会话数」。<br>
+          <b>不去重：</b>Glance Views 不按人去重，同一人反复看会被反复计数；所以它绝不等于「独立访客数」。<br>
+          <b>按年化会被季节性抹平：</b>务必自己按月拆，12 个月的合计数只是平均值。
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="src">
+        <div class="src-h">
+          <span class="n">③</span>
+          <span class="t">品牌指标 · 顾客转化率（自有 + 品类基准）</span>
+          <span class="en">Brand Metrics · Customer Conversion Rate</span>
+          <span class="pill p-ref">参照系</span>
+        </div>
+        <p class="line"><span class="k">它是什么</span>后台会同时给你两条线：<b>你自己的顾客转化率</b>，以及该品类的<b>品类中位数</b>（50 分位）与<b>品类首位</b>（头部品牌水平，常见理解为该品类前 10% 分位段，不同站点/版本的表述略有差异，以后台说明为准）。</p>
+        <div class="formula">
+顾客转化率 = 由「考虑」转为「购买」的顾客比例
+「考虑」事件 = 查看详情页 ／ 搜索品牌并查看详情页 ／ 加入购物车
+        </div>
+        <p class="line"><span class="k">它给的是什么</span>不是「这个细分市场的转化率」，而是<b>「这个品类里，一个合格品牌该是多少、头部是多少」</b>。它的价值在于把「合格线」和「优秀线」摆在你面前。</p>
+        <p class="line"><span class="k">前置条件</span>前提是你的品牌在该品类内积累了足够的「考虑」事件量——这通常意味着<b>品牌备案已通过 + 你的商品在该品类里能被搜到、有稳定的曝光与详情页浏览</b>。你说「要在这个类目下做广告才拿得到」，方向是对的：数据量不足时后台直接显示无数据。但严格说，它统计的是顾客级互动（去重），不是广告订单。</p>
+        <div class="alert a-warn" style="margin:10px 0 0">
+          <div class="t">最常踩的坑</div>
+          它是<b>顾客级（去重）</b>口径，不是 ASIN 级、更不是会话级。拿它去反推某个单品的详情页转化率，一定会对不上。它的正确用法是「定标尺」，不是「算单品」。
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="src">
+        <div class="src-h">
+          <span class="n">④</span>
+          <span class="t">品牌分析 ABA · 搜索词报告</span>
+          <span class="en">Brand Analytics · Search Query Performance</span>
+          <span class="pill p-mid">关键词层校验</span>
+        </div>
+        <p class="line"><span class="k">它是什么</span>给你每个搜索词下的<b>点击份额</b>与<b>转化（购买）份额</b>，以及 Top 3 点击商品 / Top 3 转化商品。</p>
+        <div class="formula">
+点击份额   = 搜索该词后点击某产品的次数 ÷ 搜索该词后点击任意产品的总次数
+转化份额   = 搜索该词后购买某产品的次数 ÷ 搜索该词后购买任意产品的总次数
+关键词点击转化率 ≈ 搜索转化率 ÷ 搜索点击率　（两者同分母，相除即得「销量 ÷ 点击量」）
+        </div>
+        <p class="line"><span class="k">它给的是什么</span>ABA 里通常没有一列直接叫「转化率」，它给的是<b>份额结构</b>。份额与转化率是两回事：份额衡量「谁赢得了这次搜索」，转化率衡量「这次访问有多少变成了购买」。如果某商品点击份额高、转化份额低，说明它<b>抢到了点击但没接住</b>——主图/价格/评分与流量意图不匹配，问题在详情页而非流量。</p>
+        <div class="alert a-warn" style="margin:10px 0 0">
+          <div class="t">最常踩的坑</div>
+          把「转化份额」当「转化率」用。份额的分母是<b>该词下的总购买量</b>，转化率的分母是<b>点击量或浏览量</b>。两者量纲不同，不能混用，也不能直接和广告后台的转化率对比。
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="src">
+        <div class="src-h">
+          <span class="n">⑤</span>
+          <span class="t">广告后台基准 + CPC，以及第三方工具与官方经理</span>
+          <span class="en">Ads Benchmark Report · CPC · 3rd-party tools · Account Manager</span>
+          <span class="pill p-mid">交叉验证</span>
+        </div>
+        <p class="line"><span class="k">广告后台你有的</span>自己的<b>广告点击转化率</b>（广告订单 ÷ 广告点击）、CPC、CTR；以及面向同品类广告主的<b>基准报告</b>（常见指标包含品牌新客购买占比、品牌新客购买率、CTR、CPC、视频完播率等，具体字段以后台为准）。</p>
+        <p class="line"><span class="k">它给的是什么</span>广告口径的转化率天然<b>偏高</b>——你投的是自己筛过的高意图词，还屏蔽了一批低质流量。它不能代表类目自然转化率，但它能回答另一个更重要的问题：<b>「在我能买到的流量上，我把流量变现的效率够不够」</b>。</p>
+        <p class="line"><span class="k">第三方工具（极目数据等）</span>常见卖点是「竞品转化率、关键词点击转化率、ASIN 点击量」。方法论普遍是抓取 + 建模 + 反推，输出的是<b>聚合级</b>估算。三大误差来源：多变体按单变体估算、更新频率受订阅级别限制、不同工具算法不同导致同指标不同值。正确用法是<b>看趋势、做交叉验证</b>，不是拿单一数字做立项决策。</p>
+        <p class="line"><span class="k">官方经理 / 付费账户经理</span>能从内部系统调取类目洞察，最大价值是<b>确认口径</b>。但要注意：他们给的批次、口径、覆盖范围往往不可复现，所以每次都要当场问清三件事——<b>分子、分母、时间窗</b>，并把答案记进你的数据台账。</p>
+        <div class="alert a-warn" style="margin:10px 0 0">
+          <div class="t">最常踩的坑</div>
+          用广告后台的转化率代表类目自然转化率。你的投放结构一旦调整（加否定词、换匹配方式、改竞价），这个数立刻漂移；它衡量的是你的操作，不是市场的本性。
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>三、机制解析：为什么① 是上限、② 是下限</h2>
+        <span class="sub-label">决定高低的不是工具，是分母站在漏斗的哪一层</span>
+      </div>
+      <div class="rule"></div>
+
+      <p>买家从「想买」到「付钱」是一条不断筛人的漏斗。同一批最终成交的人，只要你把分母从漏斗上游往下游挪一格，读数就会掉一截——因为分母里混进了越来越多「只是看看」的人。</p>
+
+      <div class="grid3">
+        <div class="card">
+          <div class="ct">上游：搜索</div>
+          <div class="cm">分母 ≈ 搜索量</div>
+          <p>最窄、意图最纯。买家主动表达需求。<br><b>→ 读数最高，天然上限。</b></p>
+        </div>
+        <div class="card">
+          <div class="ct">中游：点击</div>
+          <div class="cm">分母 ≈ 点击量 / 广告点击</div>
+          <p>已经点进详情页，但仍在比价、犹豫。<br><b>→ 读数居中，最接近可落地的目标。</b></p>
+        </div>
+        <div class="card">
+          <div class="ct">下游：浏览</div>
+          <div class="cm">分母 ≈ 详情页浏览量</div>
+          <p>推荐位、广告位、比价、凑单全算进来。<br><b>→ 读数最低，天然下限。</b></p>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">同一细分市场、换不同分母，读出来的转化率（示意）</div>
+        <div class="chart-note">数值为<b>示意</b>，仅用于说明「换分母」的方向与量级关系，不可引用为任何真实类目的数据。</div>
+        <div class="seg" id="seg">
+          <button class="on" data-mode="rate">转化率读数</button>
+          <button data-mode="rel">相对搜索口径的百分比</button>
+        </div>
+        <div class="legend">
+          <span class="li"><span class="sq" style="background:#6E9298"></span>上限口径</span>
+          <span class="li"><span class="sq" style="background:#7E9CA2"></span>品类参照</span>
+          <span class="li"><span class="sq" style="background:#9BADB0"></span>广告口径</span>
+          <span class="li"><span class="sq" style="background:#C5C0BA"></span>中位参照</span>
+          <span class="li"><span class="sq" style="background:#D8B48A"></span>下限口径</span>
+        </div>
+        <div style="position: relative; height: 300px;">
+          <canvas id="cvrChart"></canvas>
+        </div>
+      </div>
+
+      <h3>分母为什么会「越走越宽」</h3>
+      <div class="chart-card" style="margin-top:6px">
+        <div class="chart-title">同一批成交，分母规模沿漏斗放大（示意）</div>
+        <div class="chart-note">以「搜索量 = 1.0」为基准的示意倍数关系。真实类目中三档倍数的差距可能更大或更小。</div>
+        <div style="position: relative; height: 240px;">
+          <canvas id="funnelChart"></canvas>
+        </div>
+      </div>
+
+      <div class="alert a-succ">
+        <div class="t">一句话记住</div>
+        上限和下限不是两个「答案」，是同一个答案的<b>天花板与地板</b>。真实成交效率一定落在两者之间，而官方品类中位数告诉你「这个品类的地板离天花板有多远」。
+      </div>
+
+      <div class="alert a-err">
+        <div class="t">必须保留的反例</div>
+        在<b>一单多件特别严重</b>的类目（如耗材、配件、多件装），② 的「售出件数 ÷ 浏览量」会因为分子被件数放大而虚高，甚至可能反超点击口径。所以「① 高 ② 低」是<b>常态规律，不是定律</b>。凡是出现反常，先查「件数还是订单数」。
+      </div>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>四、口径对照总表</h2>
+        <span class="sub-label">打印出来贴在选品看板旁边</span>
+      </div>
+      <div class="rule"></div>
+      <div class="tw">
+        <table>
+          <thead>
+            <tr>
+              <th>数据源</th>
+              <th>分子</th>
+              <th>分母</th>
+              <th>去重粒度</th>
+              <th>给的是</th>
+              <th>前置条件</th>
+              <th>最容易错</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>① 商机探测器 · 搜索词</strong></td>
+              <td>销售量</td>
+              <td>搜索量</td>
+              <td>按搜索行为聚合</td>
+              <td><span class="pill p-up">上限</span></td>
+              <td>专业卖家后台可用</td>
+              <td>当成点击转化率</td>
+            </tr>
+            <tr>
+              <td><strong>② 选品指南针 · 细分市场</strong></td>
+              <td>售出件数（件）</td>
+              <td>浏览量 Glance Views</td>
+              <td>不去重（次数）</td>
+              <td><span class="pill p-low">下限</span></td>
+              <td>细分节点可选</td>
+              <td>件数 ÷ 次数、年化掩盖季节</td>
+            </tr>
+            <tr>
+              <td><strong>③ 品牌指标 · 顾客转化率</strong></td>
+              <td>购买顾客数</td>
+              <td>考虑品牌的人数</td>
+              <td>顾客级（去重）</td>
+              <td><span class="pill p-ref">参照系</span></td>
+              <td>品牌备案 + 品类内足够互动量</td>
+              <td>当作品类真实转化率</td>
+            </tr>
+            <tr>
+              <td><strong>④ ABA · 搜索词报告</strong></td>
+              <td>该产品购买次数</td>
+              <td>该词下总购买 / 总点击</td>
+              <td>份额结构</td>
+              <td><span class="pill p-mid">校验</span></td>
+              <td>品牌备案</td>
+              <td>把份额当比率</td>
+            </tr>
+            <tr>
+              <td><strong>⑤ 广告后台</strong></td>
+              <td>广告订单</td>
+              <td>广告点击</td>
+              <td>广告点击粒度</td>
+              <td><span class="pill p-mid">自查</span></td>
+              <td>在该类目有在跑广告</td>
+              <td>代表自然转化率</td>
+            </tr>
+            <tr>
+              <td><strong>⑤ 第三方工具 / 官方经理</strong></td>
+              <td>建模推算</td>
+              <td>建模推算</td>
+              <td>类目级 / 关键词级聚合</td>
+              <td><span class="pill p-mid">交叉验证</span></td>
+              <td>订阅 / 客户经理权限</td>
+              <td>用单一数字立项</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="chart-note">「去重粒度」这一列是很多人忽略的关键：① ② 是<b>次数</b>口径，③ 是<b>人</b>口径。人 ≠ 次数，两类数字永远不能直接相减或相除。</div>
+    </section>
+
+    <!-- ============ 5 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>五、后台字段逐句拆解</h2>
+        <span class="sub-label">左列照录后台英文文案，中列是实际含义，右列是你该做的动作</span>
+      </div>
+      <div class="rule"></div>
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>后台字段（英文原文）</th><th>实际含义</th><th>你该做什么</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>Search conversion rate</code><br><span class="sub-label">商机探测器</span></td>
+              <td>销售量 ÷ <b>搜索量</b>。衡量「搜了的人里有多少最终买了」，跨会话、包含延迟成交。</td>
+              <td>不要直接当转化率上报。要落地，先换算到点击口径。</td>
+            </tr>
+            <tr>
+              <td><code>Click share</code><br><span class="sub-label">商机探测器 / ABA</span></td>
+              <td>某产品获得的点击 ÷ 该词或该细分市场的总点击。衡量「流量份额」。</td>
+              <td>和转化份额并排看：高点击低转化 = 详情页接不住；低点击高转化 = 该加投放。</td>
+            </tr>
+            <tr>
+              <td><code>Glance Views</code> / <code>FOPV</code><br><span class="sub-label">细分市场 / 供应商中心</span></td>
+              <td>详情页被查看的次数。在供应商中心口径下，仅在自有报价赢得购买按钮时计数；<b>不按人去重</b>。</td>
+              <td>记住这是「次数」不是「人」，也不是「会话」。做分母时明确写清。</td>
+            </tr>
+            <tr>
+              <td><code>Customer conversion rate</code><br><span class="sub-label">品牌指标</span></td>
+              <td>由「考虑」到「购买」的<b>顾客</b>比例，考虑事件含详情页浏览、品牌搜索后浏览、加购。</td>
+              <td>把它当标尺定目标线，不要拿它反推单品详情页转化。</td>
+            </tr>
+            <tr>
+              <td><code>Category median</code><br><span class="sub-label">品牌指标</span></td>
+              <td>该品类 50 分位品牌的平均表现。</td>
+              <td>这是你的「<b>合格线</b>」。低于它，说明你的详情页或定价在品类里没竞争力。</td>
+            </tr>
+            <tr>
+              <td><code>Category top</code><br><span class="sub-label">品牌指标</span></td>
+              <td>该品类头部品牌的表现水平（常见口径为前 10% 分位段，具体以后台说明为准）。</td>
+              <td>这是你的「<b>挑战线</b>」。用来判断这个品类值不值得投入精品化改造。</td>
+            </tr>
+            <tr>
+              <td><code>Conversion share</code><br><span class="sub-label">ABA 搜索词报告</span></td>
+              <td>某产品购买次数 ÷ 该词下总购买次数。<b>是份额，不是比率</b>。</td>
+              <td>与点击份额配对使用，判断问题出在「抢流量」还是「接流量」。</td>
+            </tr>
+            <tr>
+              <td><code>Benchmark report</code><br><span class="sub-label">广告后台</span></td>
+              <td>面向同品类广告主的标准化对比，覆盖新客购买占比、购买率、CTR、CPC、视频完播率等。</td>
+              <td>用来校正「我的广告效率在同行里什么位置」，不要拿来替代自然转化率。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 6 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>六、把五个数拼成一个判断：三角定位工作流</h2>
+        <span class="sub-label">新品期 / 每月 / 每季度，三段节奏</span>
+      </div>
+      <div class="rule"></div>
+
+      <h3>新品期：只做「圈区间」，不做「定目标」</h3>
+      <div class="grid2">
+        <div class="card">
+          <div class="ct">要做</div>
+          <div class="cm">第 1–2 周</div>
+          <p>① 用商机探测器把细分市场的搜索口径转化率拉出来 → 得到<b>上限</b>；<br>
+             ② 用选品指南针拉近 12 个月件数 ÷ 浏览量 → 得到<b>下限</b>；<br>
+             ③ 打开品牌指标，抄下该品类的<b>中位数</b>与<b>首位</b> → 得到标尺。</p>
+          <p>三条线画在一张图上，区间就出来了。</p>
+        </div>
+        <div class="card">
+          <div class="ct">不要做</div>
+          <div class="cm">第 1–2 周</div>
+          <p>不要在数据量还不足时就纠结「我自己的转化率是多少」——你自己的数在这个阶段样本太小，波动全是噪音。此时唯一有意义的动作是<b>把区间摸清</b>，然后把上市首月的观测点定下来。</p>
+        </div>
+      </div>
+
+      <h3>每月：用「自己的实际值」去落点</h3>
+      <div class="grid2">
+        <div class="card">
+          <div class="ct">取数顺序</div>
+          <div class="cm">固定同一天取数，记快照日</div>
+          <p><b>Step 1</b> 拉自己的详情页转化率（会话口径），这是「我的读数」。</p>
+          <p><b>Step 2</b> 与品牌指标的品类中位数对齐：<b>在线上=合格，在中位与首位之间=有竞争力，超过首位=该加码</b>。</p>
+          <p><b>Step 3</b> 用 ABA 挑 3–5 个核心词看点击份额 / 转化份额，定位问题：抢不到流量，还是接不住流量。</p>
+        </div>
+        <div class="card">
+          <div class="ct">判断规则</div>
+          <div class="cm">避免自我安慰</div>
+          <p><b>低于下限</b> → 你的流量结构或详情页有硬伤，先修转化，别加预算。</p>
+          <p><b>落在区间内</b> → 正常，看季节与价格带，做小幅优化。</p>
+          <p><b>高于上限</b> → 大概率是口径对错了（比如你用广告口径去比自然口径），先复核口径，再恭喜自己。</p>
+        </div>
+      </div>
+
+      <h3>每季度：做一次口径审计</h3>
+      <p>把五个源在本季度取到的数并排陈列，逐条写下它们的<b>分子 / 分母 / 时间窗 / 去重粒度</b>。任何两行口径不一致，就不允许放在同一个结论里比较。这一步看着枯燥，但它能拦下绝大多数「数字都对，结论全错」的决策。</p>
+    </section>
+
+    <!-- ============ 7 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>七、误区清单</h2>
+        <span class="sub-label">六条，每条一句话</span>
+      </div>
+      <div class="rule"></div>
+
+      <div class="mis"><div class="h">把「搜索转化率」当「点击转化率」</div><div class="d">商机探测器那一列的分母是搜索量，不是点击量。差这一步换算，落地目标就定错了。</div></div>
+      <div class="mis"><div class="h">用「件数 ÷ 浏览量」当成交率</div><div class="d">一单多件会把读数虚高，不去重的浏览量会把读数压低——两个偏差方向相反，结果不可控。</div></div>
+      <div class="mis"><div class="h">把品牌指标的中位数当成「这个细分市场的转化率」</div><div class="d">它是「品牌 × 品类」的顾客级去重口径，是标尺，不是市场本身的读数。</div></div>
+      <div class="mis"><div class="h">把 ABA 的「转化份额」当转化率</div><div class="d">份额的分母是该词下的总购买量，量纲不同，不能与点击转化率同台比较。</div></div>
+      <div class="mis"><div class="h">拿广告后台的转化率代表自然转化率</div><div class="d">广告转化率衡量的是你的投放结构，换一套否定词它就变了；它测的是你，不是市场。</div></div>
+      <div class="mis"><div class="h">用第三方工具的单一数字立项</div><div class="d">聚合级建模 + 变体误差 + 更新频率限制，三者叠加。它适合看趋势和交叉验证，不适合当决策唯一依据。</div></div>
+    </section>
+
+    <!-- ============ 8 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>八、上线检查清单</h2>
+        <span class="sub-label">每次为一个细分市场定转化率目标前，逐条过</span>
+      </div>
+      <div class="rule"></div>
+      <ul class="chk">
+        <li>每一个转化率数字，都写清分子与分母的完整定义</li>
+        <li>同一张对比表里的数字，时间窗一致（90 天 / 360 天 / 12 个月不混用）</li>
+        <li>确认去重粒度：是「人」还是「次数」还是「会话」</li>
+        <li>确认是否含变体合并、是否含 1P 与 3P 混合口径</li>
+        <li>把上限、下限、品类中位三条线画在同一张图上，标出区间</li>
+        <li>算出自己产品的实际值，并明确写下它落在区间的哪个位置</li>
+        <li>按月复核一遍，确认没有季节性把年化平均值带偏</li>
+        <li>记录本次取数的快照日与后台版本提示，方便下次对齐</li>
+        <li>任何来源提供的数字，若口径说不清，标注为「待确认」而不是直接采用</li>
+      </ul>
+    </section>
+
+    <!-- ============ 9 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>九、供应商（VC）视角的增量数据源</h2>
+        <span class="sub-label">1P 口径与 3P 不同，别把两套数字混着用</span>
+      </div>
+      <div class="rule"></div>
+      <div class="alert a-neutral">
+        <div class="t">口径提醒</div>
+        下面的能力与字段以你的合同层级、站点与实际权限为准；不同供应商账号看到的模块差异很大，<b>以你后台当下可见的为准</b>，不要照搬别人的截图。
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="ct">流量与转化</div>
+          <div class="cm">供应商中心 · 品牌分析</div>
+          <p>销售诊断、销售绩效趋势、流量报告里同时给出<b>浏览量（新版表述为 Featured Offer Page Views）</b>与转化率指标。1P 的转化率天然受<b>购买按钮赢率</b>影响——赢不到按钮，浏览量根本不计数，转化率会被结构性扭曲。</p>
+        </div>
+        <div class="card">
+          <div class="ct">零售分析</div>
+          <div class="cm">ARA · 基础版 / 高级版</div>
+          <p>基础版提供销量、流量、库存等结构化报表；高级版（付费）通常额外覆盖品类级洞察，例如顾客留存、商品对比、净 PPM 等维度。这是 1P 独有的<b>品类视角</b>，比第三方工具的建模估算更接近事实。</p>
+        </div>
+        <div class="card">
+          <div class="ct">人的渠道</div>
+          <div class="cm">供应商经理 / 付费账户经理</div>
+          <p>能从内部系统调类目洞察。用它的正确姿势是<b>校准口径</b>：每次都问清分子、分母、时间窗、是否含 1P+3P，然后写进台账。不要只记一个数字。</p>
+        </div>
+        <div class="card">
+          <div class="ct">你真正要盯的</div>
+          <div class="cm">1P 与 3P 不要混比</div>
+          <p>1P 的「浏览量」与 3P 的「会话数」不是同一个东西；1P 的「订购件数」与 3P 的「已售商品数」也不完全对等。<b>跨模式比较时，先统一到「订单数 ÷ 会话数」这一层，再谈转化率。</b></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 10 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>十、附录：中英术语对照</h2>
+        <span class="sub-label">对着后台英文界面查，避免字段认错</span>
+      </div>
+      <div class="rule"></div>
+      <div class="grid2">
+        <div class="term"><div class="e">Product Opportunity Explorer</div><div class="c">商机探测器</div></div>
+        <div class="term"><div class="e">Search Conversion Rate</div><div class="c">搜索转化率（分母为搜索量）</div></div>
+        <div class="term"><div class="e">Niche / Marketplace Product Guidance</div><div class="c">细分市场 / 选品指南针</div></div>
+        <div class="term"><div class="e">Glance Views / FOPV</div><div class="c">浏览量 / 购买按钮页浏览量（次数、不去重）</div></div>
+        <div class="term"><div class="e">Brand Metrics</div><div class="c">品牌指标</div></div>
+        <div class="term"><div class="e">Customer Conversion Rate</div><div class="c">顾客转化率（顾客级、去重）</div></div>
+        <div class="term"><div class="e">Category Median / Category Top</div><div class="c">品类中位数（50 分位）/ 品类首位（头部水平）</div></div>
+        <div class="term"><div class="e">Brand Analytics (ABA)</div><div class="c">品牌分析，含搜索词报告</div></div>
+        <div class="term"><div class="e">Click Share / Conversion Share</div><div class="c">点击份额 / 转化（购买）份额</div></div>
+        <div class="term"><div class="e">Benchmark Report</div><div class="c">广告基准报告（同品类广告主对比）</div></div>
+        <div class="term"><div class="e">Unit Session Percentage</div><div class="c">单品会话百分比（已售商品数 ÷ 会话数）</div></div>
+        <div class="term"><div class="e">Net PPM</div><div class="c">净纯产品利润率（1P 常用核心指标）</div></div>
+      </div>
+    </section>
+
+    <!-- ============ 11 ============ -->
+    <section>
+      <div class="sec-head">
+        <h2>参考资料</h2>
+        <span class="sub-label">官方入口与工具说明，均在新标签页打开</span>
+      </div>
+      <div class="rule"></div>
+      <ul class="refs">
+        <li>
+          <a href="https://sell.amazon.com/tools/product-opportunity-explorer" target="_blank" rel="noopener">Amazon 商机探测器 Product Opportunity Explorer</a>
+          <span class="d">官方功能入口与能力说明；后台实际字段以你的卖家中心界面为准。</span>
+        </li>
+        <li>
+          <a href="https://sell.amazon.com/tools" target="_blank" rel="noopener">Amazon 卖家工具总览（品牌分析、选品工具等）</a>
+          <span class="d">用于核对各工具的官方命名，避免与后台中文译名混淆。</span>
+        </li>
+        <li>
+          <a href="https://advertising.amazon.com/solutions/products/brand-metrics" target="_blank" rel="noopener">Amazon Ads · 品牌指标 Brand Metrics</a>
+          <span class="d">顾客转化率、品类中位数与品类首位的官方定义入口。</span>
+        </li>
+        <li>
+          <a href="https://advertising.amazon.com/resources/whats-new" target="_blank" rel="noopener">Amazon Ads · 更新公告（含基准报告发布说明）</a>
+          <span class="d">基准报告的字段范围与覆盖市场以后台公告为准。</span>
+        </li>
+        <li>
+          <a href="https://vendorcentral.amazon.com" target="_blank" rel="noopener">Amazon 供应商中心 Vendor Central</a>
+          <span class="d">1P 账号的零售分析与品牌分析模块入口。</span>
+        </li>
+        <li>
+          <a href="https://sellercentral.amazon.com/help/hub/reference" target="_blank" rel="noopener">Amazon 卖家中心 · 帮助中心参考页</a>
+          <span class="d">指标口径的最终裁定来源。任何口径疑问，以后台帮助页文案为准。</span>
+        </li>
+      </ul>
+      <div class="chart-note" style="margin-top:14px">第三方工具（极目数据、卖家精灵、Helium 10 等）的转化率指标均为其自报能力，方法论为抓取 + 建模，误差与更新频率以厂商官方说明为准，本手册不对其准确性背书。</div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="blob b2" style="left:6%;bottom:-90px"></div>
+    <div class="blob b1" style="right:2%;top:-60px;width:260px;height:180px"></div>
+    <div class="foot-content">
+      <div class="foot-top">
+        <div class="foot-brand">
+          <div class="b">亚马逊细分市场转化率判定</div>
+          <div class="s">五源交叉验证手册——把「上界 / 中位 / 下界」三个口径位置固定下来，再谈目标。</div>
+        </div>
+        <div class="foot-meta">
+          <span class="k">主题</span><span class="v">选品数据口径 · 转化率判读</span>
+          <span class="k">适用</span><span class="v">Seller Central / Vendor Central 选品与定价分析</span>
+          <span class="k">状态</span><span class="v">口径说明版 · 所有数值示意</span>
+          <span class="k">更新</span><span class="v">后台字段随版本变动，以后台为准</span>
+        </div>
+      </div>
+      <hr class="foot-sep">
+      <div class="foot-bar">
+        <span>文档版本 v1 · 2026-09-18</span>
+        <span>由 <a href="https://allyhub.com" target="_blank" rel="noopener">AllyHub AI</a> 生成</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var labels = [
+    '① 商机探测器 · 搜索口径',
+    '③ 品牌指标 · 品类首位',
+    '⑤ 广告后台 · 广告点击口径',
+    '③ 品牌指标 · 品类中位数',
+    '② 选品指南针 · 件数÷浏览量'
+  ];
+  var colors = ['#6E9298','#7E9CA2','#9BADB0','#C5C0BA','#D8B48A'];
+  var rates  = [17.0, 13.0, 12.0, 8.5, 4.0];
+  var rel    = [100, 76, 71, 50, 24];
+
+  var cvr = document.getElementById('cvrChart');
+  var chart = new Chart(cvr, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: rates,
+        backgroundColor: colors,
+        borderRadius: 4,
+        barThickness: 22
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 600 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(c){
+              return chart._mode === 'rel' ? (c.parsed.x + '% of 搜索口径') : (c.parsed.x.toFixed(1) + '%');
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 20,
+          grid: { color: '#E8E6E2', drawBorder: false },
+          ticks: { color: '#717171', font: { size: 11 }, callback: function(v){
+            return chart._mode === 'rel' ? v * 5 + '%' : v + '%';
+          } }
+        },
+        y: {
+          grid: { display: false, drawBorder: false },
+          ticks: { color: '#3D3D3D', font: { size: 11.5 } }
+        }
+      }
+    }
+  });
+  chart._mode = 'rate';
+
+  var buttons = document.querySelectorAll('#seg button');
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', function(){
+      for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('on');
+      this.classList.add('on');
+      var mode = this.getAttribute('data-mode');
+      chart._mode = mode;
+      chart.data.datasets[0].data = (mode === 'rel') ? rel : rates;
+      chart.options.scales.x.max = (mode === 'rel') ? 120 : 20;
+      chart.update();
+    });
+  }
+
+  var funnel = new Chart(document.getElementById('funnelChart'), {
+    type: 'bar',
+    data: {
+      labels: ['搜索量（基准）','点击量','详情页浏览量'],
+      datasets: [{
+        data: [1.0, 1.8, 4.2],
+        backgroundColor: ['#6E9298','#9BADB0','#D8B48A'],
+        borderRadius: 4,
+        barThickness: 46
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function(c){ return c.parsed.y.toFixed(1) + '× 搜索量'; } } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: '#E8E6E2', drawBorder: false },
+          ticks: { color: '#717171', font: { size: 11 }, callback: function(v){ return v + '×'; } }
+        },
+        x: {
+          grid: { display: false, drawBorder: false },
+          ticks: { color: '#3D3D3D', font: { size: 11.5 } }
+        }
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

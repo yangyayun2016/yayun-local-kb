@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>市场洞察报告 | Amazon Market Intelligence</title>
+<style>
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-card: #111827;
+  --bg-section: #0d1321;
+  --accent-gold: #f0c040;
+  --accent-gold-dim: #b8922e;
+  --accent-blue: #4a9eff;
+  --accent-green: #22c55e;
+  --accent-red: #ef4444;
+  --accent-orange: #f97316;
+  --accent-purple: #a855f7;
+  --text-primary: #f0f4ff;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', system-ui, 'Microsoft YaHei', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+/* NAV */
+.report-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,14,26,0.96);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(240,192,64,0.15);
+  padding: 0.65rem 2rem;
+  display: flex; gap: 0.5rem; align-items: center; overflow-x: auto;
+}
+.nav-brand { color: var(--accent-gold); font-weight: 700; font-size: 0.9rem; margin-right: 1rem; white-space: nowrap; }
+.nav-link {
+  color: var(--text-secondary); text-decoration: none; font-size: 0.78rem;
+  padding: 0.3rem 0.75rem; border-radius: 20px; white-space: nowrap;
+  transition: all 0.2s;
+}
+.nav-link:hover { color: var(--accent-gold); background: rgba(240,192,64,0.1); }
+
+/* HEADER */
+.report-header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #0a0e1a 55%, #1a1a2e 100%);
+  padding: 4rem 3rem 3rem;
+  border-bottom: 1px solid rgba(240,192,64,0.15);
+  position: relative; overflow: hidden;
+}
+.report-header::before {
+  content: '📊';
+  position: absolute; right: 3rem; top: 2rem;
+  font-size: 8rem; opacity: 0.06;
+}
+.report-badge { display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.3);
+  color: var(--accent-gold); padding: 0.3rem 1rem; border-radius: 20px;
+  font-size: 0.78rem; font-weight: 600; margin-bottom: 1rem; }
+.report-title { font-size: 2.5rem; font-weight: 800; color: var(--text-primary); line-height: 1.2; }
+.report-subtitle { font-size: 1rem; color: var(--text-secondary); margin-top: 0.5rem; }
+.report-meta { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.meta-item { font-size: 0.82rem; color: var(--text-muted); }
+.meta-item span { color: var(--text-secondary); font-weight: 500; }
+.strategy-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.4rem 1.2rem; border-radius: 24px; font-size: 0.88rem; font-weight: 600;
+  margin-top: 1.5rem;
+}
+.tag-war { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; }
+
+/* SECTION */
+.section { padding: 3rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.section-title {
+  font-size: 1.25rem; font-weight: 700; color: var(--accent-gold);
+  margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.6rem;
+}
+.section-title::before { content: ''; display: block; width: 4px; height: 1.2em; 
+  background: var(--accent-gold); border-radius: 2px; }
+
+/* CARDS */
+.card {
+  background: var(--bg-card);
+  border: 1px solid rgba(240,192,64,0.1);
+  border-radius: 12px; padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.card-top-gold { border-top: 3px solid var(--accent-gold); }
+.card-top-green { border-top: 3px solid var(--accent-green); }
+.card-top-red   { border-top: 3px solid var(--accent-red); }
+.card-top-blue  { border-top: 3px solid var(--accent-blue); }
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+
+/* METRICS */
+.metric-val { font-size: 2.2rem; font-weight: 800; color: var(--accent-gold); }
+.metric-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+.metric-desc { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.5; }
+
+/* BADGE */
+.badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+.badge-green { background: rgba(34,197,94,0.15); color: #22c55e; }
+.badge-red   { background: rgba(239,68,68,0.15);  color: #ef4444; }
+.badge-gold  { background: rgba(240,192,64,0.15); color: var(--accent-gold); }
+.badge-blue  { background: rgba(74,158,255,0.15); color: var(--accent-blue); }
+.badge-gray  { background: rgba(71,85,105,0.3);   color: var(--text-muted); }
+
+/* OPPORTUNITY */
+.opp-yes { color: var(--accent-green); font-weight: 700; }
+.opp-no  { color: var(--text-muted); }
+
+/* TABLE */
+.table-wrap { overflow-x: auto; border-radius: 8px; }
+table.dt { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+table.dt th {
+  background: rgba(240,192,64,0.07); color: var(--accent-gold);
+  padding: 0.65rem 0.9rem; text-align: left; font-weight: 600;
+  border-bottom: 1px solid rgba(240,192,64,0.18); white-space: nowrap;
+}
+table.dt td {
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+}
+table.dt tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+table.dt tr:hover td { background: rgba(240,192,64,0.03); }
+
+/* BCG MATRIX */
+.bcg-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+  margin-top: 1rem;
+}
+.bcg-q {
+  padding: 1.2rem; border-radius: 10px; min-height: 120px;
+}
+.bcg-q1 { background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); }
+.bcg-q2 { background: rgba(240,192,64,0.06); border: 1px solid rgba(240,192,64,0.2); }
+.bcg-q3 { background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.15); }
+.bcg-q4 { background: rgba(100,116,139,0.05); border: 1px solid rgba(100,116,139,0.15); }
+.bcg-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; }
+.bcg-def { font-size: 0.72rem; color: var(--text-muted); }
+
+/* SI COLORS */
+.si-core    { color: var(--accent-green); font-weight: 700; }
+.si-premium { color: var(--accent-gold); font-weight: 700; }
+.si-basic   { color: var(--text-secondary); }
+.si-none    { color: var(--text-muted); }
+
+/* BATTLE BADGE */
+.battle { display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+.battle-war    { background: rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.25); color: #f87171; }
+.battle-niche  { background: rgba(71,85,105,0.3);  border:1px solid rgba(100,116,139,0.3); color: var(--text-muted); }
+.battle-star   { background: rgba(34,197,94,0.1);  border:1px solid rgba(34,197,94,0.25); color: var(--accent-green); }
+.battle-cash   { background: rgba(240,192,64,0.08); border:1px solid rgba(240,192,64,0.2); color: var(--accent-gold-dim); }
+
+/* GAP CARDS */
+.gap-card { border-left: 3px solid var(--accent-gold); padding: 1rem 1.2rem; 
+  background: rgba(240,192,64,0.04); border-radius: 0 8px 8px 0; margin-bottom: 0.8rem; }
+.gap-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+.gap-body { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* EXEC TACTICS */
+.tactic { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 1rem; margin-bottom: 0.7rem; }
+.tactic-num { color: var(--accent-gold); font-weight: 700; font-size: 0.85rem; margin-bottom: 0.3rem; }
+
+/* CONCENTRATION */
+.conc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.conc-item { text-align: center; padding: 1.2rem; background: rgba(255,255,255,0.03); border-radius: 10px; }
+.conc-val { font-size: 2rem; font-weight: 800; color: var(--accent-gold); }
+.conc-name { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+/* NARRATIVE BOX */
+.narrative { background: linear-gradient(135deg, rgba(240,192,64,0.04), rgba(11,14,26,0.95));
+  border: 1px solid rgba(240,192,64,0.12); border-radius: 10px; padding: 1.5rem; margin-top: 1rem; }
+.narrative-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+.narrative-body { font-size: 0.83rem; color: var(--text-secondary); line-height: 1.7; }
+
+/* INSIGHT BOX */
+.insight-box {
+  background: linear-gradient(135deg, rgba(240,192,64,0.08), rgba(11,14,26,0.9));
+  border: 1px solid rgba(240,192,64,0.2); border-radius: 10px;
+  padding: 1.2rem 1.5rem; margin-top: 1.5rem;
+  display: flex; gap: 0.8rem; align-items: flex-start;
+}
+.insight-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+.insight-body { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+.insight-body strong { color: var(--text-primary); }
+
+/* PRICE BAND VISUAL */
+.price-bar-wrap { margin: 1rem 0; }
+.price-bar { height: 8px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+  position: relative; margin: 0.4rem 0; }
+.price-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted); }
+
+/* FOOTER */
+.report-footer { padding: 2rem 3rem; text-align: center; font-size: 0.75rem; color: var(--text-muted); }
+
+@media(max-width:768px){
+  .section{ padding: 1.5rem; }
+  .report-header{ padding: 2.5rem 1.5rem 2rem; }
+  .grid-2,.grid-3,.grid-4{ grid-template-columns:1fr; }
+  .bcg-grid{ grid-template-columns:1fr; }
+  .conc-grid{ grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="report-nav">
+  <span class="nav-brand">📊 Market Intelligence</span>
+  <a href="#diagnosis" class="nav-link">款式诊断</a>
+  <a href="#matrix" class="nav-link">趋势矩阵</a>
+  <a href="#features" class="nav-link">卖点矩阵</a>
+  <a href="#market-map" class="nav-link">市场地图</a>
+  <a href="#concentration" class="nav-link">集中度</a>
+  <a href="#competition" class="nav-link">竞争强度</a>
+  <a href="#opportunity" class="nav-link">机会判断</a>
+</nav>
+
+<!-- HEADER -->
+<header class="report-header">
+  <div class="report-badge">📊 MARKET INTELLIGENCE REPORT</div>
+  <h1 class="report-title">市场洞察报告</h1>
+  <p class="report-subtitle">{{品类}} · {{市场}} Market · 基于亚马逊原子级数据建模分析</p>
+  <div class="report-meta">
+    <div class="meta-item">品类 <span>{{品类关键词}}</span></div>
+    <div class="meta-item">市场 <span>{{US/DE/JP...}}</span></div>
+    <div class="meta-item">数据日期 <span>{{YYYY-MM-DD}}</span></div>
+    <div class="meta-item">样本 ASIN <span>{{N}} 个</span></div>
+    <div class="meta-item">分析月份 <span>{{yyyyMM}}</span></div>
+  </div>
+  <div>
+    <span class="strategy-tag tag-war">⚔️ 当前市场战场定性：{{战场类型}}</span>
+  </div>
+</header>
+
+<!-- ============================================================
+     SECTION 1: 款式诊断（每个机会款式一张牌）
+============================================================ -->
+<section class="section" id="diagnosis">
+  <div class="section-title">🎯 款式诊断</div>
+
+  <!-- 款式卡片 A（机会款式示例）-->
+  <div class="card card-top-gold" style="margin-bottom:1.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+      <div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.3rem">🎯 定位心智款式</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--text-primary)">{{款式名称}}</div>
+      </div>
+      <div style="text-align:right">
+        <span class="battle battle-war">⚔️ {{战场定性}}</span>
+        <div style="margin-top:0.5rem;font-size:0.78rem;color:var(--text-muted)">
+          动能 <strong style="color:var(--text-secondary)">{{Momentum}}</strong> &nbsp;·&nbsp;
+          份额 <strong style="color:var(--text-secondary)">{{Share%}}</strong> &nbsp;·&nbsp;
+          竞争 <strong style="color:var(--text-secondary)">{{CI}}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:1.2rem 0;padding:1rem;background:rgba(240,192,64,0.04);border-radius:8px">
+      <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.4rem">💎 核心卖点组合</div>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+        <span class="badge badge-gold">{{卖点1}} SI:{{1.xx}}</span>
+        <span class="badge badge-gold">{{卖点2}} SI:{{1.xx}}</span>
+        <span class="badge badge-blue">{{卖点3}} SI:{{1.xx}}</span>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:1.2rem">
+      <!-- A: 款式定性 -->
+      <div>
+        <div style="font-size:0.78rem;font-weight:600;color:var(--accent-gold);margin-bottom:0.5rem">A. 款式定性 (DIAGNOSIS)</div>
+        <div style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7">
+          {{款式生命周期阶段与战略解读，包含趋势动能数值、市场份额、竞争指数CI，以及为何处于该战场的核心逻辑。}}
+        </div>
+      </div>
+      <!-- B: 卖点 SI -->
+      <div>
+        <div style="font-size:0.78rem;font-weight:600;color:var(--accent-gold);margin-bottom:0.5rem">B. 卖点 SI 阐释</div>
+        <table class="dt" style="font-size:0.76rem">
+          <thead><tr><th>卖点</th><th>SI</th><th>角色</th></tr></thead>
+          <tbody>
+            <tr><td>{{卖点1}}</td><td class="si-core">{{1.xx}}</td><td>🎯 核心成交</td></tr>
+            <tr><td>{{卖点2}}</td><td class="si-premium">{{1.xx}}</td><td>💎 溢价支撑</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- C: 价格带 -->
+    <div style="margin-bottom:1.2rem">
+      <div style="font-size:0.78rem;font-weight:600;color:var(--accent-gold);margin-bottom:0.5rem">C. 价格带 (PRICE BAND)</div>
+      <div class="price-bar-wrap">
+        <div class="price-labels"><span>${{MinPrice}}</span><span>${{MaxPrice}}</span></div>
+        <div class="price-bar" style="width:100%"></div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem">${{MinPrice}} — ${{MaxPrice}} 主流价格带</div>
+      </div>
+    </div>
+
+    <!-- D: 头号竞对 -->
+    <div style="margin-bottom:1.2rem">
+      <div style="font-size:0.78rem;font-weight:600;color:var(--accent-gold);margin-bottom:0.5rem">D. 头号竞对 (BENCHMARKING)</div>
+      <div style="display:flex;align-items:center;gap:1rem;padding:0.8rem;background:rgba(255,255,255,0.03);border-radius:8px">
+        <div style="width:48px;height:48px;background:rgba(240,192,64,0.1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1.3rem">📦</div>
+        <div>
+          <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary)">{{竞对ASIN}}</div>
+          <div style="font-size:0.78rem;color:var(--text-muted)">${{价格}} &nbsp;·&nbsp; 📊 月销 {{销量}}</div>
+          <div style="margin-top:0.3rem;display:flex;gap:0.4rem">
+            <span class="badge badge-gold">{{核心卖点1}}</span>
+            <span class="badge badge-blue">{{核心卖点2}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- E: 竞对缝隙 -->
+    <div style="margin-bottom:1.2rem">
+      <div style="font-size:0.78rem;font-weight:600;color:var(--accent-gold);margin-bottom:0.5rem">E. 竞对缝隙 (GAP IDENTIFICATION)</div>
+      <div class="gap-card">
+        <div class="gap-title">🎯 【意图拦截缝隙】</div>
+        <div class="gap-body">{{竞对在关键词意图上的缺失描述，说明哪些高增长关键词/卖点竞对未能覆盖。}}</div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-title">🔧 【物理体验缝隙】</div>
+        <div class="gap-body">{{竞对在产品物理设计上引发的负面体验与用户痛点描述。}}</div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-title">💎 【情绪溢价缝隙】</div>
+        <div class="gap-body">{{竞对在品牌情绪/审美/生活方式维度的空缺，如何通过情感 ID 建立差异。}}</div>
+      </div>
+    </div>
+
+    <!-- F: 落地策略 -->
+    <div>
+      <div style="font-size:0.78rem;font-weight:600;color:var(--accent-gold);margin-bottom:0.8rem">🚀 F. {{战场类型}} 落地策略 (EXECUTION)</div>
+      <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.8rem;padding:0.6rem;background:rgba(240,192,64,0.04);border-radius:6px">
+        ⚡ <strong style="color:var(--text-primary)">战术公式：</strong>{{策略公式，如"强 ID + 语义拦截 + 体验纯净化"}}
+      </div>
+      <div class="tactic">
+        <div class="tactic-num">1. 👁️ 【视觉拦截】</div>
+        <div style="font-size:0.82rem;color:var(--text-secondary);line-height:1.6">{{具体视觉差异化策略}}</div>
+      </div>
+      <div class="tactic">
+        <div class="tactic-num">2. 🔧 【功能重构】</div>
+        <div style="font-size:0.82rem;color:var(--text-secondary);line-height:1.6">{{功能改进与精简策略}}</div>
+      </div>
+      <div class="tactic">
+        <div class="tactic-num">3. 🎁 【场景心智占领】</div>
+        <div style="font-size:0.82rem;color:var(--text-secondary);line-height:1.6">{{场景定位与心智建设策略}}</div>
+      </div>
+    </div>
+  </div>
+  <!-- END 款式卡片，可复制增加更多款式 -->
+
+</section>
+
+<!-- ============================================================
+     SECTION 2: 波士顿战略矩阵 + 款式趋势动能 TABLE A
+============================================================ -->
+<section class="section" id="matrix">
+  <div class="section-title">📈 波士顿战略矩阵 | 款式心智/趋势矩阵</div>
+
+  <div class="grid-2">
+    <!-- BCG 矩阵 -->
+    <div class="card card-top-blue">
+      <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">波士顿战略矩阵</div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.6rem">
+        Y轴：趋势动能（高/低）· X轴：市场份额（高/低）
+      </div>
+      <div class="bcg-grid">
+        <div class="bcg-q bcg-q1">
+          <div class="bcg-title" style="color:var(--accent-green)">⭐ 象限 I：新星爆发</div>
+          <div class="bcg-def">高动能 + 低份额<br>进化前沿·创新爆款·差异化配置</div>
+        </div>
+        <div class="bcg-q bcg-q2">
+          <div class="bcg-title" style="color:var(--accent-gold)">🎯 象限 II：核心主流</div>
+          <div class="bcg-def">高动能 + 高份额<br>成交主力·规模化量产·品牌溢价</div>
+        </div>
+        <div class="bcg-q bcg-q3">
+          <div class="bcg-title" style="color:#f87171">⚠️ 象限 IV：利基/衰退</div>
+          <div class="bcg-def">低动能 + 低份额<br>特定垂直利基·市场淘汰趋势</div>
+        </div>
+        <div class="bcg-q bcg-q4">
+          <div class="bcg-title" style="color:var(--text-muted)">💰 象限 III：成熟存量</div>
+          <div class="bcg-def">低动能 + 高份额<br>"公有基因"·成本极致优化</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLE A: 款式趋势动能基准 -->
+    <div class="card card-top-gold">
+      <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">📋 TABLE A：款式趋势动能基准</div>
+      <div class="table-wrap">
+        <table class="dt">
+          <thead>
+            <tr>
+              <th>心智款式</th>
+              <th>趋势动能</th>
+              <th>市场份额</th>
+              <th>矩阵定位</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--text-primary);font-weight:600">{{款式A}}</td>
+              <td><span class="si-core">{{6578}}</span></td>
+              <td>{{71.3%}}</td>
+              <td><span class="battle battle-war">核心主流 ✓</span></td>
+            </tr>
+            <tr>
+              <td>{{款式B}}</td>
+              <td>{{2226}}</td>
+              <td>{{13.5%}}</td>
+              <td><span class="battle battle-niche">利基衰退</span></td>
+            </tr>
+            <tr>
+              <td>{{款式C}}</td>
+              <td>{{1030}}</td>
+              <td>{{9.3%}}</td>
+              <td><span class="battle battle-niche">利基衰退</span></td>
+            </tr>
+            <tr>
+              <td>{{款式D}}</td>
+              <td>{{712}}</td>
+              <td>{{5.9%}}</td>
+              <td><span class="battle battle-niche">利基衰退</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:1rem;font-size:0.75rem;color:var(--text-muted);line-height:1.6">
+        💡 趋势动能：综合反映市场对该款式需求增长速度和未来增长潜力的复合指标<br>
+        💡 市场份额：该款式销售量占整个市场总销售量的比例
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 3: 卖点战略角色矩阵
+============================================================ -->
+<section class="section" id="features">
+  <div class="section-title">🎯 卖点战略角色矩阵 (Strategic Feature Mapping)</div>
+  <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem">
+    渗透率：某卖点在市场中的普及程度 · SI：特异性指数 = 该款式中渗透率 / 全市场渗透率
+  </div>
+  <div class="table-wrap">
+    <table class="dt" style="min-width:900px">
+      <thead>
+        <tr>
+          <th style="min-width:160px">卖点</th>
+          <th>大盘动能</th>
+          <th>总渗透率</th>
+          <th colspan="3" style="text-align:center;border-left:1px solid rgba(240,192,64,0.1)">{{款式A}} (核心主流)</th>
+          <th colspan="3" style="text-align:center;border-left:1px solid rgba(240,192,64,0.1)">{{款式B}}</th>
+          <th style="min-width:120px">壁垒备注</th>
+        </tr>
+        <tr>
+          <th></th><th></th><th></th>
+          <th style="border-left:1px solid rgba(240,192,64,0.1)">渗透率</th><th>SI</th><th>角色</th>
+          <th style="border-left:1px solid rgba(240,192,64,0.1)">渗透率</th><th>SI</th><th>角色</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--text-primary);font-weight:600">{{智能定时}}</td>
+          <td><span class="si-core">{{8387}}</span></td>
+          <td>{{81.3%}}</td>
+          <td style="border-left:1px solid rgba(255,255,255,0.04)">{{81.6%}}</td>
+          <td class="si-basic">{{1.00}}</td>
+          <td><span class="badge badge-gray">基础准入</span></td>
+          <td style="border-left:1px solid rgba(255,255,255,0.04)">{{65.1%}}</td>
+          <td class="si-basic">{{0.80}}</td>
+          <td><span class="badge badge-gray">基础准入</span></td>
+          <td style="font-size:0.72rem;color:var(--text-muted)">常规组装</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text-primary);font-weight:600">{{1分钟速热}}</td>
+          <td>{{5132}}</td>
+          <td>{{53.7%}}</td>
+          <td style="border-left:1px solid rgba(255,255,255,0.04)">{{58.5%}}</td>
+          <td class="si-core">{{1.09}}</td>
+          <td><span class="badge badge-green">核心成交 🎯</span></td>
+          <td style="border-left:1px solid rgba(255,255,255,0.04)">{{36.7%}}</td>
+          <td class="si-basic">{{0.68}}</td>
+          <td><span class="badge badge-gray">基础准入</span></td>
+          <td style="font-size:0.72rem;color:var(--text-muted)">硬件壁垒</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text-primary);font-weight:600">{{360°均匀加热}}</td>
+          <td>{{4168}}</td>
+          <td>{{43.2%}}</td>
+          <td style="border-left:1px solid rgba(255,255,255,0.04)">{{50.8%}}</td>
+          <td class="si-core">{{1.18}}</td>
+          <td><span class="badge badge-green">核心成交 🎯</span></td>
+          <td style="border-left:1px solid rgba(255,255,255,0.04)">{{23.8%}}</td>
+          <td class="si-none">{{0.55}}</td>
+          <td><span class="badge badge-gray">无差别</span></td>
+          <td style="font-size:0.72rem;color:var(--text-muted)">硬件壁垒</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text-primary);font-weight:600">{{防烫翻盖}}</td>
+          <td>{{439}}</td>
+          <td>{{5.5%}}</td>
+          <td style="border-left:1px solid rgba(255,255,255,0.04)">{{6.6%}}</td>
+          <td class="si-premium">{{1.18}}</td>
+          <td><span class="badge badge-gold">溢价支撑 💎</span></td>
+          <td style="border-left:1px solid rgba(255,255,255,0.04)">{{1.4%}}</td>
+          <td class="si-none">{{0.25}}</td>
+          <td><span class="badge badge-gray">无差别</span></td>
+          <td style="font-size:0.72rem;color:var(--text-muted)">设计策略</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 4: 市场地图
+============================================================ -->
+<section class="section" id="market-map">
+  <div class="section-title">🗺️ 市场地图 (Market Map)</div>
+  <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem">等容量划分法 · 价格带 × 款式维度</div>
+
+  <div class="table-wrap">
+    <table class="dt" style="min-width:700px">
+      <thead>
+        <tr>
+          <th>价格带</th>
+          <th>{{款式A}}</th>
+          <th>{{款式B}}</th>
+          <th>{{款式C}}</th>
+          <th>{{款式D}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--text-primary);font-weight:600">[${{18.99}} - ${{59.9}}]</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{8}}</strong><br>销额: ${{124.9K}}<br>销量: {{2.3K}}</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{6}}</strong><br>销额: ${{32.8K}}<br>销量: {{600}}</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{16}}</strong><br>销额: ${{199.9K}}<br>销量: {{3.9K}}</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{1}}</strong><br>销额: ${{12.0K}}<br>销量: {{200}}</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text-primary);font-weight:600">[${{65}} - ${{70}}]<br><span class="badge badge-gold" style="font-size:0.65rem">主力价格带</span></td>
+          <td style="font-size:0.75rem;background:rgba(240,192,64,0.04)">ASIN: <strong style="color:var(--accent-gold)">{{40}}</strong><br>销额: ${{572.9K}}<br>销量: {{8.2K}}</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{12}}</strong><br>销额: ${{244.8K}}<br>销量: {{3.5K}}</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{25}}</strong><br>销额: ${{1.1M}}<br>销量: {{16.2K}}</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{4}}</strong><br>销额: ${{107.7K}}<br>销量: {{1.6K}}</td>
+        </tr>
+        <tr>
+          <td style="color:var(--text-primary);font-weight:600">[${{90}} - ${{100}}]</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{34}}</strong><br>销额: <strong style="color:var(--accent-green)">${{2.0M}}</strong><br>销量: {{20.8K}}</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{16}}</strong><br>销额: ${{1.8M}}<br>销量: {{18.0K}}</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{3}}</strong><br>销额: ${{5.0K}}<br>销量: {{50}}</td>
+          <td style="font-size:0.75rem">ASIN: <strong>{{4}}</strong><br>销额: ${{50.0K}}<br>销量: {{500}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 5: 市场集中度分析
+============================================================ -->
+<section class="section" id="concentration">
+  <div class="section-title">🔍 市场集中度分析 (Market Concentration Analysis)</div>
+
+  <!-- 核心指标 -->
+  <div class="conc-grid">
+    <div class="conc-item">
+      <div class="conc-val">{{636}}</div>
+      <div class="conc-name">HHI 赫芬达尔指数</div>
+      <span class="badge badge-green" style="margin-top:0.4rem;display:inline-block">高度竞争市场</span>
+    </div>
+    <div class="conc-item">
+      <div class="conc-val">{{34.2%}}</div>
+      <div class="conc-name">CR3 头部3品牌市占率</div>
+      <span class="badge badge-blue" style="margin-top:0.4rem;display:inline-block">市场分散格局</span>
+    </div>
+    <div class="conc-item">
+      <div class="conc-val">{{0.11}}</div>
+      <div class="conc-name">NPRS 新品存活率</div>
+      <span class="badge badge-gray" style="margin-top:0.4rem;display:inline-block">创新活力不足</span>
+    </div>
+    <div class="conc-item">
+      <div class="conc-val">{{0.12}}</div>
+      <div class="conc-name">NETI 新进入者威胁指数</div>
+      <span class="badge badge-gold" style="margin-top:0.4rem;display:inline-block">中等进入难度</span>
+    </div>
+    <div class="conc-item">
+      <div class="conc-val">{{1.07}}</div>
+      <div class="conc-name">Bd 行为偏离度</div>
+      <span class="badge badge-gold" style="margin-top:0.4rem;display:inline-block">中等价格竞争</span>
+    </div>
+    <div class="conc-item">
+      <div class="conc-val" style="color:var(--accent-red)">{{30.8}}</div>
+      <div class="conc-name">CI 综合竞争强度</div>
+      <span class="ci-high badge" style="margin-top:0.4rem;display:inline-block">⭐⭐⭐ 高</span>
+    </div>
+  </div>
+
+  <!-- 竞争强度维度解析 -->
+  <div class="card card-top-red" style="margin-bottom:1.5rem">
+    <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:1rem">竞争强度评级 (CI 三维度模型)</div>
+    <div class="grid-3">
+      <div style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:8px;text-align:center">
+        <div style="font-size:1.5rem;font-weight:800;color:#f87171">{{0.45}}</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin:0.3rem 0">St 结构容忍度</div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">市场结构脆弱，高度分散格局下任何竞争行为都可能引发连锁反应</div>
+      </div>
+      <div style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:8px;text-align:center">
+        <div style="font-size:1.5rem;font-weight:800;color:var(--accent-gold)">{{1.07}}</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin:0.3rem 0">Bd 行为偏离度</div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">中等水平，价格竞争存在但尚未陷入毁灭性全面价格战</div>
+      </div>
+      <div style="padding:1rem;background:rgba(255,255,255,0.03);border-radius:8px;text-align:center">
+        <div style="font-size:1.5rem;font-weight:800;color:var(--accent-green)">{{0.30}}</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin:0.3rem 0">Dm 动态乘数</div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">极低，新品或新进入者带来的动态冲击非常小，格局相对固化</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 格局叙述 -->
+  <div class="narrative">
+    <div class="narrative-title">📝 格局叙述</div>
+    <div class="narrative-body">
+      当前市场 HHI 为 <strong>{{636}}</strong>，属于高度分散竞争格局。CR3 仅 <strong>{{34.2%}}</strong>，
+      揭示了一个缺乏主导品牌的碎片化市场。低 NPRS（{{0.11}}）表明创新活力不足，竞争主要围绕现有产品形态的
+      微小改进与价格营销展开。中等 NETI（{{0.12}}）说明进入虽有可能，但新来者面对的将是大量相似对手的围攻。
+      <br><br>
+      <strong>市场结构判定：{{高度分散的成熟市场竞争}}</strong><br>
+      竞争类型：{{成熟品类的存量市场肉搏战}}
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 6: 分款式竞争强度
+============================================================ -->
+<section class="section" id="competition">
+  <div class="section-title">⚔️ 分款式竞争强度全览</div>
+
+  <div class="table-wrap">
+    <table class="dt" style="min-width:800px">
+      <thead>
+        <tr>
+          <th>心智款式</th>
+          <th>趋势动能</th>
+          <th>市场份额</th>
+          <th>矩阵位置</th>
+          <th>HHI</th>
+          <th>CR3</th>
+          <th>NPRS</th>
+          <th>NETI</th>
+          <th>St</th>
+          <th>Bd</th>
+          <th>Dm</th>
+          <th>CI</th>
+          <th>强度</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--text-primary);font-weight:600">{{款式A}}</td>
+          <td class="si-core">{{6578}}</td>
+          <td>{{71.3%}}</td>
+          <td><span class="battle battle-war">核心主流</span></td>
+          <td>{{1118}}</td>
+          <td>{{48.8%}}</td>
+          <td>{{0.09}}</td>
+          <td>{{0.22}}</td>
+          <td>{{0.74}}</td>
+          <td>{{1.24}}</td>
+          <td>{{0.44}}</td>
+          <td class="si-core">{{27.0}}</td>
+          <td><span class="badge badge-red">高</span></td>
+        </tr>
+        <tr>
+          <td>{{款式B}}</td>
+          <td>{{2227}}</td>
+          <td>{{13.5%}}</td>
+          <td><span class="battle battle-niche">利基衰退</span></td>
+          <td>{{1011}}</td>
+          <td>{{47.5%}}</td>
+          <td>{{0.49}}</td>
+          <td>{{0.69}}</td>
+          <td>{{0.69}}</td>
+          <td>{{0.84}}</td>
+          <td>{{1.87}}</td>
+          <td>{{33.1}}</td>
+          <td><span class="badge badge-red">高</span></td>
+        </tr>
+        <tr>
+          <td>{{款式C}}</td>
+          <td>{{1030}}</td>
+          <td>{{9.3%}}</td>
+          <td><span class="battle battle-niche">利基衰退</span></td>
+          <td>{{1079}}</td>
+          <td>{{48.0%}}</td>
+          <td>{{0.13}}</td>
+          <td>{{0.44}}</td>
+          <td>{{0.72}}</td>
+          <td>{{0.47}}</td>
+          <td>{{0.86}}</td>
+          <td>{{17.5}}</td>
+          <td><span class="badge badge-green">低</span></td>
+        </tr>
+        <tr>
+          <td>{{款式D}}</td>
+          <td>{{712}}</td>
+          <td>{{5.9%}}</td>
+          <td><span class="battle battle-niche">利基衰退</span></td>
+          <td>{{1212}}</td>
+          <td>{{49.9%}}</td>
+          <td>{{0.10}}</td>
+          <td>{{0.52}}</td>
+          <td>{{0.78}}</td>
+          <td>{{0.69}}</td>
+          <td>{{0.93}}</td>
+          <td>{{21.9}}</td>
+          <td><span class="badge badge-gold">中</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 7: 机会款式判断
+============================================================ -->
+<section class="section" id="opportunity">
+  <div class="section-title">✅ 机会款式判断 (Opportunity Judgment)</div>
+
+  <div class="table-wrap" style="margin-bottom:1.5rem">
+    <table class="dt">
+      <thead>
+        <tr>
+          <th>心智款式</th>
+          <th>趋势动能</th>
+          <th>市场份额</th>
+          <th>竞争强度</th>
+          <th>战场定性</th>
+          <th>机会判定</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--text-primary);font-weight:600">{{款式A}}</td>
+          <td class="si-core">{{6578.50}} [高]</td>
+          <td>{{71.34%}} [高]</td>
+          <td>{{27.0}} [高]</td>
+          <td><span class="battle battle-war">⚔️ 乱世争霸赛</span></td>
+          <td class="opp-yes">✅ 机会款式</td>
+        </tr>
+        <tr>
+          <td>{{款式B}}</td>
+          <td style="color:var(--text-muted)">{{2226.57}} [低]</td>
+          <td style="color:var(--text-muted)">{{13.47%}} [低]</td>
+          <td>{{33.1}} [高]</td>
+          <td><span class="battle battle-niche">利基衰退</span></td>
+          <td class="opp-no">❌ 非机会款式</td>
+        </tr>
+        <tr>
+          <td>{{款式C}}</td>
+          <td style="color:var(--text-muted)">{{1030.24}} [低]</td>
+          <td style="color:var(--text-muted)">{{9.29%}} [低]</td>
+          <td>{{17.5}} [低]</td>
+          <td><span class="battle battle-niche">利基衰退</span></td>
+          <td class="opp-no">❌ 非机会款式</td>
+        </tr>
+        <tr>
+          <td>{{款式D}}</td>
+          <td style="color:var(--text-muted)">{{712.24}} [低]</td>
+          <td style="color:var(--text-muted)">{{5.89%}} [低]</td>
+          <td>{{21.9}} [低]</td>
+          <td><span class="battle battle-niche">利基衰退</span></td>
+          <td class="opp-no">❌ 非机会款式</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 分析结论 -->
+  <div class="card card-top-green">
+    <div style="font-size:0.88rem;font-weight:700;color:var(--text-primary);margin-bottom:1rem">
+      📝 分析结论 — 共识别 <span style="color:var(--accent-green)">{{N}}</span> 个机会款式
+    </div>
+    <div style="margin-bottom:1rem">
+      <div style="font-size:0.9rem;font-weight:600;color:var(--accent-gold);margin-bottom:0.4rem">第一梯队：{{款式A}}</div>
+      <div style="font-size:0.83rem;color:var(--text-secondary);line-height:1.7">
+        {{机会款式的完整分析叙述。包含为什么这是机会：市场份额比例、趋势动能数值、竞争的性质（健康竞争 vs 内卷），以及建议的差异化切入策略。}}
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.9rem;font-weight:600;color:var(--text-muted);margin-bottom:0.4rem">非机会款式：{{款式B、C、D}}</div>
+      <div style="font-size:0.83rem;color:var(--text-muted);line-height:1.7">
+        {{非机会款式的叙述，指出双低特征、进入后面临的困境，以及特别警惕的高竞争+萎缩市场的价值陷阱。}}
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>核心结论：</strong>{{最终战略建议：是否进入、从哪个款式切入、用什么差异化策略，以及关键的时间窗口判断。}}
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="report-footer">
+  <div>📊 Amazon Market Intelligence Report · Powered by StoreClaw × SellerSprite MCP</div>
+  <div style="margin-top:0.3rem">数据口径：亚马逊原子级参数建模 · 算法层：SI指数 / HHI / CI / NPRS / NETI</div>
+  <div style="margin-top:0.3rem">⚠️ 本报告为数据分析参考，所有预测数值需结合实际市场情况综合判断</div>
+</footer>
+
+</body>
+</html>

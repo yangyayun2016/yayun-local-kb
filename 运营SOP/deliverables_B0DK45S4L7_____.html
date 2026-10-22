@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B0DK45S4L7 深度拆解 · 三词自然位冠军</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Noto+Serif:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --outer-bg: #E4E1DC; --page-bg: #FDFCF9; --surface: #FFFFFF;
+  --border: #E8E6E2; --divider: #C5C0BA;
+  --text-primary: #151515; --text-body: #3D3D3D; --text-secondary: #717171;
+  --hero-bg: #DEE5F7; --hero-deco: #A3AEEE; --hero-deco2: #7F8FE0;
+  --success-bg: #E8FBCF; --success-fg: #3D4826;
+  --warning-bg: #FFF0DC; --warning-fg: #E47700;
+  --info-bg: #DEE5F7; --info-fg: #3E54CE;
+  --error-bg: #FDECEA; --error-fg: #C4433A;
+  --neutral-bg: #FDF9F2; --neutral-fg: #7C746F;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter Tight', sans-serif; background: var(--outer-bg);
+  color: var(--text-body); line-height: 1.6; padding: 20px;
+}
+.page { max-width: 1200px; margin: 0 auto; background: var(--page-bg); border-radius: 24px; overflow: hidden; box-shadow: 0 2px 40px rgba(0,0,0,0.06); }
+
+/* Hero */
+.hero { background: var(--hero-bg); padding: 48px 48px 40px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; width: 300px; height: 200px; background: var(--hero-deco); opacity: 0.15; border-radius: 40% 60% 55% 45% / 45% 50% 50% 55%; top: -50px; right: -70px; }
+.hero::after { content: ''; position: absolute; width: 220px; height: 150px; background: var(--hero-deco2); opacity: 0.12; border-radius: 55% 45% 60% 40% / 50% 55% 45% 50%; bottom: -30px; left: 35%; }
+.hero-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 8px; position: relative; z-index: 1; }
+.hero-title { font-size: 32px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; position: relative; z-index: 1; letter-spacing: -0.01em; }
+.hero-subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 28px; position: relative; z-index: 1; }
+.hero-divider { height: 0.5px; background: rgba(0,0,0,0.12); margin-bottom: 24px; position: relative; z-index: 1; }
+.hero-metrics { display: flex; gap: 36px; flex-wrap: wrap; position: relative; z-index: 1; }
+.hero-metric { display: flex; flex-direction: column; }
+.hero-metric-value { font-family: 'Noto Serif', serif; font-size: 40px; font-weight: 500; letter-spacing: -0.02em; color: var(--text-primary); line-height: 1.1; }
+.hero-metric-label { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+/* Section */
+.section { padding: 32px 48px; }
+.section-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.section-subtitle { font-size: 12px; color: var(--text-secondary); margin-bottom: 20px; }
+.section-divider { height: 0.5px; background: var(--border); margin-bottom: 24px; }
+
+/* Cards */
+.cards-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cards-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 20px 22px; }
+.card-title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 14px; }
+.card-meta { font-size: 12px; color: var(--text-secondary); }
+
+/* Table */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th { font-size: 12px; font-weight: 500; color: var(--text-secondary); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--divider); white-space: nowrap; }
+tbody td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text-body); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* Pills */
+.pill { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
+.pill-success { background: var(--success-bg); color: var(--success-fg); }
+.pill-info { background: var(--info-bg); color: var(--info-fg); }
+.pill-warning { background: var(--warning-bg); color: var(--warning-fg); }
+.pill-error { background: var(--error-bg); color: var(--error-fg); }
+.pill-neutral { background: var(--neutral-bg); color: var(--neutral-fg); }
+
+/* Progress */
+.progress-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.progress-label { width: 150px; font-size: 13px; color: var(--text-body); flex-shrink: 0; }
+.progress-track { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; }
+.progress-value { width: 55px; text-align: right; font-size: 13px; font-weight: 500; color: var(--text-primary); flex-shrink: 0; }
+
+/* Alert */
+.alert { border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.alert-info { background: var(--info-bg); }
+.alert-success { background: var(--success-bg); }
+.alert-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.alert-info .alert-title { color: var(--info-fg); }
+.alert-success .alert-title { color: var(--success-fg); }
+.alert-body { font-size: 13px; color: var(--text-body); line-height: 1.7; }
+
+/* Chart */
+.chart-wrap { position: relative; height: 280px; }
+
+/* Metrics grid */
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 8px; }
+.metric-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.metric-card-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.metric-card-value { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+
+/* Footer */
+.footer { background: var(--hero-bg); padding: 32px 48px 24px; position: relative; overflow: hidden; }
+.footer::before { content: ''; position: absolute; width: 200px; height: 120px; background: var(--hero-deco); opacity: 0.1; border-radius: 45% 55% 50% 50% / 55% 45% 50% 45%; top: 10px; right: -40px; }
+.footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; position: relative; z-index: 1; }
+.footer-brand { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.footer-label { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.footer-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 32px; font-size: 12px; color: var(--text-secondary); }
+.footer-divider { height: 0.5px; background: rgba(0,0,0,0.12); margin: 20px 0; position: relative; z-index: 1; }
+.footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 11px; color: var(--text-secondary); position: relative; z-index: 1; }
+.footer-bottom a { color: var(--text-secondary); text-decoration: none; }
+.footer-bottom a:hover { text-decoration: underline; }
+
+/* Keyword card */
+.kw-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 16px 18px; margin-bottom: 10px; display: flex; align-items: center; gap: 16px; }
+.kw-rank { font-family: 'Noto Serif', serif; font-size: 28px; font-weight: 600; min-width: 50px; text-align: center; }
+.kw-rank.gold { color: #C4A43A; }
+.kw-rank.silver { color: #8F9298; }
+.kw-rank.bronze { color: #B8734D; }
+.kw-rank.green { color: #5FA882; }
+.kw-info { flex: 1; }
+.kw-name { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.kw-meta { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.kw-bar { flex: 1; min-width: 120px; }
+.kw-bar-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.kw-bar-fill { height: 100%; border-radius: 4px; }
+.kw-pct { font-size: 18px; font-weight: 600; color: var(--text-primary); min-width: 60px; text-align: right; }
+
+/* Bullet section */
+.bullet-list { list-style: none; }
+.bullet-list li { padding: 7px 0; font-size: 13px; color: var(--text-body); border-bottom: 0.5px solid var(--border); display: flex; gap: 8px; align-items: flex-start; }
+.bullet-list li:last-child { border-bottom: none; }
+.bullet-num { background: var(--info-bg); color: var(--info-fg); width: 20px; height: 20px; border-radius: 4px; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* KPI big number */
+.kpi-big { text-align: center; padding: 20px 10px; }
+.kpi-big-value { font-family: 'Noto Serif', serif; font-size: 48px; font-weight: 500; letter-spacing: -0.02em; line-height: 1; }
+.kpi-big-label { font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+
+@media (max-width: 768px) {
+  body { padding: 0; } .page { border-radius: 0; }
+  .hero { padding: 24px 20px; }
+  .hero-title { font-size: 24px; } .hero-metric-value { font-size: 30px; }
+  .hero-metrics { gap: 16px; }
+  .section { padding: 20px; }
+  .cards-2col, .cards-3col { grid-template-columns: 1fr; }
+  .footer { padding: 24px 20px; }
+  .progress-label { width: 110px; }
+  .kw-card { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+  <div class="hero-eyebrow">Amazon México · ASIN Deep Dive · SIF Intelligence</div>
+  <h1 class="hero-title">B0DK45S4L7 — 三词自然位冠军</h1>
+  <p class="hero-subtitle">Raganet 长方形LED镜 · 50×70cm · $298 MXN · 唯一非品牌/非视频、纯靠Listing硬实力突围的头部ASIN</p>
+  <div class="hero-divider"></div>
+  <div class="hero-metrics">
+    <div class="hero-metric">
+      <div class="hero-metric-value">#1</div>
+      <div class="hero-metric-label">espejos para baño 自然排名</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-value">#2</div>
+      <div class="hero-metric-label">espejo led 自然排名</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-value">900+</div>
+      <div class="hero-metric-label">月销量</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-value">94</div>
+      <div class="hero-metric-label">自然流量词</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ PRODUCT PROFILE ════════ -->
+<section class="section">
+  <h2 class="section-title">产品基本画像</h2>
+  <div class="section-divider"></div>
+
+  <div class="cards-2col">
+    <div class="card">
+      <div class="card-title">📦 产品属性</div>
+      <table style="font-size:12px;">
+        <tr><td style="color:var(--text-secondary);width:100px;">ASIN</td><td><a href="https://www.amazon.com.mx/dp/B0DK45S4L7" target="_blank" style="color:var(--info-fg);">B0DK45S4L7</a></td></tr>
+        <tr><td style="color:var(--text-secondary);">品牌</td><td>Raganet（品牌备案 · 有品牌旗舰店）</td></tr>
+        <tr><td style="color:var(--text-secondary);">卖家</td><td>RagaBasics · FBA配送</td></tr>
+        <tr><td style="color:var(--text-secondary);">售价</td><td><strong>$298 MXN</strong>（标价 $479，<span style="color:#C4433A;">-38%</span>）</td></tr>
+        <tr><td style="color:var(--text-secondary);">评分/评论</td><td><strong>4.3★</strong> / 229 条评论</td></tr>
+        <tr><td style="color:var(--text-secondary);">BSR</td><td>#585 Hogar y Cocina · <strong>#3</strong> 壁挂式梳妆镜</td></tr>
+        <tr><td style="color:var(--text-secondary);">上架时间</td><td>2024-10-15（<strong>1年10个月</strong>）</td></tr>
+        <tr><td style="color:var(--text-secondary);">产地</td><td>中国</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">📐 规格参数</div>
+      <table style="font-size:12px;">
+        <tr><td style="color:var(--text-secondary);width:100px;">形状</td><td>长方形 (Rectangular)</td></tr>
+        <tr><td style="color:var(--text-secondary);">尺寸</td><td><strong>70cm(长) × 50cm(宽)</strong></td></tr>
+        <tr><td style="color:var(--text-secondary);">重量</td><td>3.98 kg</td></tr>
+        <tr><td style="color:var(--text-secondary);">材质</td><td>玻璃 · 无框设计</td></tr>
+        <tr><td style="color:var(--text-secondary);">安装</td><td>壁挂式 · 垂直安装</td></tr>
+        <tr><td style="color:var(--text-secondary);">风格</td><td>现代 (Moderno)</td></tr>
+        <tr><td style="color:var(--text-secondary);">变体数</td><td><strong>仅 1 个</strong>（专注单品策略）</td></tr>
+        <tr><td style="color:var(--text-secondary);">A+内容</td><td><span class="pill pill-success">有</span> · 品牌故事+场景图</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Bullet Points -->
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title">📝 五点描述 (Bullet Points)</div>
+    <ol class="bullet-list">
+      <li><span class="bullet-num">1</span><span><strong>三色调光：</strong>冷光、暖光、中性光，适合一天中不同时段</span></li>
+      <li><span class="bullet-num">2</span><span><strong>触控调光：</strong>长按可调节灯光亮度</span></li>
+      <li><span class="bullet-num">3</span><span><strong>垂直矩形设计：</strong>优化空间利用，尽显现代风格</span></li>
+      <li><span class="bullet-num">4</span><span><strong>易于安装：</strong>可垂直安装，含配件和说明书</span></li>
+      <li><span class="bullet-num">5</span><span><strong>场景适配：</strong>适合现代浴室、更衣室、卧室、步入式衣帽间</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ════════ TRAFFIC KEYWORDS ════════ -->
+<section class="section" style="padding-top:0;">
+  <h2 class="section-title">🔑 流量词构成（SIF数据）</h2>
+  <p class="section-subtitle">核心逻辑：自然排名碾压 + SP精准补位 · 零SB广告投入</p>
+  <div class="section-divider"></div>
+
+  <!-- Traffic overview -->
+  <div class="cards-3col" style="margin-bottom:16px;">
+    <div class="card" style="text-align:center;">
+      <div class="kpi-big-value" style="color:#3E54CE;">94</div>
+      <div class="kpi-big-label">自然流量词</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div class="kpi-big-value" style="color:#E47700;">16</div>
+      <div class="kpi-big-label">SP广告词</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div class="kpi-big-value" style="color:#C5C0BA;">0</div>
+      <div class="kpi-big-label">SB品牌/视频广告</div>
+    </div>
+  </div>
+
+  <!-- Top 4 Keywords -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-title">🏆 四大主力流量词（占总流量 46.7%）</div>
+
+    <!-- KW1 -->
+    <div class="kw-card" style="border-left:3px solid #C4A43A;">
+      <div class="kw-rank gold">#10</div>
+      <div class="kw-info">
+        <div class="kw-name">espejo con luz（带灯镜子）</div>
+        <div class="kw-meta">品类主词 · 自然位 Page1 #10 · SP位 Page3 #35 · 广告活动 QJG8</div>
+      </div>
+      <div class="kw-bar">
+        <div class="kw-bar-track"><div class="kw-bar-fill" style="width:100%;background:#C4A43A;"></div></div>
+      </div>
+      <div class="kw-pct">15.14%</div>
+    </div>
+
+    <!-- KW2 -->
+    <div class="kw-card" style="border-left:3px solid #5FA882;">
+      <div class="kw-rank green">#1</div>
+      <div class="kw-info">
+        <div class="kw-name">espejos para baño（浴室镜子）★ 最核心</div>
+        <div class="kw-meta">场景词 · <strong>自然位 Page1 #1（顶部）</strong> · SP位 Page3 #35</div>
+      </div>
+      <div class="kw-bar">
+        <div class="kw-bar-track"><div class="kw-bar-fill" style="width:87%;background:#5FA882;"></div></div>
+      </div>
+      <div class="kw-pct">13.14%</div>
+    </div>
+
+    <!-- KW3 -->
+    <div class="kw-card" style="border-left:3px solid #8F9298;">
+      <div class="kw-rank silver">#2</div>
+      <div class="kw-info">
+        <div class="kw-name">espejo led（LED镜子）</div>
+        <div class="kw-meta">属性词 · <strong>自然位 Page1 #2</strong> · SP位 Page1 #3</div>
+      </div>
+      <div class="kw-bar">
+        <div class="kw-bar-track"><div class="kw-bar-fill" style="width:64%;background:#8F9298;"></div></div>
+      </div>
+      <div class="kw-pct">9.70%</div>
+    </div>
+
+    <!-- KW4 -->
+    <div class="kw-card" style="border-left:3px solid #B8734D;">
+      <div class="kw-rank bronze">#6</div>
+      <div class="kw-info">
+        <div class="kw-name">espejo（镜子）</div>
+        <div class="kw-meta">泛词 · 自然位 Page1 #6 · SP位 Page1 #4</div>
+      </div>
+      <div class="kw-bar">
+        <div class="kw-bar-track"><div class="kw-bar-fill" style="width:58%;background:#B8734D;"></div></div>
+      </div>
+      <div class="kw-pct">8.72%</div>
+    </div>
+  </div>
+
+  <!-- Keyword scatter chart -->
+  <div class="cards-2col">
+    <div class="card">
+      <div class="card-title">流量词渠道分布</div>
+      <div class="chart-wrap" style="height:240px;">
+        <canvas id="channelChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">各词自然位 vs SP位对比</div>
+      <div class="chart-wrap" style="height:240px;">
+        <canvas id="rankCompareChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ COMPETITIVE MOAT ════════ -->
+<section class="section" style="padding-top:0;">
+  <h2 class="section-title">🏰 竞争护城河拆解</h2>
+  <p class="section-subtitle">为什么 B0DK45S4L7 能靠自然位碾压品牌广告玩家</p>
+  <div class="section-divider"></div>
+
+  <div class="cards-2col">
+    <div class="card" style="border-left:3px solid #5FA882;">
+      <div class="card-title">✅ 它做对了什么</div>
+      <table style="font-size:12px;">
+        <tr><td style="color:var(--text-secondary);width:120px;">定价策略</td><td><strong>$479→$298（-38%）</strong> — 高标价+大折扣=强价值感，切入主力价格带中低端</td></tr>
+        <tr><td style="color:var(--text-secondary);">单品聚焦</td><td><strong>仅1个变体</strong>（70×50cm长方形）— 不分散权重，所有评论和排名集中</td></tr>
+        <tr><td style="color:var(--text-secondary);">Listing质量</td><td><strong>A+内容 + 品牌旗舰店</strong> — 高转化率的信任基础</td></tr>
+        <tr><td style="color:var(--text-secondary);">标题SEO</td><td>标题埋入「LED」「3色温」「触摸」「壁挂」「浴室」「更衣室」等全维度关键词</td></tr>
+        <tr><td style="color:var(--text-secondary);">时间积累</td><td><strong>1年10个月</strong>的自然权重沉淀，后来者难以短期超越</td></tr>
+        <tr><td style="color:var(--text-secondary);">广告策略</td><td>仅跑 SP（16个词），<strong>零SB视频</strong> — 极致的广告效率</td></tr>
+      </table>
+    </div>
+
+    <div class="card" style="border-left:3px solid #E47700;">
+      <div class="card-title">⚠️ 它的弱点</div>
+      <table style="font-size:12px;">
+        <tr><td style="color:var(--text-secondary);width:120px;">变体不足</td><td>只有1个规格，买家想买圆形/更大尺寸的会流失到竞品</td></tr>
+        <tr><td style="color:var(--text-secondary);">评分偏低</td><td><strong>4.3★</strong>低于品类平均4.5★ — 品质可能有争议</td></tr>
+        <tr><td style="color:var(--text-secondary);">SP排名弱</td><td>espejos para baño的SP位仅#35 — 广告位远不如自然位</td></tr>
+        <tr><td style="color:var(--text-secondary);">无视频广告</td><td>零SB视频 — 在视频占67%的品类中错失品牌曝光</td></tr>
+        <tr><td style="color:var(--text-secondary);">价格天花板</td><td>$298定价限制了客单价，无法靠提价增长</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Strategic insight -->
+  <div class="alert alert-info" style="margin-top:16px;">
+    <div class="alert-title">💡 核心策略洞察</div>
+    <div class="alert-body">
+      B0DK45S4L7 的成功公式 = <strong>精准定价（$298 心理价位）× 单品聚焦（1个变体不分散）× 时间复利（22个月自然权重）× SEO标题（全维度覆盖）× 基础广告（SP精准补位）</strong>。<br><br>
+      它不是靠砸钱砸出来的——恰恰相反，它证明了在广告泛滥的品类里，<strong>扎实的Listing+合理的价格+时间积累</strong>仍然是最可持续的竞争策略。94个自然词 vs 仅16个SP词，说明它的流量几乎全部来自自然搜索，广告只起辅助作用。这是后来者最难复制的壁垒。
+    </div>
+  </div>
+</section>
+
+<!-- ════════ REPLICABLE STRATEGY ════════ -->
+<section class="section" style="padding-top:0;">
+  <h2 class="section-title">🎯 可复制策略 & 超越路径</h2>
+  <div class="section-divider"></div>
+
+  <div class="cards-3col" style="margin-bottom:16px;">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;margin-bottom:4px;">1</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px;">复制：定价+单品</div>
+      <div style="font-size:12px;color:var(--text-secondary);">$298–399 心理价位 + 50×70cm起步 + 标高价打折扣</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;margin-bottom:4px;">2</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px;">优化：多变体矩阵</div>
+      <div style="font-size:12px;color:var(--text-secondary);">同时上圆形60cm + 长方形50×70cm + 方形60×60cm，覆盖更多搜索场景</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;margin-bottom:4px;">3</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px;">超越：视频+场景</div>
+      <div style="font-size:12px;color:var(--text-secondary);">加SB视频广告（它没做！）+ 防雾功能（它没有！）+ 时钟显示</div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="border:1px solid var(--border);border-radius:12px;padding:20px;background:linear-gradient(135deg,#fafaf8,#f5f3ef);">
+    <div style="font-size:14px;font-weight:600;margin-bottom:10px;">📋 如果要做一个「更好的 B0DK45S4L7」</div>
+    <table style="font-size:13px;">
+      <thead><tr><th>维度</th><th>B0DK45S4L7（现状）</th><th style="color:#5FA882;">超越版（建议）</th></tr></thead>
+      <tbody>
+        <tr><td>价格</td><td>$298（标价$479）</td><td style="color:#5FA882;">$349–399（标价$599–699），更高感知价值</td></tr>
+        <tr><td>变体</td><td>1个（70×50cm长方形）</td><td style="color:#5FA882;">3个（50圆/50×70方/60×80方），覆盖搜索面3倍</td></tr>
+        <tr><td>功能</td><td>3色温+触控+调光</td><td style="color:#5FA882;">+ 防雾 + 时钟显示 + 记忆功能（三合一差异化）</td></tr>
+        <tr><td>评分</td><td>4.3★ / 229评论</td><td style="color:#5FA882;">目标 4.5★+ · 积极索评</td></tr>
+        <tr><td>广告</td><td>SP only · 零SB</td><td style="color:#5FA882;">SP精准 + SB视频（品类67%流量在视频！）</td></tr>
+        <tr><td>A+</td><td>品牌故事</td><td style="color:#5FA882;">+ 安装视频 + 场景对比图 + 防雾实测</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════ KEY DATA ════════ -->
+<section class="section" style="padding-top:0;">
+  <h2 class="section-title">📊 关键数据一览</h2>
+  <div class="section-divider"></div>
+
+  <div class="metrics-grid">
+    <div class="metric-card"><div class="metric-card-label">月销量</div><div class="metric-card-value">900+</div></div>
+    <div class="metric-card"><div class="metric-card-label">自然流量词</div><div class="metric-card-value">94</div></div>
+    <div class="metric-card"><div class="metric-card-label">SP广告词</div><div class="metric-card-value">16</div></div>
+    <div class="metric-card"><div class="metric-card-label">SB广告词</div><div class="metric-card-value">0</div></div>
+    <div class="metric-card"><div class="metric-card-label">上架时长</div><div class="metric-card-value">22个月</div></div>
+    <div class="metric-card"><div class="metric-card-label">BSR子类</div><div class="metric-card-value">#3</div></div>
+    <div class="metric-card"><div class="metric-card-label">大类BSR</div><div class="metric-card-value">#585</div></div>
+    <div class="metric-card"><div class="metric-card-label">售价 MXN</div><div class="metric-card-value">$298</div></div>
+    <div class="metric-card"><div class="metric-card-label">标价折扣</div><div class="metric-card-value" style="color:#C4433A;">-38%</div></div>
+    <div class="metric-card"><div class="metric-card-label">变体数</div><div class="metric-card-value">1</div></div>
+  </div>
+</section>
+
+<!-- ════════ REFERENCES ════════ -->
+<section class="section" style="padding-top:0;">
+  <h2 class="section-title">参考链接</h2>
+  <div class="section-divider"></div>
+  <div style="font-size:13px;color:var(--text-secondary);line-height:2;">
+    <div>· 对标ASIN — <a href="https://www.amazon.com.mx/dp/B0DK45S4L7" target="_blank" style="color:var(--info-fg);">B0DK45S4L7（Raganet 长方形LED镜）</a></div>
+    <div>· 品牌店铺 — <a href="https://www.amazon.com.mx/stores/Raganet" target="_blank" style="color:var(--info-fg);">Raganet Brand Store</a></div>
+    <div>· 关联圆镜 — <a href="https://www.amazon.com.mx/dp/B0F8L9R3JY" target="_blank" style="color:var(--info-fg);">B0F8L9R3JY（Raganet 圆形60cm · $283）</a></div>
+    <div>· 关联椭圆镜 — <a href="https://www.amazon.com.mx/dp/B0F8L94G4H" target="_blank" style="color:var(--info-fg);">B0F8L94G4H（Raganet 椭圆50×70cm · $298）</a></div>
+    <div>· 搜索页 — <a href="https://www.amazon.com.mx/s?k=espejos+para+ba%C3%B1o" target="_blank" style="color:var(--info-fg);">espejos para baño（它排名#1）</a></div>
+    <div>· 数据来源 — SIF 市场情报 + Amazon.com.mx 产品页实地采集 · 2026-07-29</div>
+  </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">B0DK45S4L7 深度拆解 · 三词自然位冠军</div>
+      <div class="footer-label">Amazon México · SIF & On-Page Intelligence</div>
+    </div>
+    <div class="footer-meta">
+      <span>对标ASIN</span><span>B0DK45S4L7</span>
+      <span>品牌</span><span>Raganet</span>
+      <span>分析日期</span><span>2026-07-29</span>
+      <span>数据工具</span><span>SIF + Amazon</span>
+    </div>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">
+    <span>基于 Amazon.com.mx 产品页 + SIF 市场情报工具实地数据采集</span>
+    <span>Generated by <a href="https://allyhub.com" target="_blank">AllyHub AI</a></span>
+  </div>
+</footer>
+
+</div>
+
+<script>
+// ── Channel Distribution ──
+new Chart(document.getElementById('channelChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['自然流量词 (94)', 'SP广告词 (16)', 'SB品牌/视频 (0)'],
+    datasets: [{
+      data: [94, 16, 0.1],
+      backgroundColor: ['#3E54CE','#E47700','#C5C0BA'],
+      borderWidth: 0,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    cutout: '60%',
+    plugins: { legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 }, usePointStyle: true } } }
+  }
+});
+
+// ── Rank Comparison (lower rank = better) ──
+new Chart(document.getElementById('rankCompareChart'), {
+  type: 'bar',
+  data: {
+    labels: ['espejo\ncon luz','espejos\npara baño','espejo\nled','espejo'],
+    datasets: [
+      {
+        label: '自然排名',
+        data: [10, 1, 2, 6],
+        backgroundColor: '#3E54CE',
+        borderRadius: 4,
+      },
+      {
+        label: 'SP排名',
+        data: [35, 35, 3, 4],
+        backgroundColor: '#E47700',
+        borderRadius: 4,
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 }, usePointStyle: true } } },
+    scales: {
+      y: {
+        reverse: true,
+        grid: { color: '#E8E6E2' },
+        ticks: { font: { size: 11 }, stepSize: 10 },
+        title: { display: true, text: '排名越低越好 ↓', font: { size: 11 } }
+      },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

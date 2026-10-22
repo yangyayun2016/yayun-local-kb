@@ -1,0 +1,100 @@
+{
+  "market": "Wasserpistolen",
+  "site": "DE",
+  "currency": "EUR",
+  "snapshot_date": "2026-09-02",
+  "category_size": "mid",
+  "d1_demand": {
+    "monthly_revenue": 860274,
+    "monthly_units": 46832,
+    "core_kw_searches": 120000,
+    "top_asin_monthly_units": 3200
+  },
+  "d2_growth": {
+    "search_yoy": 0.12,
+    "sales_yoy": 0.05,
+    "season_index": 3.1,
+    "lifecycle": "mature"
+  },
+  "d3_concentration": {
+    "cr3": 0.154,
+    "cr10": 0.32,
+    "brand_cr3": 0.199,
+    "seller_cr3": 0.21
+  },
+  "d4_seller": {
+    "fba_share": 0.73,
+    "amazon_share": 0.07,
+    "cn_seller_share": 0.41,
+    "fba_fee_ratio": 0.22
+  },
+  "d5_supply": {
+    "listings": 34002,
+    "top3_brand_organic_share": 0.28,
+    "effective_listing_ratio": 0.06
+  },
+  "d6_newcomer": {
+    "new_l6_count_share": 0.45,
+    "new_l6_sales_share": 0.31,
+    "review_median": 180,
+    "rating_mean": 4.2
+  },
+  "d7_price": {
+    "main_band_sales_share": 0.46,
+    "avg_price": 19.0,
+    "target_band_count": 18,
+    "gap_band_exists": true
+  },
+  "d8_voc": {
+    "return_rate": 0.035,
+    "neg_review_share": 0.14,
+    "solvable_painpoints": 3
+  },
+  "d9_keyword": {
+    "core_kw_searches": 120000,
+    "effective_kw_count": 24,
+    "longtail_share": 0.48,
+    "top10_organic_share": 0.58
+  },
+  "d10_ads": {
+    "market_cpc": 0.55,
+    "cpc_cap": 0.6,
+    "price": 19.0,
+    "category_cvr": 0.11,
+    "breakeven_acos": 0.42
+  },
+  "d11_supply_chain": {
+    "fba_fee_ratio": 0.22,
+    "freight_ratio": 0.06,
+    "moq": null,
+    "lead_days": null
+  },
+  "d12_profit": {
+    "gross_margin": 0.63,
+    "net_margin": 0.21,
+    "unit_contribution": 3.4,
+    "roi": null,
+    "cash_cycle_days": null
+  },
+  "d13_ip": {
+    "searched": true,
+    "high_relevance_families": 0,
+    "mid_relevance_families": 1,
+    "low_relevance_families": 4
+  },
+  "d14_compliance": {
+    "checked": true,
+    "blocked": false,
+    "cost_ratio": 0.02,
+    "required": [
+      "CE",
+      "EN71",
+      "GPSR",
+      "LUCID"
+    ]
+  },
+  "d15_fit": {
+    "verdict": "适合",
+    "notes": "有玩具类目经验，资金覆盖首批+90天广告"
+  }
+}

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>德国站 超声波洁牙器 市场调研 · 2026-09-28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Noto+Serif:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF; --border:#E8E6E2; --divider:#C5C0BA;
+    --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+    --hero-bg:#DDE3E8; --hero-deco:#9BADB0; --hero-deco2:#6E9298;
+    --success-bg:#E8FBCF; --success-fg:#3D4826; --warning-bg:#FFF0DC; --warning-fg:#E47700;
+    --info-bg:#DEE5F7; --info-fg:#3E54CE; --error-bg:#FDECEA; --error-fg:#C4433A;
+    --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+    --accent:#6E9298; --accent-d:#4C7076;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--outer-bg);font-family:'Inter Tight',sans-serif;color:var(--text-body);
+       -webkit-font-smoothing:antialiased;line-height:1.55}
+  .page{max-width:1200px;margin:24px auto;background:var(--page-bg);border-radius:24px;overflow:hidden}
+  .hero{position:relative;background:var(--hero-bg);padding:34px 40px 26px;overflow:hidden}
+  .hero .blob{position:absolute;opacity:.18;pointer-events:none}
+  .hero-content{position:relative;z-index:1}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-d);font-weight:600}
+  .hero h1{font-size:26px;font-weight:600;color:var(--text-primary);margin:8px 0 6px;letter-spacing:-.01em}
+  .hero p.sub{margin:0;font-size:14px;color:#4e5a5d;max-width:800px}
+  .hairline{height:1px;background:rgba(255,255,255,.85);margin:20px 0 16px}
+  .statrow{display:flex;flex-wrap:wrap;gap:26px}
+  .statrow .s{min-width:110px}
+  .statrow .s .v{font-family:'Noto Serif',serif;font-size:26px;font-weight:500;color:var(--text-primary);letter-spacing:-.02em}
+  .statrow .s .l{font-size:12px;color:var(--text-secondary)}
+  main{padding:30px 40px 10px}
+  section{margin-bottom:34px}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .sec-head h2{font-size:17px;font-weight:600;color:var(--text-primary);margin:0}
+  .sec-head .k{font-size:12px;color:var(--text-secondary)}
+  .sec-rule{height:.5px;background:var(--border);margin:10px 0 18px}
+  .card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px}
+  .metric{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:13px 15px}
+  .metric .l{font-size:12px;color:var(--text-secondary)}
+  .metric .v{font-size:23px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em;margin-top:2px}
+  .metric .d{font-size:12px;font-weight:500;margin-top:2px}
+  .up{color:var(--success-fg)} .down{color:var(--error-fg)} .flat{color:var(--text-secondary)}
+  .card h3{font-size:15px;font-weight:600;color:var(--text-primary);margin:0 0 4px}
+  .card .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+  ul.tight{margin:6px 0 0;padding-left:18px}
+  ul.tight li{margin-bottom:6px;font-size:13.5px}
+  .pill{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px}
+  .p-ok{background:var(--success-bg);color:var(--success-fg)}
+  .p-warn{background:var(--warning-bg);color:var(--warning-fg)}
+  .p-info{background:var(--info-bg);color:var(--info-fg)}
+  .p-err{background:var(--error-bg);color:var(--error-fg)}
+  .p-neu{background:var(--neutral-bg);color:var(--neutral-fg)}
+  .tbl-wrap{overflow-x:auto;border:.5px solid var(--border);border-radius:12px;background:var(--surface)}
+  table{border-collapse:collapse;width:100%;font-size:13px;min-width:680px}
+  thead th{font-size:12px;font-weight:500;color:var(--text-secondary);text-align:left;padding:10px 12px;border-bottom:1px solid var(--divider);white-space:nowrap}
+  tbody td{padding:9px 12px;border-bottom:.5px solid var(--border);vertical-align:top}
+  tbody tr:last-child td{border-bottom:none}
+  .alert{border-radius:10px;padding:13px 16px}
+  .alert .t{font-weight:600;color:var(--text-primary);font-size:13.5px;margin-bottom:3px}
+  .alert p{margin:0;font-size:13px}
+  footer{position:relative;background:var(--hero-bg);padding:26px 40px 18px;overflow:hidden}
+  .foot-top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;z-index:1}
+  .foot-brand .b{font-size:15px;font-weight:600;color:var(--text-primary)}
+  .foot-brand .s{font-size:12px;color:var(--text-secondary)}
+  .foot-meta{display:grid;grid-template-columns:auto auto;gap:4px 26px;font-size:12px;color:var(--text-secondary)}
+  .foot-meta b{color:var(--text-body);font-weight:500}
+  .foot-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,.85);font-size:12px;color:var(--text-secondary);position:relative;z-index:1}
+  a{color:var(--info-fg);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .refs{font-size:12.5px;color:var(--text-body)}
+  .refs li{margin-bottom:6px}
+  @media(max-width:760px){
+    .page{margin:0;border-radius:0}
+    .hero,main,footer{padding-left:18px;padding-right:18px}
+    .grid2{grid-template-columns:1fr}
+    .statrow{gap:18px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero">
+    <svg class="blob" style="top:-40px;left:-30px;width:230px;height:200px" viewBox="0 0 200 180" fill="var(--hero-deco)"><path d="M88 6c40-6 92 20 100 60 9 42-24 74-64 86-38 11-84 4-102-28C4 92 8 44 34 24 52 10 66 9 88 6Z"/></svg>
+    <svg class="blob" style="bottom:-60px;right:8%;width:250px;height:190px" viewBox="0 0 220 180" fill="var(--hero-deco2)"><path d="M120 10c44-8 84 16 92 54 8 40-20 78-62 96C110 178 58 174 30 146 2 118 6 66 34 40 58 18 88 16 120 10Z"/></svg>
+    <svg class="blob" style="top:20px;right:-40px;width:170px;height:160px" viewBox="0 0 180 160" fill="var(--hero-deco)"><path d="M70 8c34-6 78 14 84 48 6 36-22 66-56 78-32 11-72 6-86-22C-2 84 0 44 24 26 40 14 48 12 70 8Z"/></svg>
+    <div class="hero-content">
+      <div class="eyebrow">Amazon.de · Ultraschall Zahnreiniger / Zahnsteinentferner · 超声波洁牙器</div>
+      <h1>德国站 超声波洁牙器 市场调研</h1>
+      <p class="sub">基于德国站前台实时快照（2026-09-28）与你指定的参考链接 B0HCB7NKKW，把"洁牙器"这个模糊品类拆成四个真实子市场：手动洁牙工具、电动超声波洁牙器、电动抛光美白器、相邻的冲牙器——各自谁在赚钱、关键词怎么搜、合规红线在哪。</p>
+      <div class="hairline"></div>
+      <div class="statrow">
+        <div class="s"><div class="v">523</div><div class="l">主词 zahnsteinentferner（官方指数）</div></div>
+        <div class="s"><div class="v">35.99<span style="font-size:15px">€</span></div><div class="l">电动超声波款价格中位</div></div>
+        <div class="s"><div class="v">28</div><div class="l">电动超声波款评论中位</div></div>
+        <div class="s"><div class="v">17781</div><div class="l">手动工具最高评论数</div></div>
+        <div class="s"><div class="v">5 / 6</div><div class="l">电动超声波款为「宠物」定位</div></div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- 0 先纠正 -->
+    <section>
+      <div class="sec-head"><h2>0 · 先看一个关键事实：你给的链接在「宠物」类目</h2><div class="k">B0HCB7NKKW 实测</div></div>
+      <div class="sec-rule"></div>
+      <div class="alert" style="background:var(--warning-bg);color:var(--warning-fg);margin-bottom:16px">
+        <div class="t">B0HCB7NKKW 不是人类洁牙器</div>
+        <p>该 ASIN 标题为「<b>Ultraschall Zahnreinigungs-Set … schonende Zahnpflege für Hunde &amp; Katzen</b>」，实际挂在 <b>Haustier → Katzen → Gesundheit → Zahnpflege</b>，BSR <b>#5（Zahnpflege für Katzen）</b>、大类 #1,655。规格：39.1 kHz、5 档强度、500 mAh、USB-C、81 g、2 个替换头 + 牙镜，售价 35.99€，评分 5.0★ 但<b>只有 2 条评论</b>，上架 2026-07-31，近 30 天售出 100+。卖 JETSIN-US，品牌 PlainFylora。</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h3>这条 listing 说明什么</h3>
+          <ul class="tight">
+            <li><b>类目很浅、很新</b>：5★ 却只有 2 条评论就排到猫牙护理 #5 —— 说明这个细分赛道的竞争密度极低，起量快但天花板也低。</li>
+            <li><b>"宠物版"是这个品类最常见的落地方式</b>：我扫到的 6 条电动超声波洁牙器里，<b>5 条都挂在宠物类目</b>（Zahnpflegebedarf für Hunde / Zahnpflege für Katzen），只有 1 条挂人类类目。这不是巧合，下面第 5 节会说原因。</li>
+            <li><b>它不是"超声波牙刷"，是超声波洗牙石笔</b>：靠金属尖接触牙面振动去结石，和"冲牙器 Munddusche"完全是两个东西——这是德国市场最大的一个认知混淆点。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>"洁牙器"在德国站其实有 4 个不同的东西</h3>
+          <div class="meta">同一个中文词，四个完全不同的货架</div>
+          <ul class="tight">
+            <li><b>手动洁牙工具</b>（不锈钢刮刀套装）— Mund- &amp; Zahnpflege &gt; <i>Zahnpflegesets</i></li>
+            <li><b>电动超声波洁牙器</b>（你这款）— 主要在 <i>宠物牙科</i> 类目</li>
+            <li><b>电动抛光/美白器</b>（Zahnpolierer）— <i>Bleachings</i></li>
+            <li><b>冲牙器</b>（Munddusche / Water Flosser）— 完全另一个大市场</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1 市场地图 -->
+    <section>
+      <div class="sec-head"><h2>1 · 四个子市场的真实体量</h2><div class="k">主词 zahnsteinentferner 前台样本 · 60 条去重</div></div>
+      <div class="sec-rule"></div>
+
+      <div class="card" style="margin-bottom:16px">
+        <h3>子市场结构对比</h3>
+        <div class="meta">评论中位数是入场难度的直接标尺</div>
+        <div style="position:relative;height:290px"><canvas id="chartSub"></canvas></div>
+        <div class="legend"><span><i style="background:#6E9298"></i>链接数</span><span><i style="background:#C4433A"></i>评论中位（右轴）</span></div>
+      </div>
+
+      <div class="tbl-wrap" style="margin-bottom:16px">
+        <table>
+          <thead><tr><th>子市场</th><th>链接数</th><th>价格中位</th><th>价格区间</th><th>评论中位</th><th>评论最高</th><th>宠物/人类定位</th></tr></thead>
+          <tbody>
+            <tr><td><b>手动洁牙工具</b><br><span class="pill p-neu">流量池</span></td><td>25</td><td>8.99€</td><td>3.99–36.99€</td><td>133</td><td>17781</td><td>7 / 18</td></tr>
+            <tr><td><b>冲牙器</b>（相邻）<br><span class="pill p-info">大市场</span></td><td>11</td><td>29.99€</td><td>19.99–96€</td><td>3541</td><td>47179</td><td>0 / 11</td></tr>
+            <tr><td><b>电动抛光/美白器</b><br><span class="pill p-warn">同类替代</span></td><td>8</td><td>28.48€</td><td>1.99–45.99€</td><td>60</td><td>893</td><td>0 / 8</td></tr>
+            <tr><td><b>电动超声波洁牙器</b><br><span class="pill p-ok">你这款</span></td><td>6</td><td>35.99€</td><td>28.99–39.99€</td><td><b>28</b></td><td>672</td><td><b>5 / 1</b></td></tr>
+            <tr><td><b>洁牙膏/耗材</b></td><td>3</td><td>5.99€</td><td>5.91–36.99€</td><td>687</td><td>6779</td><td>0 / 3</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h3>三条读法</h3>
+          <ul class="tight">
+            <li><b>手动工具是真正的流量池，也是血海</b>：€4–10 的不锈钢刮刀套装，评论动辄 5,000–17,781 条（HOKIN、GTEX），品牌已经吃掉了自然位。<b>不建议进。</b></li>
+            <li><b>电动超声波洁牙器是新赛道</b>：只有 6 条样本、评论中位 <b>28</b>，价格集中在 €29–40。低评论 = 低壁垒，但也说明<b>需求尚未被验证成大市场</b>。</li>
+            <li><b>冲牙器是隔壁的大哥</b>：COSLUS 47,179 评、Waterpik 26,178 评，价格 €20–96。消费者在德语里说的"洗牙/洁牙"很大比例其实在找这个——<b>做关键词时必须和它区分开</b>。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>电动超声波洁牙器的 6 个玩家</h3>
+          <div class="meta">价格、评论与定位</div>
+          <ul class="tight">
+            <li><b>Petbank</b> B0D3DFVMKM — €29.99，4.2★，<b>672 评</b>，宠物，类目 #4（评论最多，是这条线的标杆）</li>
+            <li><b>Stim-U-Dent</b> B0F4DN7Z6C — €35.99，4.2★，630 评，宠物，类目 #30</li>
+            <li><b>EMOCCI PRO</b> B0FLXQZJ4P — €39.99，4.7★，44 评，宠物，类目 #93</li>
+            <li><b>Boston Tech</b> B0H8TP9G1M — €47.60，5★，3 评，宠物（人宠两用表述）</li>
+            <li><b>Sleeping forest</b> B0H272DR1W — €28.99，5★，8 评，宠物</li>
+            <li><b>PlainFylora</b> B0HCB7NKKW（你的参考）— €35.99，5★，2 评，宠物，猫牙护理 #5</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 评论榜 -->
+    <section>
+      <div class="sec-head"><h2>2 · 评论量榜：看清谁握着自然位</h2><div class="k">全样本按评论数排序</div></div>
+      <div class="sec-rule"></div>
+      <div style="position:relative;height:420px"><canvas id="chartRev"></canvas></div>
+      <p style="font-size:12px;color:var(--text-secondary);margin-top:8px">蓝色＝手动洁牙工具，青色＝电动超声波洁牙器，灰色＝相邻（冲牙器）。可以看到"洁牙"这个词下真正有流量的是手动工具与冲牙器，电动超声波仍是空位。</p>
+    </section>
+
+    <!-- 3 关键词 -->
+    <section>
+      <div class="sec-head"><h2>3 · 关键词：德国人搜"牙结石"，不搜"超声波"</h2><div class="k">官方搜索指数（德国站）</div></div>
+      <div class="sec-rule"></div>
+
+      <div class="card" style="margin-bottom:14px">
+        <h3>搜索量对比</h3>
+        <div class="meta">功能词 > 技术词，这一点直接决定标题怎么写</div>
+        <div style="position:relative;height:330px"><canvas id="chartKw"></canvas></div>
+      </div>
+
+      <div class="alert" style="background:var(--warning-bg);color:var(--warning-fg);margin-bottom:16px">
+        <div class="t">核心洞察：技术词在这类目里几乎没有量</div>
+        <p><b>zahnstein 1,944 · zahnsteinentferner 523 · zahnstein entfernen 411 · zahnstein entferner 187</b> —— 消费者是带着"<b>去掉牙结石</b>"这个<b>结果</b>来搜的。而 <b>ultraschall zahnreiniger 只有 74</b>、<b>zahnsteinentferner ultraschall 74</b>、<b>zahnreiniger ultraschall 37</b>。<br>结论：<b>"Ultraschall" 不能当主词</b>，它是副词/卖点词；标题主词必须打 <i>Zahnsteinentferner</i>。另外 <i>plaque entferner / zahnbelag entferner / zahnsteinentferner set</i> 在官方指数里都无数据，说明德语区还没形成这些说法。</p>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h3>还一个巨大的混淆：Munddusche</h3>
+          <ul class="tight">
+            <li>德语里"洗牙/冲牙"的日常说法是 <b>Munddusche（冲牙器）</b>，这类目体量远大于洁牙器：COSLUS C20 单条 <b>47,179 评</b>、Waterpik 26,178 评。</li>
+            <li>很多买家搜 <i>Zahnreiniger</i> 时，期待的其实是冲牙器。如果你的产品是"超声波洗牙石笔"，<b>必须在主图第一眼就区分清楚</b>，否则流量进来即跳出、退货率飙升。</li>
+            <li>反之，宠物线要避开 Munddusche 词，用 <i>Zahnsteinentferner für Hunde/Katzen</i> 精准截流。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>词位布局建议</h3>
+          <div class="meta">宠物线（对齐你这款）</div>
+          <p style="font-size:13px;background:var(--neutral-bg);border-radius:8px;padding:10px 12px;color:var(--text-body)">
+          <b>[Marke]</b> Ultraschall Zahnsteinentferner für Hunde &amp; Katzen · Zahnreiniger mit 5 Intensitätsstufen · LED · USB-C · für Zahnstein &amp; Verfärbungen
+          </p>
+          <ul class="tight">
+            <li>标题：<b>Zahnsteinentferner 打头</b>，Ultraschall 作修饰，Hunde/Katzen 明确人群。</li>
+            <li>五点：<b>5 Intensitätsstufen（新手从 Sanft 开始）</b>、智能接触感应（只在接触牙齿时振动＝安全）、LED 照明、USB-C、替换头。</li>
+            <li>后台 ST 补：<i>zahnstein entfernen, zahnbelag, pet zahnpflege, zahntartar, dental scaler</i>。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 合规 -->
+    <section>
+      <div class="sec-head"><h2>4 · 合规：这是本次调研风险最高的一点</h2></div>
+      <div class="sec-rule"></div>
+      <div class="grid2">
+        <div class="card">
+          <h3>人类用超声波洁牙器 = 医疗器械边缘</h3>
+          <ul class="tight">
+            <li>德国站已有玩家把这类产品作为 <b>"zertifiziertes Medizinprodukt"（欧盟认证医疗器械）</b> 出售，例如 Evolsin Anti-Zahnstein（€9.95，明确标注欧盟医疗器械合规）。</li>
+            <li>换句话说：<b>面向人类、宣称"去除牙结石 / 治疗牙周"的产品，在德国有被要求按 MDR 医疗器械合规的实际先例</b>。没有 CE/医疗器械资质的普通消费品，直接宣称疗效风险很高。</li>
+            <li>建议：人类线若不做认证，就只做 <b>Zahnpolierer（抛光/去渍）</b> 的定位（走 Bleachings 类目，主打扫白牙渍），不碰"去牙结石"的疗效宣称。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>宠物定位是当前的主流落地路径</h3>
+          <ul class="tight">
+            <li>我扫到的电动超声波洁牙器里 <b>5/6 都挂在宠物类目</b>（Zahnpflegebedarf für Hunde / Zahnpflege für Katzen）。宠物用洁牙工具的合规约束与宣称口径，比人类医疗器械宽松得多。</li>
+            <li>但要注意：<b>多数竞品的描述里同时写了人用场景</b>（"auch für Menschen geeignet"）。这属于用宠物类目引流、实际做人用的做法，<b>平台抽查与竞对投诉都有风险</b>，建议口径一致、别两头下注。</li>
+            <li>通用要求仍需满足：CE / RoHS、锂电池运输与充电说明、德语说明书、以及"开盖断电/接触感应"等安全说明。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="alert" style="background:var(--error-bg);color:var(--error-fg);margin-top:14px">
+        <div class="t">风险清单（上架前逐条确认）</div>
+        <p>① 不要写 "entfernt Zahnstein / gegen Parodontose" 这类疗效宣称（人类线）；② 别用宠物类目做人用引流；③ UV/杀菌类宣称在德国属敏感项；④ 金属尖头接触牙龈的产品，务必写清"接触感应只对硬组织振动"以避免伤害投诉；⑤ 竞品词（如 "Dental Pod"）慎投。</p>
+      </div>
+    </section>
+
+    <!-- 5 结论 -->
+    <section>
+      <div class="sec-head"><h2>5 · 结论与行动建议</h2></div>
+      <div class="sec-rule"></div>
+      <div class="grid2">
+        <div class="card">
+          <h3>市场判定</h3>
+          <ul class="tight">
+            <li><span class="pill p-err">手动工具</span> €4–10、评论墙 5k–18k —— <b>别进</b>，除非你有绝对成本优势打价格战。</li>
+            <li><span class="pill p-ok">电动超声波（宠物）</span> 6 条样本、评论中位 28、价格 €29–40 —— <b>可进，但市场浅</b>，天花板低，适合作为小切入点或跳板。</li>
+            <li><span class="pill p-warn">电动抛光器（人类）</span> 走 Bleachings，€25–46 —— 合规风险低，但同质化严重。</li>
+            <li><span class="pill p-info">冲牙器</span> 体量大但玩家强（Waterpik/COSLUS）—— 除非有硬创新，不建议正面进。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>如果做，怎么做</h3>
+          <ul class="tight">
+            <li><b>定位</b>：宠物超声波洁牙器，价位 <b>29.99–39.99€</b>（对齐 Petbank/Stim-U-Dent）。</li>
+            <li><b>卖点排序</b>：接触感应安全机制 → 5 档强度（新手 Sanft）→ LED 照明 → USB-C 快充 → 替换头与牙镜套装。</li>
+            <li><b>关键词</b>：主词 <i>Zahnsteinentferner</i>；人群词 <i>für Hunde / Katzen</i>；Ultraschall 只作修饰。</li>
+            <li><b>类目</b>：进 <i>Zahnpflegebedarf für Hunde</i> 或 <i>Zahnpflege für Katzen</i>，榜位竞争极松（#4 也才 672 评）。</li>
+            <li><b>内容</b>：必须上"before/after"实拍视频（牙结石一片片脱落的画面是这个品类最强的转化器）。</li>
+            <li><b>口碑</b>：评论中位只有 28，<b>先冲到 100+ 评就能进头部</b>，这是四两拨千斤的窗口期。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 口径 -->
+    <section>
+      <div class="sec-head"><h2>6 · 方法论与口径说明</h2></div>
+      <div class="sec-rule"></div>
+      <div class="card">
+        <ul class="tight" style="font-size:13px">
+          <li><b>数据来源</b>：德国站前台实时快照（主词 zahnsteinentferner 搜索结果 60 条去重 + 参考 ASIN 单品页，2026-09-28）。</li>
+          <li><b>子市场归类</b>：按标题语义分为"手动洁牙工具 / 电动超声波洁牙器 / 电动抛光美白器 / 冲牙器（相邻）/ 洁牙膏耗材"，非官方类目口径。</li>
+          <li><b>人群定位</b>：以前台所属类目是否属于 Haustier 判定（宠物 / 人类）。</li>
+          <li><b>关键词</b>：官方搜索指数（德国站），无数据的词如实标注"无数据"，未做推断。</li>
+          <li><b>价格/评分/评论</b>：快照日前台值，折扣价取结算价。</li>
+          <li><b>合规部分</b>：为基于前台在售产品定位与宣称的观察提示，非法律意见；实际合规请以欧盟 MDR 专业评估为准。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>参考来源</h2></div>
+      <div class="sec-rule"></div>
+      <ol class="refs">
+        <li>参考 ASIN（宠物超声波洁牙器）：<a href="https://www.amazon.de/dp/B0HCB7NKKW" target="_blank">B0HCB7NKKW</a></li>
+        <li>宠物牙科类目榜：<a href="https://www.amazon.de/gp/bestsellers/pet-supplies" target="_blank">amazon.de Bestsellers Haustier</a>；Zahnpflege für Katzen 节点 470776031</li>
+        <li>人类手动洁牙工具榜：<a href="https://www.amazon.de/Zahnpflegesets/b/?ie=UTF8&node=3015721031" target="_blank">amazon.de — Zahnpflegesets</a></li>
+        <li>电动超声波洁牙器标杆：<a href="https://www.amazon.de/dp/B0D3DFVMKM" target="_blank">Petbank B0D3DFVMKM</a>；<a href="https://www.amazon.de/dp/B0F4DN7Z6C" target="_blank">Stim-U-Dent B0F4DN7Z6C</a>；<a href="https://www.amazon.de/dp/B0FLXQZJ4P" target="_blank">EMOCCI PRO B0FLXQZJ4P</a></li>
+        <li>医疗器械合规参照（德国在售）：<a href="https://www.amazon.de/dp/B0GZVZMRT3" target="_blank">Evolsin Anti-Zahnstein（zertifiziertes Medizinprodukt）</a></li>
+        <li>相邻大市场（冲牙器）：<a href="https://www.amazon.de/dp/B0CJFFQRV7" target="_blank">COSLUS C20</a>；<a href="https://www.amazon.de/dp/B073WGYSF9" target="_blank">Waterpik WP-660EU</a></li>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer>
+    <svg class="blob" style="top:-50px;left:6%;width:210px;height:170px" viewBox="0 0 200 170" fill="var(--hero-deco)" opacity="0.16"><path d="M92 8c38-6 84 18 92 54 8 38-22 70-60 82-36 11-80 4-98-26C6 88 10 46 34 26 52 12 66 11 92 8Z"/></svg>
+    <svg class="blob" style="bottom:-60px;right:-20px;width:230px;height:180px" viewBox="0 0 220 170" fill="var(--hero-deco2)" opacity="0.16"><path d="M118 10c42-8 82 16 90 52 8 38-20 74-60 92-38 17-88 12-114-14C8 114 10 64 38 40 60 20 86 16 118 10Z"/></svg>
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="b">德国超声波洁牙器 市场调研</div>
+        <div class="s">Amazon.de · Zahnsteinentferner · 子市场 · 关键词 · 合规</div>
+      </div>
+      <div class="foot-meta">
+        <span>快照日</span><b>2026-09-28</b>
+        <span>站点</span><b>Amazon.de（德国）</b>
+        <span>样本</span><b>60 条 + 参考 ASIN</b>
+        <span>主词</span><b>zahnsteinentferner</b>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>本报告为市场调研，不构成定价、专利或合规法律意见。</span>
+      <span>Generated by <a href="https://allyhub.com" target="_blank">AllyHub AI</a></span>
+    </div>
+  </footer>
+</div>
+
+<script>
+const C={accent:'#6E9298',accentD:'#4C7076',info:'#3E54CE',ok:'#5FA882',warn:'#E47700',err:'#C4433A',border:'#E8E6E2',txt:'#717171',dark:'#151515'};
+
+new Chart(document.getElementById('chartSub'),{
+  type:'bar',
+  data:{labels:['手动洁牙工具','冲牙器(相邻)','电动抛光/美白器','电动超声波洁牙器','洁牙膏/耗材'],
+    datasets:[
+      {label:'链接数',data:[25,11,8,6,3],backgroundColor:'#6E9298',borderRadius:5,barThickness:22,yAxisID:'y'},
+      {label:'评论中位',data:[133,3541,60,28,687],backgroundColor:'#C4433A',borderRadius:5,barThickness:22,yAxisID:'y1'}
+    ]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},
+    scales:{x:{grid:{color:C.border},ticks:{color:C.txt,font:{size:11}}},
+      y:{grid:{display:false},ticks:{color:C.dark,font:{size:11.5}}},
+      y1:{display:false}}}
+});
+
+new Chart(document.getElementById('chartRev'),{
+  type:'bar',
+  data:{labels:['COSLUS C20 冲牙器','Waterpik WP-660','HOKIN 4Pcs 手动','COSLUS C30 冲牙器','GTEX 5er 手动','Vimmk 冲牙器','miradent 抛光膏','HOKIN 5Pcs 手动','OCBA 3Pcs 手动','GTEX 6er 手动','Petbank 超声波','Stim-U-Dent 超声波'],
+    datasets:[{data:[47179,26178,17781,16209,9204,7782,6779,5673,3770,3531,672,630],
+      backgroundColor:['#C8D3D6','#C8D3D6','#6E9298','#C8D3D6','#6E9298','#C8D3D6','#C8D3D6','#6E9298','#6E9298','#6E9298','#4C7076','#4C7076'],
+      borderRadius:5,barThickness:18}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>Number(c.parsed.x).toLocaleString()+' 条评论'}}},
+    scales:{x:{type:'logarithmic',grid:{color:C.border},ticks:{color:C.txt,font:{size:10}}},
+      y:{grid:{display:false},ticks:{color:C.dark,font:{size:11}}}}}
+});
+
+new Chart(document.getElementById('chartKw'),{
+  type:'bar',
+  data:{labels:['zahnstein','zahnsteinentferner','zahnstein entfernen','zahnstein entferner','zahnzwischenraumreiniger','zahnsteinentferner ultraschall','ultraschall zahnreiniger','zahnreiniger ultraschall','dental scaler'],
+    datasets:[{data:[1944,523,411,187,149,74,74,37,37],
+      backgroundColor:['#4C7076','#4C7076','#6E9298','#6E9298','#6E9298','#E47700','#E47700','#E47700','#C8D3D6'],
+      borderRadius:5,barThickness:22}]},
+  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>Number(c.parsed.x).toLocaleString()}}},
+    scales:{x:{grid:{color:C.border},ticks:{color:C.txt,font:{size:11}}},
+      y:{grid:{display:false},ticks:{color:C.dark,font:{size:11.5}}}}}
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+{
+  "asin": "B0FNR23GX1",
+  "conditionOfferSummaries": [
+    {
+      "condition": "New",
+      "landedPrice": {
+        "itemPrice": "$39.23",
+        "shippingPrice": "$0.00",
+        "points": 0
+      },
+      "offerCount": 2
+    }
+  ],
+  "imageUrl": "https://m.media-amazon.com/images/I/41GiBYPvdDL._SS160_.jpg",
+  "reconciledProductAttributes": [
+    {
+      "displayLabel": null,
+      "value": "centimeters",
+      "name": "item_package_dimensions#1.length.unit"
+    },
+    {
+      "displayLabel": null,
+      "value": "17.5006",
+      "name": "item_package_dimensions#1.length.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "17.8054",
+      "name": "item_package_dimensions#1.width.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "32.1056",
+      "name": "item_package_dimensions#1.height.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "kilograms",
+      "name": "item_package_weight#1.unit"
+    },
+    {
+      "displayLabel": null,
+      "value": "0.018",
+      "name": "item_package_weight#1.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "HYCHIKA Air Purifier for Bedroom Home - True H13 HEPA Air Purifier for Smoke, Dust, Pollen,Pet Dander(20dB) Quiet Air Purifiers with 3 Light,3 Speeds,Timer & Aroma Function",
+      "name": "item_name#1.value"
+    }
+  ],
+  "reconciledListing": {
+    "detailPageListingResponse": {
+      "supplier_declared_dg_hz_regulation#1.value": {
+        "displayLabel": "Dangerous Goods Regulations",
+        "value": "not_applicable"
+      },
+      "item_name#1.value": {
+        "displayLabel": "Item Name",
+        "value": "HYCHIKA Air Purifier for Bedroom Home - True H13 HEPA Air Purifier for Smoke, Dust, Pollen,Pet Dander(20dB) Quiet Air Purifiers with 3 Light,3 Speeds,Timer & Aroma Function"
+      },
+      "unit_count#1.value": {
+        "displayLabel": "Unit Count",
+        "value": "1.0"
+      },
+      "ships_globally#1.value": {
+        "displayLabel": "Ships Globally",
+        "value": "false"
+      },
+      "number_of_packs#1.value": {
+        "displayLabel": "Number of Packs",
+        "value": "1"
+      },
+      "model_number#1.value": {
+        "displayLabel": "Model Number",
+        "value": "R0007US-XLN"
+      },
+      "detail_page_primary_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/41GiBYPvdDL._SL75_.jpg"
+      },
+      "bullet_point#1.value": {
+        "displayLabel": "Bullet Point",
+        "value": "All-Encompassing 360° Clean Air Experience truly comprehensive purification with our advanced 360-degree air intake system. Engineered for efficiency, this HEPA air purifier draws in air from all directions for rapid, uniform purification of your entire space—no strategic placement required."
+      },
+      "wattage#1.unit": {
+        "displayLabel": "Wattage Unit",
+        "value": "watts"
+      },
+      "supplemental_condition_information#1.functional_condition": {
+        "displayLabel": "Functional Condition",
+        "value": "fully_functional"
+      },
+      "control_method#1.value": {
+        "displayLabel": "Control Method",
+        "value": "touch"
+      },
+      "pt04_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/41JI-X1GVNL._SL75_.jpg"
+      },
+      "item_package_weight#1.value": {
+        "displayLabel": "Package Weight",
+        "value": "0.018"
+      },
+      "pt07_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/51tTh402c6L._SL75_.jpg"
+      },
+      "batteries_required#1.value": {
+        "displayLabel": "Are batteries required?",
+        "value": "false"
+      },
+      "sales_rank": {
+        "displayLabel": "",
+        "value": "2192080"
+      },
+      "product_site_launch_date#1.value": {
+        "displayLabel": "Product Site Launch Date",
+        "value": "2025-08-26T06:35:01.588Z"
+      },
+      "particle_retention_size#1.value": {
+        "displayLabel": "Particle Retention Size",
+        "value": "0.3"
+      },
+      "item_package_dimensions#1.width.value": {
+        "displayLabel": "Item Package Width",
+        "value": "17.8054"
+      },
+      "filter_class#1.value": {
+        "displayLabel": "Filter Class",
+        "value": "H13"
+      },
+      "legal_compliance_certifications#1.regulatory_organization_name": {
+        "displayLabel": "Regulatory Organization Name",
+        "value": "California Environmental Protection Agency - Air Resources Board"
+      },
+      "supplemental_condition_information#1.source_type": {
+        "displayLabel": "Source Type",
+        "value": "no_data"
+      },
+      "model_name#1.value": {
+        "displayLabel": "Model Name",
+        "value": "R0007US"
+      },
+      "item_package_dimensions#1.width.unit": {
+        "displayLabel": "Package Width Unit",
+        "value": "centimeters"
+      },
+      "supplemental_condition_information#1.features#1": {
+        "displayLabel": "Features",
+        "value": "parts_replaced"
+      },
+      "special_feature#1.value": {
+        "displayLabel": "Special Features",
+        "value": "Washable Filter"
+      },
+      "master_packs_per_layer_quantity#1.value": {
+        "displayLabel": "Master Packs Per Layer Quantity",
+        "value": "1"
+      },
+      "batteries_included#1.value": {
+        "displayLabel": "Are batteries included?",
+        "value": "false"
+      },
+      "item_depth_width_height#1.width.value": {
+        "displayLabel": "Item Width Side to Side",
+        "value": "7.28"
+      },
+      "item_depth_width_height#1.height.unit": {
+        "displayLabel": "Item Height Unit",
+        "value": "inches"
+      },
+      "supplemental_condition_information#1.packaging": {
+        "displayLabel": "Packaging",
+        "value": "oem_original"
+      },
+      "pt05_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/51-MfWjm1VL._SL75_.jpg"
+      },
+      "supplemental_condition_information#1.accessories": {
+        "displayLabel": "Accessories",
+        "value": "generic"
+      },
+      "legal_compliance_certifications#1.certification_status": {
+        "displayLabel": "Compliance Certification Status",
+        "value": "Compliant"
+      },
+      "manufacture_year#1.value": {
+        "displayLabel": "Manufacture Year",
+        "value": "2025"
+      },
+      "edition#1.value": {
+        "displayLabel": "Edition",
+        "value": "standard edition"
+      },
+      "noise_level#1.unit": {
+        "displayLabel": "Noise Level Unit",
+        "value": "decibels"
+      },
+      "pt08_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/41ySM4xi5WL._SL75_.jpg"
+      },
+      "legal_compliance_certifications#1.value": {
+        "displayLabel": "Compliance Certification Value",
+        "value": "G-26-015"
+      },
+      "item_depth_width_height#1.width.unit": {
+        "displayLabel": "Item Width Unit",
+        "value": "inches"
+      },
+      "color#1.standardized_values#1": {
+        "displayLabel": "Color Map",
+        "value": "White"
+      },
+      "item_depth_width_height#1.height.value": {
+        "displayLabel": "Height Base to Top",
+        "value": "7.28"
+      },
+      "pt01_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/51T7XY53HmL._SL75_.jpg"
+      },
+      "contaminant_filtration_capability#1.value": {
+        "displayLabel": "Contaminant Filtration Capability",
+        "value": "Volatile Organic Compounds (VOCs)"
+      },
+      "unit_count#1.type.value": {
+        "displayLabel": "Unit Count Type",
+        "value": "Count"
+      },
+      "noise_level#1.value": {
+        "displayLabel": "Noise Level",
+        "value": "20.0"
+      },
+      "filter_type#1.value": {
+        "displayLabel": "Filter Type",
+        "value": "HEPA"
+      },
+      "warranty_description#1.value": {
+        "displayLabel": "Warranty Description",
+        "value": "2 Year Manufacturer"
+      },
+      "brand#1.value": {
+        "displayLabel": "Brand Name",
+        "value": "HYCHIKA BETTER TOOLS FOR BETTER LIFE"
+      },
+      "supplemental_condition_information#1.battery_life_percentage": {
+        "displayLabel": "Battery Life Percentage",
+        "value": "no_battery"
+      },
+      "has_replaceable_battery#1.value": {
+        "displayLabel": "Has Replaceable Battery",
+        "value": "false"
+      },
+      "item_depth_width_height#1.depth.value": {
+        "displayLabel": "Item Depth Front to Back",
+        "value": "12.6"
+      },
+      "master_pack_layers_per_pallet_quantity#1.value": {
+        "displayLabel": "Master Pack Layers per Pallet Quantity",
+        "value": "1"
+      },
+      "item_package_weight#1.unit": {
+        "displayLabel": "Package Weight Unit",
+        "value": "kilograms"
+      },
+      "number_of_items#1.value": {
+        "displayLabel": "Number of Items",
+        "value": "1"
+      },
+      "product_type#1.value": {
+        "displayLabel": "Product Type",
+        "value": "AIR_PURIFIER"
+      },
+      "color#1.value": {
+        "displayLabel": "Color",
+        "value": "White"
+      },
+      "controller_type#1.value": {
+        "displayLabel": "Controller Type",
+        "value": "Hand Control"
+      },
+      "item_package_dimensions#1.height.unit": {
+        "displayLabel": "Package Height Unit",
+        "value": "centimeters"
+      },
+      "item_package_dimensions#1.height.value": {
+        "displayLabel": "Item Package Height",
+        "value": "32.1056"
+      },
+      "size#1.value": {
+        "displayLabel": "Size",
+        "value": "one size"
+      },
+      "is_this_product_subject_to_buyer_age_restrictions#1.value": {
+        "displayLabel": "Is This Product Subject To Buyer Age Restrictions",
+        "value": "false"
+      },
+      "item_package_dimensions#1.length.value": {
+        "displayLabel": "Item Package Length",
+        "value": "17.5006"
+      },
+      "part_number#1.value": {
+        "displayLabel": "Part Number",
+        "value": "R0007US"
+      },
+      "skip_offer#1.value": {
+        "displayLabel": "Skip Offer",
+        "value": "false"
+      },
+      "included_components#1.value": {
+        "displayLabel": "Included Components",
+        "value": "air purifer"
+      },
+      "pt02_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/41oJFj-JjKL._SL75_.jpg"
+      },
+      "item_depth_width_height#1.depth.unit": {
+        "displayLabel": "Item Depth Unit",
+        "value": "inches"
+      },
+      "required_product_compliance_certificate#1.value": {
+        "displayLabel": "Product Compliance Certificate",
+        "value": "California Air Review Board (CARB)"
+      },
+      "pt03_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/51u1WvizkTL._SL75_.jpg"
+      },
+      "particle_retention_size#1.unit": {
+        "displayLabel": "Particle Retention Size Unit",
+        "value": "micrometer"
+      },
+      "floor_area#1.unit": {
+        "displayLabel": "Floor Area Unit",
+        "value": "square_centimeters"
+      },
+      "manufacturer#1.value": {
+        "displayLabel": "Manufacturer",
+        "value": "Guangdong EraClean Technology Co., Ltd."
+      },
+      "has_automatic_shutoff#1.value": {
+        "displayLabel": "Automatic Shutoff",
+        "value": "true"
+      },
+      "power_source_type#1.value": {
+        "displayLabel": "Power Source",
+        "value": "ac_dc"
+      },
+      "is_assembly_required#1.value": {
+        "displayLabel": "Required Assembly",
+        "value": "false"
+      },
+      "item_package_quantity#1.value": {
+        "displayLabel": "Item Package Quantity",
+        "value": "1"
+      },
+      "pt06_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/51593uasDIL._SL75_.jpg"
+      },
+      "floor_area#1.value": {
+        "displayLabel": "Floor Area",
+        "value": "38.0"
+      },
+      "item_type_keyword#1.value": {
+        "displayLabel": "Item Type Keyword",
+        "value": "hepa-filter-air-purifiers"
+      },
+      "item_package_dimensions#1.length.unit": {
+        "displayLabel": "Package Length Unit",
+        "value": "centimeters"
+      },
+      "specification_met#1.value": {
+        "displayLabel": "Specification Met",
+        "value": "CE Certified"
+      },
+      "wattage#1.value": {
+        "displayLabel": "Wattage",
+        "value": "10.0"
+      },
+      "list_price#1.value": {
+        "displayLabel": "List Price",
+        "value": "99.0"
+      }
+    },
+    "detailPageListingResponseImsv3": "{\"batteries_included\":[{\"value\":\"false\"}],\"batteries_required\":[{\"value\":\"false\"}],\"brand\":[{\"value\":\"HYCHIKA BETTER TOOLS FOR BETTER LIFE\"}],\"bullet_point\":[{\"value\":\"All-Encompassing 360° Clean Air Experience truly comprehensive purification with our advanced 360-degree air intake system. Engineered for efficiency, this HEPA air purifier draws in air from all directions for rapid, uniform purification of your entire space—no strategic placement required.\"}],\"color\":[{\"standardized_values\":[\"White\"],\"value\":\"White\"}],\"contaminant_filtration_capability\":[{\"value\":\"Volatile Organic Compounds (VOCs)\"}],\"control_method\":[{\"value\":\"touch\"}],\"controller_type\":[{\"value\":\"Hand Control\"}],\"detail_page_primary_image_url\":\"https://m.media-amazon.com/images/I/41GiBYPvdDL._SL75_.jpg\",\"edition\":[{\"value\":\"standard edition\"}],\"filter_class\":[{\"value\":\"H13\"}],\"filter_type\":[{\"value\":\"HEPA\"}],\"floor_area\":[{\"unit\":\"square_centimeters\",\"value\":\"38.0\"}],\"has_automatic_shutoff\":[{\"value\":\"true\"}],\"has_replaceable_battery\":[{\"value\":\"false\"}],\"included_components\":[{\"value\":\"air purifer\"}],\"is_assembly_required\":[{\"value\":\"false\"}],\"is_this_product_subject_to_buyer_age_restrictions\":[{\"value\":\"false\"}],\"item_depth_width_height\":[{\"depth\":{\"unit\":\"inches\",\"value\":\"12.6\"},\"height\":{\"unit\":\"inches\",\"value\":\"7.28\"},\"width\":{\"unit\":\"inches\",\"value\":\"7.28\"}}],\"item_name\":[{\"value\":\"HYCHIKA Air Purifier for Bedroom Home - True H13 HEPA Air Purifier for Smoke, Dust, Pollen,Pet Dander(20dB) Quiet Air Purifiers with 3 Light,3 Speeds,Timer & Aroma Function\"}],\"item_package_dimensions\":[{\"height\":{\"unit\":\"centimeters\",\"value\":\"32.1056\"},\"length\":{\"unit\":\"centimeters\",\"value\":\"17.5006\"},\"width\":{\"unit\":\"centimeters\",\"value\":\"17.8054\"}}],\"item_package_quantity\":[{\"value\":\"1\"}],\"item_package_weight\":[{\"unit\":\"kilograms\",\"value\":\"0.018\"}],\"item_type_keyword\":[{\"value\":\"hepa-filter-air-purifiers\"}],\"legal_compliance_certifications\":[{\"certification_status\":\"Compliant\",\"regulatory_organization_name\":\"California Environmental Protection Agency - Air Resources Board\",\"value\":\"G-26-015\"}],\"list_price\":[{\"value\":\"99.0\"}],\"manufacture_year\":[{\"value\":\"2025\"}],\"manufacturer\":[{\"value\":\"Guangdong EraClean Technology Co., Ltd.\"}],\"master_pack_layers_per_pallet_quantity\":[{\"value\":\"1\"}],\"master_packs_per_layer_quantity\":[{\"value\":\"1\"}],\"model_name\":[{\"value\":\"R0007US\"}],\"model_number\":[{\"value\":\"R0007US-XLN\"}],\"noise_level\":[{\"unit\":\"decibels\",\"value\":\"20.0\"}],\"number_of_items\":[{\"value\":\"1\"}],\"number_of_packs\":[{\"value\":\"1\"}],\"part_number\":[{\"value\":\"R0007US\"}],\"particle_retention_size\":[{\"unit\":\"micrometer\",\"value\":\"0.3\"}],\"power_source_type\":[{\"value\":\"ac_dc\"}],\"product_site_launch_date\":[{\"value\":\"2025-08-26T06:35:01.588Z\"}],\"product_type\":[{\"value\":\"AIR_PURIFIER\"}],\"pt01_image_url\":\"https://m.media-amazon.com/images/I/51T7XY53HmL._SL75_.jpg\",\"pt02_image_url\":\"https://m.media-amazon.com/images/I/41oJFj-JjKL._SL75_.jpg\",\"pt03_image_url\":\"https://m.media-amazon.com/images/I/51u1WvizkTL._SL75_.jpg\",\"pt04_image_url\":\"https://m.media-amazon.com/images/I/41JI-X1GVNL._SL75_.jpg\",\"pt05_image_url\":\"https://m.media-amazon.com/images/I/51-MfWjm1VL._SL75_.jpg\",\"pt06_image_url\":\"https://m.media-amazon.com/images/I/51593uasDIL._SL75_.jpg\",\"pt07_image_url\":\"https://m.media-amazon.com/images/I/51tTh402c6L._SL75_.jpg\",\"pt08_image_url\":\"https://m.media-amazon.com/images/I/41ySM4xi5WL._SL75_.jpg\",\"required_product_compliance_certificate\":[{\"value\":\"California Air Review Board (CARB)\"}],\"sales_rank\":\"2192080\",\"ships_globally\":[{\"value\":\"false\"}],\"size\":[{\"value\":\"one size\"}],\"skip_offer\":[{\"value\":\"false\"}],\"special_feature\":[{\"value\":\"Washable Filter\"}],\"specification_met\":[{\"value\":\"CE Certified\"}],\"supplemental_condition_information\":[{\"accessories\":\"generic\",\"battery_life_percentage\":\"no_battery\",\"features\":[\"parts_replaced\"],\"functional_condition\":\"fully_functional\",\"packaging\":\"oem_original\",\"source_type\":\"no_data\"}],\"supplier_declared_dg_hz_regulation\":[{\"value\":\"not_applicable\"}],\"unit_count\":[{\"type\":{\"value\":\"Count\"},\"value\":\"1.0\"}],\"warranty_description\":[{\"value\":\"2 Year Manufacturer\"}],\"wattage\":[{\"unit\":\"watts\",\"value\":\"10.0\"}]}",
+    "reconciledDataSummary": null,
+    "debug": null
+  },
+  "salesRank": "2192080",
+  "productType": "AIR_PURIFIER",
+  "detailPageSummary": {
+    "detailPageLink": "http://www.amazon.com/dp/B0FNR23GX1",
+    "offerSummaries": [
+      {
+        "numOffers": 8,
+        "offerType": "New",
+        "lowestOfferPrice": "$39.23",
+        "offerListingLink": "http://www.amazon.com/gp/offer-listing/B0FNR23GX1?condition=new"
+      }
+    ],
+    "salesRanks": [
+      {
+        "rank": 2192080,
+        "storeContextName": "Home & Kitchen",
+        "bestSellersLink": "http://www.amazon.com/gp/bestsellers/home-garden"
+      },
+      {
+        "rank": 1575,
+        "storeContextName": "HEPA Filter Air Purifiers",
+        "bestSellersLink": "http://www.amazon.com/gp/bestsellers/home-garden/510192"
+      }
+    ],
+    "customerReviewSummary": {
+      "reviewCount": "24",
+      "reviewStars": 4,
+      "hasHalfStar": true
+    }
+  },
+  "debug": null,
+  "itemName": {
+    "displayLabel": null,
+    "value": "HYCHIKA Air Purifier for Bedroom Home - True H13 HEPA Air Purifier for Smoke, Dust, Pollen,Pet Dander(20dB) Quiet Air Purifiers with 3 Light,3 Speeds,Timer & Aroma Function",
+    "name": "item_name#1.value"
+  }
+}

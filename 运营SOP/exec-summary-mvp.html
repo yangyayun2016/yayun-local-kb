@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClawTeams MVP · 立项汇报与效果演示</title>
+<style>
+  :root {
+    --bg-page: #0F1419;
+    --bg-card: #1A1F2A;
+    --bg-elevated: #232938;
+    --border: #2A3142;
+    --border-strong: #3A4154;
+    --text-primary: #F3F4F6;
+    --text-secondary: #9CA3AF;
+    --text-tertiary: #6B7280;
+    --primary: #10B981;
+    --primary-dark: #059669;
+    --primary-bg: rgba(16, 185, 129, 0.12);
+    --warning: #F59E0B;
+    --warning-bg: rgba(245, 158, 11, 0.12);
+    --danger: #EF4444;
+    --danger-bg: rgba(239, 68, 68, 0.12);
+    --info: #3B82F6;
+    --info-bg: rgba(59, 130, 246, 0.12);
+    --feishu-blue: #00D6B9;
+    --feishu-bg: #F5F7F9;
+    --feishu-text: #1F2329;
+    --feishu-border: #E5E7EB;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============ 顶部 Hero ============ */
+  .hero {
+    background: linear-gradient(135deg, #0F1419 0%, #1A2332 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 32px 48px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--primary-bg);
+    color: var(--primary);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .hero .subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat-value {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.2;
+  }
+  .hero-stat-value.danger { color: var(--danger); }
+  .hero-stat-value.warning { color: var(--warning); }
+  .hero-stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  /* ============ 主容器 ============ */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 32px;
+  }
+
+  .section {
+    margin-bottom: 64px;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--primary-bg);
+    color: var(--primary);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .section-desc {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 24px;
+    margin-left: 44px;
+  }
+
+  /* ============ 卡片 ============ */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ============ 表格 ============ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: var(--bg-elevated);
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  tr:last-child td { border-bottom: none; }
+  td .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+
+  .badge-success { background: var(--primary-bg); color: var(--primary); }
+  .badge-warning { background: var(--warning-bg); color: var(--warning); }
+  .badge-danger  { background: var(--danger-bg); color: var(--danger); }
+  .badge-info    { background: var(--info-bg); color: var(--info); }
+  .badge-neutral { background: var(--bg-elevated); color: var(--text-secondary); }
+
+  /* ============ 对比网格 ============ */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .compare-item {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .compare-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .compare-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .compare-value.highlight { color: var(--primary); }
+  .compare-value.warning  { color: var(--warning); }
+  .compare-value.danger   { color: var(--danger); }
+  .compare-note {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+  }
+
+  /* ============ 建议 ============ */
+  .suggestion {
+    border-left: 3px solid var(--primary);
+    background: var(--bg-card);
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    border-radius: 0 8px 8px 0;
+  }
+  .suggestion.warning { border-left-color: var(--warning); }
+  .suggestion.danger  { border-left-color: var(--danger); }
+  .suggestion strong { color: var(--primary); }
+  .suggestion.warning strong { color: var(--warning); }
+  .suggestion.danger strong { color: var(--danger); }
+
+  /* ============ 演示区（飞书界面）============ */
+  .demo-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .demo-sidebar {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    height: fit-content;
+  }
+  .demo-sidebar-title {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .demo-step {
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 4px;
+    color: var(--text-secondary);
+  }
+  .demo-step:hover { background: var(--bg-elevated); color: var(--text-primary); }
+  .demo-step.active {
+    background: var(--primary-bg);
+    color: var(--primary);
+    border-left: 2px solid var(--primary);
+  }
+  .demo-step-num {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: var(--bg-elevated);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 18px;
+    font-size: 11px;
+    margin-right: 8px;
+    font-weight: 600;
+  }
+  .demo-step.active .demo-step-num {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* ============ 飞书聊天模拟 ============ */
+  .feishu-window {
+    background: var(--feishu-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    color: var(--feishu-text);
+    min-height: 600px;
+  }
+  .feishu-header {
+    background: white;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--feishu-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .feishu-channel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: var(--feishu-text);
+  }
+  .feishu-channel-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--feishu-blue);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .feishu-channel-meta {
+    font-size: 12px;
+    color: #86909C;
+    font-weight: 400;
+  }
+  .feishu-body {
+    padding: 20px;
+    min-height: 500px;
+    background: var(--feishu-bg);
+    max-height: 700px;
+    overflow-y: auto;
+  }
+
+  /* ============ 消息样式 ============ */
+  .msg {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  .msg-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+  }
+  .msg.user .msg-avatar { background: linear-gradient(135deg, #3370FF, #1E5BD9); }
+  .msg.bot  .msg-avatar { background: linear-gradient(135deg, #00D6B9, #00A89D); }
+  .msg.system .msg-avatar { background: linear-gradient(135deg, #8B5CF6, #6D28D9); }
+
+  .msg-body { flex: 1; min-width: 0; }
+  .msg-name {
+    font-size: 12px;
+    color: #86909C;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .msg-name .bot-tag {
+    background: var(--feishu-blue);
+    color: white;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+  }
+  .msg-text {
+    font-size: 14px;
+    color: var(--feishu-text);
+    line-height: 1.6;
+    background: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    display: inline-block;
+    max-width: 100%;
+    border: 1px solid var(--feishu-border);
+  }
+
+  /* ============ 飞书卡片 ============ */
+  .feishu-card {
+    background: white;
+    border: 1px solid var(--feishu-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+    max-width: 480px;
+  }
+  .feishu-card-header {
+    padding: 14px 18px;
+    background: linear-gradient(90deg, rgba(0, 214, 185, 0.06), rgba(0, 214, 185, 0.02));
+    border-bottom: 1px solid var(--feishu-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .feishu-card-body {
+    padding: 16px 18px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .feishu-card-footer {
+    padding: 12px 18px;
+    background: #FAFBFC;
+    border-top: 1px solid var(--feishu-border);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .feishu-btn {
+    background: var(--feishu-blue);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .feishu-btn.secondary {
+    background: white;
+    color: var(--feishu-text);
+    border: 1px solid var(--feishu-border);
+  }
+  .feishu-btn.danger {
+    background: white;
+    color: var(--danger);
+    border: 1px solid var(--feishu-border);
+  }
+
+  /* ============ 报告卡片内嵌样式 ============ */
+  .report-section { margin-bottom: 16px; }
+  .report-section-title {
+    font-size: 13px;
+    color: #4E5969;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .report-item {
+    background: #F7F8FA;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .report-item strong { color: var(--feishu-text); }
+  .report-num {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: var(--feishu-blue);
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .report-priority {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .priority-urgent { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+  .priority-high { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+  .priority-medium { background: rgba(59, 130, 246, 0.1); color: var(--info); }
+
+  .progress-bar {
+    background: #E5E7EB;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--feishu-blue);
+    border-radius: 3px;
+    transition: width 0.5s;
+  }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .stat-item {
+    background: #F7F8FA;
+    padding: 10px 12px;
+    border-radius: 6px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: #86909C;
+    margin-bottom: 2px;
+  }
+  .stat-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--feishu-text);
+  }
+  .stat-value.cost { color: var(--warning); }
+  .highlight-num {
+    color: var(--danger);
+    font-weight: 600;
+  }
+  .highlight-pos {
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--feishu-border);
+    margin: 12px 0;
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #86909C;
+    margin-bottom: 4px;
+  }
+
+  /* ============ 时间戳 ============ */
+  .timestamp {
+    text-align: center;
+    color: #86909C;
+    font-size: 11px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .timestamp::before,
+  .timestamp::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: var(--feishu-border);
+  }
+  .timestamp::before { left: 0; }
+  .timestamp::after { right: 0; }
+  .timestamp span { background: var(--feishu-bg); padding: 0 10px; }
+
+  /* ============ Demo 步骤切换 ============ */
+  .demo-scene { display: none; }
+  .demo-scene.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ============ 场景切换器 ============ */
+  .scene-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 4px;
+    background: var(--bg-elevated);
+    border-radius: 8px;
+  }
+  .scene-tab {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    border: none;
+    background: transparent;
+  }
+  .scene-tab.active {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  /* ============ 响应式 ============ */
+  @media (max-width: 900px) {
+    .demo-layout { grid-template-columns: 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 24px; }
+    .hero h1 { font-size: 28px; }
+    .stat-row { grid-template-columns: 1fr; }
+  }
+
+  /* ============ 底部 ============ */
+  footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--text-tertiary);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    margin-top: 64px;
+  }
+
+  /* ============ 决策框 ============ */
+  .decision-box {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.02));
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .decision-box .emoji {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+  .decision-box h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--primary);
+  }
+  .decision-box p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ============ Timeline ============ */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .timeline-item {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .timeline-day {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .timeline-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .timeline-desc {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  /* ============ 3 句话卖点 ============ */
+  .pitch-list {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .pitch-item {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .pitch-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .pitch-text {
+    font-size: 15px;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ Hero ============ -->
+<div class="hero">
+  <div class="hero-badge">🚀 PoC MVP 立项汇报</div>
+  <h1>ClawTeams 最小可行产品方案</h1>
+  <p class="subtitle">1 人开发 · ¥3-5 万预算 · 2-3 周交付 · 飞书里跑通完整 demo</p>
+
+  <!-- 团队信息 -->
+  <div style="display: inline-flex; gap: 24px; margin-bottom: 8px; padding: 10px 20px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 999px; font-size: 13px;">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div style="width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #10B981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 12px;">程</div>
+      <span style="color: var(--text-secondary);">开发者</span>
+      <strong style="color: var(--text-primary);">chengtao</strong>
+    </div>
+    <div style="width: 1px; background: var(--border);"></div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div style="width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, #3B82F6, #2563EB); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 12px;">杨</div>
+      <span style="color: var(--text-secondary);">项目负责人</span>
+      <strong style="color: var(--text-primary);">yangyayun</strong>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-value">1</div>
+      <div class="hero-stat-label">名开发者</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">¥3-5万</div>
+      <div class="hero-stat-label">总预算</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">2-3周</div>
+      <div class="hero-stat-label">交付周期</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">&lt;$2</div>
+      <div class="hero-stat-label">单 goal 成本</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-value danger">&lt;¥5万</div>
+      <div class="hero-stat-label">失败止损线</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ============ 第 1 部分：方案汇报 ============ -->
+  <div class="section">
+    <h2 class="section-title">
+      <span class="section-num">1</span>
+      方案汇报
+    </h2>
+    <p class="section-desc">第一阶段只做最小 MVP，验证"AI 诊断报告质量"这一个核心商业假设</p>
+
+    <!-- 1.1 范围 -->
+    <div class="card">
+      <div class="card-title">📦 范围定义（In Scope / Out of Scope）</div>
+
+      <h4 style="color: var(--primary); margin-bottom: 12px;">✅ MVP 必须有</h4>
+      <table>
+        <thead><tr><th>模块</th><th>范围</th><th>验收标准</th></tr></thead>
+        <tbody>
+          <tr><td><strong>IM 接入</strong></td><td>仅飞书（砍掉企微）</td><td>3 秒 ACK、卡片按钮</td></tr>
+          <tr><td><strong>建团队</strong></td><td>一句话 → 建议卡片 → 确认部署</td><td>30 秒内完成</td></tr>
+          <tr><td><strong>编排层</strong></td><td>Lead + 1 个 Worker</td><td>TaskGraph 强 Schema 校验</td></tr>
+          <tr><td><strong>角色</strong></td><td>1 个：数据分析师</td><td>1 个 SOP，跑通诊断</td></tr>
+          <tr><td><strong>工具</strong></td><td>1 个采买数据源（不接 SP-API）</td><td>避免资质问题</td></tr>
+          <tr><td><strong>交付</strong></td><td>跑通"诊断销量下滑"</td><td>20 分钟内出报告</td></tr>
+        </tbody>
+      </table>
+
+      <h4 style="color: var(--warning); margin: 20px 0 12px;">❌ 不做（推迟到 Beta）</h4>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+        <div class="report-item"><span class="badge badge-danger">不做</span> 写操作 / 审批网关</div>
+        <div class="report-item"><span class="badge badge-danger">不做</span> 治理层（成本硬闸、审计）</div>
+        <div class="report-item"><span class="badge badge-danger">不做</span> 付费墙 / Stripe</div>
+        <div class="report-item"><span class="badge badge-danger">不做</span> Web 控制台</div>
+        <div class="report-item"><span class="badge badge-danger">不做</span> 多租户 / KMS 隔离</div>
+        <div class="report-item"><span class="badge badge-danger">不做</span> 企微 / Slack / Telegram</div>
+        <div class="report-item"><span class="badge badge-danger">不做</span> 每日巡检</div>
+        <div class="report-item"><span class="badge badge-danger">不做</span> 品牌独立设计</div>
+      </div>
+    </div>
+
+    <!-- 1.2 预算对比 -->
+    <div class="card">
+      <div class="card-title">💰 预算对比（多方案）</div>
+      <table>
+        <thead><tr><th>方案</th><th>预算</th><th>周期</th><th>团队</th><th>范围</th></tr></thead>
+        <tbody>
+          <tr><td>完整方案</td><td>¥550-710 万</td><td>26 周</td><td>6-15 人</td><td>全功能复刻 + 治理层 + 多租户</td></tr>
+          <tr><td>完整 MVP</td><td>¥120-150 万</td><td>10 周</td><td>6 人</td><td>3 角色 + 治理层 + Web 控制台</td></tr>
+          <tr><td>最小 MVP</td><td>¥50-70 万</td><td>4-5 周</td><td>2-3 人</td><td>2 角色 + 治理层 + 部分 IM</td></tr>
+          <tr style="background: rgba(16, 185, 129, 0.08);">
+            <td><strong>🎯 1 人 PoC（本次）</strong></td>
+            <td><strong style="color: var(--primary);">¥3-5 万</strong></td>
+            <td><strong style="color: var(--primary);">2-3 周</strong></td>
+            <td><strong style="color: var(--primary);">1 人</strong></td>
+            <td><strong>1 角色 + 1 IM + 只读</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 1.3 时间表 -->
+    <div class="card">
+      <div class="card-title">📅 时间表（2-3 周）</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-day">Day 1-2</div>
+          <div class="timeline-title">飞书机器人</div>
+          <div class="timeline-desc"><strong>chengtao</strong><br>创建应用<br>Webhook 跑通<br>IM Gateway 跑通</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-day">Day 3-5</div>
+          <div class="timeline-title">编排骨架</div>
+          <div class="timeline-desc"><strong>chengtao</strong><br>Lead + Worker<br>+ 1 个数据源</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-day">Day 6-7</div>
+          <div class="timeline-title">端到端 demo</div>
+          <div class="timeline-desc"><strong>chengtao</strong><br>飞书一句话<br>→ 跑诊断<br>→ 出报告</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-day">Day 8-14</div>
+          <div class="timeline-title">打磨质量</div>
+          <div class="timeline-desc"><strong>chengtao</strong>开发<br><strong>yangyayun</strong>验收<br>报告质量 + 成本埋点</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-day">Day 15-21</div>
+          <div class="timeline-title">种子客户</div>
+          <div class="timeline-desc"><strong>chengtao</strong>支持<br><strong>yangyayun</strong>决策<br>Go / No-Go</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.3.5 团队信息 -->
+    <div class="card">
+      <div class="card-title">👥 MVP 团队成员</div>
+      <table>
+        <thead><tr><th>姓名</th><th>角色</th><th>职责</th><th>投入</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #10B981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 13px;">程</div>
+                <strong>chengtao</strong>
+              </div>
+            </td>
+            <td><span class="badge badge-success">开发者</span></td>
+            <td>全栈 + Agent 工程师（TypeScript / Claude Agent SDK / Serverless）</td>
+            <td>2-3 周全职</td>
+          </tr>
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #3B82F6, #2563EB); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 13px;">杨</div>
+                <strong>yangyayun</strong>
+              </div>
+            </td>
+            <td><span class="badge badge-info">项目负责人</span></td>
+            <td>需求定义 · 种子客户对接 · Day 14 / 21 关键验收 · Go/No-Go 决策</td>
+            <td>0.2 FTE（约半天/周）</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top: 12px; padding: 12px; background: rgba(59, 130, 246, 0.08); border-radius: 6px; font-size: 13px; color: var(--text-secondary); border-left: 3px solid var(--info);">
+        💡 <strong>协作模式</strong>：chengtao 主导开发 + 每日简报；yangyayun 在 Day 14 验收报告质量、Day 21 决策是否进入 Beta。
+      </div>
+    </div>
+
+    <!-- 1.4 风险 -->
+    <div class="card">
+      <div class="card-title">⚠️ 风险评估（仅 3 项）</div>
+      <table>
+        <thead><tr><th>风险</th><th>概率</th><th>影响</th><th>应对</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>🔴 <strong>报告质量不达标</strong></td>
+            <td><span class="badge badge-warning">中高</span></td>
+            <td><span class="badge badge-danger">致命</span></td>
+            <td>Day 8-14 集中调 Prompt；种子客户反馈驱动迭代</td>
+          </tr>
+          <tr>
+            <td>🟡 1 人项目延期</td>
+            <td><span class="badge badge-warning">中</span></td>
+            <td><span class="badge badge-warning">中</span></td>
+            <td>每周定 milestone，延期 &gt; 50% 即止损</td>
+          </tr>
+          <tr>
+            <td>🟡 LLM 成本超预算</td>
+            <td><span class="badge badge-info">低</span></td>
+            <td><span class="badge badge-info">低</span></td>
+            <td>单 goal 硬闸 $5，PoC 测试预算 ≤ ¥2 万</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ 第 2 部分：最终效果演示 ============ -->
+  <div class="section">
+    <h2 class="section-title">
+      <span class="section-num">2</span>
+      最终效果演示（静态）
+    </h2>
+    <p class="section-desc">PoC 跑通后，用户在飞书里的真实使用体验。下方为 4 个核心场景。</p>
+
+    <div class="demo-layout">
+      <!-- 侧边栏 -->
+      <div class="demo-sidebar">
+        <div class="demo-sidebar-title">演示场景</div>
+        <div class="demo-step active" data-scene="scene-1">
+          <span class="demo-step-num">1</span>
+          首次建团队
+        </div>
+        <div class="demo-step" data-scene="scene-2">
+          <span class="demo-step-num">2</span>
+          核心诊断 demo
+        </div>
+        <div class="demo-step" data-scene="scene-3">
+          <span class="demo-step-num">3</span>
+          追问交互
+        </div>
+        <div class="demo-step" data-scene="scene-4">
+          <span class="demo-step-num">4</span>
+          Credits 查询
+        </div>
+
+        <div class="demo-sidebar-title" style="margin-top: 20px;">关键技术指标</div>
+        <div class="report-item" style="margin-bottom: 6px;">
+          <strong>3 秒</strong> IM ACK
+        </div>
+        <div class="report-item" style="margin-bottom: 6px;">
+          <strong>30 秒</strong> 建团队
+        </div>
+        <div class="report-item" style="margin-bottom: 6px;">
+          <strong>20 分钟</strong> 出报告
+        </div>
+        <div class="report-item" style="margin-bottom: 6px;">
+          <strong>&lt;$2</strong> 单 goal 成本
+        </div>
+      </div>
+
+      <!-- 飞书窗口 -->
+      <div class="feishu-window">
+        <div class="feishu-header">
+          <div class="feishu-channel">
+            <div class="feishu-channel-icon">C</div>
+            <div>
+              <div>跨境电商运营群</div>
+              <div class="feishu-channel-meta">张老板、运营小李、@ClawTeams 机器人</div>
+            </div>
+          </div>
+          <div style="font-size: 12px; color: #86909C;">📌 已置顶</div>
+        </div>
+
+        <div class="feishu-body">
+
+          <!-- ============ 场景 1：首次建团队 ============ -->
+          <div class="demo-scene active" id="scene-1">
+            <div class="timestamp"><span>10:23 周二上午</span></div>
+
+            <div class="msg user">
+              <div class="msg-avatar">张</div>
+              <div class="msg-body">
+                <div class="msg-name">张老板</div>
+                <div class="msg-text">
+                  哎，新品 #B0CX3 上周转化率又掉了，是不是 listing 有问题啊，也没人帮我看看，烦死了
+                </div>
+              </div>
+            </div>
+
+            <div class="msg user">
+              <div class="msg-avatar">张</div>
+              <div class="msg-body">
+                <div class="msg-name">张老板</div>
+                <div class="msg-text">
+                  @<strong>ClawTeams</strong> 帮我看看 #B0CX3 最近怎么回事
+                </div>
+              </div>
+            </div>
+
+            <div class="timestamp"><span>3 秒后</span></div>
+
+            <div class="msg bot">
+              <div class="msg-avatar">🤖</div>
+              <div class="msg-body">
+                <div class="msg-name">
+                  ClawTeams <span class="bot-tag">机器人</span>
+                </div>
+                <div class="msg-text">
+                  👋 你好！我是 ClawTeams，你的 AI 运营助手。<br><br>
+                  检测到你的店铺：<strong>Amazon 美国站 · 宠物用品</strong><br>
+                  目前你还没有启用 AI 团队，要先组建一个吗？
+                </div>
+
+                <div class="feishu-card">
+                  <div class="feishu-card-header">
+                    🎯 推荐配置
+                  </div>
+                  <div class="feishu-card-body">
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 8px; background: #F7F8FA; border-radius: 6px;">
+                      <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #06B6D4, #0891B2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px;">📊</div>
+                      <div style="flex: 1;">
+                        <div style="font-weight: 600;">数据分析师（AI）</div>
+                        <div style="font-size: 12px; color: #86909C;">流量/转化/广告数据分析</div>
+                      </div>
+                      <div style="text-align: right; font-size: 12px; color: #86909C;">
+                        Claude Sonnet 5<br>
+                        <span style="color: var(--warning); font-weight: 600;">约 ¥600/月</span>
+                      </div>
+                    </div>
+
+                    <div style="margin-top: 12px; padding: 10px; background: linear-gradient(90deg, rgba(16, 185, 129, 0.08), transparent); border-radius: 6px; font-size: 13px;">
+                      🎁 <strong>新用户福利</strong>：首次部署免费，含 <strong>50 Credits</strong> 试用额度（够跑 2-3 个完整诊断任务）
+                    </div>
+                  </div>
+                  <div class="feishu-card-footer">
+                    <button class="feishu-btn">✅ 启用 AI 团队</button>
+                    <button class="feishu-btn secondary">📋 查看详情</button>
+                    <button class="feishu-btn secondary">❌ 稍后再说</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="timestamp"><span>张老板点了 [✅ 启用 AI 团队]</span></div>
+
+            <div class="msg bot">
+              <div class="msg-avatar">🤖</div>
+              <div class="msg-body">
+                <div class="msg-name">
+                  ClawTeams <span class="bot-tag">机器人</span>
+                </div>
+                <div class="msg-text">
+                  ✅ AI 团队已部署完成！<br><br>
+                  👥 你的 AI 团队：<br>
+                  &nbsp;&nbsp;&nbsp;📊 数据分析师 · 在线<br><br>
+                  📊 当前 Credit 余额：<strong>50 / 50</strong><br><br>
+                  💡 现在可以问我任何关于店铺的问题，比如：
+                </div>
+                <div style="background: white; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--feishu-border); margin-top: 4px; font-size: 14px;">
+                  · "诊断这条产品线为什么销量下滑"<br>
+                  · "看看最近的广告 ROAS 怎么样"<br>
+                  · "对比一下我和竞品的关键词覆盖"
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ 场景 2：核心诊断 ============ -->
+          <div class="demo-scene" id="scene-2">
+            <div class="timestamp"><span>10:54 · 30 分钟后</span></div>
+
+            <div class="msg user">
+              <div class="msg-avatar">张</div>
+              <div class="msg-body">
+                <div class="msg-name">张老板</div>
+                <div class="msg-text">
+                  @<strong>ClawTeams</strong> 帮我诊断一下宠物用品这条线，最近 30 天销量下滑挺明显的，看看是怎么回事
+                </div>
+              </div>
+            </div>
+
+            <div class="timestamp"><span>3 秒后</span></div>
+
+            <div class="msg bot">
+              <div class="msg-avatar">🤖</div>
+              <div class="msg-body">
+                <div class="msg-name">
+                  ClawTeams <span class="bot-tag">机器人</span>
+                </div>
+                <div class="msg-text">
+                  ⏳ 收到任务！我正在分析你的店铺数据...<br><br>
+                  预计耗时：<strong>15-20 分钟</strong><br>
+                  预估成本：<strong style="color: var(--warning);">¥4（约 1 Credit）</strong>
+                </div>
+
+                <div class="feishu-card">
+                  <div class="feishu-card-header">
+                    📊 任务进度
+                  </div>
+                  <div class="feishu-card-body">
+                    <div style="margin-bottom: 8px;">
+                      <div style="font-size: 12px; color: #4E5969;">拉取销售数据</div>
+                      <div class="progress-bar"><div class="progress-bar-fill" style="width: 100%;"></div></div>
+                    </div>
+                    <div style="margin-bottom: 8px;">
+                      <div style="font-size: 12px; color: #4E5969;">分析流量结构</div>
+                      <div class="progress-bar"><div class="progress-bar-fill" style="width: 85%;"></div></div>
+                    </div>
+                    <div style="margin-bottom: 8px;">
+                      <div style="font-size: 12px; color: #4E5969;">对比行业基准</div>
+                      <div class="progress-bar"><div class="progress-bar-fill" style="width: 60%;"></div></div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: #4E5969;">生成归因报告</div>
+                      <div class="progress-bar"><div class="progress-bar-fill" style="width: 25%;"></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="timestamp"><span>11:12 · 18 分钟后</span></div>
+
+            <div class="msg bot">
+              <div class="msg-avatar">🤖</div>
+              <div class="msg-body">
+                <div class="msg-name">
+                  ClawTeams <span class="bot-tag">机器人</span>
+                </div>
+
+                <div class="feishu-card" style="max-width: 520px;">
+                  <div class="feishu-card-header">
+                    ✅ 诊断完成 · 宠物用品产品线
+                  </div>
+                  <div class="feishu-card-body">
+
+                    <!-- 核心结论 -->
+                    <div class="report-section">
+                      <div class="report-section-title">📊 核心结论（3 条）</div>
+
+                      <div class="report-item">
+                        <span class="report-num" style="background: var(--danger);">1</span>
+                        <strong>主因：自然搜索流量下滑 22%</strong><br>
+                        <span style="color: #4E5969;">
+                          · 关键词 "cat litter box" 排名从 <span class="highlight-num">#8</span> 跌到 <span class="highlight-num">#15</span><br>
+                          · "self cleaning litter box" 跌出 Top 50<br>
+                          · 影响：每天少 <span class="highlight-num">350 个 UV</span>
+                        </span>
+                      </div>
+
+                      <div class="report-item">
+                        <span class="report-num" style="background: var(--warning);">2</span>
+                        <strong>次因：广告 ROAS 从 4.2 降至 2.8</strong><br>
+                        <span style="color: #4E5969;">
+                          · Campaign "Q3-Promo" 转化率下降明显<br>
+                          · 关键词 "automatic cat feeder" 出价虚高（CPC <span class="highlight-num">$1.85</span>）
+                        </span>
+                      </div>
+
+                      <div class="report-item">
+                        <span class="report-num" style="background: var(--info);">3</span>
+                        <strong>风险：库存周转天数延长至 45 天</strong><br>
+                        <span style="color: #4E5969;">
+                          · SKU #B0CX3 库存 <span class="highlight-num">850 件</span>，按当前速度可销 <span class="highlight-num">60 天</span>（健康值 &lt; 30）
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- 修复方案 -->
+                    <div class="report-section">
+                      <div class="report-section-title">💡 修复方案（3 项）</div>
+
+                      <div class="report-item">
+                        <span class="report-priority priority-urgent">紧急</span>
+                        <strong>关键词补位</strong><br>
+                        <span style="color: #4E5969;">
+                          强化长尾词投放：<br>
+                          · "quiet cat litter box"<br>
+                          · "multi cat litter box"<br>
+                          · "covered cat litter box"<br>
+                          <span class="highlight-pos">预计 7-10 天自然流量恢复 15%</span>
+                        </span>
+                      </div>
+
+                      <div class="report-item">
+                        <span class="report-priority priority-high">高优</span>
+                        <strong>广告预算重分配</strong><br>
+                        <span style="color: #4E5969;">
+                          · Campaign "Q3-Promo" 日预算 $150 → $80<br>
+                          · 关闭 "automatic cat feeder"<br>
+                          <span class="highlight-pos">预计 ROAS 回升至 3.8+</span>
+                        </span>
+                      </div>
+
+                      <div class="report-item">
+                        <span class="report-priority priority-medium">中优</span>
+                        <strong>库存预警</strong><br>
+                        <span style="color: #4E5969;">
+                          启动 "买一送一配件" 促销活动<br>
+                          <span class="highlight-pos">预计 30 天清掉 400 件库存</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- 任务统计 -->
+                    <div class="stat-row">
+                      <div class="stat-item">
+                        <div class="stat-label">本次成本</div>
+                        <div class="stat-value cost">¥4.20</div>
+                      </div>
+                      <div class="stat-item">
+                        <div class="stat-label">耗时</div>
+                        <div class="stat-value">18 分钟</div>
+                      </div>
+                      <div class="stat-item">
+                        <div class="stat-label">剩余 Credits</div>
+                        <div class="stat-value">49 / 50</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="feishu-card-footer">
+                    <button class="feishu-btn">📥 下载完整 PDF 报告</button>
+                    <button class="feishu-btn secondary">💬 继续追问</button>
+                    <button class="feishu-btn secondary">🔄 重新分析</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ 场景 3：追问交互 ============ -->
+          <div class="demo-scene" id="scene-3">
+            <div class="timestamp"><span>11:14 · 2 分钟后</span></div>
+
+            <div class="msg user">
+              <div class="msg-avatar">张</div>
+              <div class="msg-body">
+                <div class="msg-name">张老板</div>
+                <div class="msg-text">
+                  @<strong>ClawTeams</strong> 第 1 个建议里那几个长尾词，我怎么知道我现在的 Listing 里有没有覆盖到？
+                </div>
+              </div>
+            </div>
+
+            <div class="timestamp"><span>2 秒后</span></div>
+
+            <div class="msg bot">
+              <div class="msg-avatar">🤖</div>
+              <div class="msg-body">
+                <div class="msg-name">
+                  ClawTeams <span class="bot-tag">机器人</span>
+                </div>
+                <div class="msg-text">
+                  我对比了你的 Listing #B0CX3 和竞品 #B0D2K（同类目 Top 1）：
+                </div>
+
+                <div class="feishu-card">
+                  <div class="feishu-card-header">
+                    🔍 关键词覆盖对比
+                  </div>
+                  <div class="feishu-card-body">
+                    <div class="report-item">
+                      ✅ <strong>"quiet cat litter box"</strong> · 已覆盖（第 3 段）
+                    </div>
+                    <div class="report-item">
+                      ❌ <strong>"multi cat litter box"</strong> · 未覆盖
+                    </div>
+                    <div class="report-item">
+                      ❌ <strong>"covered cat litter box"</strong> · 未覆盖
+                    </div>
+                    <div class="report-item">
+                      ⚠️ <strong>"self cleaning litter box"</strong> · 已覆盖但埋得太深（第 7 段）
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div style="font-size: 13px; color: #4E5969;">
+                      <strong>建议改动：</strong><br>
+                      · 标题前 80 字符增加 "Multi-Cat" 关键词<br>
+                      · 五点描述第 1 条增加 "Covered Design"<br>
+                      · A+ Content 增加 "Quiet Operation" 模块
+                    </div>
+                  </div>
+                  <div class="feishu-card-footer">
+                    <button class="feishu-btn">✏ 帮我改 Listing</button>
+                    <button class="feishu-btn secondary">📋 只看方案</button>
+                  </div>
+                </div>
+
+                <div style="margin-top: 8px; padding: 10px 14px; background: rgba(245, 158, 11, 0.08); border-radius: 6px; font-size: 12px; color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2);">
+                  ⚠️ <strong>写操作说明</strong>：直接改 Listing 需要 Amazon 写操作权限，将在第二阶段（Beta）开放。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ 场景 4：Credits 查询 ============ -->
+          <div class="demo-scene" id="scene-4">
+            <div class="timestamp"><span>2 周后 · 22:15</span></div>
+
+            <div class="msg user">
+              <div class="msg-avatar">张</div>
+              <div class="msg-body">
+                <div class="msg-name">张老板</div>
+                <div class="msg-text">
+                  @<strong>ClawTeams</strong> 这个月花了多少？还剩多少 Credits？
+                </div>
+              </div>
+            </div>
+
+            <div class="timestamp"><span>2 秒后</span></div>
+
+            <div class="msg bot">
+              <div class="msg-avatar">🤖</div>
+              <div class="msg-body">
+                <div class="msg-name">
+                  ClawTeams <span class="bot-tag">机器人</span>
+                </div>
+
+                <div class="feishu-card">
+                  <div class="feishu-card-header">
+                    📊 你的使用情况 · 最近 30 天
+                  </div>
+                  <div class="feishu-card-body">
+                    <div class="stat-row">
+                      <div class="stat-item">
+                        <div class="stat-label">已用 Credits</div>
+                        <div class="stat-value">12.5 / 50</div>
+                      </div>
+                      <div class="stat-item">
+                        <div class="stat-label">剩余价值</div>
+                        <div class="stat-value cost">¥188</div>
+                      </div>
+                      <div class="stat-item">
+                        <div class="stat-label">任务数</div>
+                        <div class="stat-value">5 个</div>
+                      </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="report-section-title">🔥 最近任务</div>
+                    <div class="report-item" style="display: flex; justify-content: space-between;">
+                      <span>📊 宠物线诊断</span>
+                      <span style="color: #86909C;">11/12 · ¥4.20</span>
+                    </div>
+                    <div class="report-item" style="display: flex; justify-content: space-between;">
+                      <span>📊 广告 ROAS 分析</span>
+                      <span style="color: #86909C;">11/14 · ¥3.80</span>
+                    </div>
+                    <div class="report-item" style="display: flex; justify-content: space-between;">
+                      <span>📊 竞品对比</span>
+                      <span style="color: #86909C;">11/18 · ¥6.10</span>
+                    </div>
+                    <div class="report-item" style="display: flex; justify-content: space-between;">
+                      <span>📊 关键词机会挖掘</span>
+                      <span style="color: #86909C;">11/21 · ¥5.50</span>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div style="background: linear-gradient(90deg, rgba(245, 158, 11, 0.06), transparent); padding: 10px; border-radius: 6px; font-size: 13px;">
+                      💡 试用额度还够用 <strong>6-7 次</strong><br>
+                      🎁 升级到 <strong>Pro 版（¥399/月含 1200 Credits）</strong>：<br>
+                      &nbsp;&nbsp;&nbsp;· 平均每次任务仅 <strong style="color: var(--warning);">¥0.33</strong>（比试用便宜 17 倍）<br>
+                      &nbsp;&nbsp;&nbsp;· 解锁 5+ 角色（广告专家、内容专家等）<br>
+                      &nbsp;&nbsp;&nbsp;· 写操作支持（直接改 Listing / 广告）
+                    </div>
+                  </div>
+                  <div class="feishu-card-footer">
+                    <button class="feishu-btn">🚀 升级到 Pro</button>
+                    <button class="feishu-btn secondary">💬 继续用试用版</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 第 3 部分：可量化的成果 ============ -->
+  <div class="section">
+    <h2 class="section-title">
+      <span class="section-num">3</span>
+      可量化的成果
+    </h2>
+    <p class="section-desc">PoC 跑通后，可以拿出来的硬指标</p>
+
+    <div class="compare-grid">
+      <div class="compare-item">
+        <div class="compare-label">技术指标</div>
+        <div class="compare-value highlight">全部达标</div>
+        <div class="compare-note">3 秒 ACK · 30 秒建团队 · 20 分钟出报告 · 单 goal &lt; $2</div>
+      </div>
+      <div class="compare-item">
+        <div class="compare-label">月运营成本</div>
+        <div class="compare-value highlight">&lt; ¥5,000</div>
+        <div class="compare-note">含 LLM API + Cloudflare + Supabase + Langfuse Cloud</div>
+      </div>
+      <div class="compare-item">
+        <div class="compare-label">核心商业验证</div>
+        <div class="compare-value warning">≥ 50% 付费意愿</div>
+        <div class="compare-note">2-3 个种子客户认可报告质量</div>
+      </div>
+      <div class="compare-item">
+        <div class="compare-label">失败止损线</div>
+        <div class="compare-value danger">&lt; ¥5 万</div>
+        <div class="compare-note">最坏情况损失可控</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 第 4 部分：3 句话卖点 ============ -->
+  <div class="section">
+    <h2 class="section-title">
+      <span class="section-num">4</span>
+      给种子客户的 3 句话卖点
+    </h2>
+    <p class="section-desc">直接可以拿去和潜在客户说的话</p>
+
+    <div class="pitch-list">
+      <div class="pitch-item">
+        <div class="pitch-num">1</div>
+        <div class="pitch-text">"在飞书里说一句业务目标，AI 团队 30 秒就给你一份诊断报告。"</div>
+      </div>
+      <div class="pitch-item">
+        <div class="pitch-num">2</div>
+        <div class="pitch-text">"不用雇运营、不用学新工具，飞书群里就能用。"</div>
+      </div>
+      <div class="pitch-item">
+        <div class="pitch-num">3</div>
+        <div class="pitch-text">"试用免费，先看看报告质量，满意再考虑付费。"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 第 5 部分：决策 ============ -->
+  <div class="section">
+    <h2 class="section-title">
+      <span class="section-num">5</span>
+      结论与建议
+    </h2>
+
+    <div class="decision-box">
+      <div class="emoji">🚀</div>
+      <h3>强烈建议立即启动</h3>
+      <p>
+        1 个人 + ¥3-5 万 + 2-3 周 + AI 开发工具 = <strong>可跑通 ClawTeams 核心 demo</strong>。<br>
+        失败成本 &lt; ¥5 万即可止损。通过后拿 demo 找投资 / 进入 Beta。<br><br>
+        <strong>没有任何理由不做这个 PoC。</strong>
+      </p>
+    </div>
+
+    <h3 style="margin-top: 32px; margin-bottom: 16px;">Go / No-Go 决策矩阵（W3 末）</h3>
+    <table>
+      <thead><tr><th>情况</th><th>决策</th></tr></thead>
+      <tbody>
+        <tr style="background: rgba(16, 185, 129, 0.05);">
+          <td>2-3 个种子客户<strong>愿意付费</strong>（哪怕 ¥99/月）</td>
+          <td><span class="badge badge-success">GO</span> 找投资 / 申请立项，进入 Beta（¥80-150 万 / 8-10 周）</td>
+        </tr>
+        <tr>
+          <td>报告质量被认可但客户不愿付费</td>
+          <td><span class="badge badge-warning">调整</span> 调整商业模式或定价</td>
+        </tr>
+        <tr style="background: rgba(239, 68, 68, 0.05);">
+          <td>报告质量不达标</td>
+          <td><span class="badge badge-danger">NO-GO</span> 止损 ¥3-5 万</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>📄 本汇报基于《ClawTeams 竞品分析与可行性研究.md》+ AI 开发模式评估</p>
+  <p style="margin-top: 8px;">版本 v2.1 · 2026-08-12 · 文档库路径 docs/</p>
+</footer>
+
+<script>
+  // 场景切换
+  const steps = document.querySelectorAll('.demo-step');
+  const scenes = document.querySelectorAll('.demo-scene');
+
+  steps.forEach(step => {
+    step.addEventListener('click', () => {
+      const targetId = step.dataset.scene;
+
+      // 更新侧边栏 active
+      steps.forEach(s => s.classList.remove('active'));
+      step.classList.add('active');
+
+      // 切换场景
+      scenes.forEach(scene => {
+        scene.classList.remove('active');
+        if (scene.id === targetId) {
+          scene.classList.add('active');
+          // 滚动到顶部
+          const feishuBody = scene.closest('.feishu-body');
+          if (feishuBody) feishuBody.scrollTop = 0;
+        }
+      });
+    });
+  });
+
+  // 进度条动画（场景 2）
+  setTimeout(() => {
+    const fills = document.querySelectorAll('.progress-bar-fill');
+    fills.forEach((fill, i) => {
+      const targetWidth = fill.style.width;
+      fill.style.width = '0%';
+      setTimeout(() => {
+        fill.style.width = targetWidth;
+      }, i * 200);
+    });
+  }, 500);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亚马逊店铺全维度体检报告 · A1M8DNZNPUJSKP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF; --border:#E8E6E2; --divider:#C5C0BA;
+  --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+  --hero-bg:#DDE3E8; --hero-deco:#9BADB0; --hero-deco2:#6E9298;
+  --success-bg:#E8FBCF; --success-fg:#3D4826;
+  --warning-bg:#FFF0DC; --warning-fg:#E47700;
+  --info-bg:#DEE5F7; --info-fg:#3E54CE;
+  --error-bg:#FDECEA; --error-fg:#C4433A;
+  --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--outer-bg);font-family:'Inter Tight',sans-serif;color:var(--text-body);font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.shell{max-width:1200px;margin:28px auto;background:var(--page-bg);border-radius:24px;overflow:hidden;border:0.5px solid var(--border)}
+/* ---------- reading progress ---------- */
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--hero-deco2);width:0;z-index:999;transition:width .1s linear}
+/* ---------- hero ---------- */
+.hero{background:var(--hero-bg);padding:44px 56px 38px;position:relative;overflow:hidden}
+.blob{position:absolute;opacity:.18;pointer-events:none;animation:drift 14s ease-in-out infinite}
+.blob.b1{width:300px;height:210px;background:var(--hero-deco);top:-70px;right:8%;border-radius:58% 42% 55% 45%/52% 48% 60% 40%;transform:rotate(-12deg)}
+.blob.b2{width:220px;height:180px;background:var(--hero-deco2);bottom:-60px;left:6%;border-radius:46% 54% 42% 58%/58% 44% 56% 42%;animation-delay:-5s}
+.blob.b3{width:150px;height:120px;background:var(--hero-deco);top:8px;left:38%;border-radius:40% 60% 55% 45%/48% 52% 45% 55%;animation-delay:-9s}
+@keyframes drift{0%,100%{transform:translate(0,0) rotate(0deg)}33%{transform:translate(12px,-10px) rotate(3deg)}66%{transform:translate(-8px,8px) rotate(-2deg)}}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--hero-deco2);text-transform:uppercase;margin-bottom:14px}
+.hero-row{display:flex;align-items:flex-end;gap:36px;flex-wrap:wrap;position:relative}
+.hero-left{flex:1;min-width:280px}
+.hero-title{font-size:24px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em;margin-bottom:10px}
+.hero-metric{font-family:'Noto Serif SC',serif;font-size:64px;font-weight:600;letter-spacing:-.02em;color:var(--text-primary);line-height:1}
+.hero-metric small{font-size:20px;font-weight:500;color:var(--text-secondary);font-family:'Inter Tight',sans-serif}
+.hero-tag{display:inline-block;margin-top:14px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;background:var(--error-bg);color:var(--error-fg)}
+.hero-sub{color:var(--text-secondary);font-size:13px;margin-top:12px;max-width:560px;position:relative}
+.hairline{height:1px;background:rgba(255,255,255,.65);margin:26px 0 20px;position:relative}
+.hero-stats{display:flex;flex-wrap:wrap;gap:10px;position:relative}
+.hstat{background:rgba(255,255,255,.55);border-radius:12px;padding:10px 16px;min-width:130px}
+.hstat .k{font-size:11px;color:var(--text-secondary)}
+.hstat .v{font-size:14px;font-weight:600;color:var(--text-primary);margin-top:2px}
+.hstat .v .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.dot-red{background:var(--error-fg)} .dot-green{background:#5E8F52} .dot-yellow{background:var(--warning-fg)}
+/* ---------- main ---------- */
+.main{padding:40px 56px 48px}
+.section{margin-bottom:44px}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-no{font-size:12px;font-weight:700;color:var(--hero-deco2);letter-spacing:.06em}
+.sec-title{font-size:17px;font-weight:600;color:var(--text-primary)}
+.sec-sub{font-size:12px;color:var(--text-secondary);width:100%}
+.sec-rule{height:0.5px;background:var(--border);margin:12px 0 22px}
+/* ---------- cards ---------- */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:18px 20px}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.card-t{font-size:15px;font-weight:600;color:var(--text-primary)}
+.card-m{font-size:12px;color:var(--text-secondary)}
+.card-b{font-size:13.5px;color:var(--text-body)}
+.card-b p{margin-bottom:8px}
+.card-b p:last-child{margin-bottom:0}
+/* ---------- pills ---------- */
+.pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.pill-red{background:var(--error-bg);color:var(--error-fg)}
+.pill-yellow{background:var(--warning-bg);color:var(--warning-fg)}
+.pill-green{background:var(--success-bg);color:var(--success-fg)}
+.pill-blue{background:var(--info-bg);color:var(--info-fg)}
+.pill-gray{background:var(--neutral-bg);color:var(--neutral-fg)}
+/* ---------- alerts ---------- */
+.alert{border-radius:10px;padding:14px 16px;margin:14px 0}
+.alert .at{font-size:13px;font-weight:600;margin-bottom:4px}
+.alert .ab{font-size:13px;color:var(--text-body)}
+.alert-red{background:var(--error-bg)} .alert-red .at{color:var(--error-fg)}
+.alert-yellow{background:var(--warning-bg)} .alert-yellow .at{color:var(--warning-fg)}
+.alert-green{background:var(--success-bg)} .alert-green .at{color:var(--success-fg)}
+.alert-blue{background:var(--info-bg)} .alert-blue .at{color:var(--info-fg)}
+/* ---------- tables ---------- */
+.table-wrap{overflow-x:auto;border:0.5px solid var(--border);border-radius:12px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+th{font-size:12px;font-weight:500;color:var(--text-secondary);text-align:left;padding:11px 14px;border-bottom:1px solid var(--divider);background:var(--surface);white-space:nowrap}
+td{padding:11px 14px;border-bottom:0.5px solid var(--border);vertical-align:top;color:var(--text-body)}
+tr:last-child td{border-bottom:none}
+td .mono{font-variant-numeric:tabular-nums;font-weight:600;color:var(--text-primary)}
+td strong{color:var(--text-primary)}
+/* ---------- metrics ---------- */
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.metric{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:14px 16px}
+.metric .k{font-size:12px;color:var(--text-secondary)}
+.metric .v{font-size:26px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em;margin-top:2px}
+.metric .d{font-size:12px;font-weight:500;margin-top:2px}
+/* ---------- progress ---------- */
+.prog{margin:10px 0}
+.prog .row{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px}
+.prog .row .k{color:var(--text-body)}
+.prog .row .v{color:var(--text-primary);font-weight:600}
+.track{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.fill{height:100%;border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.25,.8,.25,1)}
+/* ---------- timeline ---------- */
+.timeline{position:relative;padding-left:26px}
+.timeline:before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--divider)}
+.tl-item{position:relative;margin-bottom:22px}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:-26px;top:4px;width:16px;height:16px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 2px var(--hero-deco2);background:var(--hero-deco2)}
+.tl-dot.red{box-shadow:0 0 0 2px var(--error-fg);background:var(--error-fg)}
+.tl-dot.green{box-shadow:0 0 0 2px #5E8F52;background:#5E8F52}
+.tl-dot.yellow{box-shadow:0 0 0 2px var(--warning-fg);background:var(--warning-fg)}
+.tl-date{font-size:12px;color:var(--text-secondary);font-weight:500}
+.tl-title{font-size:14px;font-weight:600;color:var(--text-primary);margin:2px 0 4px}
+.tl-body{font-size:13px;color:var(--text-body)}
+/* ---------- charts ---------- */
+.charts-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.chart-card{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:18px 20px}
+.chart-card .ch{font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:4px}
+.chart-card .chm{font-size:12px;color:var(--text-secondary);margin-bottom:12px}
+.chart-wrap{position:relative;height:260px}
+.custom-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-body)}
+.legend-sq{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+/* ---------- misc ---------- */
+.note{font-size:12px;color:var(--text-secondary)}
+.kv{display:grid;grid-template-columns:220px 1fr;gap:0}
+.kv .row{display:contents}
+.kv .k{font-size:13px;color:var(--text-secondary);padding:9px 0;border-bottom:0.5px solid var(--border)}
+.kv .v{padding:9px 0;border-bottom:0.5px solid var(--border);color:var(--text-primary);font-weight:500}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+/* ---------- footer ---------- */
+.footer{background:var(--hero-bg);padding:34px 56px;position:relative;overflow:hidden}
+.footer .blob{opacity:.14}
+.foot-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative}
+.foot-brand{font-size:16px;font-weight:600;color:var(--text-primary)}
+.foot-brand span{font-size:12px;font-weight:500;color:var(--text-secondary);display:block;margin-top:2px}
+.foot-meta{display:flex;gap:40px;flex-wrap:wrap}
+.foot-meta .m{font-size:12px;color:var(--text-secondary)}
+.foot-meta .m b{display:block;color:var(--text-primary);font-weight:600;font-size:13px;margin-bottom:2px}
+.foot-bar{border-top:1px solid rgba(255,255,255,.6);margin-top:24px;padding-top:16px;display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);position:relative;flex-wrap:wrap;gap:8px}
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .grid-2,.grid-3,.charts-row{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  body{background:var(--page-bg)}
+  .shell{margin:0;border-radius:0;border:none}
+  .hero{padding:32px 20px 28px}
+  .main{padding:28px 20px 36px}
+  .footer{padding:28px 20px}
+  .hero-metric{font-size:48px}
+  .kv{grid-template-columns:130px 1fr}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div class="shell">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="eyebrow">Amazon Store Health Check · 全维度体检报告</div>
+    <div class="hero-row">
+      <div class="hero-left">
+        <div class="hero-title">亚马逊店铺全维度体检报告</div>
+        <div class="hero-metric">35<small> / 100</small></div>
+        <span class="hero-tag">总体判定：高风险 · 需立即处置</span>
+        <div class="hero-sub">数据来源：上传的体检快照 PDF（Seller Summary · Related Accounts · 操作日志），提取时点 2026-08-20。综合健康度按可观测维度加权计算，具体口径见「健康评分卡」。</div>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="k">卖家客户 ID</div><div class="v">1254208327302</div></div>
+        <div class="hstat"><div class="k">加密 ID / 站点</div><div class="v">A1M8DNZNPUJSKP · UK</div></div>
+        <div class="hstat"><div class="k">卖家层级</div><div class="v">SILVER</div></div>
+        <div class="hstat"><div class="k">注册日期</div><div class="v">2026-05-16</div></div>
+        <div class="hstat"><div class="k">市场销售状态</div><div class="v"><span class="dot dot-red"></span>Blocked</div></div>
+        <div class="hstat"><div class="k">关联账号命中</div><div class="v">0 个维度</div></div>
+        <div class="hstat"><div class="k">KYC 状态</div><div class="v"><span class="dot dot-green"></span>EU 合规</div></div>
+        <div class="hstat"><div class="k">NSB 净余额</div><div class="v"><span class="dot dot-yellow"></span>£-15.11</div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- ================= 0 核心结论 ================= -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">CORE</span><span class="sec-title">体检核心结论</span></div>
+      <div class="sec-rule"></div>
+      <div class="alert alert-red">
+        <div class="at">核心风险①：英国站市场销售权限被封锁（Marketplace Selling: Blocked）</div>
+        <div class="ab">2026-08-19 亚马逊 ABB 项目对账号执行执法封锁：品牌群体被认定参与「协调性评论滥用」（人为积累评论），违反《卖家行为准则》。执法记录状态为 Active，且注明「仅限争议路径」（Dispute path only）——常规申诉通道不适用，必须走争议流程。</div>
+      </div>
+      <div class="grid-2">
+        <div class="alert alert-yellow">
+          <div class="at">风险②：NSB 净余额为负（£-15.11）</div>
+          <div class="ab">账户存在应收差额，需在卖家平台结清欠款，避免影响付款与后续任何资金操作。</div>
+        </div>
+        <div class="alert alert-yellow">
+          <div class="at">风险③：注册资料质量存疑</div>
+          <div class="ab">商家网站填写为公共邮箱域名 outlook.com，新号（约 3 个月）即触发 KYC 程序化风险标记（7-13）与 ABB 执法（8-19），资料真实性与运营合规性需要整体自查。</div>
+        </div>
+        <div class="alert alert-green">
+          <div class="at">利好①：无任何关联账号命中</div>
+          <div class="ab">邮箱 / 电话 / 地址 / 支付 / 税务 / IP / 指纹 / KYC 等全部关联维度均为 0，未检测到与其他账号的关联。</div>
+        </div>
+        <div class="alert alert-green">
+          <div class="at">利好②：KYC 已合规、全球销售与合规状态正常</div>
+          <div class="ab">EU KYC-Compliant（7-14 解除资料修改限制）；Global Selling 正常；Compliance 状态 Compliant、付款 Allow、Listing 正常；购买状态 Normal。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 健康评分卡 ================= -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">SCORE</span><span class="sec-title">健康评分卡与诊断分布</span><span class="sec-sub">评分基于快照中可观测维度加权（账户状态 25% / 执法记录 20% / 关联风险 15% / KYC与付款 15% / 财务 10% / 资料质量 15%），满分 100，供决策参考。</span></div>
+      <div class="sec-rule"></div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="ch">六大维度健康评分</div>
+          <div class="chm">越高越健康（0–100）</div>
+          <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+          <div class="custom-legend">
+            <span class="legend-item"><span class="legend-sq" style="background:#6E9298"></span>维度得分</span>
+            <span class="legend-item"><span class="legend-sq" style="background:#C5C0BA"></span>满分基准</span>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="ch">诊断结果分布</div>
+          <div class="chm">依据快照可判定项统计</div>
+          <div class="chart-wrap"><canvas id="donutChart"></canvas></div>
+          <div class="custom-legend">
+            <span class="legend-item"><span class="legend-sq" style="background:#C4433A"></span>高风险项 3</span>
+            <span class="legend-item"><span class="legend-sq" style="background:#6E9298"></span>正常项 7</span>
+            <span class="legend-item"><span class="legend-sq" style="background:#E47700"></span>待关注项 3</span>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="ch">11 大板块风险分布</div>
+          <div class="chm">按本报告章节判定</div>
+          <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+          <div class="custom-legend">
+            <span class="legend-item"><span class="legend-sq" style="background:#C4433A"></span>高风险 4</span>
+            <span class="legend-item"><span class="legend-sq" style="background:#E47700"></span>需关注 2</span>
+            <span class="legend-item"><span class="legend-sq" style="background:#9BADB0"></span>待补充 3</span>
+            <span class="legend-item"><span class="legend-sq" style="background:#5E8F52"></span>正常 2</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <div class="card">
+          <div class="card-h"><span class="card-t">综合健康度构成（加权明细）</span><span class="pill pill-red">总分 35 / 100</span></div>
+          <div class="prog"><div class="row"><span class="k">账户状态（权重 25%）</span><span class="v">0 / 100</span></div><div class="track"><div class="fill" data-w="0%" style="background:#C4433A"></div></div></div>
+          <div class="prog"><div class="row"><span class="k">执法与调查记录（权重 20%）</span><span class="v">10 / 100</span></div><div class="track"><div class="fill" data-w="10%" style="background:#C4433A"></div></div></div>
+          <div class="prog"><div class="row"><span class="k">关联风险（权重 15%）</span><span class="v">95 / 100</span></div><div class="track"><div class="fill" data-w="95%" style="background:#5E8F52"></div></div></div>
+          <div class="prog"><div class="row"><span class="k">KYC 与付款（权重 15%）</span><span class="v">85 / 100</span></div><div class="track"><div class="fill" data-w="85%" style="background:#5E8F52"></div></div></div>
+          <div class="prog"><div class="row"><span class="k">财务健康（权重 10%）</span><span class="v">30 / 100</span></div><div class="track"><div class="fill" data-w="30%" style="background:#E47700"></div></div></div>
+          <div class="prog"><div class="row"><span class="k">账户资料质量（权重 15%）</span><span class="v">35 / 100</span></div><div class="track"><div class="fill" data-w="35%" style="background:#E47700"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 店铺基本信息 ================= -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">BASIC</span><span class="sec-title">店铺基本信息（Seller Summary）</span><span class="sec-sub">以下为快照中卖家摘要页的完整字段，逐项给出解读。</span></div>
+      <div class="sec-rule"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="min-width:200px">字段</th><th style="min-width:120px">快照值</th><th>解读与分析</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Customer ID / Encrypted ID</strong></td><td class="mono">1254208327302<br>A1M8DNZNPUJSKP</td><td>卖家客户号与加密标识，用于平台内部定位账号。报告中全程以 A1M8DNZNPUJSKP 指代本店。</td></tr>
+            <tr><td><strong>Name</strong></td><td>lijiahao / KAHOljh</td><td>账户名称与品牌显示名。名称与网站（outlook.com）无品牌关联性，属于低信息量注册资料。</td></tr>
+            <tr><td><strong>Seller Entity / 站点</strong></td><td>APUK · www.amazon.co.uk</td><td>英国支付实体（Amazon Payments UK），运营站点为英国站。</td></tr>
+            <tr><td><strong>Seller Tier</strong></td><td><span class="pill pill-blue">SILVER</span></td><td>按销量规模划分的卖家层级。SILVER 属基础偏上层级，与注册仅 3 个月的新号体量相符。</td></tr>
+            <tr><td><strong>Merchant Registration Date</strong></td><td class="mono">2026-05-16</td><td>注册至今约 3 个月，属于新卖家。新号即触发 ABB 执法，说明问题集中于早期运营行为。</td></tr>
+            <tr><td><strong>Buying Status</strong></td><td><span class="pill pill-green">Normal</span></td><td>买家端（购买）功能正常。可正常购物，不影响该账号的买家身份。</td></tr>
+            <tr><td><strong>Global Selling Status</strong></td><td><span class="pill pill-green">Normal</span></td><td>全球销售状态正常——封锁仅作用于英国站市场销售，未扩展到其他市场。</td></tr>
+            <tr><td><strong>Marketplace Selling Status</strong></td><td><span class="pill pill-red">Blocked</span></td><td><strong>核心问题</strong>：英国站销售权限被封锁，无法继续在 UK 站销售。与 8-19 ABB 执法记录一致。</td></tr>
+            <tr><td><strong>Reserve Policy</strong></td><td>Pre-DAP &lt; 90 Days</td><td>新卖家（注册不足 90 天）的常规资金储备政策阶段：部分款项被预留以覆盖退款/索赔风险。属常规状态，无需操作。</td></tr>
+            <tr><td><strong>Additional Reserves / Policy Exemptions</strong></td><td>N/A</td><td>无额外储备要求、无政策豁免，符合新店默认配置。</td></tr>
+            <tr><td><strong>Restrictions</strong></td><td><span class="pill pill-green">Normal</span></td><td>除市场销售封锁外无其他限制项。</td></tr>
+            <tr><td><strong>Compliance Status / Disbursement / Listing</strong></td><td>Compliant<br>Allow · Normal</td><td>合规层面整体判定为合规：付款允许、Listing 未标记违规。说明当前强制措施集中在「销售权限」而非「付款/资料」层面。</td></tr>
+            <tr><td><strong>Country of Origin / Language</strong></td><td>CN · en_GB</td><td>原产国中国，语言偏好英文（英国）。</td></tr>
+            <tr><td><strong>Merchant Website URL</strong></td><td class="mono">http://outlook.com</td><td><span class="pill pill-yellow">资料疑点</span>：商家网站填写公共邮箱域名。正规运营主体应提供企业官网；该字段是 KYC 复核与申诉审查时常见质疑点。</td></tr>
+            <tr><td><strong>Buying / Selling Email · Address</strong></td><td>Click to Show</td><td>快照中未明文展示，需人工核对邮箱与地址归属，确认与 KYC 资料一致。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 调查时间线 ================= -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">TIME</span><span class="sec-title">关键事件时间线（Account Timeline）</span><span class="sec-sub">从注册到执法的完整脉络，是理解本店问题的关键。</span></div>
+      <div class="sec-rule"></div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot green"></div>
+          <div class="tl-date">2026-05-16</div>
+          <div class="tl-title">账号注册（APUK 实体 · 英国站）</div>
+          <div class="tl-body">新卖家上线，层级 SILVER，进入 Pre-DAP &lt; 90 天资金储备阶段。购买状态、全球销售状态均正常。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot yellow"></div>
+          <div class="tl-date">2026-07-13 12:44 / 12:48</div>
+          <div class="tl-title">KYC 程序化风险标记 ×2（RestrictProfileModification）</div>
+          <div class="tl-body">SQA EU KYC 流程中系统程序化风控命中，账户资料修改被临时限制（同日两条记录）。常见诱因：资料字段不一致、主体信息异常或高频修改。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot green"></div>
+          <div class="tl-date">2026-07-14 09:19</div>
+          <div class="tl-title">EU KYC 合规通过（AllowProfileModification）</div>
+          <div class="tl-body">次日即判定 KYC-Compliant，资料修改限制解除。KYC 结论为合规，付款权限 Allow。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot red"></div>
+          <div class="tl-date">2026-08-19 23:14（快照时点 9 小时前 · Active）</div>
+          <div class="tl-title">ABB 执法封锁：Block Product Review Abuse</div>
+          <div class="tl-body">英国站市场销售权限被封锁（Marketplace Selling: Blocked）。执法定性为「品牌群体协调性评论滥用」，仅限争议路径处理。注册后约 94 天即遭执法。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 11 大板块 ================= -->
+    <!-- 1 Performance -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">01</span><span class="sec-title">Performance · 成绩效（账户绩效）</span><span class="pill pill-red">高风险</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>账户绩效板块汇总卖家在「订单履约、客户服务、合规」三个维度的量化表现，是亚马逊判断店铺运营健康度的核心依据。绩效恶化可能触发销售权限移除、商品下架等强制措施。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>核心指标</th><th>含义与计算</th><th>参考标准</th><th>本店状态</th></tr></thead>
+          <tbody>
+            <tr><td><strong>订单缺陷率 ODR</strong></td><td>（负面反馈 + A-to-Z 索赔 + 信用卡拒付）÷ 总订单数</td><td>目标 &lt; 1%，超标有封号风险</td><td rowspan="8">快照未提供绩效数值；但市场销售已 Blocked，ABB 执法属于「账户状况」红色级严重违规，一票否决。</td></tr>
+            <tr><td><strong>迟发率 LSR</strong></td><td>未按承诺日期发货的订单占比（自配送）</td><td>目标 &lt; 4%</td></tr>
+            <tr><td><strong>有效追踪率 VTR</strong></td><td>自配送订单中含有效追踪号的占比</td><td>目标 ≥ 95%</td></tr>
+            <tr><td><strong>准时送达率</strong></td><td>自配送订单按时送达占比</td><td>目标 ≥ 97%</td></tr>
+            <tr><td><strong>预配送取消率</strong></td><td>发货前取消订单占比</td><td>目标 &lt; 2.5%</td></tr>
+            <tr><td><strong>客户服务不满意率 CSUR</strong></td><td>买家对客服互动的负面评价占比</td><td>目标 &lt; 25%</td></tr>
+            <tr><td><strong>退货不满意率</strong></td><td>退货请求中产生差评/索赔的占比</td><td>目标 &lt; 10%</td></tr>
+            <tr><td><strong>账户状况评级 AHR</strong></td><td>综合政策违规与绩效的 0–1000 评分</td><td>≥200 绿 / 100–199 黄 / &lt;100 红</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-red" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">无论历史 ODR、发货表现如何，评论滥用（ABB）在账户状况评级中属于直接指向「移除销售权限」的严重违规。当前绩效板块已失去正常口径（无法产生订单），优先级最高的事项是解除封锁，而非优化单项绩效指标。</div>
+      </div>
+    </section>
+
+    <!-- 2 Customer Summary -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">02</span><span class="sec-title">Customer Summary · 客户摘要</span><span class="pill pill-gray">数据待补充</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>客户摘要从买家视角汇总店铺的客户服务表现与买家情绪，与「客户体验」直接相关，也是评价操纵行为的重点审查区域。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>核心指标</th><th>含义与计算</th><th>参考标准</th><th>本店状态</th></tr></thead>
+          <tbody>
+            <tr><td><strong>买家消息响应时间</strong></td><td>从买家首次联系到卖家回复的时长</td><td>目标 ≤ 24 小时</td><td rowspan="4">快照未提供本板块数据。</td></tr>
+            <tr><td><strong>客户服务不满意率 CSUR</strong></td><td>买家对客服服务的负面反馈占比</td><td>目标 &lt; 25%</td></tr>
+            <tr><td><strong>客户联系量</strong></td><td>各渠道买家消息数量与趋势</td><td>观察异常波动</td></tr>
+            <tr><td><strong>买家情绪 / 满意度</strong></td><td>反馈、退货、索赔中体现的买家态度</td><td>观察负面集中度</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-yellow" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">评论滥用场景下，买家消息常伴随「要求删评、返现诱导、好评有礼」等违规话术（违反《卖家行为准则》）。建议导出全部买家消息记录自查话术合规性——申诉时平台会核查沟通记录，任何诱导性内容都会被引用为违规证据。</div>
+      </div>
+    </section>
+
+    <!-- 3 Annotations and Investigations -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">03</span><span class="sec-title">Annotations and Investigations · 注释与调查</span><span class="pill pill-red">核心证据</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>平台对该账号的注释与调查记录——执法动作、风险标记、状态变更的完整留痕。这是体检中最具「证据性」的板块，直接决定账号当前处于何种处置状态。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>时间</th><th>状态</th><th>操作</th><th>详情</th><th>解读</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="mono" style="white-space:nowrap">2026-08-19 23:14 BST<br><span class="note">快照时 9 小时前</span></td>
+              <td><span class="pill pill-red">Active</span></td>
+              <td><strong>Block Product Review Abuse<br>ABB BLOCK</strong></td>
+              <td>Blurb: pra_abb_block_seller ｜ MO: ABB ｜ 强制措施: Block ｜ Batch: batch 2 ｜ L7 审批: sunnyset<br><br>详情：ABB 执法领导层批准。品牌群体被认定为在 ABB 项目下存在滥用行为——卖家和权利所有者参与协调性评论滥用，违反《卖家行为准则》，利用亚马逊零售和/或第三方卖家账户人为积累评论。<strong>仅限争议路径（Dispute path only）。</strong></td>
+              <td>本店被封锁的直接依据。要点：① 认定层面是「品牌群体（Brand cohort）」而非单一账号；② 定性是协调性评论滥用（人为刷评/刷评论）；③ 处置是 Block（市场销售封锁）；④ 只接受争议路径申诉。</td>
+            </tr>
+            <tr>
+              <td class="mono" style="white-space:nowrap">2026-07-14 09:19</td>
+              <td>N/A</td>
+              <td><strong>AllowProfileModification</strong></td>
+              <td>SQA EU KYC-Compliant（RampPermissionUpdater: Service seller decision）</td>
+              <td>欧盟 KYC 判定合规，解除资料修改限制。说明 KYC 审查最终通过。</td>
+            </tr>
+            <tr>
+              <td class="mono" style="white-space:nowrap">2026-07-13 12:48 BST</td>
+              <td>N/A</td>
+              <td><strong>RestrictProfileModification</strong></td>
+              <td>SQA EU KYC – KYC Programmatic Risk（RampPermissionUpdater: Service seller decision）</td>
+              <td>KYC 程序化风控命中，限制资料修改（当天第二次）。</td>
+            </tr>
+            <tr>
+              <td class="mono" style="white-space:nowrap">2026-07-13 12:44</td>
+              <td>N/A</td>
+              <td><strong>RestrictProfileModification</strong></td>
+              <td>SQA EU KYC – KYC Programmatic Risk（RampPermissionUpdater: Service seller decision）</td>
+              <td>KYC 程序化风控首次命中，限制资料修改。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-red" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">时间线给出完整因果链：注册（5-16）→ KYC 程序化风险（7-13）→ KYC 合规解除（7-14）→ ABB 执法封锁（8-19）。「仅限争议路径」意味着绩效申诉、常规行动计划（POA）通道均不适用，必须通过争议/申诉入口提交证据材料；ABB 定性一旦坐实，恢复销售权限的难度较高，申诉材料的证据完整度与整改可信度是成败关键。</div>
+      </div>
+    </section>
+
+    <!-- 4 Listings -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">04</span><span class="sec-title">Listings · 商品列表</span><span class="pill pill-yellow">需全面自查</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>Listing 健康度覆盖商品上架状态、政策合规、变体管理与详情页质量。评论滥用执法通常与品牌名下多个 ASIN 的评论表现相关。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>核心指标</th><th>含义</th><th>目标</th><th>本店状态</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Listing 状态</strong></td><td>在售 / 被抑制 / 不可售</td><td>全部在售</td><td rowspan="5">快照仅显示 Compliance Listing = Normal（平台侧无强制违规标记）。</td></tr>
+            <tr><td><strong>违规 Listing 数</strong></td><td>因政策违规被移除/下架</td><td>0</td></tr>
+            <tr><td><strong>变体滥用</strong></td><td>违规合并变体、蹭流量、操控父子关系</td><td>0</td></tr>
+            <tr><td><strong>知识产权投诉</strong></td><td>侵权被投诉记录</td><td>0</td></tr>
+            <tr><td><strong>评论真实性</strong></td><td>评论操纵痕迹（集中新增、无购买关联、跨账号互评）</td><td>0 风险</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-yellow" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">ABB 执法的对象是「品牌群体」，意味着识别粒度在品牌层：该品牌名下所有 ASIN 的评论来源都可能被纳入审查。应立即导出品牌全部 ASIN 的评论明细，标记「集中时间段新增」「无 VP 标识」「账号等级低」「评论内容模板化」的异常评论，作为申诉时的自查证据。</div>
+      </div>
+    </section>
+
+    <!-- 5 Relations -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">05</span><span class="sec-title">Relations · 关联关系</span><span class="pill pill-green">无关联命中</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>关联检测用于判定当前账号是否与亚马逊生态内其他账号存在「同一主体」关联。多账号关联是封号连锁反应的根源——一旦一个账号被认定违规，关联账号会被同步处置。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>关联维度</th><th>判定对象</th><th>本店命中</th><th>解读</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Email</strong></td><td>注册/联系邮箱是否与其他账号相同</td><td class="mono">0</td><td>无邮箱维度关联</td></tr>
+            <tr><td><strong>R-PH / V-PH</strong></td><td>注册电话 / 已验证电话</td><td class="mono">0</td><td>无电话维度关联</td></tr>
+            <tr><td><strong>Last Added Address</strong></td><td>最近添加的地址</td><td class="mono">0</td><td>无地址维度关联</td></tr>
+            <tr><td><strong>ACH / CC / IBA</strong></td><td>美国清算账户 / 信用卡 / 国际银行账户</td><td class="mono">0</td><td>无支付方式关联</td></tr>
+            <tr><td><strong>TaxID</strong></td><td>税务识别号</td><td class="mono">0</td><td>无税务维度关联</td></tr>
+            <tr><td><strong>IP</strong></td><td>登录 IP 历史</td><td class="mono">0</td><td>无 IP 维度关联</td></tr>
+            <tr><td><strong>FP</strong></td><td>设备指纹</td><td class="mono">0</td><td>无设备指纹关联</td></tr>
+            <tr><td><strong>Ubid / Fubid</strong></td><td>平台内部用户标识（推断为买家/用户身份类标识，0 = 无命中）</td><td class="mono">0</td><td>无内部标识关联</td></tr>
+            <tr><td><strong>KYC</strong></td><td>KYC 资料（法人、地址、证件）</td><td class="mono">0</td><td>无 KYC 资料关联</td></tr>
+            <tr><td><strong>NSB</strong></td><td>卖家净余额（Net Seller Balance）</td><td class="mono">£-15.11</td><td><span class="pill pill-yellow">负余额</span>：应收差额，需结清</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-green" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">所有关联维度均为 0，未检测到任何关联账号——这是本份报告中少有的强利好。但两点必须清醒：① ABB 认定的是「品牌群体」，识别发生在品牌层而非账号层，关联检测 0 命中不代表品牌名下其他账号无风险；② 后续无论申诉还是重建，务必做到 IP / 设备 / 邮箱 / 电话 / 地址 / 支付 / 税务资料全隔离，否则任何一笔共享信息都会形成新的关联证据。</div>
+      </div>
+    </section>
+
+    <!-- 6 Orders -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">06</span><span class="sec-title">Orders · 订单</span><span class="pill pill-red">销售受限</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>订单板块反映店铺的实际交易规模与履约表现，是绩效指标的来源基础。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>核心指标</th><th>含义</th><th>参考标准</th><th>本店状态</th></tr></thead>
+          <tbody>
+            <tr><td><strong>订单量</strong></td><td>单位时间订单数与销售额</td><td>观察增长趋势</td><td rowspan="4">快照未提供订单数据；市场销售已 Blocked，当前无法产生新订单。</td></tr>
+            <tr><td><strong>预配送取消率</strong></td><td>发货前取消占比</td><td>&lt; 2.5%</td></tr>
+            <tr><td><strong>订单缺陷率</strong></td><td>缺陷订单占比</td><td>&lt; 1%</td></tr>
+            <tr><td><strong>发货时效</strong></td><td>按承诺时效发货</td><td>准时率 ≥ 97%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-yellow" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">NSB 负余额 £-15.11 通常来源于退款、费用结算后的应收差额。结清前应核对是否存在待处理退款、A-to-Z 索赔或费用扣减，避免欠款影响后续付款资格。</div>
+      </div>
+    </section>
+
+    <!-- 7 Feedback -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">07</span><span class="sec-title">Feedback · 卖家反馈</span><span class="pill pill-gray">数据待补充</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>卖家反馈（Feedback）是买家对<strong>店铺整体</strong>的评价，区别于商品评论（Reviews）。反馈评分影响买家信任与曝光，差评率过高还会计入订单缺陷率。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>核心指标</th><th>含义</th><th>参考标准</th><th>本店状态</th></tr></thead>
+          <tbody>
+            <tr><td><strong>好评率</strong></td><td>4–5 星反馈占比</td><td>目标 ≥ 95%</td><td rowspan="4">快照未提供反馈数据。评论滥用审查通常同时波及 Reviews 与 Feedback 两侧。</td></tr>
+            <tr><td><strong>反馈总量</strong></td><td>累计反馈条数</td><td>观察规模</td></tr>
+            <tr><td><strong>近 30 天反馈趋势</strong></td><td>新增反馈与评分变化</td><td>观察异常集中</td></tr>
+            <tr><td><strong>差评率</strong></td><td>1–2 星反馈占比</td><td>控制下降</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-yellow" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">「人为积累评论」的认定通常包含两个口径：商品评论与卖家反馈。申诉准备时需能说明每条反馈/评论的合法来源（真实订单、正常买家）；无法解释的集中好评将直接坐实操纵行为。</div>
+      </div>
+    </section>
+
+    <!-- 8 Disputes -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">08</span><span class="sec-title">Disputes · 争议</span><span class="pill pill-red">申诉唯一路径</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>争议板块覆盖三类：买家 A-to-Z 索赔、信用卡拒付（Chargebacks）、政策争议（申诉）。对当前账号而言，最关键的争议是<strong>针对 ABB 封锁的政策争议</strong>——执法记录明确「仅限争议路径」。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>争议类型</th><th>含义</th><th>影响</th><th>本店状态</th></tr></thead>
+          <tbody>
+            <tr><td><strong>A-to-Z 索赔</strong></td><td>买家未收到货/货不对版的索赔</td><td>计入 ODR，可能触发调查</td><td rowspan="3">快照未提供买家争议数据。</td></tr>
+            <tr><td><strong>信用卡拒付</strong></td><td>买家通过银行发起拒付</td><td>计入 ODR</td></tr>
+            <tr><td><strong>政策争议 / 申诉</strong></td><td>针对执法措施的申诉（Appeal / Dispute）</td><td>决定能否解封</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-red" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">ABB 封锁「仅限争议路径」意味着必须走争议/申诉流程，且材料要求高于常规绩效申诉。建议：① 先通过卖家平台「账户状况」页面确认申诉入口与可提交的材料清单；② 由具备 ABB 类案件经验的人员撰写申诉书；③ 首次提交务必一次性给足证据（评论来源、订单真实性、整改动作、供应链证明），避免因材料不足被快速驳回。</div>
+      </div>
+    </section>
+
+    <!-- 9 Contacts -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">09</span><span class="sec-title">Contacts · 联系人</span><span class="pill pill-yellow">资料质量待改善</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>联系人板块记录账户的注册主体信息：企业/法人、注册邮箱、联系电话、地址与网站。资料的真实性与一致性是 KYC 复核和申诉审查的基础。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>字段</th><th>快照值</th><th>解读</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Name</strong></td><td>lijiahao / KAHOljh</td><td>账户名 + 品牌名，无企业品牌辨识度</td></tr>
+            <tr><td><strong>Country of Origin</strong></td><td>CN</td><td>中国主体，英国站跨境运营</td></tr>
+            <tr><td><strong>Merchant Website</strong></td><td class="mono">http://outlook.com</td><td><span class="pill pill-yellow">疑点</span>：公共邮箱域名充当官网</td></tr>
+            <tr><td><strong>Email / Last Added Address</strong></td><td>Click to Show</td><td>需人工核对，确认与 KYC 资料一致</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-yellow" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">注册资料整体「信息密度低」：无真实企业官网、无品牌化域名、名称无主体辨识度。这类资料在 KYC 程序化风控与执法审查中属于高风险画像。建议：① 尽快注册并绑定真实企业网站（.com 企业域名）；② 邮箱、电话、地址与营业执照/银行账单完全一致；③ 任何资料变更通过官方路径申请，避免高频修改再次触发程序化风控。</div>
+      </div>
+    </section>
+
+    <!-- 10 Defect Visualization -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">10</span><span class="sec-title">Defect Visualization · 缺陷可视化</span><span class="pill pill-gray">数据待补充</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>缺陷可视化将订单缺陷按类型、原因、时间、ASIN 分布呈现，帮助定位缺陷根因（履约问题？产品问题？客服问题？）。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>可视化维度</th><th>含义</th><th>用途</th></tr></thead>
+          <tbody>
+            <tr><td><strong>缺陷类型分布</strong></td><td>负面反馈 / A-to-Z / 拒付 的占比</td><td>定位缺陷来源</td></tr>
+            <tr><td><strong>缺陷时间趋势</strong></td><td>缺陷随时间的波动</td><td>关联运营动作（促销、换供应商等）</td></tr>
+            <tr><td><strong>缺陷 ASIN 分布</strong></td><td>缺陷集中于哪些商品</td><td>定位问题商品</td></tr>
+            <tr><td><strong>缺陷原因归类</strong></td><td>到货慢 / 货不对版 / 质量差等</td><td>制定整改措施</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-blue" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">新店缺陷基数小，传统订单缺陷并非当前主要矛盾。但应把 ABB 执法视为一种「合规缺陷」：申诉时需展示缺陷已消除（终止操纵渠道、清理异常评论、流程整改），缺陷可视化可作为整改前后对照的证据材料。</div>
+      </div>
+    </section>
+
+    <!-- 11 Collision -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">11</span><span class="sec-title">Collision · 冲突碰撞</span><span class="pill pill-green">无碰撞命中</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-h"><span class="card-t">板块说明</span></div>
+        <div class="card-b"><p>冲突/碰撞检测判定当前账号信息是否与历史受限、封禁账号存在碰撞（同一地址、电话、IP、支付、资料等），以及 Listing 层面的冲突。碰撞命中通常意味着极高关联风险。</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>碰撞维度</th><th>含义</th><th>本店状态</th></tr></thead>
+          <tbody>
+            <tr><td><strong>资料碰撞</strong></td><td>与受限/封禁账号共享地址、电话、邮箱、支付、税务信息</td><td rowspan="2">快照未提供独立数据；结合关联板块全部维度 0 命中，判定为无碰撞。</td></tr>
+            <tr><td><strong>Listing 冲突</strong></td><td>与受限账号共用 Listing、品牌、UPC 等</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-green" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">无碰撞命中是利好。但需注意：ABB 执法对象是「品牌群体」——若品牌名下存在其他受限/封禁账号，该品牌层面的「碰撞」不会被账号级检测覆盖。提交任何申诉材料前，先厘清品牌名下全部账号与权利主体，杜绝资料复用。</div>
+      </div>
+    </section>
+
+    <!-- ================= 关联账号明细 ================= -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">RA</span><span class="sec-title">Related Accounts · 关联账号明细</span><span class="sec-sub">快照「Relations」页面的完整明细：Seller 为本店自身，各列为此账号在各关联维度上的命中情况。</span></div>
+      <div class="sec-rule"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>字段</th><th>快照值</th><th>字段讲解</th><th>判定</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Seller</strong></td><td class="mono">1254208327302</td><td>卖家客户 ID，本店自身</td><td><span class="pill pill-gray">—</span></td></tr>
+            <tr><td><strong>Name</strong></td><td>lijiahao / KAHOljh</td><td>账户名称 / 品牌显示名</td><td><span class="pill pill-gray">—</span></td></tr>
+            <tr><td><strong>Last Added Address</strong></td><td>Click to Show</td><td>最近添加的注册/办公地址；地址维度关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>Email（首列）</strong></td><td>Click to Show</td><td>注册/联系邮箱；邮箱维度关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>NSB</strong></td><td class="mono">£-15.11</td><td>卖家净余额（Net Seller Balance）：可结算余额，负值 = 欠亚马逊款项</td><td><span class="pill pill-yellow">负余额</span></td></tr>
+            <tr><td><strong>ACH</strong></td><td class="mono">0</td><td>美国 ACH 清算银行账户关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>CC</strong></td><td class="mono">0</td><td>信用卡关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>IBA</strong></td><td class="mono">0</td><td>国际银行账户关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>TaxID</strong></td><td class="mono">0</td><td>税务识别号关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>Email（次列）</strong></td><td class="mono">0</td><td>邮箱维度（次要口径）关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>Ubid</strong></td><td class="mono">0</td><td>平台内部用户标识（推断为买家/用户身份类 ID，0 = 无命中）</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>Fubid</strong></td><td class="mono">0</td><td>平台内部配送/履约侧用户标识（推断，0 = 无命中）</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>IP</strong></td><td class="mono">0</td><td>登录 IP 关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>FP</strong></td><td class="mono">0</td><td>设备指纹（Fingerprint）关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>R-PH</strong></td><td class="mono">0</td><td>注册电话（Registration Phone）关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>V-PH</strong></td><td class="mono">0</td><td>已验证电话（Verified Phone）关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+            <tr><td><strong>KYC</strong></td><td class="mono">0</td><td>KYC 资料（法人/证件/地址）关联命中</td><td><span class="pill pill-green">0 命中</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alert alert-blue" style="margin-top:14px">
+        <div class="at">账号状态速读</div>
+        <div class="ab">快照附加状态为「Normal - B，Blocked - M」：B = 购买（Buying）状态正常；M = 市场销售（Marketplace）状态被封锁。与卖家摘要页的 Buying Status / Marketplace Selling Status 完全对应。</div>
+      </div>
+    </section>
+
+    <!-- ================= KYC ================= -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">KYC</span><span class="sec-title">KYC 分析（Know Your Customer）</span><span class="pill pill-green">当前合规</span></div>
+      <div class="sec-rule"></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-h"><span class="card-t">KYC 是什么</span></div>
+          <div class="card-b"><p>KYC（了解你的客户）是欧盟/英国对卖家实施的强制身份核验：验证公司主体、法人身份、注册地址、银行账户等真实信息。英国站自 2023 年起对新注册卖家强制执行，未通过将限制付款与资料修改。</p><p style="margin-top:8px">KYC 状态直接关联：付款权限、资料修改权限、店铺可售状态。</p></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><span class="card-t">本店 KYC 事件复盘</span></div>
+          <div class="card-b">
+            <p>① <strong>2026-07-13（两次）</strong>：KYC 程序化风险命中 → 限制资料修改（RestrictProfileModification）。</p>
+            <p>② <strong>2026-07-14</strong>：SQA EU KYC 判定 <strong>Compliant</strong> → 解除限制（AllowProfileModification）。</p>
+            <p>③ 快照时点：KYC 合规、付款 Allow、关联表 KYC 维度 0 命中。</p>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-yellow" style="margin-top:14px">
+        <div class="at">分析点评</div>
+        <div class="ab">KYC 当前结论是合规，但「程序化风险」标记说明系统风控曾对资料产生质疑（常见诱因：信息不一致、主体画像异常、高频资料修改）。后续风险点：① 申诉期间任何资料变更可能触发复核；② KYC 复核若发现与执法信息矛盾，可能升级为付款限制。保持资料 100% 真实一致，是所有操作的前提。</div>
+      </div>
+    </section>
+
+    <!-- ================= 整改行动清单 ================= -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">ACTION</span><span class="sec-title">整改行动清单（Action Plan）</span><span class="sec-sub">按优先级排列，建议按序执行。</span></div>
+      <div class="sec-rule"></div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-h"><span class="card-t"><span class="pill pill-red" style="margin-right:8px">P0 紧急（24–48 小时）</span>止损与申诉启动</span></div>
+        <div class="card-b">
+          <p>① <strong>结清 NSB 负余额 £-15.11</strong>：卖家平台 → 付款 → 确认欠款构成（退款/费用），充值或绑定扣款方式结清，避免影响付款资格。</p>
+          <p>② <strong>启动 ABB 封锁争议流程</strong>：经「账户状况」页面确认争议入口，提交完整争议材料：说明评论来源与运营模式、承认或澄清违规事实、列明整改动作（终止测评/刷评渠道、清理异常评论、订单与供应链真实性证明、合规承诺）。首次提交材料务必完整。</p>
+          <p>③ <strong>立即停止一切评论相关外部操作</strong>：停用测评群、刷评服务商、站外返现诱导；暂停品牌下所有 ASIN 的评论获取活动，切断违规来源。</p>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-h"><span class="card-t"><span class="pill pill-yellow" style="margin-right:8px">P1 高（1 周内）</span>排查与防火</span></div>
+        <div class="card-b">
+          <p>④ <strong>全品牌评论排查</strong>：导出品牌所有 ASIN 评论明细，标记集中新增、无购买关联、模板化评论，形成自查报告备查。</p>
+          <p>⑤ <strong>关联防火</strong>：梳理品牌名下其他账号（权利所有者、子公司、供应商账号）与本店的共享信息，清理或隔离。</p>
+          <p>⑥ <strong>资料整改</strong>：网站从 outlook.com 改为真实企业官网；核对 KYC 资料（法人、地址、银行）与最新营业执照一致。</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h"><span class="card-t"><span class="pill pill-gray" style="margin-right:8px">P2 中（持续）</span>预案与防火墙</span></div>
+        <div class="card-b">
+          <p>⑦ <strong>申诉失败预案</strong>：若争议被驳回，评估品牌资产转移与新主体注册的可行性（注意资料、设备、IP 全隔离）。</p>
+          <p>⑧ <strong>运营防火墙</strong>：任何新账号使用全新 IP / 设备 / 资料，不共享任何信息；建立品牌下多账号的信息隔离制度。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 数据说明 ================= -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">DATA</span><span class="sec-title">数据说明与口径</span></div>
+      <div class="sec-rule"></div>
+      <div class="card">
+        <div class="card-b">
+          <p>① 本报告基于上传的体检快照 PDF（<strong>A1M8DNZNPUJSKP</strong>），包含：Seller Summary（卖家摘要）、Related Accounts（关联账号 · Relations 页）、操作日志（Annotations）三部分；数据提取时点 2026-08-20。</p>
+          <p>② 快照未提供的板块（Performance 明细、Customer Summary、Listings 明细、Orders、Feedback、Disputes 明细、Contacts 明细、Defect Visualization、Collision）已给出指标讲解，并以快照证据为基础进行推演分析，相关结论已在正文标注「待补充」。</p>
+          <p>③ Ubid / Fubid 字段语义为合理推断（平台内部标识类），最终口径以检测工具说明为准。</p>
+          <p>④ 综合健康度 35/100 为基于可观测维度的加权评分（口径见评分卡），供决策参考，不构成对解封结果的保证。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 参考资料 ================= -->
+    <section class="section reveal">
+      <div class="sec-head"><span class="sec-no">REF</span><span class="sec-title">参考资料</span></div>
+      <div class="sec-rule"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>资料</th><th>用途</th><th>链接</th></tr></thead>
+          <tbody>
+            <tr><td>卖家行为准则（Seller Code of Conduct）</td><td>ABB 执法依据：禁止操纵评论、禁止诱导买家</td><td><a href="https://sellercentral.amazon.co.uk/help/hub/reference/external/G200205250" target="_blank" rel="noopener">卖家行为准则 ↗</a></td></tr>
+            <tr><td>账户状况评级（Account Health Rating）</td><td>理解绩效与违规的评级口径</td><td><a href="https://sellercentral.amazon.co.uk/help/hub/reference/external/G200164690" target="_blank" rel="noopener">账户状况评级 ↗</a></td></tr>
+            <tr><td>欧盟卖家 KYC 要求</td><td>理解 UK 站强制身份核验流程</td><td><a href="https://sellercentral.amazon.co.uk/help/hub/reference/external/G200438140" target="_blank" rel="noopener">KYC 帮助页 ↗</a></td></tr>
+            <tr><td>卖家绩效指标</td><td>ODR、迟发率、追踪率等口径</td><td><a href="https://sellercentral.amazon.co.uk/help/hub/reference/external/G1791" target="_blank" rel="noopener">卖家绩效 ↗</a></td></tr>
+            <tr><td>卖家反馈（Feedback）</td><td>反馈评分与买家体验口径</td><td><a href="https://sellercentral.amazon.co.uk/help/hub/reference/external/G13" target="_blank" rel="noopener">卖家反馈 ↗</a></td></tr>
+            <tr><td>卖家中心帮助中心</td><td>申诉入口与政策原文查询</td><td><a href="https://sellercentral.amazon.co.uk/help/hub/home" target="_blank" rel="noopener">帮助中心 ↗</a></td></tr>
+            <tr><td>卖家平台联系与申诉入口</td><td>提交争议/申诉</td><td><a href="https://sellercentral.amazon.co.uk/cu/customer-contact-us" target="_blank" rel="noopener">联系卖家支持 ↗</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="blob b1"></div><div class="blob b2"></div>
+    <div class="foot-top">
+      <div class="foot-brand">亚马逊店铺全维度体检报告<span>AMAZON STORE HEALTH CHECK · A1M8DNZNPUJSKP</span></div>
+      <div class="foot-meta">
+        <div class="m"><b>体检对象</b>Seller 1254208327302 · APUK</div>
+        <div class="m"><b>报告时点</b>2026-08-20</div>
+        <div class="m"><b>总体判定</b>高风险（35 / 100）</div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span>数据来源：上传体检快照 PDF ｜ 部分板块数据待补充</span>
+      <span>Generated by <a href="https://allyhub.com" target="_blank" rel="noopener" style="color:inherit">AllyHub AI</a></span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* reading progress */
+const bar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const p = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+  bar.style.width = p + '%';
+}, {passive:true});
+
+/* reveal on scroll */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+}, {threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* progress bars */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('.fill').forEach(f => { f.style.width = f.dataset.w; });
+  }, 300);
+});
+
+/* ---------- charts ---------- */
+Chart.defaults.font.family = "'Inter Tight', sans-serif";
+Chart.defaults.color = '#717171';
+
+/* radar */
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['账户状态','执法记录','关联风险','KYC与付款','财务健康','资料质量'],
+    datasets: [
+      { label: '维度得分', data: [5,10,95,85,30,35], borderColor:'#6E9298', backgroundColor:'rgba(110,146,152,0.18)', pointBackgroundColor:'#6E9298', pointRadius:3, borderWidth:1.5 },
+      { label: '满分基准', data: [100,100,100,100,100,100], borderColor:'#C5C0BA', backgroundColor:'rgba(197,192,186,0.08)', pointRadius:0, borderWidth:1, borderDash:[4,4] }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display:false } },
+    scales: { r: { min:0, max:100, ticks:{ stepSize:25, font:{size:10} }, grid:{ color:'#E8E6E2' }, angleLines:{ color:'#E8E6E2' }, pointLabels:{ font:{size:11}, color:'#3D3D3D' } } }
+  }
+});
+
+/* donut */
+new Chart(document.getElementById('donutChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['高风险项','正常项','待关注项'],
+    datasets: [{ data: [3,7,3], backgroundColor:['#C4433A','#6E9298','#E47700'], borderWidth:0 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    cutout: '65%',
+    plugins: { legend: { display:false } }
+  }
+});
+
+/* bar */
+new Chart(document.getElementById('barChart'), {
+  type: 'bar',
+  data: {
+    labels: ['高风险','需关注','待补充','正常'],
+    datasets: [{ data: [4,2,3,2], backgroundColor:['#C4433A','#E47700','#9BADB0','#5E8F52'], borderRadius:6, barThickness: 42 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display:false } },
+    scales: {
+      x: { grid:{ display:false }, ticks:{ font:{size:12}, color:'#3D3D3D' } },
+      y: { beginAtZero:true, ticks:{ stepSize:1, font:{size:11} }, grid:{ color:'#E8E6E2' } }
+    }
+  }
+});
+</script>
+</body>
+</html>

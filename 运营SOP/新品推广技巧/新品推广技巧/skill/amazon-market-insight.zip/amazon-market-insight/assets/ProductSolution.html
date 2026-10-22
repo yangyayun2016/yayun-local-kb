@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>产品成功方案 | LUXEPET PRO × LynxAI</title>
+<style>
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-card: #111827;
+  --accent-gold: #f0c040;
+  --accent-blue: #4a9eff;
+  --accent-green: #22c55e;
+  --accent-red: #ef4444;
+  --accent-purple: #a855f7;
+  --accent-teal: #14b8a6;
+  --text-primary: #f0f4ff;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', system-ui, 'Microsoft YaHei', sans-serif;
+  background: var(--bg-primary); color: var(--text-secondary); line-height: 1.6;
+}
+.report-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,14,26,0.96); backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(240,192,64,0.15);
+  padding: 0.65rem 2rem; display: flex; gap: 0.5rem; align-items: center; overflow-x: auto;
+}
+.nav-brand { color: var(--accent-gold); font-weight: 700; font-size: 0.9rem; margin-right: 0.5rem; white-space: nowrap; }
+.nav-sep { color: var(--text-muted); }
+.nav-link { color: var(--text-secondary); text-decoration: none; font-size: 0.78rem;
+  padding: 0.3rem 0.75rem; border-radius: 20px; white-space: nowrap; transition: all 0.2s; }
+.nav-link:hover { color: var(--accent-gold); background: rgba(240,192,64,0.1); }
+
+/* COVER */
+.cover {
+  background: linear-gradient(135deg, #0f1a2e 0%, #0a0e1a 40%, #1a0f1a 100%);
+  padding: 5rem 3rem 4rem; text-align: center;
+  border-bottom: 1px solid rgba(240,192,64,0.15); position: relative; overflow: hidden;
+}
+.cover::before {
+  content: '🚀'; position: absolute; left: 4rem; top: 2rem; font-size: 10rem; opacity: 0.04;
+}
+.cover::after {
+  content: '✨'; position: absolute; right: 4rem; bottom: 2rem; font-size: 8rem; opacity: 0.04;
+}
+.brand-logo { font-size: 1.2rem; font-weight: 900; letter-spacing: 0.15em;
+  color: var(--accent-gold); margin-bottom: 0.5rem; }
+.brand-by { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 2.5rem; }
+.cover-title { font-size: 2.2rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem; }
+.cover-subtitle { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 2.5rem; }
+.cover-modules { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.module-card { padding: 1rem 1.5rem; border-radius: 10px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1); text-align: center; min-width: 120px; }
+.module-num { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+.module-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+
+/* SCHEME DIVIDER */
+.scheme-divider {
+  background: linear-gradient(135deg, #1a1a0a 0%, #0a0e1a 50%, #0a1a0a 100%);
+  padding: 2rem 3rem; border-top: 1px solid rgba(240,192,64,0.1);
+  border-bottom: 1px solid rgba(240,192,64,0.1);
+}
+.scheme-badge { display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.4rem 1.2rem; border-radius: 24px; font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.05em; }
+.scheme-a { background: rgba(74,158,255,0.12); border: 1px solid rgba(74,158,255,0.3); color: var(--accent-blue); }
+.scheme-b { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.3); color: var(--accent-purple); }
+.scheme-c { background: rgba(240,192,64,0.12); border: 1px solid rgba(240,192,64,0.3); color: var(--accent-gold); }
+.scheme-title { font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-top: 0.8rem; }
+.scheme-sub { font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.3rem; }
+
+/* SECTION */
+.section { padding: 2.5rem 3rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.section-title { font-size: 1.1rem; font-weight: 700; color: var(--accent-gold);
+  margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
+.section-title::before { content: ''; display: block; width: 4px; height: 1.1em;
+  background: var(--accent-gold); border-radius: 2px; }
+
+/* CARDS */
+.card { background: var(--bg-card); border: 1px solid rgba(240,192,64,0.08);
+  border-radius: 12px; padding: 1.4rem; }
+.card-gold   { border-top: 3px solid var(--accent-gold); }
+.card-blue   { border-top: 3px solid var(--accent-blue); }
+.card-green  { border-top: 3px solid var(--accent-green); }
+.card-purple { border-top: 3px solid var(--accent-purple); }
+.card-teal   { border-top: 3px solid var(--accent-teal); }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+.grid-5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 0.8rem; }
+
+.badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+.badge-gold   { background: rgba(240,192,64,0.15);  color: var(--accent-gold); }
+.badge-blue   { background: rgba(74,158,255,0.15);  color: var(--accent-blue); }
+.badge-green  { background: rgba(34,197,94,0.15);   color: var(--accent-green); }
+.badge-purple { background: rgba(168,85,247,0.15);  color: var(--accent-purple); }
+.badge-gray   { background: rgba(71,85,105,0.3);    color: var(--text-muted); }
+
+/* VALUE PROP */
+.vp-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.8rem; margin-top:1rem; }
+.vp-item { padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06); text-align: center; }
+.vp-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+.vp-dim { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+.vp-val { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+
+/* INNOVATION LEVERS */
+.lever-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.8rem; }
+.lever-item { padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02); }
+.lever-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 700;
+  letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+.lever-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.lever-tag { font-size: 0.72rem; padding: 2px 8px; border-radius: 4px;
+  background: rgba(240,192,64,0.08); color: var(--text-secondary); }
+
+/* PERSONA MINI */
+.persona-mini { padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 10px; }
+.pm-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
+.pm-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); }
+.pm-scale { font-size: 1.3rem; font-weight: 800; color: var(--accent-gold); }
+.pm-scale-label { font-size: 0.65rem; color: var(--text-muted); }
+.pm-table { width: 100%; font-size: 0.76rem; border-collapse: collapse; }
+.pm-table td { padding: 0.3rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.pm-table td:first-child { color: var(--text-muted); width: 80px; }
+.pm-table td:last-child { color: var(--text-secondary); }
+
+/* JTBD TABLE */
+.jtbd-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.jtbd-table th { background: rgba(240,192,64,0.06); color: var(--accent-gold);
+  padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; }
+.jtbd-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-secondary); }
+.jtbd-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+.kano-d { color: var(--accent-gold); font-weight: 600; }
+.kano-e { color: var(--accent-blue); }
+.kano-b { color: var(--text-muted); }
+
+/* JOURNEY */
+.journey-steps { display: grid; grid-template-columns: repeat(6,1fr); gap: 0.5rem; }
+.journey-step { padding: 0.8rem; border-radius: 8px; background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06); font-size: 0.75rem; }
+.js-num { font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+.js-title { font-size: 0.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+.js-channel { font-size: 0.68rem; color: var(--accent-blue); margin-bottom: 0.3rem; }
+.js-body { color: var(--text-secondary); line-height: 1.5; }
+
+/* PROOF / ARGS */
+.arg-card { padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02);
+  border-left: 3px solid var(--accent-gold); margin-bottom: 0.8rem; }
+.arg-title { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem; }
+.arg-table { width: 100%; font-size: 0.76rem; border-collapse: collapse; }
+.arg-table td { padding: 0.3rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.arg-table td:first-child { color: var(--text-secondary); }
+.arg-table td:last-child { color: var(--text-primary); font-weight: 600; text-align: right; }
+
+/* PRICING */
+.price-opts { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom:1rem; }
+.price-opt { flex: 1; min-width: 140px; padding: 1.2rem; border-radius: 10px; text-align: center;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
+.price-opt.featured { background: rgba(240,192,64,0.06); border-color: rgba(240,192,64,0.3); }
+.po-label { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+.po-price { font-size: 1.8rem; font-weight: 800; color: var(--accent-gold); }
+.po-note  { font-size: 0.72rem; color: var(--text-secondary); margin-top: 0.3rem; }
+
+/* BOM TABLE */
+.bom-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.bom-table th { background: rgba(34,197,94,0.07); color: var(--accent-green);
+  padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; }
+.bom-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-secondary); }
+.bom-total { font-weight: 700; color: var(--text-primary); }
+.bom-highlight { color: var(--accent-green); font-weight: 700; }
+
+/* FORECAST */
+.forecast-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.8rem; margin-bottom:1rem; }
+.fc-card { padding: 1rem; text-align: center; background: rgba(255,255,255,0.03);
+  border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); }
+.fc-phase { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.2rem; }
+.fc-share { font-size: 1.4rem; font-weight: 800; }
+.fc-share.rising { color: var(--accent-green); }
+.fc-share.peak   { color: var(--accent-gold); }
+.fc-note { font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.2rem; }
+
+.kpi-row { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.kpi-item { text-align: center; padding: 0.8rem 1.2rem; background: rgba(255,255,255,0.03);
+  border-radius: 8px; }
+.kpi-val { font-size: 1.5rem; font-weight: 800; color: var(--accent-gold); }
+.kpi-label { font-size: 0.72rem; color: var(--text-muted); }
+
+/* GTM */
+.channel-row { padding: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.ch-label { font-size: 0.7rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 0.2rem; }
+.ch-body  { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+
+.story-card { padding: 1rem; border-radius: 8px; margin-bottom: 0.7rem;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+.sc-title { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+.sc-body  { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+.sc-hook  { font-size: 0.78rem; color: var(--accent-gold); font-style: italic; margin-top: 0.3rem; }
+
+/* PHASE */
+.phase-cards { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.phase-card { flex: 1; min-width: 150px; padding: 1rem; border-radius: 8px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
+.pc-phase { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+.pc-name  { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+.pc-body  { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* MESSAGE HOUSE */
+.msg-house { background: linear-gradient(135deg, rgba(240,192,64,0.05), rgba(11,14,26,0.95));
+  border: 1px solid rgba(240,192,64,0.15); border-radius: 12px; padding: 1.5rem; }
+.mh-hook { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+.mh-pitch { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.7; }
+.mh-rtb { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.rtb-item { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem;
+  background: rgba(240,192,64,0.08); border: 1px solid rgba(240,192,64,0.15); color: var(--text-secondary); }
+
+/* SUCCESS METRICS */
+.sm-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.sm-table th { background: rgba(34,197,94,0.06); color: var(--accent-green);
+  padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; }
+.sm-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-secondary); }
+.sm-kpi { color: var(--accent-gold); font-weight: 700; }
+
+/* RISK TABLE */
+.risk-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.risk-table th { background: rgba(239,68,68,0.07); color: #f87171;
+  padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; }
+.risk-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-secondary); }
+.risk-low  { color: var(--accent-green); }
+.risk-mid  { color: var(--accent-gold); }
+.risk-high { color: var(--accent-red); }
+
+.report-footer { padding: 2rem 3rem; text-align: center; font-size: 0.75rem; color: var(--text-muted); }
+
+@media(max-width:768px){
+  .section{ padding: 1.5rem; }
+  .grid-2,.grid-3,.grid-4,.grid-5{ grid-template-columns:1fr; }
+  .vp-grid,.lever-grid,.journey-steps,.forecast-grid{ grid-template-columns:repeat(2,1fr); }
+  .journey-steps{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="report-nav">
+  <span class="nav-brand">LUXEPET PRO</span>
+  <span class="nav-sep">·</span>
+  <a href="#scheme-a" class="nav-link">方案A Essential</a>
+  <a href="#scheme-b" class="nav-link">方案B Pro</a>
+  <a href="#scheme-c" class="nav-link">方案C Designer</a>
+</nav>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="brand-logo">LUXEPET PRO</div>
+  <div class="brand-by">by LynxAI Strategic Output &nbsp;·&nbsp; Amazon {{市场}} Market</div>
+  <h1 class="cover-title">单品成功策略</h1>
+  <p class="cover-subtitle">{{品类}} — 针对单一产品的市场成功策略，从产品定义、市场定位到商业落地的全链路解决方案</p>
+  <div class="cover-modules">
+    <div class="module-card">
+      <div class="module-num">01 FRAMEWORK</div>
+      <div class="module-name">产品重新定义框架</div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">02 PERSONA</div>
+      <div class="module-name">目标人群精准画像</div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">03 JTBD</div>
+      <div class="module-name">Jobs-to-be-Done 映射</div>
+    </div>
+    <div class="module-card">
+      <div class="module-num">04 KANO</div>
+      <div class="module-name">KANO 需求分析矩阵</div>
+    </div>
+    <div class="module-card" style="border-color:rgba(240,192,64,0.3)">
+      <div class="module-num">★ ARGUMENTS</div>
+      <div class="module-name">成功论证逻辑</div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+     SCHEME A — ESSENTIAL "实用革新者"
+============================================= -->
+<div class="scheme-divider" id="scheme-a">
+  <span class="scheme-badge scheme-a">SCHEME A</span>
+  <div class="scheme-title">方案A — {{品牌}}Essential "实用革新者"</div>
+  <div class="scheme-sub">单品机会 · 中端市场 · 极致功能效率 · 性价比突破</div>
+</div>
+
+<!-- Section 01: 产品定义 -->
+<section class="section" id="scheme-a-def">
+  <div class="section-title">01 产品定义</div>
+  <div style="font-size:1rem;font-style:italic;color:var(--text-primary);line-height:1.8;margin-bottom:1.5rem;padding:1rem;background:rgba(240,192,64,0.04);border-radius:8px;border-left:3px solid var(--accent-gold)">
+    "{{产品定义核心宣言。将产品定位为超越功能的价值承诺，用一段话说明它解决了什么更深层的问题，带来的是什么生活改变。}}"
+  </div>
+
+  <!-- 价值主张表 -->
+  <div class="grid-2">
+    <div class="card card-gold">
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">核心价值主张</div>
+      <div class="vp-grid" style="grid-template-columns:1fr 1fr">
+        <div class="vp-item"><div class="vp-icon">⏱️</div><div class="vp-dim">{{价值维度1}}</div><div class="vp-val">{{具体承诺1}}</div></div>
+        <div class="vp-item"><div class="vp-icon">🧹</div><div class="vp-dim">{{价值维度2}}</div><div class="vp-val">{{具体承诺2}}</div></div>
+        <div class="vp-item"><div class="vp-icon">🔇</div><div class="vp-dim">{{价值维度3}}</div><div class="vp-val">{{具体承诺3}}</div></div>
+        <div class="vp-item"><div class="vp-icon">📱</div><div class="vp-dim">{{价值维度4}}</div><div class="vp-val">{{具体承诺4}}</div></div>
+      </div>
+    </div>
+    <div class="card card-blue">
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">创新定位（LynxAI 方法论）</div>
+      <div style="margin-bottom:0.8rem">
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.4rem">战略机会 (WHY)</div>
+        <ul style="list-style:none;font-size:0.8rem;color:var(--text-secondary)">
+          <li style="padding:0.2rem 0">• {{机会点1}}</li>
+          <li style="padding:0.2rem 0">• {{机会点2}}</li>
+          <li style="padding:0.2rem 0">• {{目标：N个月内市场目标}}</li>
+        </ul>
+      </div>
+      <div class="lever-grid" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="lever-item">
+          <div class="lever-label">形态结构</div>
+          <div class="lever-tags"><span class="lever-tag">{{特征1}}</span><span class="lever-tag">{{特征2}}</span></div>
+        </div>
+        <div class="lever-item">
+          <div class="lever-label">CMF设计</div>
+          <div class="lever-tags"><span class="lever-tag">{{设计语言}}</span></div>
+        </div>
+        <div class="lever-item">
+          <div class="lever-label">智能技术</div>
+          <div class="lever-tags"><span class="lever-tag">{{技术特征}}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: 人群画像 -->
+<section class="section" id="scheme-a-persona">
+  <div class="section-title">02 目标人群精准画像</div>
+  <div class="grid-2">
+    <div class="persona-mini">
+      <div class="pm-head">
+        <div>
+          <div class="pm-title">{{人群名称}}</div>
+          <span class="badge badge-blue" style="margin-top:0.3rem">Primary Target</span>
+        </div>
+        <div style="text-align:right">
+          <div class="pm-scale">{{规模}}万</div>
+          <div class="pm-scale-label">目标家庭规模</div>
+        </div>
+      </div>
+      <table class="pm-table">
+        <tr><td>居住环境</td><td>{{居住环境描述}}</td></tr>
+        <tr><td>家庭收入</td><td>{{收入区间}}</td></tr>
+        <tr><td>生活状态</td><td>{{生活状态描述}}</td></tr>
+        <tr><td>核心痛点</td><td>{{核心痛点}}</td></tr>
+        <tr><td>购买触发</td><td>"{{购买触发语录}}" ({{N%}}用户心理)</td></tr>
+      </table>
+    </div>
+    <div class="card card-teal">
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">市场真实数据</div>
+      <div class="grid-2">
+        <div style="text-align:center;padding:0.8rem;background:rgba(255,255,255,0.02);border-radius:6px">
+          <div style="font-size:1.3rem;font-weight:800;color:var(--accent-teal)">{{847K}}</div>
+          <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.2rem">月搜索量 "{{主关键词}}"</div>
+        </div>
+        <div style="text-align:center;padding:0.8rem;background:rgba(255,255,255,0.02);border-radius:6px">
+          <div style="font-size:1.3rem;font-weight:800;color:var(--accent-red)">€{{380}}</div>
+          <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.2rem">竞品平均价格 · 满意度仅{{3.3}}/5星</div>
+        </div>
+        <div style="text-align:center;padding:0.8rem;background:rgba(255,255,255,0.02);border-radius:6px">
+          <div style="font-size:1.3rem;font-weight:800;color:var(--accent-orange)">{{14%}}</div>
+          <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.2rem">竞品退货率</div>
+        </div>
+        <div style="text-align:center;padding:0.8rem;background:rgba(34,197,94,0.06);border-radius:6px;border:1px solid rgba(34,197,94,0.15)">
+          <div style="font-size:1.3rem;font-weight:800;color:var(--accent-green)">€{{200-300}}</div>
+          <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.2rem">甜蜜价格带 · 机会窗口</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: JTBD -->
+<section class="section" id="scheme-a-jtbd">
+  <div class="section-title">03 待办任务重新定义 (JTBD)</div>
+  <div style="overflow-x:auto;border-radius:8px">
+    <table class="jtbd-table" style="min-width:800px">
+      <thead>
+        <tr>
+          <th>任务</th>
+          <th>功能诉求</th>
+          <th>情感诉求</th>
+          <th>KANO分类</th>
+          <th>关键时刻</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:var(--text-primary)">{{任务1名称}}</td>
+          <td>{{功能诉求1}}</td>
+          <td>{{情感诉求1}}</td>
+          <td><span class="kano-e">期望需求</span></td>
+          <td style="font-size:0.72rem">{{关键时刻描述1}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text-primary)">{{任务2名称}}</td>
+          <td>{{功能诉求2}}</td>
+          <td>{{情感诉求2}}</td>
+          <td><span class="kano-d">魅力需求</span></td>
+          <td style="font-size:0.72rem">{{关键时刻描述2}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text-primary)">{{任务3名称}}</td>
+          <td>{{功能诉求3}}</td>
+          <td>{{情感诉求3}}</td>
+          <td><span class="kano-b">基础需求</span></td>
+          <td style="font-size:0.72rem">{{关键时刻描述3}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text-primary)">{{任务4名称}}</td>
+          <td>{{功能诉求4}}</td>
+          <td>{{情感诉求4}}</td>
+          <td><span class="kano-d">魅力需求</span></td>
+          <td style="font-size:0.72rem">{{关键时刻描述4}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Section: 用户旅程 -->
+<section class="section" id="scheme-a-journey">
+  <div class="section-title">04 用户旅程关键触点 (SoLoMo)</div>
+  <div class="journey-steps">
+    <div class="journey-step">
+      <div class="js-num">阶段 1</div>
+      <div class="js-title">动机激发</div>
+      <div class="js-channel">[Local] {{触达渠道}}</div>
+      <div class="js-body">{{该阶段用户的典型触发场景，用第一人称叙述，描述真实的"最坏时刻"触发点。}}</div>
+    </div>
+    <div class="journey-step">
+      <div class="js-num">阶段 2</div>
+      <div class="js-title">信息搜索</div>
+      <div class="js-channel">[Mobile] {{搜索渠道}}</div>
+      <div class="js-body">{{用户搜索行为，倾向点击哪类内容，关键词偏好。}}</div>
+    </div>
+    <div class="journey-step">
+      <div class="js-num">阶段 3</div>
+      <div class="js-title">评估对比</div>
+      <div class="js-channel">[Mobile] {{评估渠道}}</div>
+      <div class="js-body">{{用户如何对比竞品，什么数据点让他们产生好感，什么让他们担忧。}}</div>
+    </div>
+    <div class="journey-step">
+      <div class="js-num">阶段 4</div>
+      <div class="js-title">购买决策</div>
+      <div class="js-channel">[Mobile] {{购买平台}}</div>
+      <div class="js-body">{{促使最终下单的关键条件：价格锚点/退货政策/保修条款。}}</div>
+    </div>
+    <div class="journey-step">
+      <div class="js-num">阶段 5</div>
+      <div class="js-title">满意体验</div>
+      <div class="js-channel">[Local] {{体验场景}}</div>
+      <div class="js-body">{{产品承诺兑现的关键时刻，描述用户感受到价值的具体瞬间。}}</div>
+    </div>
+    <div class="journey-step">
+      <div class="js-num">阶段 6</div>
+      <div class="js-title">分享传导</div>
+      <div class="js-channel">[Social] {{传播渠道}}</div>
+      <div class="js-body">{{用户主动推荐的场景，口碑传播的自然触点。}}</div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: 成功论证 -->
+<section class="section" id="scheme-a-proof">
+  <div class="section-title">★ 成功论证 (Solid Arguments)</div>
+  <div class="arg-card">
+    <div class="arg-title">论据1：{{论据标题}}</div>
+    <table class="arg-table">
+      <tr><td>{{指标1}}</td><td>{{数据1}}</td></tr>
+      <tr><td>{{指标2}}</td><td>{{数据2}}</td></tr>
+      <tr><td>{{指标3}}</td><td>{{数据3}}</td></tr>
+    </table>
+  </div>
+  <div class="arg-card">
+    <div class="arg-title">论据2：{{论据标题}}</div>
+    <table class="arg-table">
+      <tr><td>{{指标1}}</td><td>{{数据1}}</td></tr>
+      <tr><td>{{指标2}}</td><td>{{数据2}}</td></tr>
+    </table>
+  </div>
+  <div class="arg-card">
+    <div class="arg-title">论据3：{{论据标题}}</div>
+    <table class="arg-table">
+      <tr><td>{{指标1}}</td><td>{{数据1}}</td></tr>
+      <tr><td>{{指标2}}</td><td>{{数据2}}</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Section 02: 市场进入策略 -->
+<section class="section" id="scheme-a-entry">
+  <div class="section-title">05 市场进入策略 (Market Entry Strategy)</div>
+  <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:1rem">定价策略</div>
+  <div class="price-opts">
+    <div class="price-opt">
+      <div class="po-label">制造商建议零售价</div>
+      <div class="po-price">{{$249}}</div>
+      <div class="po-note">基准价</div>
+    </div>
+    <div class="price-opt featured">
+      <div class="po-label">电商平台价</div>
+      <div class="po-price">{{$249}}</div>
+      <div class="po-note">核心战场价</div>
+    </div>
+    <div class="price-opt">
+      <div class="po-label">VIP会员价</div>
+      <div class="po-price">{{$229}}</div>
+      <div class="po-note">+延保服务</div>
+    </div>
+  </div>
+  <div style="padding:1rem;background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.15);border-radius:8px;font-size:0.83rem;color:var(--text-secondary)">
+    💡 价格优势：比竞品平均便宜 <strong style="color:var(--accent-green)">{{49%}}</strong>，预计市场渗透率提升 <strong style="color:var(--accent-green)">{{280%}}</strong>
+  </div>
+</section>
+
+<!-- Section 03: 产品实现 -->
+<section class="section" id="scheme-a-product">
+  <div class="section-title">06 产品实现方案 (Product Realization)</div>
+  <div class="grid-2">
+    <div>
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">设计语言</div>
+      <table class="bom-table">
+        <tr><td>设计哲学</td><td>{{设计哲学描述}}</td></tr>
+        <tr><td>形态</td><td>{{外形描述 + 尺寸}}</td></tr>
+        <tr><td>主体材质</td><td>{{材质规格}}</td></tr>
+        <tr><td>核心工艺</td><td>{{工艺标准}}</td></tr>
+      </table>
+    </div>
+    <div>
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">总成本结构 (目标毛利 {{27%}})</div>
+      <table class="bom-table">
+        <thead><tr><th>成本项目</th><th>金额</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>核心BOM</td><td>{{€156}}</td><td>原材料±5%波动</td></tr>
+          <tr><td>制造/组装</td><td>{{€12}}</td><td>国内代工</td></tr>
+          <tr><td>逆向物流</td><td>{{€6}}</td><td>8-10%退货率</td></tr>
+          <tr><td>售后服务</td><td>{{€4}}</td><td>3年质保</td></tr>
+          <tr><td>总成本</td><td class="bom-total">{{€183}}</td><td>-</td></tr>
+          <tr><td>零售价</td><td>{{€249.99}}</td><td>-</td></tr>
+          <tr><td>毛利</td><td class="bom-highlight">{{€67}} ({{27%}})</td><td>目标达成 ✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Section 04: 商业可行性 -->
+<section class="section" id="scheme-a-biz">
+  <div class="section-title">07 商业可行性分析 (Business Viability)</div>
+
+  <!-- 市场份额预测 -->
+  <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">{{12}}个月市场份额预测</div>
+  <div class="forecast-grid" style="margin-bottom:1.5rem">
+    <div class="fc-card">
+      <div class="fc-phase">Q1 产品上市期</div>
+      <div class="fc-share rising">{{2.0-2.6%}}</div>
+      <div class="fc-note">品牌认知建立期</div>
+    </div>
+    <div class="fc-card">
+      <div class="fc-phase">Q2 市场加速期</div>
+      <div class="fc-share rising">{{8.0-9.4%}}</div>
+      <div class="fc-note">口碑传播期</div>
+    </div>
+    <div class="fc-card">
+      <div class="fc-phase">Q3 品牌爆发期</div>
+      <div class="fc-share rising">{{14.2-16.2%}}</div>
+      <div class="fc-note">规模化扩张期</div>
+    </div>
+    <div class="fc-card" style="border-color:rgba(240,192,64,0.3)">
+      <div class="fc-phase">Q4 市场主导期</div>
+      <div class="fc-share peak">{{22.5-25.1%}}</div>
+      <div class="fc-note">品牌领导地位确立</div>
+    </div>
+  </div>
+
+  <!-- KPI 一行 -->
+  <div class="kpi-row" style="margin-bottom:1.5rem">
+    <div class="kpi-item">
+      <div class="kpi-val">{{28,500}}</div>
+      <div class="kpi-label">年度销量目标（台）</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-val">{{€5.9-7.8M}}</div>
+      <div class="kpi-label">销售收入</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-val">{{27%}}</div>
+      <div class="kpi-label">毛利率</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-val">{{133-175%}}</div>
+      <div class="kpi-label">12个月ROI</div>
+    </div>
+  </div>
+
+  <!-- LTV/CAC -->
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="card card-green">
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">客户获取成本 (CAC)</div>
+      <table class="bom-table">
+        <tr><td>数字营销</td><td>{{€105-125}}</td></tr>
+        <tr><td>传统渠道佣金</td><td>{{€35-45}}</td></tr>
+        <tr><td>综合CAC</td><td class="bom-total">{{€155-190}}</td></tr>
+      </table>
+    </div>
+    <div class="card card-green">
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">客户生命周期价值 (LTV)</div>
+      <table class="bom-table">
+        <tr><td>设备首购毛利</td><td>{{€67}}</td></tr>
+        <tr><td>耗材年复购</td><td>{{€85-95}}</td></tr>
+        <tr><td>36个月LTV</td><td class="bom-total">{{€260-330}}</td></tr>
+        <tr><td>LTV/CAC比率</td><td class="bom-highlight">{{1.4-2.1}}</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 风险矩阵 -->
+  <div style="overflow-x:auto;border-radius:8px">
+    <table class="risk-table" style="min-width:600px">
+      <thead><tr><th>风险类型</th><th>概率</th><th>风险描述</th><th>应对策略</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>市场风险</td>
+          <td class="risk-low">{{15%}}</td>
+          <td>{{竞品价格战，供应链波动}}</td>
+          <td style="font-size:0.75rem">{{应对策略描述}}</td>
+        </tr>
+        <tr>
+          <td>技术风险</td>
+          <td class="risk-low">{{8%}}</td>
+          <td>{{产品可靠性，用户体验问题}}</td>
+          <td style="font-size:0.75rem">{{应对策略描述}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Section 05: GTM -->
+<section class="section" id="scheme-a-gtm">
+  <div class="section-title">08 推广营销策略 (Go-to-Market)</div>
+
+  <!-- Message House -->
+  <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">Product Message House</div>
+  <div class="msg-house" style="margin-bottom:1.5rem">
+    <div class="mh-hook">Core Hook: "{{核心钩子文案}}"</div>
+    <div class="mh-pitch">{{Elevator Pitch：用1-2段话说明这个产品是什么、为谁服务、为什么值得信任，用具体数字和生活场景讲清楚。}}</div>
+    <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.5rem">🛡️ Reason to Believe:</div>
+    <div class="mh-rtb">
+      <span class="rtb-item">✅ {{信任背书1}}</span>
+      <span class="rtb-item">🔇 {{信任背书2}}</span>
+      <span class="rtb-item">💰 {{信任背书3}}</span>
+    </div>
+  </div>
+
+  <!-- 渠道策略 -->
+  <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">精准渠道策略</div>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:1.5rem">
+    <div class="channel-row">
+      <div class="ch-label">📱 Mobile — 搜索拦截</div>
+      <div class="ch-body">{{移动端渠道策略：具体关键词投放策略，避开什么词，聚焦什么痛点词}}</div>
+    </div>
+    <div class="channel-row">
+      <div class="ch-label">📺 Social — 视频背书</div>
+      <div class="ch-body">{{社交媒体策略：KOL类型选择，内容形式要求，必须呈现的核心信息点}}</div>
+    </div>
+    <div class="channel-row">
+      <div class="ch-label">🏪 Local — 线下触点</div>
+      <div class="ch-body">{{线下渠道策略：合作渠道，店内展示形式，销售话术要点}}</div>
+    </div>
+  </div>
+
+  <!-- 故事仓 -->
+  <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">故事仓 (Story Warehouse)</div>
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="story-card">
+      <div class="sc-title">《{{故事1标题}}》</div>
+      <div class="sc-body">{{故事1场景描述：核心转折，情绪对比，用户心理变化。}}</div>
+      <div class="sc-hook">"{{故事钩子文案}}"</div>
+    </div>
+    <div class="story-card">
+      <div class="sc-title">《{{故事2标题}}》</div>
+      <div class="sc-body">{{故事2场景描述}}</div>
+      <div class="sc-hook">"{{故事钩子文案}}"</div>
+    </div>
+  </div>
+
+  <!-- 发布节奏 -->
+  <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">Launch Rhythm (发布节奏)</div>
+  <div class="phase-cards" style="margin-bottom:1.5rem">
+    <div class="phase-card">
+      <div class="pc-phase">Phase 1 (M1-M3)</div>
+      <div class="pc-name">{{平台独占期}}</div>
+      <div class="pc-body">{{阶段1重点工作：冲榜、积累评论、建立信任基石}}</div>
+    </div>
+    <div class="phase-card">
+      <div class="pc-phase">Phase 2 (M4-M6)</div>
+      <div class="pc-name">{{线下铺货期}}</div>
+      <div class="pc-body">{{阶段2重点工作：凭在线数据拓展线下渠道}}</div>
+    </div>
+  </div>
+
+  <!-- 成功指标 -->
+  <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">Success Metrics (成功指标)</div>
+  <table class="sm-table">
+    <thead><tr><th>指标维度</th><th>目标值 (KPI)</th><th>对标竞品情况</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>获客成本 (CAC)</td>
+        <td class="sm-kpi">控制在 {{€40}} 以内</td>
+        <td style="font-size:0.75rem;color:var(--text-muted)">行业平均 {{€55-60}}</td>
+      </tr>
+      <tr>
+        <td>平台 BSR 排名</td>
+        <td class="sm-kpi">类目前 {{5}}</td>
+        <td style="font-size:0.75rem;color:var(--text-muted)">-</td>
+      </tr>
+      <tr>
+        <td>退货率</td>
+        <td class="sm-kpi">压低至 {{10%}} 以下</td>
+        <td style="font-size:0.75rem;color:var(--text-muted)">竞品普遍 {{14-34%}}</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- =============================================
+     SCHEME B — PRO "智能守护者" (简化版结构占位)
+============================================= -->
+<div class="scheme-divider" id="scheme-b">
+  <span class="scheme-badge scheme-b">SCHEME B</span>
+  <div class="scheme-title">方案B — {{品牌}}Pro "智能守护者"</div>
+  <div class="scheme-sub">单品机会 · 高端技术 · AI/数据服务 · 认证壁垒</div>
+</div>
+
+<section class="section">
+  <div style="padding:2rem;text-align:center;background:rgba(168,85,247,0.04);border-radius:12px;border:1px dashed rgba(168,85,247,0.2)">
+    <div style="font-size:1rem;color:var(--accent-purple);font-weight:600;margin-bottom:0.5rem">方案B — Pro "智能守护者"</div>
+    <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">
+      本方案针对<strong style="color:var(--text-primary)">高端技术型用户</strong>，定价区间 <strong style="color:var(--accent-purple)">€399-599</strong>，
+      以 AI 健康监测、医疗级认证（TÜV）、GDPR 数据合规为核心差异化优势。<br><br>
+      包含：AI诊断系统 / 专业渠道（兽医/科技媒体）/ 订阅服务 (€9.9/月) / 兽医系统对接 API<br><br>
+      <span style="color:var(--text-muted);font-size:0.78rem">※ 完整方案B结构同方案A，按需展开。AI 执行时自动填充所有 {{模板变量}}。</span>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     SCHEME C — DESIGNER "美学典藏" (简化版结构占位)
+============================================= -->
+<div class="scheme-divider" id="scheme-c">
+  <span class="scheme-badge scheme-c">SCHEME C</span>
+  <div class="scheme-title">方案C — {{品牌}}Designer "美学典藏"</div>
+  <div class="scheme-sub">单品机会 · 奢华定位 · 设计溢价 · 社交符号</div>
+</div>
+
+<section class="section">
+  <div style="padding:2rem;text-align:center;background:rgba(240,192,64,0.04);border-radius:12px;border:1px dashed rgba(240,192,64,0.2)">
+    <div style="font-size:1rem;color:var(--accent-gold);font-weight:600;margin-bottom:0.5rem">方案C — Designer "美学典藏"</div>
+    <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">
+      本方案针对<strong style="color:var(--text-primary)">生活方式型高端用户</strong>，定价区间 <strong style="color:var(--accent-gold)">€699-999</strong>，
+      以包豪斯美学设计、限量发售、设计师签名为核心差异化策略。<br><br>
+      渠道：Instagram/Pinterest 视觉霸权 / 高端家居展厅 / Drop Model 限量抽签<br><br>
+      <span style="color:var(--text-muted);font-size:0.78rem">※ 完整方案C结构同方案A，按需展开。AI 执行时自动填充所有 {{模板变量}}。</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="report-footer">
+  <div>🚀 ProductSolution Report — LUXEPET PRO · Powered by StoreClaw × LynxAI</div>
+  <div style="margin-top:0.3rem">本报告为三方案产品成功策略框架，BOM成本/销量/ROI 为模型估算值，需结合实际供应链数据校正</div>
+  <div style="margin-top:0.3rem">LUXEPET PRO 为品牌命名示例，卖家可替换为自有品牌，报告框架不变</div>
+</footer>
+
+</body>
+</html>

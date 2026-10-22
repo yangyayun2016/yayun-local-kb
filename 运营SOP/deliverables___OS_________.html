@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>天机OS · 四大看板设计蓝图</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Noto+Serif:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF; --border:#E8E6E2; --divider:#C5C0BA;
+  --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+  --hero-bg:#DEE5F7; --hero-deco:#A3AEEE; --hero-deco2:#7F8FE0;
+  --success-bg:#E8FBCF; --success-fg:#3D4826;
+  --warning-bg:#FFF0DC; --warning-fg:#E47700;
+  --info-bg:#DEE5F7; --info-fg:#3E54CE;
+  --error-bg:#FDECEA; --error-fg:#C4433A;
+  --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--outer-bg);color:var(--text-body);font-family:'Inter Tight',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;font-size:14px;line-height:1.62;padding:24px;-webkit-font-smoothing:antialiased}
+.page{max-width:1200px;margin:0 auto;background:var(--page-bg);border-radius:24px;overflow:hidden}
+.hero{background:var(--hero-bg);padding:42px 48px 36px;position:relative;overflow:hidden}
+.blob{position:absolute;opacity:.18;pointer-events:none}
+.b1{width:320px;height:250px;background:var(--hero-deco);top:-90px;right:8%;border-radius:58% 42% 46% 54%/48% 52% 48% 52%}
+.b2{width:240px;height:200px;background:var(--hero-deco2);bottom:-80px;left:22%;border-radius:45% 55% 60% 40%/55% 45% 55% 45%}
+.b3{width:170px;height:150px;background:var(--hero-deco);top:30px;left:-50px;border-radius:50% 50% 42% 58%/42% 58% 50% 50%}
+.hero-content{position:relative;z-index:1}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#3E54CE;margin-bottom:12px}
+h1{font-size:31px;line-height:1.28;font-weight:600;color:var(--text-primary);letter-spacing:-.01em}
+.hero p.sub{font-size:13.5px;color:#41485C;margin-top:10px;max-width:760px}
+.hairline{height:1px;background:#FFF;opacity:.7;margin:20px 0 16px}
+.statrow{display:flex;flex-wrap:wrap;gap:34px}
+.statrow div span{display:block}
+.statrow .v{font-family:'Noto Serif',serif;font-size:22px;font-weight:500;color:var(--text-primary);letter-spacing:-.02em}
+.statrow .l{font-size:11px;color:#4A5266;margin-top:2px}
+main{padding:0 48px 8px}
+section{margin:38px 0 0}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;border-bottom:.5px solid var(--border);padding-bottom:9px;margin-bottom:16px}
+h2{font-size:17px;font-weight:600;color:var(--text-primary)}
+h2 em{font-style:normal;color:var(--info-fg);margin-right:8px;font-weight:600}
+.sec-label{font-size:11.5px;color:var(--text-secondary);white-space:nowrap}
+h3{font-size:15px;font-weight:600;color:var(--text-primary);margin:22px 0 9px}
+h4{font-size:13.5px;font-weight:600;color:var(--text-primary);margin:14px 0 6px}
+p{font-size:13.5px;margin-bottom:9px}
+.lead{font-size:14px;color:var(--text-body)}
+.muted{color:var(--text-secondary);font-size:12.5px}
+b,strong{color:var(--text-primary);font-weight:600}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px}
+.card h4{margin-top:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.metric{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:14px 16px}
+.metric .lb{font-size:11.5px;color:var(--text-secondary)}
+.metric .vl{font-size:26px;font-weight:600;color:var(--text-primary);letter-spacing:-.02em;margin-top:2px}
+.metric .dt{font-size:11.5px;font-weight:500;margin-top:1px}
+.up{color:#3D4826}.down{color:var(--error-fg)}.flat{color:var(--info-fg)}
+.pill{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;line-height:1.5;white-space:nowrap}
+.p-ok{background:var(--success-bg);color:var(--success-fg)}
+.p-warn{background:var(--warning-bg);color:var(--warning-fg)}
+.p-err{background:var(--error-bg);color:var(--error-fg)}
+.p-info{background:var(--info-bg);color:var(--info-fg)}
+.p-neu{background:var(--neutral-bg);color:var(--neutral-fg)}
+.table-wrap{overflow-x:auto;background:var(--surface);border:.5px solid var(--border);border-radius:12px;margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:12.8px;min-width:620px}
+th{font-size:11.5px;font-weight:500;color:var(--text-secondary);text-align:left;padding:9px 12px;border-bottom:1px solid var(--divider);background:#FBFAF7;white-space:nowrap}
+td{padding:9px 12px;border-bottom:.5px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td b{font-weight:600}
+.alert{border-radius:10px;padding:13px 15px;font-size:13px;margin:10px 0}
+.a-info{background:var(--info-bg);color:#2C3A85}
+.a-warn{background:var(--warning-bg);color:#7A4300}
+.a-err{background:var(--error-bg);color:#8E2A22}
+.a-ok{background:var(--success-bg);color:#2F3A1C}
+.a-neu{background:var(--neutral-bg);color:#5C5550}
+.alert b{color:inherit}
+.formula{background:#F7F6F3;border-left:3px solid var(--info-fg);border-radius:8px;padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11.8px;line-height:1.95;color:#2F2F2F;margin:10px 0;white-space:pre-wrap;overflow-x:auto}
+.wire{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:10px;display:grid;gap:6px;margin:12px 0}
+.wb{background:#F7F6F3;border:1px dashed var(--divider);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--text-secondary)}
+.wb b{display:block;font-size:12px;color:var(--text-primary);margin-bottom:1px}
+.wb .n{color:var(--info-fg);font-weight:600;margin-right:4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.row5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin:12px 0}
+.flow .step{flex:1;min-width:150px;background:var(--surface);border:.5px solid var(--border);border-radius:10px;padding:11px 13px}
+.flow .step .t{font-size:12.5px;font-weight:600;color:var(--text-primary)}
+.flow .step .d{font-size:11.5px;color:var(--text-secondary);margin-top:3px}
+.flow .arrow{display:flex;align-items:center;justify-content:center;width:26px;color:var(--divider);font-size:15px}
+.pyramid{display:grid;gap:6px;margin:10px 0}
+.layer{display:flex;align-items:center;gap:12px;border:.5px solid var(--border);border-radius:9px;padding:9px 13px;background:var(--surface)}
+.layer .lv{font-family:'Noto Serif',serif;font-size:13px;font-weight:500;color:var(--info-fg);width:26px}
+.layer .nm{font-size:12.5px;font-weight:600;width:110px;color:var(--text-primary)}
+.layer .ds{font-size:11.5px;color:var(--text-secondary);flex:1}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 0}
+.tab{font-family:inherit;font-size:12px;font-weight:500;padding:6px 12px;border-radius:20px;border:.5px solid var(--border);background:var(--surface);color:var(--text-secondary);cursor:pointer;transition:.15s}
+.tab:hover{color:var(--text-primary);border-color:var(--divider)}
+.tab.active{background:var(--info-fg);border-color:var(--info-fg);color:#fff}
+.pane{display:none}
+.pane.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.chart-box{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:14px 16px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:11.5px;color:var(--text-secondary)}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+.prog{margin:9px 0}
+.prog .top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px}
+.prog .track{height:5px;background:var(--border);border-radius:4px;overflow:hidden}
+.prog .fill{height:100%;background:var(--info-fg);border-radius:4px}
+.prog .fill.w{background:var(--warning-fg)}
+.prog .fill.e{background:var(--error-fg)}
+ol,ul{margin:6px 0 10px 18px}
+li{font-size:13.2px;margin-bottom:5px}
+.kv{display:flex;gap:8px;font-size:12.8px;border-bottom:.5px solid var(--border);padding:7px 0}
+.kv:last-child{border-bottom:none}
+.kv .k{color:var(--text-secondary);width:104px;flex:none}
+footer{background:var(--hero-bg);padding:32px 48px 22px;margin-top:42px;position:relative;overflow:hidden}
+.foot-in{position:relative;z-index:1;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.foot-in .bt{font-size:14px;font-weight:600;color:var(--text-primary)}
+.foot-in .bs{font-size:11.5px;color:#4A5266;margin-top:3px}
+.fmeta{display:grid;grid-template-columns:1fr 1fr;gap:6px 26px;font-size:11.5px;color:#3F4658}
+.fbot{position:relative;z-index:1;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:#4A5266;margin-top:18px;padding-top:12px;border-top:1px solid rgba(255,255,255,.7)}
+footer a{color:#2C3A85;text-decoration:none;border-bottom:.5px solid rgba(44,58,133,.3)}
+.refs{font-size:12.3px;color:var(--text-secondary);line-height:1.85}
+.refs a{color:var(--info-fg);text-decoration:none;border-bottom:.5px solid rgba(62,84,206,.3)}
+@media(max-width:760px){
+  body{padding:0}
+  .page{border-radius:0}
+  .hero{padding:28px 20px 24px}
+  main{padding:0 20px 8px}
+  footer{padding:26px 20px 18px}
+  h1{font-size:24px}
+  .grid2,.grid3,.grid4{grid-template-columns:1fr}
+  .row2,.row3,.row5{grid-template-columns:1fr}
+  .flow .arrow{width:100%;height:18px;transform:rotate(90deg)}
+  .statrow{gap:20px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="hero-content">
+    <div class="eyebrow">天机OS · 领星定制版 · 看板设计蓝图 v1</div>
+    <h1>四块看板，一条决策回路</h1>
+    <p class="sub">经营看板看结果，账务看板看钱，关键词流量看原因，异常看板看什么时候该动手。四者不是四张报表，而是一条「结果 → 归因 → 干预 → 回到结果」的闭环。本蓝图解决一个核心问题：数据什么都能看的时候，到底该看什么、怎么看、看完做什么。</p>
+    <div class="hairline"></div>
+    <div class="statrow">
+      <div><span class="v">4</span><span class="l">决策看板</span></div>
+      <div><span class="v">6</span><span class="l">类异常 · 48 条规则</span></div>
+      <div><span class="v">9</span><span class="l">种卡片积木</span></div>
+      <div><span class="v">5</span><span class="l">个角色视图</span></div>
+      <div><span class="v">3</span><span class="l">层系统架构</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ 1 ============ -->
+<section>
+  <div class="sec-head"><h2><em>01</em>先定性：看板是决策容器，不是报表</h2><span class="sec-label">设计第一原则</span></div>
+  <p class="lead">现在最危险的不是没有数据，是数据太多。后台、ERP、广告、第三方工具、商机探测器、ABA……每一处都能导出几十个字段。如果直接照搬成图表，你得到的是一面「数据墙」，运营每天刷一遍、什么也决定不了。所以先把定性和约束写死，后面四块看板才有共同地基。</p>
+
+  <div class="grid2" style="margin-top:14px">
+    <div class="card"><h4>① 一屏一决策</h4><p>一块看板只回答<b>一个</b>问题。经营看板回答「今天要不要我介入」，账务看板回答「这笔钱到底赚没赚、什么时候到」，关键词看板回答「单为什么少了、明天加哪个词」，异常看板回答「现在先处理哪一件」。回答不了的问题，不属于这块看板。</p></div>
+    <div class="card"><h4>② 结论先行，证据在后</h4><p>每块看板严格三层：<b>结论区</b>（要不要动手）→ <b>证据区</b>（凭什么，趋势/对比/快照）→ <b>归因区</b>（具体到 ASIN / 关键词 / 订单 / 货件）。任何结论必须能一层层点到底层明细，点不下去的结论就是猜测。</p></div>
+    <div class="card"><h4>③ 粒度必须匹配动作时延</h4><p>你要在 1 小时内动手的事才用小时级数据，4 小时内动手的用 6 小时粒度，明天才动手的用天，改结构用周，复盘用月。这就是你说的「小时 &gt; 天 &gt; 周」的真正含义：<b>不是越细越好，而是粒度和动作对齐</b>。小时级数据贵、噪声大、最容易误报。</p></div>
+    <div class="card"><h4>④ 口径先行，标签随身</h4><p>每个数字上线时必须带四件行李：<b>时间窗、统计口径、数据截止时间、可信度</b>。转化率是「广告点击口径」还是「会话口径」，IS 是份额不是比率，利润是「结算口径」还是「估算口径」——不带标签的数字一律不允许出现在看板上。</p></div>
+    <div class="card"><h4>⑤ 数据找人，不是人找数据</h4><p>看板的默认状态不是「一张随时可查的图」，而是<b>一个已经排好序的队列</b>。人打开看板，是来确认和处理，不是来探索。所有「探索」都发生在下钻里，不发生在首页。</p></div>
+    <div class="card"><h4>⑥ 看板不新增业务模块</h4><p>这一条是给工程看的：四块看板是<b>视图层 + 规则层</b>，挂在选品/运营/广告/领星五个板块之上，不重复建设数据。看板本身不产生新数据，只产生<b>判断、任务、动作、留痕</b>。</p></div>
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section>
+  <div class="sec-head"><h2><em>02</em>指标骨架：L0 到 L4，五层拉直</h2><span class="sec-label">所有看板共用一套主干</span></div>
+  <p>四块看板要能互相对账，就必须共用一套指标主干。不共主干，就会出现「经营看板说涨、账务看板说亏、关键词看板说流量在掉」的经典混乱。下面是建议的五层骨架，每层只放该层该管的东西。</p>
+  <div class="pyramid">
+    <div class="layer"><span class="lv">L0</span><span class="nm">北极星</span><span class="ds">净利（月）· 现金（可动用）· 目标达成率 —— 只给老板，只放两三个</span></div>
+    <div class="layer"><span class="lv">L1</span><span class="nm">结果层</span><span class="ds">GMV、订单、销量、ASP、会话、转化率、回款额 —— 回答「发生了什么」</span></div>
+    <div class="layer"><span class="lv">L2</span><span class="nm">结构层</span><span class="ds">站点 / 品类 / ASIN / 价格带 / 新老品 / 自然vs广告流量结构 —— 回答「哪一块在拖」</span></div>
+    <div class="layer"><span class="lv">L3</span><span class="nm">因果层</span><span class="ds">关键词、排名、广告位、竞品位次、评分评论、价格、库存、Buy Box —— 回答「为什么」</span></div>
+    <div class="layer"><span class="lv">L4</span><span class="nm">风险层</span><span class="ds">异常事件、红线越界、合规到期、资金风险 —— 回答「什么时候必须动手」</span></div>
+  </div>
+  <div class="alert a-info"><b>一个硬规矩：</b>L0/L1 只允许出现在经营看板顶部；L2 是四块看板的公共拆解维度；L3 只进关键词流量看板和下钻页；L4 全部汇总到异常看板。违反这个分层，看板就会退化成「什么都有、什么都没结论」。</div>
+
+  <h3>每层配什么时间粒度（粒度预算）</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>粒度</th><th>只允许放什么</th><th>典型动作</th><th>成本与风险</th></tr></thead>
+    <tbody>
+      <tr><td><b>小时</b></td><td>广告花费与点击、预算执行、排名/卡位采样、P0 异常</td><td>调竞价、暂停词、卡位、止血</td><td>噪声大、样本薄，必须有最小样本闸门</td></tr>
+      <tr><td><b>6h / 12h</b></td><td>流量得分、自然位与广告位变化、竞品位次</td><td>当天调价、加否定、调广告位加价</td><td>需采样说明，不能当日内趋势结论</td></tr>
+      <tr><td><b>天</b></td><td>订单、会话、转化、库存可售天数、ACOS</td><td>改 listing、调价、补货决策</td><td>标准口径，最稳，看板主体用它</td></tr>
+      <tr><td><b>周</b></td><td>ABA/份额、词根结构、类目动向、退货率</td><td>结构重建、拓词、开新组</td><td>官方周更，滞后 3–7 天</td></tr>
+      <tr><td><b>月</b></td><td>利润、费用结构、现金周期、目标复盘</td><td>定价、换供应商、砍 SKU</td><td>结算滞后，必须标预估/实际</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section>
+  <div class="sec-head"><h2><em>03</em>四块看板怎么串成一条链</h2><span class="sec-label">不是并列，是串联</span></div>
+  <p class="lead">这是整套设计里最关键的一张图。大部分人把四块看板做成并列的四个菜单，结果每块都在讲自己的故事。正确的关系是：经营看板发现问题 → 账务看板判断「这问题值不值钱」→ 关键词看板解释「为什么」→ 异常看板决定「谁、什么时候、做什么」→ 动作回到经营看板。</p>
+
+  <div class="flow">
+    <div class="step"><div class="t">① 经营看板</div><div class="d">结果与偏差<br>「这个月落点差 12%」</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">② 账务回款利润</div><div class="d">把钱算清<br>「差的是销量还是毛利，钱在哪」</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">③ 关键词流量</div><div class="d">解释原因<br>「哪个词、哪个位、哪个环节漏了」</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">④ 异常看板</div><div class="d">派活与盯办<br>「P0、谁、多久内、做完没」</div></div>
+    <div class="arrow">↺</div>
+  </div>
+
+  <h3>跨看板勾稽：五个数字必须对得上</h3>
+  <p>四块看板一旦各自取数，就会永久吵架。所以先定死五条对账关系，做成每日自动校验，超差就报警给数据负责人，而不是让运营去吵。</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>勾稽项</th><th>A 侧</th><th>B 侧</th><th>容忍差</th><th>超差处理</th></tr></thead>
+    <tbody>
+      <tr><td><b>销售额</b></td><td>经营看板 GMV（下单日口径，已扣退款）</td><td>账务看板 净销售额</td><td>≤1%</td><td>查退款归属期与币种换算</td></tr>
+      <tr><td><b>广告花费</b></td><td>经营看板广告费</td><td>广告后台 = 账务看板广告费用 = 领星</td><td>0（必须相等）</td><td>查是否含税/是否含站外与 B2B</td></tr>
+      <tr><td><b>毛利</b></td><td>经营看板毛利</td><td>账务看板 L1 商品毛利</td><td>0</td><td>同一个指标层，不允许两套算法</td></tr>
+      <tr><td><b>订单</b></td><td>经营看板订单</td><td>关键词看板 自然单 + 广告单</td><td>≤3%</td><td>广告归因窗口差异，标注即可</td></tr>
+      <tr><td><b>异常影响</b></td><td>异常看板 影响金额合计</td><td>账务看板 当月利润缺口</td><td>方向一致即可</td><td>不一致说明有未捕捉的异常类型</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alert a-warn"><b>为什么这条最重要：</b>看板一旦出现两个版本的「销售额」，所有人都会退回到自己的 Excel，系统就死了。宁可少做两块看板，也要先把指标层和对账做掉。</div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section>
+  <div class="sec-head"><h2><em>04</em>通用设计规范：搭积木怎么搭</h2><span class="sec-label">四块看板共用</span></div>
+  <p class="lead">你说的「搭积木」，落到工程上就是：<b>卡片 = 积木，看板 = 布局配置</b>。积木只有 9 种，每种声明自己的数据契约；看板只是把积木摆上去、设阈值、连下钻。这样新增一块看板不需要开发，只在中控台拖拽配置。</p>
+
+  <h3>九种积木（够用，不要多）</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>积木</th><th>回答的问题</th><th>典型位置</th><th>数据契约要点</th></tr></thead>
+    <tbody>
+      <tr><td><b>结论卡</b></td><td>目标达不达？落点在哪？</td><td>看板最顶部</td><td>目标值 / 实际 / 预测落点 / 缺口 / 数据截止时间</td></tr>
+      <tr><td><b>拆解卡</b></td><td>差在哪一块？</td><td>第二层</td><td>贡献项必须加总等于总变动，交互项单列</td></tr>
+      <tr><td><b>趋势卡</b></td><td>在变好还是变坏？</td><td>第二层</td><td>同比基期、异常点标注、缺数据断点不补零</td></tr>
+      <tr><td><b>漏斗卡</b></td><td>卡在哪一步？</td><td>关键词 / 商品健康</td><td>各段绝对量 + 段间转化率，自然/广告分色</td></tr>
+      <tr><td><b>队列卡</b></td><td>先处理谁？</td><td>右侧或底部</td><td>按影响金额 × 时限排序，可认领、可跳转</td></tr>
+      <tr><td><b>矩阵卡</b></td><td>该往哪个方向走？</td><td>结构分析</td><td>X/Y 轴定义 + 阈值线必须在卡片上写明</td></tr>
+      <tr><td><b>日历卡</b></td><td>什么时候到/什么时候发？</td><td>账务 / 供应链</td><td>事件 + 金额 + 状态 + 责任人</td></tr>
+      <tr><td><b>证据卡</b></td><td>凭什么这么说？</td><td>下钻层</td><td>快照日期、样本量、口径标签、原话不改写</td></tr>
+      <tr><td><b>简报卡</b></td><td>一句话结论是什么？</td><td>顶部或侧栏</td><td>三段式（发生了什么/为什么/建议）+ 依据引用 + 置信度 + 采纳反馈按钮</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>每块积木上线前必须填的 8 个配置项</h3>
+  <div class="formula">卡片ID · 类型
+唯一问题        —— 这块积木回答什么（写不出来就不做）
+指标集          —— 引用指标层的哪些指标（禁止卡片内自写公式）
+筛选与时间窗    —— 站点/店铺/ASIN + 日/周/MTD + 对比基期
+阈值与分级      —— 绿/黄/红三条线（全部来自设置板块的阈值中心）
+排序与截断      —— 按什么排，只显示前 N 条
+下钻目标        —— 点进去到哪个工作台、带什么参数
+动作按钮        —— 这块积木能直接触发什么（调价/否定/开 case/派单）
+空态与降级      —— 没数据时说什么：「样本不足，本日不评分」</div>
+  <p class="muted">空态文案不是小事。缺数据时显示 0 会直接导致误判和误报，必须显式说「不知道」——这就是「标 U 不评分」在看板上的落地。</p>
+
+  <h3>三条显示纪律</h3>
+  <div class="grid3">
+    <div class="card"><h4>红黄绿只表达「要不要动手」</h4><p>颜色不是装饰，是行动信号。黄色 = 今天看一眼，红色 = 现在就得动，灰色 = 数据不可用。不要用颜色表达「趋势好看」。</p></div>
+    <div class="card"><h4>每个数字都带时间戳</h4><p>看板右上角固定一行：数据截止 10-21 23:00 · 结算数据截止 10-18 · ABA 周更至 W42。看的人要知道自己在看哪一天的世界。</p></div>
+    <div class="card"><h4>没有对比就没有数字</h4><p>任何单值旁边必须有参照：目标 / 上期 / 同类目 / 竞品。孤立数字只会让人凭感觉判断，而感觉在这行最容易错。</p></div>
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section>
+  <div class="sec-head"><h2><em>05</em>看板① 经营看板（每人一个）</h2><span class="sec-label">角色：老板 / 运营负责人 · 刷新：日 + 盘中</span></div>
+
+  <h3>定位与唯一问题</h3>
+  <p class="lead"><b>唯一问题：今天这个生意需不需要我介入，介入哪一件？</b> 它不负责解释原因（交给关键词看板和账务看板），也不负责列所有异常（交给异常看板）。它只做三件事：告诉你目标走到哪、偏差在哪、现在最该处理哪一件。</p>
+
+  <h3>页面骨架（8 个积木）</h3>
+  <div class="wire">
+    <div class="wb"><span class="n">①</span><b>目标落点条 · 结论卡 ×4</b>本月 GMV / 毛利 / 净利 / 回款：实际 + 完成率 + <b>预测月末落点</b> + 缺口（这是重点，不是进度条）</div>
+    <div class="row2">
+      <div class="wb"><span class="n">②</span><b>今日战报</b>昨日 vs 上周同日 vs 去年同日：订单 / GMV / 转化 / ASP / 广告占比</div>
+      <div class="wb"><span class="n">③</span><b>GMV 驱动拆解</b>连环替代：流量贡献 / 转化贡献 / 客单贡献 / 交互项（必须加总闭合）</div>
+    </div>
+    <div class="row2">
+      <div class="wb"><span class="n">④</span><b>板块健康灯 ×6</b>选品 / 运营 / 广告 / 库存 / 账务 / 合规，每灯一个 0–100 分 + 一句主因</div>
+      <div class="wb"><span class="n">⑤</span><b>今日待办队列</b>5 条，按「影响金额 ÷ 时限」排序，可认领、可派单、可跳工作台</div>
+    </div>
+    <div class="wb"><span class="n">⑥</span><b>AI 经营简报</b>三段：昨天发生了什么 / 为什么 / 今天建议做什么（每条带依据链接和置信度）</div>
+    <div class="row2">
+      <div class="wb"><span class="n">⑦</span><b>结构小卡</b>站点 / 品类 / 价格带 / 新老品 占比与环比</div>
+      <div class="wb"><span class="n">⑧</span><b>目标进度</b>OKR 到 KPI 的拆解：目标 → 板块 → 负责人 → 当前进度</div>
+    </div>
+  </div>
+
+  <h3>核心算法：GMV 变化怎么拆才闭合</h3>
+  <div class="formula">GMV = Sessions × CVR × ASP
+ΔGMV = ΔSessions·CVR₀·ASP₀ + Sessions₀·ΔCVR·ASP₀ + Sessions₀·CVR₀·ΔASP + 交互项
+注：交互项必须单列显示，否则三项相加不等于总变动，运营会立刻失去信任。</div>
+  <p class="muted">口径提示：Sessions 用卖家后台业务报告会话数（去重口径）；CVR = 已订购商品数量 ÷ 会话数，不是广告点击转化率；ASP = 净销售额 ÷ 订单数（扣退款后）。三个指标必须同站点、同时间窗、同币种。</p>
+
+  <h3>「每人一个」怎么实现：不是五套看板，是一套看板五个锚点</h3>
+  <p>很多人把「每人一个」理解成给每个人做一块不同的看板，结果是维护五套口径。正确做法是：<b>同一套积木、同一个指标层，只换锚点和默认阈值</b>。打开时第一眼看到的东西不同，但所有数字同源。</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>角色</th><th>首屏锚点</th><th>默认时间窗</th><th>默认红黄线</th><th>常用动作</th></tr></thead>
+    <tbody>
+      <tr><td><b>老板</b></td><td>月末落点 + 净利 + 现金</td><td>MTD + 预测</td><td>完成率 &lt;95% 红</td><td>找人、定优先级、拍板</td></tr>
+      <tr><td><b>运营负责人</b></td><td>今日待办 + 板块灯</td><td>昨日 + 近 7 日</td><td>单 ASIN 掉 30% 红</td><td>派单、调价、改 listing、开 case</td></tr>
+      <tr><td><b>广告</b></td><td>预算执行 + ACOS 对红线</td><td>今日（小时）+ 近 7 日</td><td>ACOS &gt; 保本 红</td><td>调竞价、否定、迁组、卡位</td></tr>
+      <tr><td><b>供应链</b></td><td>可售天数 + 在途 + 库容</td><td>未来 60 天</td><td>可售 &lt; 补货周期 红</td><td>补货、空运、清库、索赔</td></tr>
+      <tr><td><b>财务</b></td><td>回款日历 + 结算差异</td><td>月 + 结算周期</td><td>差异 &gt;2% 红</td><td>对账、调成本、催回款</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>AI 简报怎么写才不像废话</h3>
+  <div class="alert a-neu">
+    <b>模板（固定在 3 句以内）：</b><br>
+    ① 事实：「昨日 GMV 3,240€，低于近 28 天均值 18%，主因是 DE 站 A 款 Sessions 掉 41%（一次广告活动预算在 10:40 烧完，自然位从 3 掉到 9）。」<br>
+    ② 影响：「按当前速度，本月缺口扩大到 2.1 万€，净利影响约 4,400€。」<br>
+    ③ 建议：「今日 12:00 前：该活动预算 +40%，同时把 2 个高花费零单词否定；预计 3 天内回到均值（置信度中）。」<br>
+    <span class="muted">每条结论后面挂依据链接（点开就是证据卡），末尾给「采纳 / 修改 / 驳回」三个按钮——这三个按钮就是阶段②的采纳率数据来源。</span>
+  </div>
+  <div class="alert a-err"><b>反模式：</b>不要做「20 个图表拼成的一屏」。图表超过 6 个，人的注意力就散了；也不要把「数据都能看」当成目标，那是数据仓库的事，看板的目标是让人今天就做完那个决定。</div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section>
+  <div class="sec-head"><h2><em>06</em>看板② 账务回款利润</h2><span class="sec-label">角色：财务 / 老板 · 刷新：日（估）+ 结算后（实）</span></div>
+
+  <h3>定位与唯一问题</h3>
+  <p class="lead"><b>唯一问题：这个月到底赚了多少钱、钱在哪、哪一单在亏、什么时候到账？</b> 这块看板最容易做成假账，因为它同时存在三套口径：业务口径（下单日）、财务口径（结算日）、现金口径（回款日）。大部分「利润对不上」不是算错，是三个日期混在一起用。</p>
+
+  <h3>设计核心一：三层利润，一次说清</h3>
+  <div class="grid3">
+    <div class="card"><h4>L1 商品毛利</h4><p class="muted">售价 − 采购 − 头程 − FBA 配送 − 平台佣金 − 其他平台费</p><p>回答：<b>这个产品本身赚不赚</b>。这是定价与选品的底线，也是保本 ACOS 的来源。</p></div>
+    <div class="card"><h4>L2 经营净利</h4><p class="muted">L1 − 广告 − 促销/优惠券 − 仓储（含长期）− 退货处理 − 汇损 − 工具订阅 − 分摊人力</p><p>回答：<b>这个生意赚不赚</b>。经营看板的「净利」必须取这一层。</p></div>
+    <div class="card"><h4>L3 现金</h4><p class="muted">L2 − 库存占用资金成本 − 未回款（应收）</p><p>回答：<b>我手上有没有钱</b>。很多卖家 L2 是正的、L3 是负的，这就是「账面赚钱、现金紧张」。</p></div>
+  </div>
+
+  <h3>设计核心二：四个日期桥（解决 90% 的对账吵架）</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>日期</th><th>含义</th><th>谁用它</th><th>典型坑</th></tr></thead>
+    <tbody>
+      <tr><td><b>下单日</b></td><td>买家下单时间</td><td>经营看板、广告归因</td><td>跨月订单导致两个看板月度数字不同</td></tr>
+      <tr><td><b>发货日</b></td><td>实际出库时间</td><td>库存、成本结转</td><td>预售/延迟发货时与下单日错月</td></tr>
+      <tr><td><b>结算日</b></td><td>亚马逊结算周期入账</td><td>财务利润表、费用明细</td><td>费用在本期、收入在下期，毛利虚高</td></tr>
+      <tr><td><b>回款日</b></td><td>打款到收款账户</td><td>现金流、资金计划</td><td>储备金/账期导致「赚了但没到」</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alert a-ok"><b>工程做法：</b>订单明细表里四个日期同时落库（不是四张表），任何口径都能用同一张明细聚合出来。这一条做到了，「利润表 vs 结算单 vs 银行流水」的差异会从「天天吵」变成「系统自动标出 3 条待查」。</div>
+
+  <h3>页面骨架（10 个积木）</h3>
+  <div class="wire">
+    <div class="row3">
+      <div class="wb"><span class="n">①</span><b>L1 商品毛利</b>金额 + 毛利率 + 环比</div>
+      <div class="wb"><span class="n">②</span><b>L2 经营净利</b>金额 + 净利率 + 目标差</div>
+      <div class="wb"><span class="n">③</span><b>L3 现金</b>可动用 + 在途 + 储备金</div>
+    </div>
+    <div class="row2">
+      <div class="wb"><span class="n">④</span><b>成本瀑布</b>售价 → 逐项扣除 → 净利（每项可点击看明细）</div>
+      <div class="wb"><span class="n">⑤</span><b>单位经济卡（核心接口）</b>单 ASIN：售价 / 成本 / 边际贡献 / <b>保本 ACOS / 目标 ACOS / 保本 CPC</b> → 直接输出给广告板块</div>
+    </div>
+    <div class="row2">
+      <div class="wb"><span class="n">⑥</span><b>SKU 利润贡献</b>TOP / BOTTOM 各 10，含销量×毛利率四象限</div>
+      <div class="wb"><span class="n">⑦</span><b>回款日历</b>未来 14/30 天预计到账，按结算周期与储备金推算</div>
+    </div>
+    <div class="row2">
+      <div class="wb"><span class="n">⑧</span><b>余额构成</b>可用 / 储备 / 待结算 / 在途，含负余额告警</div>
+      <div class="wb"><span class="n">⑨</span><b>结算差异对账</b>预估 vs 实际，按原因码归集（退款/费用调整/赔偿/仓储/汇率）</div>
+    </div>
+    <div class="wb"><span class="n">⑩</span><b>现金周期</b>库存天数 + 应收天数 − 应付天数 = CCC，按月趋势</div>
+  </div>
+
+  <h3>成本瀑布（示意，金额为虚构示例）</h3>
+  <div class="chart-box">
+    <div style="position:relative;height:300px"><canvas id="profitChart"></canvas></div>
+    <div class="legend"><span><i style="background:#3E54CE"></i>收入 / 留存</span><span><i style="background:#C4433A"></i>成本与费用</span><span>售价 50€ → 净利 10.5€，净利率 21%（示例，实际按店铺数据替换）</span></div>
+  </div>
+
+  <h3>设计核心三：成本分摊与可信度分级</h3>
+  <div class="grid2">
+    <div class="card"><h4>分摊规则必须先定死</h4>
+      <ul>
+        <li>采购/头程：按 <b>销量</b> 分摊（不是按销售额）</li>
+        <li>广告费：按 <b>广告归因订单</b> 分摊到 ASIN</li>
+        <li>仓储/退货：按 <b>实际发生</b> 归属，不摊</li>
+        <li>人力/工具：按 <b>GMV 或 SKU 数</b> 分摊，单列一层「分摊成本」</li>
+        <li>汇率：收入用 <b>结算日汇率</b>，成本用 <b>下单日汇率</b>，差额进汇损行</li>
+      </ul>
+    </div>
+    <div class="card"><h4>每个利润数字带可信度标签</h4>
+      <div class="kv"><span class="k"><span class="pill p-ok">A 实际</span></span><span>来自结算单/账单，可直接用于决策与考核</span></div>
+      <div class="kv"><span class="k"><span class="pill p-info">B 估算</span></span><span>按费率表推算（FBA 费、佣金），可用于趋势判断</span></div>
+      <div class="kv"><span class="k"><span class="pill p-warn">C 缺省</span></span><span>用了默认值或未归集，只允许看方向，不允许据此定价</span></div>
+      <p class="muted" style="margin-top:8px">这条纪律能防住最常见的事故：用 C 级数据去砍一个其实很赚钱的 SKU。</p>
+    </div>
+  </div>
+
+  <h3>对账 SOP（把它做成看板上的按钮，而不是财务的手工活）</h3>
+  <div class="formula">T+1  抓取结算报告 → 落库（订单行 / 费用行 / 调整行分离）
+T+1  自动比对：预估收入 vs 实际结算，逐单打差异标记
+T+2  差异分级：&gt;2% 必查 ｜ 0.5–2% 抽查 ｜ &lt;0.5% 记录
+T+2  归因打码：退款 / 费用调整 / 赔偿 / 长期仓储 / 汇率 / 促销叠加 / 未知
+T+3  财务确认 → 写回成本表 → 影响下月保本 ACOS → 自动通知广告组
+月末  出三张表：利润表（L2）· 现金表（L3）· 差异表（按原因码）</div>
+
+  <h3>利润→广告的接口（这块看板最大的杠杆）</h3>
+  <div class="alert a-info">单位经济卡每算出一个 ASIN 的毛利率，就自动往广告板块推三个数：<b>保本 ACOS = 毛利率</b>、<b>目标 ACOS = 毛利率 − 目标净利率</b>、<b>保本 CPC = 保本 ACOS × CVR × 客单价</b>。广告看板的红线、异常看板的「ACOS 超保本」全部引用这三个数，不允许广告组自己另算一套。这一条打通，广告就不再靠手感，而是靠利润约束。</div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section>
+  <div class="sec-head"><h2><em>07</em>看板③ 关键词流量</h2><span class="sec-label">角色：运营 / 广告 · 刷新：日 + 6h/12h 采样</span></div>
+
+  <h3>定位与唯一问题</h3>
+  <p class="lead"><b>唯一问题：单为什么少了，明天该加哪个词、砍哪个词、抢哪个位？</b> 这块看板是「运营板块的词库」和「广告板块的执行」之间的转换器。它把「流量」这个模糊词拆成可算的东西：<b>哪些入口、什么位置、多少曝光、能不能转化</b>。</p>
+
+  <div class="flow">
+    <div class="step"><div class="t">词库（资产）</div><div class="d">一个词一条命：标签、排名、历史效率、负责人</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">看板（入口）</div><div class="d">瀑布定位断点、得分判断强弱、矩阵决定去哪</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">动作队列（出口）</div><div class="d">加价 / 降价 / 否定 / 迁组 / 加长尾 / 卡位</div></div>
+    <div class="arrow">↺</div>
+  </div>
+
+  <h3>页面骨架（10 个积木）</h3>
+  <div class="wire">
+    <div class="row2">
+      <div class="wb"><span class="n">①</span><b>流量瀑布</b>曝光 → 点击 → 详情页浏览 → 加购 → 订单，自然/广告分色，标出断点</div>
+      <div class="wb"><span class="n">②</span><b>流量得分</b>日 / 12h / 6h 三档，自然分与广告分分开，再给结构占比</div>
+    </div>
+    <div class="row2">
+      <div class="wb"><span class="n">③</span><b>自然 vs 广告结构</b>流量占比 / 订单占比 / 花费占比 三条线的背离</div>
+      <div class="wb"><span class="n">④</span><b>出单词盘点</b>总出单词 / 广告出单 / 纯自然出单 / 重叠 → 增量率与内耗率</div>
+    </div>
+    <div class="wb"><span class="n">⑤</span><b>关键词矩阵</b>词 × 曝光/点击/CTR/CVR/订单/ACOS/自然位/广告位/首页首位份额/标签（可筛选、可批量打标）</div>
+    <div class="row2">
+      <div class="wb"><span class="n">⑥</span><b>词根词频</b>词根 → 需求量 / 订单量 / 花费 / 转化，输出可组词的词根</div>
+      <div class="wb"><span class="n">⑦</span><b>德不配位四象限</b>广告力 × 自然力，识别虚火 / 洼地 / 真强 / 衰退</div>
+    </div>
+    <div class="row2">
+      <div class="wb"><span class="n">⑧</span><b>排名与卡位</b>每小时排名采样，首页首位 / 前 3 / 首页 / 前 2 页 的卡位率与卡位成本</div>
+      <div class="wb"><span class="n">⑨</span><b>竞品同位</b>同一个词下周边 6 个主要因素 → 出单概率与胜率</div>
+    </div>
+    <div class="wb"><span class="n">⑩</span><b>今日词动作队列</b>每条带依据、预期影响、可回滚；一键推到广告工作台</div>
+  </div>
+
+  <h3>积木① 流量瀑布：先定位断点，再谈优化</h3>
+  <p>这是整块看板的入口。绝大多数「单少了」的讨论都是凭感觉，瀑布能一眼把问题钉在某一段：是曝光没了（排名/收录/断货），还是点击没了（主图/价格/评分），还是点了不买（详情页/评论/配送）。</p>
+  <div class="chart-box">
+    <div style="position:relative;height:300px"><canvas id="funnelChart"></canvas></div>
+    <div class="legend"><span><i style="background:#3E54CE"></i>各环节占曝光比（%）</span><span><i style="background:#E47700"></i>环节转化率（%）</span><span>示意数据：曝光 100 万 → 订单 1,250</span></div>
+  </div>
+  <div class="grid3" style="margin-top:10px">
+    <div class="card"><h4>断点在曝光</h4><p>点击率正常但曝光掉 → 查收录、排名、断货、类目错放、广告预算。<b>不要先改主图。</b></p></div>
+    <div class="card"><h4>断点在点击</h4><p>曝光在、CTR 掉 → 查主图/价格/评分/优惠标/竞品同位变化。<b>不要先加竞价。</b></p></div>
+    <div class="card"><h4>断点在转化</h4><p>点击在、CVR 掉 → 查详情页、A+、评论、配送时效、价格竞争力、变体。</p></div>
+  </div>
+
+  <h3>积木② 流量得分：把「流量好坏」变成可算的数</h3>
+  <p>你说要做「流量得分，每天 / 12h / 6h，自然流量与广告流量分开打分」。关键是这个分必须可计算、可解释、可回滚，不能是个黑箱指数。</p>
+  <div class="formula">入口 i =（关键词 k × 位置 p × 时段 t）
+S_i = 曝光份额 σ_i × 位置权重 w(p) × CTR 相对指数 r_i
+
+w(p)：首页首位 1.00 ｜ 2–3 位 0.85 ｜ 4–10 位 0.72 ｜ 第 2 页 0.45 ｜ 3 页外 0.20
+r_i  = 该入口 CTR ÷ 同类目同位 CTR 中位数
+
+流量得分 = 100 × ΣS_i ÷ 自身近 60 日 P90(ΣS)
+有效流量得分 = 流量得分 × CVR 相对指数      ← 加了「质量」，防止有量不出单也算高分
+自然分 / 广告分 分开算，再各自给「结构占比」</div>
+  <div class="alert a-warn"><b>样本闸门（必须有）：</b>入口曝光 &lt;500 或点击 &lt;10 时，该入口标 <b>U（不可评分）</b>，不进入得分计算，也不进入排行榜。否则新品和长尾词会天天得 0 分，运营会被噪声牵着走。</div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>粒度</th><th>数据来源与可得性</th><th>用途</th><th>注意</th></tr></thead>
+    <tbody>
+      <tr><td><b>日</b></td><td>广告后台（准）+ 业务报告（T+1）+ 排名日采样</td><td>主力评分，日会看</td><td>最稳，波动来自真实变化</td></tr>
+      <tr><td><b>12h</b></td><td>排名采样（12h 一次）+ 广告小时数据聚合</td><td>判断「上午/下午」结构差</td><td>样本薄，只做方向判断</td></tr>
+      <tr><td><b>6h</b></td><td>搜索页采样（受反爬与频次限制）+ 广告小时数据</td><td>卡位、抢位、异常盯防</td><td>必须有采样说明，不能当权威排名</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">现实提醒：亚马逊后台<b>不提供</b>小时级自然排名。6h/12h 只能靠第三方快照或自建采样，属「采样估计」而非「官方事实」。看板上必须显式标注采样频率与样本量，否则会拿估计值当真理去做大动作。</p>
+
+  <h3>积木④ 出单词盘点：广告是必需品还是内耗品</h3>
+  <p>你的思路里提到船长 BI 那套「出单词、有没有做广告、在广告里有多少个」，这个思路很值钱，因为它直接回答一个战略问题：<b>广告到底在带来增量，还是在抢自己的自然单。</b></p>
+  <div class="formula">N        总出单词数
+O_a      广告出单词数（含广告出单的词）
+O_o      纯自然出单词数
+O_b      重叠词数（既广告出单又自然出单）
+
+增量率 = O_a 中「自然排名在 2 页以外」的占比   ← 广告是唯一入口，加预算
+内耗率 = O_a 中「自然排名在首页前 3」的占比   ← 广告在抢自己的单，降价或收窄
+健康区间（建议，待确认）：增量率 &gt; 40%，内耗率 &lt; 25%</div>
+  <div class="grid2">
+    <div class="card"><h4>内耗率高的处理</h4><ul><li>该词降到精确匹配、单独低预算组</li><li>或直接暂停，把预算迁给增量词</li><li>同步确认自然位是否稳（防停投后掉位）</li></ul></div>
+    <div class="card"><h4>增量率高的处理</h4><ul><li>加预算 + 提竞价 + 加首页首位加价</li><li>迁精确组固化，配长尾词承接</li><li>同时补 listing 转化，把流量变成资产</li></ul></div>
+  </div>
+
+  <h3>积木⑤⑥ 词库与词根：从「选词」到「建组」的流水线</h3>
+  <p>词库是这块看板的资产底座。一个词进来，必须有五个标签，否则它只是一行数据，不能被执行。</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>标签维度</th><th>取值</th><th>用来做什么</th></tr></thead>
+    <tbody>
+      <tr><td><b>角色</b></td><td>核心词 / 机会词 / 防守词 / 耗损词 / 无关词</td><td>决定预算分配与优先级</td></tr>
+      <tr><td><b>意图</b></td><td>品类词 / 属性词 / 场景词 / 人群词 / 竞品词 / 品牌词 / 长尾</td><td>决定匹配方式与文案角度</td></tr>
+      <tr><td><b>生命周期</b></td><td>探测期 / 成长期 / 成熟期 / 衰退期</td><td>决定阈值松紧（新品放宽）</td></tr>
+      <tr><td><b>动作</b></td><td>加价 / 降价 / 否定 / 迁组 / 加长尾 / 卡位 / 守位</td><td>决定今天做什么</td></tr>
+      <tr><td><b>来源</b></td><td>自然 / 广告 / ABA / 商机探测器 / 竞品反查</td><td>决定可信度与口径标签</td></tr>
+    </tbody>
+  </table></div>
+  <div class="formula">选词 → 建组流水线（建议每月跑一次）
+① 需求发现   商机探测器 / ABA：搜索量、增长、点击份额、转化份额（份额≠比率，需标口径）
+② 词根拆解   高频词根 → 需求量 / 订单量 / 花费 / CVR，找出「高需求高转化」词根
+③ 相关性过滤 与产品属性不匹配的词根一律剔除（避免高流量低转化的浪费）
+④ 竞争评估   前 3 页广告密度 + 评论门槛 + 头部价格带
+⑤ 经济测算   预估 CPC / CVR → 预估首月 ACOS → 与保本 ACOS 对比
+⑥ 分层建组   探测层（自动/广泛 约 20%）→ 收割层（词组 约 50%）→ 固化层（精确 约 30%）
+⑦ 打标回写   词进词库、带上五个标签与负责人，进入观察队列</div>
+  <p class="muted">比例 20/50/30 为建议值（待确认）。原则是：探测层负责「找」，收割层负责「赚」，固化层负责「守」，三层不能混在一个活动里，否则预算会被高流量低转化的词悄悄吃掉（预算旁路）。</p>
+
+  <h3>积木⑦ 德不配位：广告力与自然力的四象限</h3>
+  <p>这是你的原话，也是最锋利的一个诊断工具。它回答的是：<b>我的排名是买来的，还是挣来的。</b> 广告位很猛但自然位很弱，就是「德不配位」——一停投就现原形。</p>
+  <div class="chart-box">
+    <div style="position:relative;height:320px"><canvas id="quadChart"></canvas></div>
+    <div class="legend"><span><i style="background:#3E54CE"></i>真强</span><span><i style="background:#E47700"></i>虚火</span><span><i style="background:#5FA882"></i>洼地</span><span><i style="background:#C4433A"></i>衰退</span><span>x = 自然力（自然排名/自然流量得分）· y = 广告力（广告位强度/广告花费份额）· 示意点位</span></div>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>象限</th><th>特征</th><th>本质</th><th>动作</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill p-warn">虚火</span> 广告强 / 自然弱</td><td>广告位靠前、花费高，自然位 2 页外</td><td>买流量撑场面；停投即掉</td><td>先查 listing 质量分、评分、价格、转化；把预算的 30% 转去补内容与评论，而不是继续加价</td></tr>
+      <tr><td><span class="pill p-ok">洼地</span> 自然强 / 广告弱</td><td>自然位首页、广告几乎不投</td><td>有底子没放量，份额被浪费</td><td>放量：提竞价、加首页首位、拓长尾、开词组层</td></tr>
+      <tr><td><span class="pill p-info">真强</span> 双强</td><td>自然与广告都在前位，转化健康</td><td>真资产</td><td>守位：防跟卖、护 Buy Box、扩变体、加防御词</td></tr>
+      <tr><td><span class="pill p-err">衰退</span> 双弱</td><td>两项都在掉</td><td>需求转移或自身失守</td><td>诊断顺序：断货 → 价格 → 评分 → 竞品新品 → 收录丢失</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>积木⑧ 卡位：eCPM 拟合能做什么、不能做什么</h3>
+  <div class="formula">期望千次收益  eCPM ≈ bid × CTR × CVR × 1000
+卡位最低出价  b*(p) = eCPM 门槛(p, 类目, 时段) ÷ (CTR × CVR × 1000)
+
+做法：用历史「出价—获得位置—实际花费」回归出门槛曲线，输出各位置的最低出价
+自检：残差 = |实际花费 − 预测花费| ÷ 预测花费；&gt;30% 即判定模型失效，转人工</div>
+  <p class="muted">必须说清边界：亚马逊真实排序是「相关性 × 竞价」的复合机制，不完全等于 eCPM，所以拟合只能做<b>决策参考 + 残差监控</b>，不能当真理去自动出价。所有「卡位」动作都要留回滚点。</p>
+
+  <h3>积木⑨ 周围竞品：六个因素算出单概率</h3>
+  <p>你说的「周围竞品，包含自然位和广告位一起，选六个主要因素，评估出单概率」，落地成一个评分卡模型即可，不需要复杂算法。</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>因素</th><th>取值方式</th><th>先验权重（待确认）</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>价格（含券后到手价）</td><td>与竞品价差 %</td><td>25%</td></tr>
+      <tr><td>2</td><td>口碑势能（评分 × 评论数 × 增速）</td><td>标准化后取分位</td><td>20%</td></tr>
+      <tr><td>3</td><td>内容质量（主图/视频/A+/五点）</td><td>AI 打分 + 人工抽检</td><td>15%</td></tr>
+      <tr><td>4</td><td>配送时效（Prime / 到货天数）</td><td>页面抓取</td><td>10%</td></tr>
+      <tr><td>5</td><td>销量势能（BSR / 月销估算 / 评论增速）</td><td>第三方估算 + 快照</td><td>20%</td></tr>
+      <tr><td>6</td><td>广告密度（该词下竞品广告占位数）</td><td>搜索页采样</td><td>10%</td></tr>
+    </tbody>
+  </table></div>
+  <div class="formula">P(出单 | 该位置) = σ(β₀ + Σ βᵢ · 因素ᵢ)
+输出三件事：
+① 我方在该词该位的出单概率与份额预测
+② 敏感性：把价格降 X% / 把评分提到 Y / 补 3 张图，各能提升多少概率
+③ 最省钱的两个动作（按「概率提升 ÷ 成本」排序）</div>
+  <p class="muted">权重先用行业先验，跑 4–8 周后用自家真实出单数据做逻辑回归校准。看板上必须显示「模型版本 + 校准日期 + 样本量」，否则运营会拿一个没校准的分数去做价格决策。</p>
+
+  <h3>积木⑩ 今日词动作队列（出口）</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>动作</th><th>触发依据</th><th>预期影响</th><th>可回滚方式</th></tr></thead>
+    <tbody>
+      <tr><td>加竞价 +10~15%</td><td>ACOS &lt; 目标 且 展示份额偏低</td><td>份额提升，花费上升</td><td>记录原出价，24/72h 复核</td></tr>
+      <tr><td>降价 / 否定</td><td>点击 ≥15 零单，或 ACOS &gt; 保本</td><td>止损，释放预算</td><td>否词表可导出/撤回</td></tr>
+      <tr><td>迁精确组</td><td>词组/广泛跑出高转化的词</td><td>效率提升，便于控价</td><td>保留原组 7 天并行</td></tr>
+      <tr><td>加长尾/词组</td><td>词根高频高转化，竞争度可接受</td><td>低成本扩量</td><td>单组单预算隔离</td></tr>
+      <tr><td>卡位（首页首位）</td><td>该位转化好且份额低</td><td>排名与转化双升</td><td>加价幅度设上限，按日复核</td></tr>
+      <tr><td>守位</td><td>双强但竞品广告密度上升</td><td>防份额流失</td><td>预算封顶，避免无上限竞价</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section>
+  <div class="sec-head"><h2><em>08</em>看板④ 异常看板</h2><span class="sec-label">角色：全员值班 · 刷新：小时 / 实时</span></div>
+
+  <h3>定位与唯一问题</h3>
+  <p class="lead"><b>唯一问题：现在先处理哪一件，谁来做，多久内做完，做完没有？</b> 这块看板不是报表，是<b>值班台</b>。它唯一的价值是「不漏、不晚、不重复、有闭环」。做错的方式很简单：把所有告警堆成一个列表，一天 300 条，第二天就没人看了。</p>
+
+  <h3>设计核心一：统一异常对象（六类异常长成同一个样子）</h3>
+  <p>店铺、链接、库存、利润、广告花费、广告点击，表面看是六件事，但只要用同一个对象模型，就能进同一个队列、用同一套分级、走同一条闭环。这是「搭积木」在异常场景的落地。</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>字段</th><th>说明</th><th>示例</th></tr></thead>
+    <tbody>
+      <tr><td><b>异常ID / 类型</b></td><td>唯一编号 + 六类之一</td><td>EX-20261022-0187 · 广告花费</td></tr>
+      <tr><td><b>对象</b></td><td>店铺 / ASIN / SKU / 活动 / 关键词 / 货件</td><td>活动 SP-A-DE-03</td></tr>
+      <tr><td><b>触发规则</b></td><td>哪条规则命中，命中时的表达式与阈值</td><td>AD-03 花费日环比 +50% 且 ACOS 恶化</td></tr>
+      <tr><td><b>证据快照</b></td><td>命中时刻的指标值 + 对比基期 + 截图/链接</td><td>花费 82€→141€，ACOS 24%→51%</td></tr>
+      <tr><td><b>影响金额/天</b></td><td>按公式估算，用于排序与分级</td><td>≈ 37€/天</td></tr>
+      <tr><td><b>严重度 / 时限</b></td><td>P0–P3 + 响应与恢复时限</td><td>P0 · 15min / 4h</td></tr>
+      <tr><td><b>建议动作</b></td><td>规则绑定的标准动作（可一键采纳）</td><td>降竞价 25% + 否定 2 词</td></tr>
+      <tr><td><b>责任人 / 状态</b></td><td>认领人 + 状态机当前节点</td><td>小王 · 处理中</td></tr>
+      <tr><td><b>根因 / 复盘标签</b></td><td>解决后必填，进问题库</td><td>预算规则未设上限</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>设计核心二：状态机 + 时限（没有闭环的告警就是噪音）</h3>
+  <div class="flow">
+    <div class="step"><div class="t">新建</div><div class="d">自动生成 + 派单</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">已认领</div><div class="d">SLA 开始计时</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">处理中</div><div class="d">动作留痕</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">待验证</div><div class="d">指标是否恢复</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">已恢复</div><div class="d">自动验真</div></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="t">复盘归档</div><div class="d">进问题库</div></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h4>分支状态</h4><p><b>误报</b>（必填原因，喂给规则治理）· <b>挂起</b>（等外部：平台审核/供应商）· <b>升级</b>（超时自动上抬一级）</p></div>
+    <div class="card"><h4>自动验真</h4><p>处理完不靠人点「已解决」，靠指标自己回到绿区 <b>连续 2 个数据周期</b> 才关闭。防止「假装解决」。</p></div>
+    <div class="card"><h4>重复折叠</h4><p>同一对象、同一规则 6 小时内只报一次，合并计数。避免「一个词烧钱，报 40 条」。</p></div>
+  </div>
+
+  <h3>设计核心三：怎么定级——按钱、按时限、按可逆性</h3>
+  <div class="formula">严重度分 = 影响金额/天 × 不可逆系数 × 时限紧迫系数
+不可逆系数：账号/下架/断货 = 3 ｜ 排名与份额 = 2 ｜ 花费与效率 = 1 ｜ 观察项 = 0.3
+
+P0  影响 &gt; 200€/天 或 不可逆（账号、下架、断货、负余额）   → 15min 响应 / 4h 恢复 / 电话+企微+派单
+P1  50–200€/天 或 会持续恶化                              → 4h / 24h / 企微+任务
+P2  10–50€/天                                             → 24h / 3d / 日报合并
+P3  &lt;10€/天 或 仅需观察                                   → 周报</div>
+  <p class="muted">阈值 200/50/10€ 是建议起点（待确认，按你的店铺体量换算）。关键不是数值，而是<b>排序必须按钱</b>——否则运营会先处理最容易的那条，而不是最贵的那条。</p>
+
+  <h3>六类异常：监测对象、规则与动作</h3>
+  <div class="tabset">
+    <div class="tabs">
+      <button class="tab active" data-tab="ex1">店铺异常</button>
+      <button class="tab" data-tab="ex2">链接异常</button>
+      <button class="tab" data-tab="ex3">库存异常</button>
+      <button class="tab" data-tab="ex4">利润异常</button>
+      <button class="tab" data-tab="ex5">广告花费异常</button>
+      <button class="tab" data-tab="ex6">广告点击异常</button>
+    </div>
+
+    <div class="pane active" id="ex1">
+      <p><b>监测对象：</b>账号级（账户健康、绩效、资金、合规）。<b>为什么单列：</b>这一类不可逆性最高，且一旦触发，其他五类全部失效。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>规则</th><th>触发条件（建议阈值，待确认）</th><th>级别</th><th>标准动作</th></tr></thead>
+        <tbody>
+          <tr><td><b>SH-01</b> 绩效指标越线</td><td>ODR&gt;1% / 迟发&gt;4% / 取消&gt;2.5% / 有效追踪&lt;95% / 买家消息 24h 未回</td><td><span class="pill p-err">P0</span></td><td>当日内定位订单根因，改履约与客服排班，必要时提交说明</td></tr>
+          <tr><td><b>SH-02</b> 政策与审核通知</td><td>绩效通知、类目审核、KYC/税务/EPR 到期 ≤30 天</td><td><span class="pill p-err">P0</span></td><td>建任务挂负责人与截止日，到期未办升级到老板</td></tr>
+          <tr><td><b>SH-03</b> Buy Box 丢失</td><td>丢失率 &gt;20% 或连续 6h 无购物车</td><td><span class="pill p-err">P0</span></td><td>查跟卖/价格/库存/配送，必要时调价或开 case</td></tr>
+          <tr><td><b>SH-04</b> 资金异常</td><td>可用余额为负、存款方式失效、扣款失败</td><td><span class="pill p-err">P0</span></td><td>财务当日核对，补资料，防账户冻结</td></tr>
+          <tr><td><b>SH-05</b> 关联风险信号</td><td>同 IP / 同收款 / 同资料 / 同设备登录</td><td><span class="pill p-err">P0</span></td><td>立即隔离环境与操作，留证，报合规负责人</td></tr>
+          <tr><td><b>SH-06</b> 店铺整体流量下滑</td><td>Sessions 环比 −30% 且非季节因素</td><td><span class="pill p-warn">P1</span></td><td>先排除全类目下滑，再查自身 listing 与广告</td></tr>
+        </tbody>
+      </table></div>
+      <div class="alert a-neu"><b>常见误报：</b>节假日迟发（需接入本地节假日日历，自动豁免）；后台统计延迟（等 T+1 再判）；新账号无历史基线（样本不足，跳过）。</div>
+    </div>
+
+    <div class="pane" id="ex2">
+      <p><b>监测对象：</b>ASIN / 变体 / MSKU。<b>为什么最难：</b>变化是「静默」的——没人通知你，直到单掉光。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>规则</th><th>触发条件（建议阈值，待确认）</th><th>级别</th><th>标准动作</th></tr></thead>
+        <tbody>
+          <tr><td><b>AS-01</b> 不可售/变狗/被抑制</td><td>状态非在售，或搜索抑制标记出现</td><td><span class="pill p-err">P0</span></td><td>查原因（合规/类目/图片/关键词），开 case 并留工单号</td></tr>
+          <tr><td><b>AS-02</b> 内容被改/丢失</td><td>主图或附图少、A+ 消失、五点被改、变体被拆</td><td><span class="pill p-err">P0</span></td><td>对比历史快照，回滚或重新提交，查是否被恶意修改</td></tr>
+          <tr><td><b>AS-03</b> 流量骤降</td><td>Sessions −40% 连续 2 日（排除全类目）</td><td><span class="pill p-err">P0</span></td><td>查收录词数、排名、广告预算、断货；按瀑布法定位断点</td></tr>
+          <tr><td><b>AS-04</b> 口碑异常</td><td>评分 −0.3 或 评论数单日 −3% 或 差评集中出现</td><td><span class="pill p-warn">P1</span></td><td>拉差评样本做 VOC，区分产品问题/物流/描述不符</td></tr>
+          <tr><td><b>AS-05</b> 排名与转化异常</td><td>BSR 单日 −30%，或 CVR 跌破自身基线 50%</td><td><span class="pill p-warn">P1</span></td><td>查价格/竞品/配送/评论；对照关键词看板看是哪个入口掉的</td></tr>
+          <tr><td><b>AS-06</b> 被跟卖/价格被压</td><td>Buy Box 竞争者出现，或到手价被压 &gt;5%</td><td><span class="pill p-warn">P1</span></td><td>品牌备案 + 投诉 + 调整定价策略，别用亏本价硬扛</td></tr>
+          <tr><td><b>AS-07</b> 类目错放</td><td>类目节点与主类目不一致，或 BSR 类别变化</td><td><span class="pill p-warn">P1</span></td><td>开 case 改节点，评估流量与佣金影响</td></tr>
+        </tbody>
+      </table></div>
+      <div class="alert a-neu"><b>常见误报：</b>类目整体波动（需做类目均值对照）；大促前后流量结构变化（接入促销日历）；新品无基线（跳过或用类目中位数）。</div>
+    </div>
+
+    <div class="pane" id="ex3">
+      <p><b>监测对象：</b>SKU / FNSKU / 货件 / 仓库。<b>核心指标：</b>可售天数（不是库存量）——库存量看不出危险，可售天数才看得出。</p>
+      <div class="formula">可售天数 = 可售库存 ÷ 近 28 日日均销量
+补货总时长 = 采购交期 + 头程（海运/空运）+ 入仓上架 + 安全天数
+断货风险阈值：可售天数 &lt; 补货总时长 × 1.2</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>规则</th><th>触发条件（建议阈值，待确认）</th><th>级别</th><th>标准动作</th></tr></thead>
+        <tbody>
+          <tr><td><b>ST-01</b> 断货</td><td>可售 = 0</td><td><span class="pill p-err">P0</span></td><td>评估空运/调拨/提价降速；同步广告降预算，避免烧给不可售</td></tr>
+          <tr><td><b>ST-02</b> 断货风险</td><td>可售天数 &lt; 补货总时长 × 1.2</td><td><span class="pill p-err">P0</span></td><td>立即下补货单，走空运审批；锁定销量预估</td></tr>
+          <tr><td><b>ST-03</b> 冗余与仓储费</td><td>&gt;120 天库存，或长期仓储费预警，库容 &gt;90%</td><td><span class="pill p-warn">P1</span></td><td>促销/捆绑/清货，评估移仓或弃置成本</td></tr>
+          <tr><td><b>ST-04</b> 在途异常</td><td>到仓延误 &gt; 计划 7 天，或物流节点停滞</td><td><span class="pill p-warn">P1</span></td><td>找货代要节点证明，评估销售断档，启动备用批次</td></tr>
+          <tr><td><b>ST-05</b> 入库差异</td><td>收货数量与发货差异超容忍，货件关闭后未索赔（90 天窗口）</td><td><span class="pill p-err">P0</span></td><td>调差异报告，按窗口提交索赔，超期即损失</td></tr>
+          <tr><td><b>ST-06</b> 预留异常</td><td>预留库存占比 &gt;30% 持续 3 天</td><td><span class="pill p-warn">P2</span></td><td>查是否调仓/待检/买家订单异常，评估可售误判</td></tr>
+          <tr><td><b>ST-07</b> 补货断档</td><td>未来 60 天无在途批次，或采购单未下</td><td><span class="pill p-warn">P1</span></td><td>接入智能补货计划，按可售天数自动生成采购建议</td></tr>
+        </tbody>
+      </table></div>
+      <div class="alert a-neu"><b>常见误报：</b>大促前主动压库（需促销日历）；新品铺货期（用目标销量而非历史销量）；季节性产品（用去年同期曲线）。</div>
+    </div>
+
+    <div class="pane" id="ex4">
+      <p><b>监测对象：</b>SKU / 订单 / 费用项。<b>核心逻辑：</b>利润异常往往是「没有异常通知」的那一类，必须靠规则主动抓。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>规则</th><th>触发条件（建议阈值，待确认）</th><th>级别</th><th>标准动作</th></tr></thead>
+        <tbody>
+          <tr><td><b>PF-01</b> 负毛利</td><td>单品边际贡献 &lt; 0</td><td><span class="pill p-err">P0</span></td><td>三步：提价测试 / 换供应商或改包装降本 / 停投并评估退出</td></tr>
+          <tr><td><b>PF-02</b> 毛利率下滑</td><td>环比 −5pt 且持续 2 周</td><td><span class="pill p-warn">P1</span></td><td>拆成本项找上涨项（采购/头程/仓储/退货/广告）</td></tr>
+          <tr><td><b>PF-03</b> ACOS 超保本</td><td>ACOS &gt; 保本 ACOS 且花费 &gt; 阈值</td><td><span class="pill p-err">P0</span></td><td>联动广告板块执行止损规则（降竞价/否定/收窄）</td></tr>
+          <tr><td><b>PF-04</b> TACOS 超红线</td><td>TACOS &gt; 目标 ACOS × 广告销售占比</td><td><span class="pill p-warn">P1</span></td><td>查是否自然流量退化，广告在替自然单买单</td></tr>
+          <tr><td><b>PF-05</b> 结算差异</td><td>预估 vs 实际差异 &gt;2%，或单笔异常费用 &gt; 阈值</td><td><span class="pill p-warn">P1</span></td><td>按原因码归因，可疑费用提交查询/申诉</td></tr>
+          <tr><td><b>PF-06</b> 退货异常</td><td>退货率 &gt; 类目均值 1.5 倍，或单品退货激增</td><td><span class="pill p-warn">P1</span></td><td>看退货原因分布，区分描述不符/质量问题/物流破损</td></tr>
+          <tr><td><b>PF-07</b> 费用突增</td><td>仓储/长期仓储/移除费环比 +50%</td><td><span class="pill p-warn">P2</span></td><td>查库龄结构，评估清货 vs 继续持有成本</td></tr>
+          <tr><td><b>PF-08</b> 成本变动未传导</td><td>采购价/头程/汇率变动 ≥3% 而售价未调</td><td><span class="pill p-warn">P1</span></td><td>重算保本 ACOS，同步调价与广告红线</td></tr>
+          <tr><td><b>PF-09</b> 促销叠加亏损</td><td>券+折扣+广告同时生效导致到手价低于保本线</td><td><span class="pill p-err">P0</span></td><td>立即下线冲突促销，建立促销互斥校验规则</td></tr>
+        </tbody>
+      </table></div>
+      <div class="alert a-neu"><b>常见误报：</b>一次性赔偿入账（标为非常规收入）；汇率大幅波动（单列汇损行）；新品期广告投入（用阶段放宽线）。</div>
+    </div>
+
+    <div class="pane" id="ex5">
+      <p><b>监测对象：</b>广告活动 / 广告组 / 定向。<b>核心逻辑：</b>花费异常有两种——烧太快和花不出去。前者亏钱，后者说明投放结构出了问题。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>规则</th><th>触发条件（建议阈值，待确认）</th><th>级别</th><th>标准动作</th></tr></thead>
+        <tbody>
+          <tr><td><b>AD-01</b> 预算执行异常</td><td>日花费 &gt; 预算 120%，或 &lt; 50%</td><td><span class="pill p-warn">P1</span></td><td>查是否有预算规则/分时策略冲突；花不出去查竞价与审核</td></tr>
+          <tr><td><b>AD-02</b> 预算提前烧完</td><td>12:00 前花费达 90%</td><td><span class="pill p-warn">P1</span></td><td>提预算或加分时出价，把预算压到高转化时段</td></tr>
+          <tr><td><b>AD-03</b> 花费突增</td><td>单活动日环比 +50% 且 ACOS 恶化</td><td><span class="pill p-err">P0</span></td><td>立即查新增词/加价/位置调整，按止损规则降竞价 20–30%</td></tr>
+          <tr><td><b>AD-04</b> 花费集中</td><td>前 3 个词吃掉 &gt;60% 花费</td><td><span class="pill p-warn">P1</span></td><td>拆组隔离，防预算旁路；检查这几个词的单位经济</td></tr>
+          <tr><td><b>AD-05</b> 空转活动</td><td>连续 3 天零曝光或零点击，仍在启用</td><td><span class="pill p-neu">P2</span></td><td>查审核/竞价过低/定向过窄，无效即关停</td></tr>
+          <tr><td><b>AD-06</b> 位置结构失衡</td><td>首页首位花费占比 &gt;70% 且该位 CVR 低于均值</td><td><span class="pill p-warn">P1</span></td><td>下调首页首位加价，把钱移到商品页/其余位置</td></tr>
+          <tr><td><b>AD-07</b> 站外/B2B 花费</td><td>站外花费占比突增，或 B2B 花费无对应转化</td><td><span class="pill p-neu">P2</span></td><td>单独看该部分 ACOS 与退货，不达线即关闭</td></tr>
+          <tr><td><b>AD-08</b> 高花费零成交</td><td>点击 ≥15 且订单 =0 且花费 ≥ 阈值</td><td><span class="pill p-err">P0</span></td><td>精准否定或降价 50%，当日执行</td></tr>
+        </tbody>
+      </table></div>
+      <div class="alert a-neu"><b>常见误报：</b>大促主动加预算；新品冲量期；平台侧展示量波动导致的花费漂移（需连续两期确认）。</div>
+    </div>
+
+    <div class="pane" id="ex6">
+      <p><b>监测对象：</b>展示、点击、CTR、CPC、展示份额。<b>为什么单列：</b>花费异常看的是钱，点击异常看的是「流量质量与入口是否正常」，两者根因完全不同。</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>规则</th><th>触发条件（建议阈值，待确认）</th><th>级别</th><th>标准动作</th></tr></thead>
+        <tbody>
+          <tr><td><b>AC-01</b> 有点击无展示</td><td>曝光 &gt;0 且点击 =0 连续 1 天</td><td><span class="pill p-err">P0</span></td><td>查 listing 是否不可售、审核中、竞价过低、类目错放</td></tr>
+          <tr><td><b>AC-02</b> CTR 骤降</td><td>单日 −50%（曝光样本足够）</td><td><span class="pill p-warn">P1</span></td><td>查主图/价格/评分/优惠标变化，或展示位结构变化</td></tr>
+          <tr><td><b>AC-03</b> 点击暴涨零单</td><td>点击 +100% 且订单 =0</td><td><span class="pill p-err">P0</span></td><td>查是否流量错配/被跟卖价格差/详情页异常；必要时否定</td></tr>
+          <tr><td><b>AC-04</b> 高点击零转化</td><td>点击 ≥20 且订单 =0</td><td><span class="pill p-warn">P1</span></td><td>做词-品相关性核查，看是否「高流量低意图」词</td></tr>
+          <tr><td><b>AC-05</b> 展示份额骤降</td><td>IS 环比 −30%</td><td><span class="pill p-warn">P1</span></td><td>查竞价被超、预算受限、竞品加投；决定是否加价抢回</td></tr>
+          <tr><td><b>AC-06</b> CPC 突涨</td><td>CPC 环比 +30%</td><td><span class="pill p-warn">P1</span></td><td>重算保本 CPC，超线即收窄匹配或降竞价</td></tr>
+          <tr><td><b>AC-07</b> 分时归零</td><td>某时段点击归零（原本有量）</td><td><span class="pill p-neu">P2</span></td><td>查分时策略/预算耗尽/投放时段设置</td></tr>
+          <tr><td><b>AC-08</b> 异常点击特征</td><td>CTR &gt; 类目均值 5 倍，或点击集中在极短时段</td><td><span class="pill p-neu">P2</span></td><td>标记观察，评估无效流量；不轻易改结构</td></tr>
+        </tbody>
+      </table></div>
+      <div class="alert a-neu"><b>常见误报：</b>展示位结构变化导致的 CTR 波动；类目季节波动；大促流量结构变化。规则必须带「连续两期」确认，避免单日噪声。</div>
+    </div>
+  </div>
+
+  <h3>影响金额怎么估（决定排序，必须有）</h3>
+  <div class="formula">流量/链接类：损失 = 日均订单 × 缺量比例 × 单位边际贡献 × 预计持续天数
+花费类：    损失 = 超支额 + 低效花费（花费 × (1 − 目标ACOS ÷ 实际ACOS)）
+库存类：    断货损失 = 日均销量 × 缺货天数 × 单位边际贡献
+            冗余损失 = 库存金额 × 资金成本率 + 长期仓储费
+利润类：    损失 = 差额绝对值（直接可算）</div>
+  <p class="muted">有了金额，「先处理哪件」就不再靠感觉，而是按 € / 天排序。这是异常看板从「告警列表」升级为「优先队列」的唯一办法。</p>
+
+  <h3>误报治理：让规则自己淘汰自己</h3>
+  <div class="grid2">
+    <div class="card"><h4>规则真实率</h4>
+      <div class="formula" style="margin-top:6px">真实率 = 确认为真的异常数 ÷ 命中总数
+&lt;60% 连续两周 → 降级或改阈值
+&lt;40% → 直接停用，回到规则评审
+每条规则必须记录「误报原因」负样本</div>
+      <p class="muted">没有这个机制，三个月后所有人都会静音告警——这比不做异常看板更糟。</p>
+    </div>
+    <div class="card"><h4>当前分布（示意）</h4>
+      <div style="position:relative;height:196px"><canvas id="exChart"></canvas></div>
+    </div>
+  </div>
+
+  <h3>信息找人：通知矩阵</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>级别</th><th>渠道</th><th>对象</th><th>时段策略</th><th>未处理</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill p-err">P0</span></td><td>电话 + 企微 + 站内强提醒</td><td>责任人或值班人，抄送主管</td><td>全天，含夜间</td><td>15min 未认领 → 升级主管；1h 未动 → 升级老板</td></tr>
+      <tr><td><span class="pill p-warn">P1</span></td><td>企微 + 站内任务</td><td>责任人</td><td>08:00–22:00</td><td>4h 未认领 → 升级主管</td></tr>
+      <tr><td><span class="pill p-neu">P2</span></td><td>日报合并推送</td><td>责任人</td><td>每日 09:00</td><td>3 天未处理 → 进周会</td></tr>
+      <tr><td><span class="pill p-info">P3</span></td><td>周报</td><td>主管</td><td>每周一</td><td>不升级</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">免打扰只对 P1 及以下生效；P0 不设免打扰——不可逆的事没有「明天再说」。</p>
+
+  <h3>日会节奏：异常看板怎么被真正用起来</h3>
+  <div class="grid3">
+    <div class="card"><h4>每日 09:30 · 15 分钟</h4><p>只过 P0 和昨日未闭环的 P1。每人说三句：是什么、影响多少、什么时候好。<b>不看图表，只看队列。</b></p></div>
+    <div class="card"><h4>每周一 · 45 分钟</h4><p>看规则真实率（哪些规则在骗人）、重复异常 TOP5（哪些问题是结构性的）、P2 积压。产出本周结构改进项。</p></div>
+    <div class="card"><h4>每月 · 60 分钟</h4><p>异常总量趋势、平均响应/恢复时长、因异常损失的金额合计、进入问题库的根因。定下月阈值调整。</p></div>
+  </div>
+  <div class="alert a-ok"><b>闭环的最后一公里：</b>每条异常复盘后必须落一条「问题库」记录（现象 → 根因 → 处理 → 预防规则）。三个月后，这套问题库就是给新人的培训材料，也是 AI 建议的知识来源——这就是知识资产层和数据资产层在同一个动作里一起长出来。</div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section>
+  <div class="sec-head"><h2><em>09</em>挂进天机OS：五板块 × 三层 × 一个阈值中心</h2><span class="sec-label">架构落位</span></div>
+  <p class="lead">这四块看板不是第五个板块，而是横跨五个板块的<b>视图层</b>。搞清楚谁供数、谁消费，才不会重复建设。你在「天机OS = 领星定制版」上的判断是对的：领星做事实底座，我们只做判断层。</p>
+
+  <div class="table-wrap"><table>
+    <thead><tr><th>板块</th><th>在看板体系里的角色</th><th>供什么数</th><th>消费哪个看板</th></tr></thead>
+    <tbody>
+      <tr><td><b>选品板块</b></td><td>机会来源</td><td>市场规模、价格带、竞争度、新品进度、类目得分</td><td>经营看板（结构小卡/新品进度）、异常看板（新品风险）</td></tr>
+      <tr><td><b>运营板块</b></td><td>判断与打分中心</td><td>词库与打标、流量得分、链接健康分、listing 质量分</td><td>关键词流量看板（主数据源）、经营看板（板块灯）</td></tr>
+      <tr><td><b>广告板块</b></td><td>执行与预算</td><td>五层广告数据、花费与点击、位置份额、保本 ACOS 红线</td><td>异常看板（花费/点击两类）、关键词看板（动作队列）</td></tr>
+      <tr><td><b>领星板块</b></td><td>事实底座</td><td>订单、库存、履约、采购、结算、头程、FBA 费用</td><td>四块看板全部（80% 事实数据来自这里）</td></tr>
+      <tr><td><b>设置板块</b></td><td>参数与治理中心</td><td>阈值、权限、订阅、标签词典、数据源、任务调度</td><td>四块看板全部（所有红黄绿线都在这里配）</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>三层架构：前台看板 / 中控台编排 / 后台数据</h3>
+  <div class="pyramid">
+    <div class="layer"><span class="lv">前台</span><span class="nm">角色门户</span><span class="ds">我的看板 · 我的待办 · 我的目标 · 我的工作台（运营/广告/供应链/财务各自的操作面）</span></div>
+    <div class="layer"><span class="lv">中控台</span><span class="nm">编排层</span><span class="ds">积木拖拽布局 · 阈值配置 · 订阅与通知 · 业务流画布（可缩放/全屏/拖拽）· 权限与账号</span></div>
+    <div class="layer"><span class="lv">后台</span><span class="nm">数据与能力层</span><span class="ds">数据库与云服务器 · 指标层 · 规则引擎 · API/MCP 对接 · 知识库/问题库 · 算法服务 · 任务调度</span></div>
+  </div>
+
+  <h3>阈值中心：让运营自己调，不用等技术发版</h3>
+  <p>这是「缩小运营与技术 gap」最有效的一招。所有看板上的红黄绿线，不写死在代码里，全部集中在设置板块的一张参数表里：</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>参数</th><th>默认值（待确认）</th><th>生效范围</th><th>谁能改</th><th>改动留痕</th></tr></thead>
+    <tbody>
+      <tr><td>单 ASIN 流量骤降阈值</td><td>−40% / 连续 2 日</td><td>链接异常</td><td>运营主管</td><td>记录改前改后 + 原因</td></tr>
+      <tr><td>高花费零成交</td><td>点击 ≥15 / 订单 0 / 花费 ≥20€</td><td>广告异常</td><td>广告负责人</td><td>同上，7 天内可回滚</td></tr>
+      <tr><td>断货风险倍数</td><td>补货总时长 × 1.2</td><td>库存异常</td><td>供应链</td><td>同上</td></tr>
+      <tr><td>P0 金额门槛</td><td>200€/天</td><td>全异常</td><td>老板</td><td>同上</td></tr>
+      <tr><td>类目转化率参照值</td><td>按类目分别设</td><td>经营/关键词</td><td>数据负责人</td><td>按季度校准</td></tr>
+      <tr><td>模型权重（六因素）</td><td>25/20/15/10/20/10</td><td>竞品同位</td><td>数据负责人</td><td>记录校准样本量</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alert a-info"><b>为什么重要：</b>阈值一定会变（旺季、新品、新站点）。如果每次改阈值都要开发排期，业务就会绕过系统，回到 Excel。阈值可配 + 改动留痕 + 可回滚，是「搭积木」能长期活着的前提。</div>
+
+  <h3>打分系统：一个总分，五项分项，全部可解释</h3>
+  <div class="formula">链接健康分（0–100，权重为建议值，待确认）
+= 流量分 30% + 转化分 25% + 广告效率分 20% + 内容质量分 15% + 风险分 10%
+
+流量分     ← 关键词看板的流量得分（自然/广告分开后加权）
+转化分     ← CVR 相对类目中位的分位，而非绝对值
+广告效率分 ← ACOS 对目标 ACOS、TACOS 对红线、展示份额覆盖
+内容质量分 ← AI 对标题/五点/主图/A+/变体的打分 + 特征词覆盖度
+风险分     ← 异常条数与严重度倒扣
+
+硬规矩：分项必须可见、权重可调、每次分数变动能归因到具体指标。
+禁止只给一个黑箱总分——运营不会信，也不会用。</div>
+  <div class="grid3" style="margin-top:10px">
+    <div class="card"><h4>广告促销得分</h4><p>ACOS 对目标线、TACOS 对红线、促销渗透率、优惠券核销效率、展示份额缺口。用于判断「钱花得值不值」。</p></div>
+    <div class="card"><h4>类目得分</h4><p>容量、增速、集中度、新品成功率、退货率、价格带健康度。用于选品和「这个类目值不值得加投」。</p></div>
+    <div class="card"><h4>listing 质量分（AI）</h4><p>标题核心词覆盖、五点对 VOC 痛点的覆盖、主图信息密度、A+ 完整度、属性完整度、特征词与 TOP 竞品的缺口。</p></div>
+  </div>
+
+  <h3>权限：看板级 / 卡片级 / 字段级</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>角色</th><th>可看看板</th><th>成本/利润字段</th><th>可执行动作</th></tr></thead>
+    <tbody>
+      <tr><td><b>老板</b></td><td>全部</td><td>全部</td><td>全部 + 改 P0 门槛 + 看决策留痕</td></tr>
+      <tr><td><b>运营主管</b></td><td>全部（本组）</td><td>毛利率可见，净利区间化</td><td>派单、改阈值（授权范围内）、审批</td></tr>
+      <tr><td><b>运营</b></td><td>经营/关键词/异常（本人 ASIN）</td><td><b>采购价隐藏</b>，毛利只给区间</td><td>改 listing、调价申请、认领任务</td></tr>
+      <tr><td><b>广告</b></td><td>经营/关键词/异常（广告两类）</td><td>只读保本 ACOS 与目标 CPC</td><td>调竞价、否定、迁组、调预算</td></tr>
+      <tr><td><b>供应链</b></td><td>经营/异常（库存类）</td><td>采购价与头程可见</td><td>下采购单、补货、索赔、清货</td></tr>
+      <tr><td><b>财务</b></td><td>全部金额相关</td><td>全部</td><td>对账、调成本、催回款</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">字段级权限里最实用的一条：<b>给运营看「毛利区间」而不是精确值</b>。既让人知道该不该推，又不泄露成本结构——这比一刀切隐藏更好用。</p>
+
+  <h3>关于 RPA / IDP / FDE：把后台里「没有 API 的数据」也接进来</h3>
+  <div class="grid2">
+    <div class="card"><h4>IDP / OCR 用在哪</h4><ul><li>结算单、发票、货代对账单 → 结构化（这是账务看板最缺的一环）</li><li>VC/1P 后台导出、供应商报价单、验货报告</li><li>竞品页面快照 → 价格/评分/优惠/配送时效</li></ul></div>
+    <div class="card"><h4>FDE 这个角色</h4><p>懂业务又能配系统的人：不写代码，用中控台把「看板 + 规则 + 流程 + 通知」配出来。<b>他的产出是配置和 SOP，不是需求文档。</b>这是缩小运营与技术 gap 的现实解——比培训运营写 SQL 靠谱得多。</p></div>
+  </div>
+</section>
+
+<!-- ============ 10 ============ -->
+<section>
+  <div class="sec-head"><h2><em>10</em>怎么判断「这块看板有用」</h2><span class="sec-label">度量与路线</span></div>
+  <p class="lead">大部分看板死得悄无声息：上线时很热闹，三个月后只有新人培训时打开一次。要避免，就从第一天起用五个指标度量它，而不是度量「有多少张图」。</p>
+
+  <div class="metric-grid">
+    <div class="metric"><div class="lb">周活跃率</div><div class="vl">≥70%</div><div class="dt flat">授权用户中每周至少打开 3 次</div></div>
+    <div class="metric"><div class="lb">下钻率</div><div class="vl">≥35%</div><div class="dt flat">看结论后点开证据的会话占比</div></div>
+    <div class="metric"><div class="lb">动作触发率</div><div class="vl">≥40%</div><div class="dt flat">看完产生动作/任务的会话占比</div></div>
+    <div class="metric"><div class="lb">异常真实率</div><div class="vl">≥75%</div><div class="dt flat">被确认有效的告警占比</div></div>
+    <div class="metric"><div class="lb">决策留痕率</div><div class="vl">≥90%</div><div class="dt flat">有建议+决策+结果的记录占比</div></div>
+  </div>
+  <p class="muted" style="margin-top:8px">目标值为建议（待确认）。其中「动作触发率」是最诚实的指标——看完不产生任何动作的看板，本质是装饰。</p>
+
+  <h3>90 天落地路线</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>阶段</th><th>时间</th><th>交付</th><th>验收</th></tr></thead>
+    <tbody>
+      <tr><td><b>W1–W2</b><br>地基</td><td>第 1–2 周</td><td>指标层与数据字典 v1（约 45 个指标）、四日期明细表、角色与字段权限骨架、阈值中心表结构</td><td>同一指标在两个地方算出的值一致；口径争议 0 条</td></tr>
+      <tr><td><b>W3–W4</b><br>先活起来</td><td>第 3–4 周</td><td>经营看板 v1（目标落点/战报/驱动拆解/待办）、异常看板 v1（店铺/链接/广告花费 3 类共 18 条规则）</td><td>老板每天打开；P0 平均响应 &lt;30min</td></tr>
+      <tr><td><b>W5–W6</b><br>把钱算清</td><td>第 5–6 周</td><td>账务 L1/L2 三层利润、成本瀑布、单位经济卡，向广告板块输出保本 ACOS/CPC</td><td>净利与财务月报差异 &lt;2%；广告红线全部引用同一来源</td></tr>
+      <tr><td><b>W7–W8</b><br>解释原因</td><td>第 7–8 周</td><td>关键词看板 v1（流量瀑布/流量得分/词矩阵/出单词盘点）、异常补齐另 3 类</td><td>「单为什么少了」能在 5 分钟内定位到段与词</td></tr>
+      <tr><td><b>W9–W10</b><br>可搭积木</td><td>第 9–10 周</td><td>中控台积木编排、订阅与强提醒、任务派单进项目跟进表</td><td>新增一块看板 1 天内配完，不开发</td></tr>
+      <tr><td><b>W11–W12</b><br>半自动起步</td><td>第 11–12 周</td><td>AI 经营简报、建议卡片、采纳/修改/驳回按钮、决策留痕表</td><td>简报采纳率有数可看；每条决策可回溯到依据</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>从「看得见」到「半自动」的三道闸门</h3>
+  <div class="grid3">
+    <div class="card"><h4>阶段① UI 决策支持</h4><p>人 100% 决策，系统只聚合、可视化、预警。<br><b>毕业标准：</b>口径统一、五个角色视图就绪、老板能据此拍板。</p></div>
+    <div class="card"><h4>阶段② 人机半协助</h4><p>AI 出建议（结论+依据+置信度），人确认或驳回，系统记录反馈并学习。<br><b>毕业标准：</b>高频场景采纳率稳定 ≥70%，决策数据量足够。</p></div>
+    <div class="card"><h4>阶段③ 全自动</h4><p>高置信场景自动执行，低置信与异常转人，保留回滚。<br><b>准入：</b>采纳率高、覆盖率高、异常率 ≤ 阈值、可回滚。</p></div>
+  </div>
+  <p class="muted">顺序不能跳。跳过阶段①直接谈全自动，等于让一个没看过你店铺的模型替你花钱。</p>
+</section>
+
+<!-- ============ 11 ============ -->
+<section>
+  <div class="sec-head"><h2><em>11</em>风险与红线</h2><span class="sec-label">动手前先认下来</span></div>
+  <div class="grid2">
+    <div class="alert a-err"><b>口径混用是最大风险。</b>转化率（会话口径 / 广告点击口径 / 商机探测器口径）、IS（份额不是比率）、利润（结算 / 估算）—— 三处混用一次，整套看板的信任就没了。对策：数字必须带口径标签，跨源比较先对齐分子分母。</div>
+    <div class="alert a-warn"><b>小时级数据是估计，不是事实。</b>自然排名没有官方小时数据，6h/12h 全靠采样。用它做卡位判断可以，用它做月度结论不行。对策：标采样频率与样本量，样本不足标 U。</div>
+    <div class="alert a-warn"><b>AI 只读 + 出草稿，不代操作后台。</b>所有建议必须带依据、置信度、可回滚。敏感内容（成本、供应商、账号）最小化外发。</div>
+    <div class="alert a-warn"><b>自动执行必须能一键回滚。</b>没有回滚路径的动作，一律留在人工确认。</div>
+    <div class="alert a-info"><b>阈值都是起点，不是真理。</b>本文所有数值（10 次点击、−40%、200€/天、权重 25/20/15/10/20/10）都是建议初值，需按你的体量跑 4 周后校准，并进阈值中心留痕。</div>
+    <div class="alert a-info"><b>1P 与 3P 不能混算。</b>VC 的 PCOGS / CP / CM 口径与 3P 完全不同，必须独立建表、独立红线，否则利润会算出一个既不对 3P 也不对 1P 的第三个数。（你在学 VC，这一条尤其要守住。）</div>
+  </div>
+</section>
+
+<!-- ============ 12 ============ -->
+<section>
+  <div class="sec-head"><h2><em>12</em>下一步：三个可以立刻做的动作</h2><span class="sec-label">不用等系统</span></div>
+  <div class="grid3">
+    <div class="card"><h4>① 先定 20 个指标的口径</h4><p>不用 45 个。把 GMV、净销售额、会话、转化率、ASP、毛利、净利、广告费、ACOS、TACOS、可售天数、退货率、评分、BSR、Buy Box 占比、展示份额、自然位、广告位、出单词数、重叠词数——这 20 个的口径先写死，后面的看板才有根。</p></div>
+    <div class="card"><h4>② 用 Excel 先跑一周「异常队列」</h4><p>不开发，先把六类异常里最贵的 10 条规则，用现有导出数据手工跑一周。看有多少条真、多少条假。真实率不到 60% 的规则，先别写进系统。</p></div>
+    <div class="card"><h4>③ 把保本 ACOS 算到 ASIN 级</h4><p>这是整条链路里杠杆最高的一件事。算出来之后，广告、异常、利润三块看板同时有了标尺，而且立刻能发现一批「一直在亏着投」的词。</p></div>
+  </div>
+  <div class="alert a-ok" style="margin-top:14px"><b>一句话总结：</b>四块看板的价值不在「看得全」，而在「看完就知道今天做什么」。经营看板给方向，账务看板给底线，关键词看板给原因，异常看板给动作。四块连起来，才叫决策回路；分开摆，就只是四张报表。</div>
+</section>
+
+<!-- ============ REF ============ -->
+<section>
+  <div class="sec-head"><h2><em>13</em>参考</h2><span class="sec-label">口径与规则以官方文档为准</span></div>
+  <div class="refs">
+    <p>1. 亚马逊卖家平台 · 账户健康与绩效指标（ODR、迟发率、取消率等口径）—— <a href="https://sellercentral.amazon.com/performance/dashboard" target="_blank">sellercentral.amazon.com/performance/dashboard</a></p>
+    <p>2. 亚马逊广告 · Sponsored Products 与广告位/竞价机制说明 —— <a href="https://advertising.amazon.com/solutions/products/sponsored-products" target="_blank">advertising.amazon.com</a></p>
+    <p>3. 亚马逊物流（FBA）费用与库存管理 —— <a href="https://sellercentral.amazon.com/fba/pricing" target="_blank">sellercentral.amazon.com/fba/pricing</a></p>
+    <p>4. 商机探测器 / 选品指南针（搜索量与份额口径）—— <a href="https://sellercentral.amazon.com/opportunity-explorer" target="_blank">sellercentral.amazon.com/opportunity-explorer</a></p>
+    <p>5. 卖家大学（Seller University）· 运营与广告课程 —— <a href="https://sellercentral.amazon.com/learn" target="_blank">sellercentral.amazon.com/learn</a></p>
+    <p>6. 领星 ERP · 订单/库存/财务模块参考 —— <a href="https://www.lingxing.com" target="_blank">lingxing.com</a></p>
+    <p>7. 卖家精灵 · 关键词与竞品数据参考 —— <a href="https://www.sellersprite.com" target="_blank">sellersprite.com</a></p>
+    <p>8. Dify · 可视化工作流编排（中控台业务流画布参考）—— <a href="https://dify.ai" target="_blank">dify.ai</a></p>
+    <p>9. Chart.js · 图表库文档 —— <a href="https://www.chartjs.org" target="_blank">chartjs.org</a></p>
+  </div>
+  <p class="muted" style="margin-top:10px">说明：文中所有金额、比例、权重、阈值均为设计与演示用示意值，需以店铺真实数据与官方口径校准后写入系统。</p>
+</section>
+
+<script>
+document.querySelectorAll('.tabset').forEach(function(ts){
+  ts.querySelectorAll('.tab').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      ts.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      ts.querySelectorAll('.pane').forEach(function(p){p.classList.remove('active');});
+      var t = ts.querySelector('#'+btn.dataset.tab);
+      if(t){t.classList.add('active');}
+    });
+  });
+});
+
+(function(){
+  var gridColor='#E8E6E2', txt='#717171';
+  var baseOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{grid:{display:false},ticks:{color:txt,font:{size:11}}},
+            y:{grid:{color:gridColor,drawBorder:false},ticks:{color:txt,font:{size:11}}}}};
+
+  // 利润瀑布
+  var pc=document.getElementById('profitChart');
+  if(pc){
+    new Chart(pc,{type:'bar',data:{
+      labels:['售价','采购','头程','FBA','佣金','广告','促销','退货','其他','净利'],
+      datasets:[{data:[[0,50],[38,50],[35,38],[30,35],[22.5,30],[16.5,22.5],[14.5,16.5],[12.5,14.5],[10.5,12.5],[0,10.5]],
+        backgroundColor:['#3E54CE','#C4433A','#C4433A','#C4433A','#C4433A','#C4433A','#C4433A','#C4433A','#C4433A','#3E54CE'],
+        borderRadius:3,barPercentage:.62}]},
+      options:Object.assign({},baseOpts,{
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.raw[1]-c.raw[0]+'€';}}}},
+        scales:{x:{grid:{display:false},ticks:{color:txt,font:{size:11}}},
+                y:{grid:{color:gridColor,drawBorder:false},ticks:{color:txt,font:{size:11},callback:function(v){return v+'€';}}}}})});
+  }
+
+  // 流量瀑布
+  var fc=document.getElementById('funnelChart');
+  if(fc){
+    new Chart(fc,{type:'bar',data:{
+      labels:['曝光','点击','详情页浏览','加购','订单'],
+      datasets:[
+        {type:'bar',label:'占曝光%',data:[100,4.2,3.15,0.47,0.125],backgroundColor:'#3E54CE',borderRadius:3,barPercentage:.55,yAxisID:'y'},
+        {type:'line',label:'环节转化率%',data:[null,4.2,75,14.9,26.6],borderColor:'#E47700',backgroundColor:'#E47700',borderWidth:1.5,tension:.4,pointRadius:3,yAxisID:'y1'}
+      ]},
+      options:Object.assign({},baseOpts,{
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+c.parsed.y+'%';}}}},
+        scales:{x:{grid:{display:false},ticks:{color:txt,font:{size:11}}},
+                y:{grid:{color:gridColor},ticks:{color:txt,font:{size:11},callback:function(v){return v+'%';}}},
+                y1:{position:'right',grid:{display:false},ticks:{color:'#E47700',font:{size:11},callback:function(v){return v+'%';}},min:0,max:100}}})});
+  }
+
+  // 德不配位四象限
+  var qc=document.getElementById('quadChart');
+  if(qc){
+    var quadLine={id:'quad',beforeDatasetsDraw:function(ch){
+      var x=ch.scales.x,y=ch.scales.y,a=ch.chartArea,ctx=ch.ctx;
+      ctx.save();ctx.setLineDash([4,4]);ctx.strokeStyle='#C5C0BA';ctx.lineWidth=1;
+      var mx=x.getPixelForValue(50),my=y.getPixelForValue(50);
+      ctx.beginPath();ctx.moveTo(mx,a.top);ctx.lineTo(mx,a.bottom);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(a.left,my);ctx.lineTo(a.right,my);ctx.stroke();
+      ctx.restore();}};
+    new Chart(qc,{type:'scatter',data:{datasets:[
+      {label:'真强',data:[{x:82,y:78},{x:75,y:72},{x:88,y:66}],backgroundColor:'#3E54CE',pointRadius:6,pointHoverRadius:8},
+      {label:'虚火',data:[{x:32,y:85},{x:41,y:76},{x:28,y:68}],backgroundColor:'#E47700',pointRadius:6,pointHoverRadius:8},
+      {label:'洼地',data:[{x:78,y:34},{x:85,y:22}],backgroundColor:'#5FA882',pointRadius:6,pointHoverRadius:8},
+      {label:'衰退',data:[{x:35,y:30},{x:22,y:41},{x:44,y:18}],backgroundColor:'#C4433A',pointRadius:6,pointHoverRadius:8}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{min:0,max:100,title:{display:true,text:'自然力（自然排名 / 自然流量得分）',color:txt,font:{size:11}},grid:{color:gridColor},ticks:{color:txt,font:{size:10}}},
+              y:{min:0,max:100,title:{display:true,text:'广告力（广告位强度 / 花费份额）',color:txt,font:{size:11}},grid:{color:gridColor},ticks:{color:txt,font:{size:10}}}}},plugins:[quadLine]});
+  }
+
+  // 异常分布
+  var ec=document.getElementById('exChart');
+  if(ec){
+    new Chart(ec,{type:'doughnut',data:{labels:['广告点击','广告花费','链接','库存','利润','店铺'],
+      datasets:[{data:[42,28,21,15,12,9],backgroundColor:['#3E54CE','#7F8FE0','#E47700','#5FA882','#C4433A','#A3AEEE'],borderWidth:0}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}});
+  }
+})();
+</script>
+
+</main>
+
+<footer>
+  <div class="blob b2" style="opacity:.14"></div>
+  <div class="foot-in">
+    <div>
+      <div class="bt">天机OS · 四大看板设计蓝图</div>
+      <div class="bs">经营 · 账务 · 关键词流量 · 异常 —— 一条决策回路</div>
+    </div>
+    <div class="fmeta">
+      <span>版本 v1.0</span><span>日期 2026-10-22</span>
+      <span>范围 视图层 + 规则层</span><span>配套 PRD：四大看板PRD.xlsx</span>
+    </div>
+  </div>
+  <div class="fbot">
+    <span>文档编号 TJ-OS-DASH-001 · 生成于 AllyHub</span>
+    <span>Generated by <a href="https://allyhub.com" target="_blank">AllyHub AI</a></span>
+  </div>
+</footer>
+</div>
+</body>
+</html>

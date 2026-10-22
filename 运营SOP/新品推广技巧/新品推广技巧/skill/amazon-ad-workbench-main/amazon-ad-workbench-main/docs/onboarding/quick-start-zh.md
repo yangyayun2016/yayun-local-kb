@@ -1,0 +1,233 @@
+# 快速开始（中文）
+
+## 开始前先做什么
+
+先把仓库拉到本地：
+
+```bash
+git clone https://github.com/dongerydp/amazon-ad-workbench.git
+cd amazon-ad-workbench
+```
+
+不用 Git 也没关系，直接在 GitHub 页面下载 ZIP，解压后一样能启动。
+
+## 小白最简单的启用方式
+
+第一次使用，直接走这条路径：
+
+1. 启动后端
+2. 启动前端
+3. 打开页面
+4. 上传 `Search Term Report`
+5. 上传 `Advertised Product Report`
+6. 依次查看：
+   - `Reports`
+   - `Analysis`
+   - `Tags`
+   - `Exports`
+
+第一次体验不需要准备这些东西：
+
+- AI Key
+- 领星账号
+- Amazon SP-API
+- internal SKU 映射
+
+## Windows 一键启动
+
+想自己手动开两个窗口，就在仓库根目录运行：
+
+```powershell
+.\start-backend.ps1
+.\start-frontend.ps1
+```
+
+或者直接一起启动：
+
+```powershell
+.\start-all.ps1
+```
+
+想双击就跑，直接双击：
+
+- `one-click-start.bat`
+
+或者执行：
+
+```powershell
+.\one-click-start.ps1
+```
+
+这个启动器会自动完成：
+
+- 检查 `python` 和 `npm` 是否可用
+- 分别启动后端和前端
+- 自动打开浏览器
+
+## 手工启动方式
+
+### 第一步：启动后端
+
+在仓库根目录执行：
+
+```bash
+cd backend
+python -m venv .venv
+```
+
+激活虚拟环境：
+
+Windows PowerShell：
+
+```powershell
+.\.venv\Scripts\activate
+```
+
+macOS / Linux：
+
+```bash
+source .venv/bin/activate
+```
+
+安装依赖并启动后端：
+
+```bash
+pip install -r requirements.txt -r requirements-dev.txt
+uvicorn app.main:app --reload --port 8080
+```
+
+启动成功后，访问：
+
+- `http://127.0.0.1:8080/health`
+
+如果返回 `{"status":"ok"...}`，说明后端正常。
+
+### 第二步：启动前端
+
+回到仓库根目录后执行：
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+前端地址通常是：
+
+- `http://127.0.0.1:5173`
+
+## 最快体验路径
+
+### 体验模式
+
+1. 打开首页 `Overview`
+2. 打开 `Reports`
+3. 上传搜索词报表
+4. 上传投放商品报表
+5. 打开 `Analysis` 运行分析
+6. 再按顺序查看：
+   - `Reports`
+   - `Analysis`
+   - `Tags`
+   - `Exports`
+
+这是当前最快看懂项目的方式，不需要先配置 AI 或领星。
+
+## 真实数据怎么用
+
+要分析真实数据，至少准备 2 份报表：
+
+- `Search Term Report`
+- `Advertised Product Report`
+
+然后按这个顺序操作：
+
+1. 打开 `Reports`
+2. 上传搜索词报表
+3. 上传投放商品报表
+4. 打开 `Analysis`
+5. 点击 `Run Analysis`
+6. 去 `Tags` 查看打标结果
+7. 去 `Exports` 下载结果
+
+## 不配 AI 能不能用
+
+可以。
+
+系统内置了 heuristic tagging 和规则引擎，所以即使你不填任何模型 Key，也能得到：
+
+- 高效词
+- 待观察词
+- 高花费无单词
+- 否定词建议
+- sellerSKU 汇总
+
+## AI 怎么启用
+
+要启用 AI，按这个顺序做：
+
+1. 打开 `AI 配置`
+2. 选择一个模型提供商
+3. 填写 `API Key`
+4. 可选填写 `Base URL` 和 `Model`
+5. 先点 `测试`
+6. 再回到 `Analysis` 勾选 `启用 AI 打标`
+
+当前支持：
+
+- OpenAI
+- Claude
+- Gemini
+- DeepSeek
+- Qwen
+- Doubao
+
+## 领星怎么启用
+
+要接入领星补充店铺和 sellerSKU，按这个顺序做：
+
+1. 打开 `Lingxing`
+2. 填写：
+   - `App ID`
+   - `App Secret`
+   - `Base URL`
+3. 点击 `Test Connection`
+4. 再点击：
+   - `Sync Shops`
+   - `Sync sellerSKU`
+
+## 导出结果在哪里
+
+分析完成后，在 `Exports` 页面可以下载：
+
+- 高效词
+- 否定词建议
+- sellerSKU 汇总
+- 完整 Excel 工作簿
+
+## 常见问题
+
+### 1. 我只上传了一份报表，能分析吗
+
+不建议。这个项目最少要两份报表一起使用：
+
+- Search Term Report
+- Advertised Product Report
+
+否则 sellerSKU 归因会不完整。
+
+### 2. 我没有 AI Key，项目是不是没法用
+
+不是。AI 是增强项，不是启动前提。
+
+### 3. 我是不是必须对接领星
+
+不是。领星只是增强数据来源。
+
+### 4. 线上能不能直接访问
+
+代码仓库可以直接访问，但在线操作网址需要你自己部署。
+
+部署说明见：
+
+- [部署说明（中文）](./deployment-zh.md)

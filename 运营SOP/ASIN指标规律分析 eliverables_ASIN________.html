@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASIN 指标体系与数据规律分析</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Noto+Serif:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF; --border:#E8E6E2; --divider:#C5C0BA;
+  --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+  --hero-bg:#DDE3E8; --hero-deco:#9BADB0; --hero-deco2:#6E9298;
+  --success-bg:#E8FBCF; --success-fg:#3D4826;
+  --warning-bg:#FFF0DC; --warning-fg:#E47700;
+  --info-bg:#DEE5F7; --info-fg:#3E54CE;
+  --error-bg:#FDECEA; --error-fg:#C4433A;
+  --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--outer-bg);font-family:'Inter Tight',sans-serif;color:var(--text-body);padding:28px 20px;-webkit-font-smoothing:antialiased}
+.page{max-width:1200px;margin:0 auto;background:var(--page-bg);border-radius:24px;overflow:hidden}
+.hero{background:var(--hero-bg);padding:38px 40px 32px;position:relative;overflow:hidden}
+.blob{position:absolute;opacity:.2}
+.hero-content{position:relative;z-index:1}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#4a6b70;margin-bottom:12px}
+h1{font-size:26px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em;line-height:1.25}
+.hero-sub{margin-top:10px;font-size:14px;color:var(--text-body);max-width:780px;line-height:1.6}
+.hero-divider{height:1px;background:rgba(255,255,255,.75);margin:22px 0 18px}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat-row .v{font-size:24px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em}
+.stat-row .l{font-size:12px;color:#5a7075;margin-top:3px}
+main{padding:34px 40px 40px}
+section{margin-bottom:38px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);padding-bottom:9px;margin-bottom:18px}
+.sec-title{font-size:17px;font-weight:600;color:var(--text-primary)}
+.sec-sub{font-size:12px;color:var(--text-secondary)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px}
+.card-title{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:2px}
+.card-meta{font-size:12px;color:var(--text-secondary);margin-bottom:12px}
+.metric{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:15px 16px}
+.metric .label{font-size:12px;color:var(--text-secondary)}
+.metric .value{font-size:26px;font-weight:600;color:var(--text-primary);letter-spacing:-.02em;margin-top:4px}
+.metric .delta{font-size:12px;font-weight:500;margin-top:4px;color:var(--text-secondary)}
+.pill{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px}
+.p-info{background:var(--info-bg);color:var(--info-fg)}
+.p-ok{background:var(--success-bg);color:var(--success-fg)}
+.p-warn{background:var(--warning-bg);color:var(--warning-fg)}
+.p-err{background:var(--error-bg);color:var(--error-fg)}
+.p-neutral{background:var(--neutral-bg);color:var(--neutral-fg)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:12px;font-weight:500;color:var(--text-secondary);text-align:left;padding:8px 10px;border-bottom:1px solid var(--divider);white-space:nowrap;vertical-align:bottom}
+td{padding:9px 10px;border-bottom:.5px solid var(--border);color:var(--text-body);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.tbl-wrap{overflow-x:auto}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:12px;color:var(--text-secondary)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:2px;display:inline-block}
+.alert{border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.65}
+.alert b{display:block;margin-bottom:4px;font-size:13px}
+.alert-info{background:var(--info-bg);color:#26327a}
+.alert-warn{background:var(--warning-bg);color:#7a3f00}
+.alert-err{background:var(--error-bg);color:#7a2b23}
+.alert-neutral{background:var(--neutral-bg);color:#4a443f}
+.alert-slate{background:#E2E8E8;color:#2f4a4d}
+ul.clean{list-style:none;font-size:13px;line-height:1.8}
+ul.clean li{padding-left:16px;position:relative;margin-bottom:6px}
+ul.clean li:before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--hero-deco2)}
+.rule{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.rule-h{display:flex;align-items:center;gap:9px;margin-bottom:5px}
+.rule-n{width:22px;height:22px;border-radius:50%;background:#6E9298;color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.rule-t{font-size:15px;font-weight:600;color:var(--text-primary)}
+.rule-w{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;background:#E2E8E8;color:#2f4a4d}
+.rule p{font-size:13px;line-height:1.7;margin-top:6px}
+.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#F4F6F5;border:.5px solid var(--border);border-radius:8px;padding:10px 12px;margin:10px 0;color:#2f4a4d;overflow-x:auto}
+footer{background:var(--hero-bg);padding:30px 40px 22px;position:relative;overflow:hidden}
+.foot-content{position:relative;z-index:1}
+.foot-top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.foot-brand{font-size:15px;font-weight:600;color:var(--text-primary)}
+.foot-brand small{display:block;font-size:12px;font-weight:400;color:#5a7075;margin-top:3px}
+.foot-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px;font-size:12px;color:#5a7075}
+.foot-div{height:1px;background:rgba(255,255,255,.75);margin:8px 0 12px}
+.foot-bar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:#5a7075}
+.refs{font-size:12px;color:#4a443f;line-height:1.7}
+@media (max-width:820px){
+  body{padding:0}
+  .page{border-radius:0}
+  .hero{padding:26px 20px 22px}
+  main{padding:24px 20px 30px}
+  footer{padding:24px 20px 18px}
+  .stat-row{grid-template-columns:1fr 1fr}
+  .grid2,.grid3,.grid4{grid-template-columns:1fr}
+  h1{font-size:21px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <svg class="blob" style="top:-40px;left:-30px;width:230px" viewBox="0 0 200 200"><path fill="var(--hero-deco)" d="M42,-63C58,-51,76,-43,83,-29C90,-15,86,5,77,21C68,37,54,49,38,58C22,67,4,72,-17,71C-38,70,-62,62,-73,47C-84,32,-82,10,-75,-9C-68,-28,-56,-44,-41,-56C-26,-68,-8,-76,11,-77C30,-78,26,-75,42,-63Z" transform="translate(100 100)"/></svg>
+  <svg class="blob" style="bottom:-55px;right:8%;width:190px" viewBox="0 0 200 200"><path fill="var(--hero-deco2)" d="M45,-58C59,-48,72,-37,78,-22C84,-7,83,11,75,26C67,41,52,52,36,61C20,70,1,77,-18,74C-37,71,-56,58,-66,41C-76,24,-77,2,-71,-17C-65,-36,-52,-52,-36,-62C-20,-72,-2,-76,15,-75C32,-74,31,-68,45,-58Z" transform="translate(100 100)"/></svg>
+  <div class="hero-content">
+    <div class="eyebrow">ASIN 指标体系 · 规律分析</div>
+    <h1>销量、点击、浏览与转化率：口径讲清楚，规律找出来</h1>
+    <p class="hero-sub">基于 194 个 ASIN、4 个季度（≈360 天）的销量/浏览/成本/退货数据，先对齐每个指标的真实含义，再用数据验证它们之间的关系——包括几条可以直接指导定价与选品的硬规律。</p>
+    <div class="hero-divider"></div>
+    <div class="stat-row">
+      <div><div class="v">194</div><div class="l">ASIN（138 个有销量）</div></div>
+      <div><div class="v">€6.87M</div><div class="l">Ordered revenue 合计</div></div>
+      <div><div class="v">25.7万</div><div class="l">Ordered units 合计</div></div>
+      <div><div class="v">4.88%</div><div class="l">整体转化率（订单÷浏览）</div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section>
+  <div class="sec-head"><div class="sec-title">一、把每个指标的口径讲清楚</div><div class="sec-sub">这是本次分析最容易被误读的地方</div></div>
+  <div class="card">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:24%">指标</th><th style="width:48%">真实含义与口径</th><th>它在分析里的角色</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>真实的销量<br>Ordered units（360天）</b></td>
+            <td>过去 360 天买家<b>下单</b>的商品件数。<b>是"已下单"，不是"已发货"</b>——表中另有 Dispatched Units（已发货件数）可以对比。</td>
+            <td>衡量真实需求，是所有效率指标的分母基础。</td>
+          </tr>
+          <tr>
+            <td><b>点击量<br>（细分市场点击量，360天）</b></td>
+            <td><b>市场级指标</b>：该 ASIN 所处"细分市场"的整体点击次数，<b>不是这个 ASIN 自己的点击</b>。它衡量的是赛道拥挤度。</td>
+            <td>本品销量 ÷ 市场点击量 = 本品在市场中的份额含义。本表只有 2 个 ASIN 填了这个值。</td>
+          </tr>
+          <tr>
+            <td><b>搜索点击量（360天）</b></td>
+            <td><b>单品级指标</b>：买家搜索任意搜索词、结果页返回该商品后，点击该商品的总次数。只覆盖搜索场景，不含类目页/推荐位。</td>
+            <td>衡量"搜索曝光 → 点击"的吸引力，即主图与标题的抓取力。</td>
+          </tr>
+          <tr>
+            <td><b>Glance Views<br>（浏览量，360天）</b></td>
+            <td>商品<b>详情页</b>被浏览的次数。它统计的是"页面被打开"，<b>不等同于"会话数 Sessions"</b>——同一会话多次浏览会被重复计入。</td>
+            <td>本表转化率的<b>分母</b>，也是判断流量规模的基准。</td>
+          </tr>
+          <tr>
+            <td><b>Page Views<br>（页面浏览量）</b></td>
+            <td>商品页面被浏览的次数。表中只有近 7 天/近 1 天两个短周期值，且<b>与 Glance Views 明显不是同一口径</b>（详见下方口径警示）。</td>
+            <td>只能做短期趋势参考，不能与 Glance Views 换算或相加。</td>
+          </tr>
+          <tr>
+            <td><b>转化率（360天）</b></td>
+            <td><b>转化率 = Ordered units ÷ Glance Views</b>。即"每一次详情页浏览，最终带来多少件成交"。</td>
+            <td>核心效率指标。本表的口径已逐行验证，190+ 行全部成立（见规律①）。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="alert alert-slate"><b>转化率的分母决定了这个数字的大小</b>
+      同一个销量，换不同的分母会得到完全不同的"转化率"：
+      <div class="formula">订单 ÷ 搜索点击量 → 最严格（点击后是否下单）<br>订单 ÷ 会话数 Sessions → 后台官方转化率口径<br>订单 ÷ Glance Views → <b>本表口径，偏保守</b><br>订单 ÷ 曝光量 → 最宽松（曝光后是否下单）</div>
+      因为 Glance Views 通常大于 Sessions（同一次访问多看几次页面），所以<b>本表算出的转化率一般会低于后台"订单÷会话数"的官方值</b>。跨报表比较转化率时，第一件事是确认分母是不是同一个。
+    </div>
+    <div class="alert alert-neutral"><b>两个容易混淆的"倍数"</b>
+      <b>倍数1 = 细分市场点击量 ÷ 自身销量</b>：每卖出一件，整个细分市场要有多少次点击。数值越大=赛道越挤、本品份额越小。<br>
+      <b>倍数2 = 搜索点击量 ÷ 自身销量</b>：每卖出一件需要多少次搜索点击，反过来 <b>1/倍数2 就是"搜索点击成交率"</b>。<br>
+      验证：两个倍数的公式在本表全部行成立，无一例外。
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="sec-title">二、数据概览</div><div class="sec-sub">4 个季度汇总 ≈ 360 天</div></div>
+  <div class="grid4" style="margin-bottom:14px">
+    <div class="metric"><div class="label">ASIN 结构</div><div class="value">138<span style="font-size:15px;color:var(--text-secondary)"> / 194</span></div><div class="delta">有销量 / 全部</div></div>
+    <div class="metric"><div class="label">整体转化率</div><div class="value">4.88%</div><div class="delta">256,997 单 ÷ 526.8 万浏览</div></div>
+    <div class="metric"><div class="label">整体退货率</div><div class="value">5.87%</div><div class="delta">15,094 件退货</div></div>
+    <div class="metric"><div class="label">COGS 占收入</div><div class="value">91.3%</div><div class="delta">可推算毛利率仅 8.7%</div></div>
+  </div>
+  <div class="grid3">
+    <div class="metric"><div class="label"><span class="pill p-warn">有浏览 · 零成交</span></div><div class="value">23</div><div class="delta">有流量但一单没出，最该排查</div></div>
+    <div class="metric"><div class="label"><span class="pill p-neutral">无流量 · 零成交</span></div><div class="value">33</div><div class="delta">既没浏览也没销量</div></div>
+    <div class="metric"><div class="label"><span class="pill p-err">毛利为负</span></div><div class="value">13</div><div class="delta">占有效样本 9.4%</div></div>
+  </div>
+  <div class="alert alert-warn" style="margin-top:14px"><b>先留意一个口径事实</b>
+    194 个 ASIN 里有 <b>29 个未满 4 个季度</b>（其中 12 个有销量），也就是说这些 ASIN 的"360 天"实际不足 360 天，它们的销量与浏览被系统性低估，跨 ASIN 比较时要留意；而 COGS 占收入 91.3% 属于"到岸成本口径"，不代表真正只剩 8.7% 的净利，需要和财务口径核对。
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="sec-title">三、数据间发现的规律</div><div class="sec-sub">每一条都用全量数据验证过</div></div>
+
+  <div class="rule">
+    <div class="rule-h"><span class="rule-n">1</span><span class="rule-t">转化率就是"订单 ÷ 浏览"，一行都不例外</span><span class="rule-w">已验证 190+ 行</span></div>
+    <p>把每行的 Ordered units 除以 Glance Views，与表里的"转化率(360天)"逐行比对，<b>误差为 0</b>。这说明转化率是纯计算列、口径统一，可以放心用来横向比较；也说明这张表把"浏览"当成了转化的唯一分母。</p>
+  </div>
+
+  <div class="rule">
+    <div class="rule-h"><span class="rule-n">2</span><span class="rule-t">价格越贵，转化率越低、退货率越高</span><span class="rule-w">相关系数 −0.57</span></div>
+    <p>这是全表最强的一条规律。价格带从低到高，平均转化率几乎单调下降，而退货率反向上升：</p>
+    <div class="grid2" style="margin-top:12px">
+      <div>
+        <div class="card-meta">转化率与退货率（按价格带）</div>
+        <div style="position:relative;height:270px"><canvas id="c_price"></canvas></div>
+        <div class="legend"><span><i class="dot" style="background:#6E9298"></i>平均转化率</span><span><i class="dot" style="background:#C4433A"></i>中位退货率</span></div>
+      </div>
+      <div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>价格带</th><th class="num">ASIN</th><th class="num">平均转化率</th><th class="num">中位退货率</th><th class="num">中位销量</th></tr></thead>
+            <tbody>
+              <tr><td>&lt;15€</td><td class="num">27</td><td class="num">7.90%</td><td class="num">3.17%</td><td class="num">446</td></tr>
+              <tr><td>15–25€</td><td class="num">32</td><td class="num">5.39%</td><td class="num">5.36%</td><td class="num">1,549</td></tr>
+              <tr><td>25–35€</td><td class="num">38</td><td class="num">4.50%</td><td class="num">5.58%</td><td class="num">1,497</td></tr>
+              <tr><td>35–50€</td><td class="num">17</td><td class="num">2.45%</td><td class="num">9.59%</td><td class="num">650</td></tr>
+              <tr><td>50–70€</td><td class="num">18</td><td class="num">1.97%</td><td class="num">7.30%</td><td class="num">104</td></tr>
+              <tr><td>70€+</td><td class="num">6</td><td class="num">1.84%</td><td class="num">10.56%</td><td class="num">289</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="alert alert-info" style="margin-top:12px">低价段的转化率是高价段的 <b>4 倍以上</b>（7.90% vs 1.84%），而退货率只有三分之一。这笔账很直白：<b>贵的产品既更难卖、卖出去了还更容易退</b>。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-h"><span class="rule-n">3</span><span class="rule-t">销量越大，转化率越高——但靠的是价格一路往下让</span><span class="rule-w">"以价换量"</span></div>
+    <p>按销量分层看：销量越高，转化率越高（2.88% → 6.42%），但<b>平均售价和毛利率同步往下走</b>。这说明高销量不是"效率红利"，而是价格让出来的：</p>
+    <div class="grid2" style="margin-top:12px">
+      <div>
+        <div class="card-meta">转化率（左轴）与平均售价（右轴）</div>
+        <div style="position:relative;height:270px"><canvas id="c_tier"></canvas></div>
+        <div class="legend"><span><i class="dot" style="background:#6E9298"></i>中位转化率</span><span><i class="dot" style="background:#E47700"></i>中位 ASP(€)</span></div>
+      </div>
+      <div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>销量分层</th><th class="num">ASIN</th><th class="num">中位转化率</th><th class="num">中位ASP</th><th class="num">中位毛利率</th></tr></thead>
+            <tbody>
+              <tr><td>&lt;500 件</td><td class="num">63</td><td class="num">2.88%</td><td class="num">28.96€</td><td class="num">15.67%</td></tr>
+              <tr><td>500–2k</td><td class="num">34</td><td class="num">3.49%</td><td class="num">28.56€</td><td class="num">10.18%</td></tr>
+              <tr><td>2k–5k</td><td class="num">27</td><td class="num">5.26%</td><td class="num">26.11€</td><td class="num">7.71%</td></tr>
+              <tr><td>5k–1w</td><td class="num">10</td><td class="num">6.17%</td><td class="num">29.09€</td><td class="num">10.30%</td></tr>
+              <tr><td>1w+</td><td class="num">4</td><td class="num">6.42%</td><td class="num">18.73€</td><td class="num">9.61%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="alert alert-warn" style="margin-top:12px">小销量组毛利率 15.67%，销量破万组只有 9.61%，ASP 从 28.96€ 跌到 18.73€。<b>头部爆款的毛利空间被价格战吃掉了</b>。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-h"><span class="rule-n">4</span><span class="rule-t">流量几乎决定销量——先解决流量，再谈转化</span><span class="rule-w">相关 0.948</span></div>
+    <p>把浏览量和销量都取对数后做相关，系数高达 <b>0.948</b>。也就是说，一个 ASIN 卖得好不好，绝大部分由它拿到多少浏览决定，转化率的差异是次要变量。下图中每个点是一个 ASIN（双对数坐标）：</p>
+    <div style="position:relative;height:320px;margin-top:12px"><canvas id="c_scatter"></canvas></div>
+    <div class="legend"><span><i class="dot" style="background:#6E9298"></i>每个点 = 1 个 ASIN（横轴 Glance Views，纵轴 Ordered units，均已取对数）</span></div>
+    <div class="alert alert-info" style="margin-top:12px">点几乎排成一条直线。<b>但这不等于"砸流量就有销量"</b>——图中有几个点明显落在直线下方（流量很高但销量偏低），这些正是转化率异常、需要排查的 ASIN，清单已整理在交付表格里。</div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-h"><span class="rule-n">5</span><span class="rule-t">收入高度集中在头部：20 个 ASIN 撑起近六成</span><span class="rule-w">帕累托结构</span></div>
+    <div class="grid2" style="margin-top:12px">
+      <div>
+        <div class="card-meta">TOP20 ASIN 的收入占比与累计占比</div>
+        <div style="position:relative;height:280px"><canvas id="c_pareto"></canvas></div>
+        <div class="legend"><span><i class="dot" style="background:#6E9298"></i>单个 ASIN 占比</span><span><i class="dot" style="background:#3E54CE"></i>累计占比</span></div>
+      </div>
+      <div>
+        <div class="bar-list" style="font-size:13px;line-height:2.1">
+          <div>TOP1 收入占比：<b>7.9%</b></div>
+          <div>TOP5 收入占比：<b>25.7%</b></div>
+          <div>TOP10 收入占比：<b>39.8%</b></div>
+          <div>TOP20 收入占比：<b>58.8%</b></div>
+          <div>TOP50 收入占比：<b>88.2%</b></div>
+        </div>
+        <div class="alert alert-neutral" style="margin-top:14px">头部集中<b>但不极端</b>：TOP1 只有 7.9%，没有单品依赖风险；但剩下 88 个 ASIN 只贡献 11.8% 收入，长尾极度分散。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-h"><span class="rule-n">6</span><span class="rule-t">销量在 2026Q1 见顶后连续两季回落，靠提价撑着</span><span class="rule-w">拐点信号</span></div>
+    <div style="position:relative;height:300px;margin-top:12px"><canvas id="c_quarter"></canvas></div>
+    <div class="legend"><span><i class="dot" style="background:#6E9298"></i>Ordered revenue (€)</span><span><i class="dot" style="background:#E47700"></i>Ordered units</span><span><i class="dot" style="background:#3E54CE"></i>Glance Views</span></div>
+    <div class="grid3" style="margin-top:14px">
+      <div class="alert alert-info"><b>收入 Q1→Q3</b>€1.81M → €1.59M，<b>−12.1%</b></div>
+      <div class="alert alert-info"><b>销量 Q1→Q3</b>67,218 → 58,530 件，<b>−12.9%</b></div>
+      <div class="alert alert-warn"><b>浏览 Q1→Q3</b>146.2 万 → 120.9 万，<b>−17.4%</b></div>
+    </div>
+    <div class="alert alert-err" style="margin-top:12px">浏览掉得比销量还快（−17.4% vs −12.9%），说明<b>问题主要出在流量端而不是转化端</b>（转化率基本持平在 4.6%–5.1%）——入场流量在收缩，而单价（ASP 26.9€ → 27.2€）没有明显提升空间来补。退货率同期还从 6.37% 降到 5.99%，这一项是唯一改善的。</div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="sec-title">四、三个必须提醒的口径警示</div><div class="sec-sub">不澄清这几条，结论会错</div></div>
+  <div class="grid3">
+    <div class="alert alert-err"><b>① 搜索点击量与销量不能直接相除</b>
+      32 个有搜索点击量的 ASIN 里，<b>有 12 个的销量大于搜索点击量</b>，比值从 0.16 到 8.38 横跨 50 倍。同口径下"销量 > 搜索点击"在逻辑上不可能，说明两者<b>不是同一市场或同一统计范围</b>（很可能一个跨站点汇总、一个是单站点）。所以"1/倍数2 = 成交率"只能作为参考量级，不能当作真实转化率来考核。
+    </div>
+    <div class="alert alert-warn"><b>② 页面浏览量与 Glance Views 不是一回事</b>
+      把"页面浏览量近 7 天"年化后与 Glance Views 相比，中位只有后者的 <b>13%</b>（区间 1.5%–71%）。两者数量级差约 8 倍，说明页面浏览量是另一套更窄的口径（可能与流量来源或统计范围有关）。<b>这两个指标不能相加、不能换算</b>，需要向数据源确认定义后再用。
+    </div>
+    <div class="alert alert-neutral"><b>③ 有几处数据本身的异常</b>
+      2 个 ASIN 退货率超过 100%（退货件数大于销量，通常是跨期退货）；13 个 ASIN 毛利为负；29 个 ASIN 未满 4 个季度，"360 天"名不副实；Sheet1 中还有 1 个重复 ASIN 行。这些在表格里都单独列出了，建议回源核对。
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="sec-title">五、我的判断</div><div class="sec-sub">数据说明了什么</div></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">三条判断</div>
+      <div class="card-meta">从规律到生意含义</div>
+      <ul class="clean">
+        <li><b>这是一盘靠流量驱动的低价工具生意。</b>log 相关 0.948、转化率随价格单调下降、高销量组 ASP 只有 18.73€——价格越低越好卖，这盘货的护城河是价格和流量，不是产品差异。</li>
+        <li><b>当前的下滑是流量问题，不是转化问题。</b>浏览 −17.4%、销量 −12.9%、转化率持平。如果是转化出了问题，应该看到浏览稳定而销量下滑；现在的形态是"进来的流量变少了"。</li>
+        <li><b>毛利空间已经很薄，再靠降价换量不划算。</b>COGS 占收入 91.3%，销量破万组的毛利率已跌到 9.6%。继续以价换量的边际收益很低，反而会推高退货与售后成本。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">两个最值得注意的异常</div>
+      <div class="card-meta">比平均数更有信息量</div>
+      <ul class="clean">
+        <li><b>23 个 ASIN 有流量、零成交。</b>有浏览说明流量能进来（有的达到 194 次浏览），却一单没出——这是典型的 listing、定价或断货问题，是投入产出比最高的排查对象。</li>
+        <li><b>流量浪费严重的长尾。</b>转化率最低的一批 ASIN 每成交一单需要 140–284 次浏览，而表现好的 ASIN 只需个位数。这些 ASIN 占着流量位却不产出，应该考虑让位。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><div class="sec-title">六、行动建议</div><div class="sec-sub">按优先级，每条都能落到具体清单</div></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">马上做（本周）</div>
+      <div class="card-meta">清单已在交付表格中</div>
+      <ul class="clean">
+        <li><b>排查 23 个"有浏览零成交" ASIN。</b>逐个看价格是否偏离同品类中位、库存是否断货、主图/五点是否与在售款有明显差距——这类修复的性价比最高。</li>
+        <li><b>核对 2 个退货率 &gt;100% 的 ASIN。</b>确认是否为跨期退货统计导致，避免用错误数据做决策。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">本月做</div>
+      <div class="card-meta">结构性动作</div>
+      <ul class="clean">
+        <li><b>对 13 个毛利为负的 ASIN 做定价或下架决策。</b>卖一单亏一单的在售品，要么提价要么退出，不能挂着。</li>
+        <li><b>把流量问题的止血点找出来。</b>浏览下滑 17.4%，需要拆到"广告入口 / 自然搜索 / 类目页"看是哪个入口掉的——这张表只给了总量，下一步得拉更细的分渠道流量。</li>
+        <li><b>用"每单所需浏览数"重排长尾。</b>对需要 140 次以上浏览才能成交一单的 ASIN，评估是否把流量位让给转化更好的款式。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="card-title">持续做</div>
+    <div class="card-meta">让下一次分析更准</div>
+    <ul class="clean">
+      <li><b>统一口径并落成报表规范。</b>把转化率的分母写死（建议同时保留"订单÷浏览"与"订单÷会话"两个口径），把"搜索点击量"和"页面浏览量"的口径来源标注清楚——本次分析中这两项是最大的不确定来源。</li>
+      <li><b>补齐季度覆盖。</b>对 29 个不足 4 个季度的 ASIN 单独标注，避免它们的"360 天"数据被误当成完整周期参与排名。</li>
+      <li><b>把价格带与转化率的关系做成定价红线。</b>新品定价可以参照同类价格带的中位转化率预估所需的浏览投入量：转化率 2% 的产品，每单要准备约 50 次浏览的流量成本。</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <svg class="blob" style="top:-50px;left:10%;width:180px" viewBox="0 0 200 200"><path fill="var(--hero-deco)" d="M42,-63C58,-51,76,-43,83,-29C90,-15,86,5,77,21C68,37,54,49,38,58C22,67,4,72,-17,71C-38,70,-62,62,-73,47C-84,32,-82,10,-75,-9C-68,-28,-56,-44,-41,-56C-26,-68,-8,-76,11,-77C30,-78,26,-75,42,-63Z" transform="translate(100 100)"/></svg>
+  <div class="foot-content">
+    <div class="foot-top">
+      <div class="foot-brand">ASIN 指标体系与数据规律分析<small>来源：工作簿1.xlsx · metric-data（2025Q4–2026Q3）+ Sheet1</small></div>
+      <div class="foot-meta">
+        <span>ASIN：194（有销量 138）</span>
+        <span>周期：4 个季度 ≈ 360 天</span>
+        <span>Ordered units：256,997</span>
+        <span>生成日期：2026-09-30</span>
+      </div>
+    </div>
+    <div class="foot-div"></div>
+    <div class="refs">
+      <b>数据来源与口径说明：</b>本报告数据来源于用户提供的《工作簿1.xlsx》，以「metric-data」表 4 个季度（2025Q4、2026Q1、2026Q2、2026Q3）按 ASIN 汇总（≈360 天）为主，并合并「Sheet1」中的搜索点击量、页面浏览量等指标。转化率 = Ordered units ÷ Glance Views，已逐行验证成立。「点击量（细分市场点击量）」为市场级指标，本表仅 2 个 ASIN 有值，未参与规律分析。「搜索点击量」与「Ordered units」的统计范围疑似不一致（32 个样本中 12 个出现销量大于搜索点击量），相关比值仅供参考。「Product COGS (€)」为到岸成本口径，据此推算的毛利率不代表净利润。价格为欧元。
+    </div>
+    <div class="foot-bar">
+      <span>Generated by <a href="https://allyhub.com" target="_blank" style="color:#3E54CE;text-decoration:none">AllyHub AI</a></span>
+      <span>© 2026 HYCHIKA · 内部数据分析</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+Chart.defaults.font.family="'Inter Tight',sans-serif";
+Chart.defaults.font.size=12;
+Chart.defaults.color='#717171';
+const GRID='#E8E6E2';
+const noLegend={legend:{display:false}};
+const yPct={grid:{color:GRID},border:{display:false},beginAtZero:true,ticks:{callback:v=>v+'%'}};
+
+/* 价格带：转化率 bar + 退货率 line */
+new Chart(document.getElementById('c_price'),{
+ data:{labels:['<15€','15-25€','25-35€','35-50€','50-70€','70€+'],
+  datasets:[
+   {type:'bar',label:'平均转化率',data:[7.90,5.39,4.50,2.45,1.97,1.84],backgroundColor:'#6E9298',borderRadius:5,yAxisID:'y'},
+   {type:'line',label:'中位退货率',data:[3.17,5.36,5.58,9.59,7.30,10.56],borderColor:'#C4433A',backgroundColor:'#C4433A',borderWidth:2,tension:.4,pointRadius:3,yAxisID:'y'}]},
+ options:{responsive:true,maintainAspectRatio:false,plugins:noLegend,
+  scales:{x:{grid:{display:false},border:{display:false}},y:yPct}}});
+
+/* 销量分层：CVR bar + ASP line */
+new Chart(document.getElementById('c_tier'),{
+ data:{labels:['<500','500-2k','2k-5k','5k-1w','1w+'],
+  datasets:[
+   {type:'bar',label:'中位转化率',data:[2.88,3.49,5.26,6.17,6.42],backgroundColor:'#6E9298',borderRadius:5,yAxisID:'y'},
+   {type:'line',label:'中位ASP',data:[28.96,28.56,26.11,29.09,18.73],borderColor:'#E47700',backgroundColor:'#E47700',borderWidth:2,tension:.4,pointRadius:3,yAxisID:'y1'}]},
+ options:{responsive:true,maintainAspectRatio:false,plugins:noLegend,
+  scales:{x:{grid:{display:false},border:{display:false}},y:yPct,
+   y1:{position:'right',beginAtZero:true,grid:{display:false},border:{display:false},title:{display:true,text:'ASP €'}}}}});
+
+/* log-log 散点 */
+const pts=[[9,1],[19,1],[25,1],[34,1],[48,4],[91,1],[112,12],[115,10],[140,1],[207,2],[237,12],[339,4],[419,31],[775,38],[798,5],[836,14],[851,3],[882,34],[886,6],[1143,20],[1181,90],[1186,6],[1220,8],[1400,13],[1519,38],[1630,126],[1806,36],[1863,44],[2168,138],[2223,17],[2469,173],[2702,73],[3355,295],[3515,169],[3528,360],[3554,186],[3682,111],[3886,498],[4218,656],[4362,47],[4417,127],[4682,503],[4802,645],[5353,135],[5447,145],[5776,598],[7121,38],[7247,98],[7461,148],[7483,255],[8016,280],[8198,235],[8410,274],[8474,446],[8577,437],[8737,276],[9590,940],[10054,338],[10417,824],[10470,717],[10519,397],[10907,650],[11003,277],[11956,345],[12144,712],[12294,391],[12603,63],[14127,320],[16124,319],[16750,643],[17164,1434],[17197,795],[20121,763],[20215,1630],[22999,669],[23537,792],[24105,1746],[24132,302],[24556,511],[24701,810],[26352,908],[27042,412],[27661,2086],[27678,2500],[27711,364],[29280,1664],[29705,525],[30347,2331],[30616,986],[32664,1081],[33659,678],[34556,954],[39834,2920],[40264,704],[41018,3978],[41076,2162],[41195,2370],[41594,4916],[44592,1572],[44780,3113],[46843,1370],[46995,910],[48776,1423],[52420,2810],[53108,2262],[53127,995],[55679,6285],[55797,1083],[56717,4137],[59330,3300],[60028,3615],[60188,2070],[60538,1988],[80562,4477],[81589,2899],[82686,3513],[82867,3666],[83077,7475],[91873,5561],[93788,3597],[94125,2430],[97290,3971],[98449,6185],[98761,3506],[102310,5754],[103536,4051],[105103,8085],[110206,3894],[115981,6707],[121251,8138],[148165,2414],[149551,10703],[155805,2871],[176592,10035],[194980,8690],[218662,10949],[277146,9610],[345184,25031]];
+new Chart(document.getElementById('c_scatter'),{type:'scatter',
+ data:{datasets:[{data:pts.map(p=>({x:p[0],y:p[1]})),backgroundColor:'rgba(110,146,152,.6)',pointRadius:4,pointHoverRadius:6}]},
+ options:{responsive:true,maintainAspectRatio:false,plugins:noLegend,
+  scales:{x:{type:'logarithmic',title:{display:true,text:'Glance Views（对数）'},grid:{color:GRID},border:{display:false}},
+          y:{type:'logarithmic',title:{display:true,text:'Ordered units（对数）'},grid:{color:GRID},border:{display:false}}}}});
+
+/* 帕累托 */
+const parc=[["B0F1F7J8V3",7.89,7.89],["B07RGK11RY",7.43,15.32],["B0CNXDVYZN",3.67,18.99],["B0FGQ77SRF",3.43,22.43],["B0D5CX7SFL",3.28,25.71],["B08DJ3YH9J",3.08,28.78],["B0998L12KH",2.93,31.71],["B07S4KB14N",2.76,34.48],["B0F542C2DH",2.72,37.2],["B086SQK2RK",2.57,39.77],["B086SRGF6M",2.45,42.22],["B0BYMQ4B8Q",2.28,44.5],["B086SR9KVQ",2.09,46.59],["B07Y1K7L2K",1.87,48.46],["B0BZDBR3WM",1.82,50.28],["B0F215BDYQ",1.8,52.08],["B08DHP1D2X",1.78,53.86],["B0FL7FQD6Q",1.74,55.6],["B07RZK3CVP",1.68,57.28],["B0CYYWY1C2",1.55,58.83]];
+new Chart(document.getElementById('c_pareto'),{
+ data:{labels:parc.map((p,i)=>'#'+(i+1)),
+  datasets:[
+   {type:'bar',label:'单个占比',data:parc.map(p=>p[1]),backgroundColor:'#6E9298',borderRadius:3,yAxisID:'y'},
+   {type:'line',label:'累计占比',data:parc.map(p=>p[2]),borderColor:'#3E54CE',backgroundColor:'#3E54CE',borderWidth:2,tension:.3,pointRadius:0,yAxisID:'y1'}]},
+ options:{responsive:true,maintainAspectRatio:false,plugins:noLegend,
+  scales:{x:{grid:{display:false},border:{display:false}},
+   y:{...yPct,title:{display:true,text:'单个占比'}},
+   y1:{position:'right',beginAtZero:true,max:100,grid:{display:false},border:{display:false},ticks:{callback:v=>v+'%'},title:{display:true,text:'累计'}}}}});
+
+/* 季度趋势 */
+new Chart(document.getElementById('c_quarter'),{
+ data:{labels:['2025Q4','2026Q1','2026Q2','2026Q3'],
+  datasets:[
+   {type:'line',label:'Ordered revenue (€)',data:[1672847,1807852,1794442,1589894],borderColor:'#6E9298',backgroundColor:'#6E9298',borderWidth:2,tension:.35,pointRadius:3,yAxisID:'y'},
+   {type:'line',label:'Ordered units',data:[66458,67218,64791,58530],borderColor:'#E47700',backgroundColor:'#E47700',borderWidth:2,tension:.35,pointRadius:3,yAxisID:'y1'},
+   {type:'line',label:'Glance Views',data:[1306389,1462166,1292677,1208529],borderColor:'#3E54CE',backgroundColor:'#3E54CE',borderWidth:2,tension:.35,pointRadius:3,yAxisID:'y1'}]},
+ options:{responsive:true,maintainAspectRatio:false,plugins:noLegend,
+  scales:{x:{grid:{display:false},border:{display:false}},
+   y:{grid:{color:GRID},border:{display:false},title:{display:true,text:'收入 €'},ticks:{callback:v=>(v/1000000).toFixed(1)+'M'}},
+   y1:{position:'right',beginAtZero:true,grid:{display:false},border:{display:false},title:{display:true,text:'数量'},ticks:{callback:v=>(v/1000).toFixed(0)+'k'}}}}});
+</script>
+</body>
+</html>

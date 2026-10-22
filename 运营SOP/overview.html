@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亚马逊市场合规与账号健康专家</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Noto Sans CJK SC', sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.7; }
+  .container { max-width: 960px; margin: 0 auto; padding: 48px 32px; }
+  .header { text-align: center; margin-bottom: 56px; }
+  .badge { display: inline-block; background: rgba(46, 160, 67, 0.15); color: #3fb950; border: 1px solid rgba(46, 160, 67, 0.3); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+  h1 { font-size: 36px; font-weight: 800; color: #f0f6fc; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .subtitle { font-size: 17px; color: #8b949e; max-width: 640px; margin: 0 auto; }
+  .section { margin-bottom: 48px; }
+  .section-title { font-size: 20px; font-weight: 700; color: #f0f6fc; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #21262d; display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 22px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; transition: border-color 0.2s; }
+  .card:hover { border-color: #388bfd; }
+  .card-icon { font-size: 28px; margin-bottom: 12px; }
+  .card-title { font-size: 16px; font-weight: 700; color: #f0f6fc; margin-bottom: 8px; }
+  .card-desc { font-size: 14px; color: #8b949e; line-height: 1.6; }
+  .card-tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 12px; padding: 3px 10px; border-radius: 12px; background: rgba(56, 139, 253, 0.1); color: #58a6ff; border: 1px solid rgba(56, 139, 253, 0.2); }
+  .tag.red { background: rgba(248, 81, 73, 0.1); color: #f85149; border-color: rgba(248, 81, 73, 0.2); }
+  .tag.yellow { background: rgba(210, 153, 34, 0.1); color: #d29922; border-color: rgba(210, 153, 34, 0.2); }
+  .tag.green { background: rgba(46, 160, 67, 0.1); color: #3fb950; border-color: rgba(46, 160, 67, 0.2); }
+  .checklist { list-style: none; }
+  .checklist li { padding: 10px 0; border-bottom: 1px solid #21262d; display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #c9d1d9; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+  .dot.red { background: #f85149; } .dot.yellow { background: #d29922; } .dot.green { background: #3fb950; } .dot.blue { background: #58a6ff; }
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+  .flow-step { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px 20px; font-size: 14px; color: #c9d1d9; text-align: center; flex: 1; min-width: 120px; }
+  .flow-step .step-num { display: block; font-size: 12px; color: #58a6ff; font-weight: 700; margin-bottom: 4px; }
+  .flow-arrow { color: #484f58; font-size: 18px; }
+  .principle { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+  .principle-title { font-size: 15px; font-weight: 700; color: #f0f6fc; margin-bottom: 6px; }
+  .principle-desc { font-size: 14px; color: #8b949e; }
+  .disclaimer { background: rgba(248, 81, 73, 0.05); border: 1px solid rgba(248, 81, 73, 0.15); border-radius: 12px; padding: 20px; margin-top: 32px; }
+  .disclaimer-title { font-size: 14px; font-weight: 700; color: #f85149; margin-bottom: 8px; }
+  .disclaimer-text { font-size: 13px; color: #8b949e; line-height: 1.6; }
+  .examples { display: flex; flex-direction: column; gap: 10px; }
+  .example { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 14px 18px; font-size: 14px; color: #c9d1d9; }
+  .example .quote { color: #58a6ff; font-style: italic; }
+  .example .arrow { color: #484f58; margin: 0 6px; }
+  .market-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .market-table th { background: #161b22; color: #58a6ff; font-weight: 600; padding: 10px 12px; text-align: left; border-bottom: 1px solid #30363d; }
+  .market-table td { padding: 10px 12px; border-bottom: 1px solid #21262d; color: #c9d1d9; }
+  .market-table tr:hover td { background: rgba(56, 139, 253, 0.05); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">亚马逊运营 · 市场合规风控</div>
+    <h1>亚马逊市场合规与账号健康专家</h1>
+    <p class="subtitle">市场准入 · 产品安全认证 · 知识产权 · 标签包装 · 税务进口 · 环保化学品 · Listing合规 · 账号健康监控</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="icon">📋</span> 核心能力</div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">🌍</div>
+        <div class="card-title">市场准入合规</div>
+        <div class="card-desc">分类审核与类目准入检查、跨市场拓展准入法规差异（美国/欧洲/日本等站点）、禁售限售品类识别</div>
+        <div class="card-tags">
+          <span class="tag red">禁售限售</span>
+          <span class="tag yellow">类目准入</span>
+          <span class="tag">跨市场差异</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔬</div>
+        <div class="card-title">产品安全合规</div>
+        <div class="card-desc">认证要求梳理：FDA/FCC/CPSC/CPC/UL/CE/PSE等，按品类触发专项检测（CPSIA/RoHS/REACH/UN38.3等）</div>
+        <div class="card-tags">
+          <span class="tag red">认证缺失</span>
+          <span class="tag yellow">品类触发</span>
+          <span class="tag">检测报告</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">™</div>
+        <div class="card-title">知识产权合规</div>
+        <div class="card-desc">商标清查（USPTO/EUIPO）、专利清查（外观/发明专利）、版权审查（图片/文案/A+原创性）、品牌注册建议</div>
+        <div class="card-tags">
+          <span class="tag red">商标侵权</span>
+          <span class="tag red">专利侵权</span>
+          <span class="tag">品牌注册</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏷️</div>
+        <div class="card-title">标签与包装合规</div>
+        <div class="card-desc">原产地标识、认证标志标签（FCC ID/CE/PSE）、制造商信息、批次号、警示语、成分标注、追踪标签、Prop 65警示</div>
+        <div class="card-tags">
+          <span class="tag red">海关扣留风险</span>
+          <span class="tag yellow">Prop 65</span>
+          <span class="tag">追踪标签</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <div class="card-title">税务与进口合规</div>
+        <div class="card-desc">销售税/VAT/关税注册状态检查、各州Nexus规则、欧盟VAT(OSS/IOSS)、进口文件完整性（商业发票/装箱单/原产地证）</div>
+        <div class="card-tags">
+          <span class="tag yellow">销售税</span>
+          <span class="tag">VAT</span>
+          <span class="tag">进口文件</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌿</div>
+        <div class="card-title">环保与化学品合规</div>
+        <div class="card-desc">加州Prop 65化学品清单、欧盟REACH/RoHS、CPSIA儿童产品铅/邻苯二甲酸盐限制、包装回收标志</div>
+        <div class="card-tags">
+          <span class="tag yellow">Prop 65</span>
+          <span class="tag">REACH</span>
+          <span class="tag">CPSIA</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <div class="card-title">Listing 合规检查</div>
+        <div class="card-desc">标题新规（2025年1月：200字符/重复词/特殊字符）、五点描述、图片合规、属性完整度、A+页面、违禁词检测</div>
+        <div class="card-tags">
+          <span class="tag yellow">标题新规</span>
+          <span class="tag red">违禁词</span>
+          <span class="tag">图片合规</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏥</div>
+        <div class="card-title">账号健康监控</div>
+        <div class="card-desc">ODR/CR/LSR/VTR指标拆解、AHR评分评估、重复违规累积风险分析（2024年10月新规）、绩效警告根因与申诉</div>
+        <div class="card-tags">
+          <span class="tag red">AHR重复违规</span>
+          <span class="tag yellow">ODR拆解</span>
+          <span class="tag">申诉材料</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="icon">🌐</span> 跨市场准入差异速查</div>
+    <table class="market-table">
+      <tr><th>市场</th><th>关键准入要求</th><th>标签要求</th><th>税务要求</th></tr>
+      <tr><td>美国</td><td>FDA / FCC / CPSC / UL</td><td>原产地标识 + 认证标志 + Prop 65</td><td>各州销售税 Nexus</td></tr>
+      <tr><td>欧盟</td><td>CE / REACH / RoHS / WEEE</td><td>CE标志 + 制造商信息 + 批次号 + 警示语 + 7种语言</td><td>VAT(OSS/IOSS) + EPR</td></tr>
+      <tr><td>英国</td><td>UKCA</td><td>UKCA标志 + 制造商信息</td><td>UK VAT</td></tr>
+      <tr><td>日本</td><td>PSE / METI</td><td>PSE标志 + 日语标签</td><td>JCT（消费税）</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="icon">⚡</span> 工作流程</div>
+    <div class="flow">
+      <div class="flow-step"><span class="step-num">STEP 1</span>场景定位</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-num">STEP 2</span>数据收集</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-num">STEP 3</span>品类触发</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-num">STEP 4</span>清单检查</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-num">STEP 5</span>风险分级</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-num">STEP 6</span>整改清单</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="icon">🎯</span> 风险分级体系</div>
+    <ul class="checklist">
+      <li><span class="dot red"></span><div><strong>高风险（立即处理/上架前必须解决）</strong>：侵权风险、禁售限售风险、认证缺失、标签严重不合规（海关扣留风险）、AHR重复违规高风险项、ODR/CR等关键指标超阈值</div></li>
+      <li><span class="dot yellow"></span><div><strong>中风险（48小时内处理）</strong>：图片违规、属性缺失、标题新规不合规、五点描述问题、标签信息不完整</div></li>
+      <li><span class="dot green"></span><div><strong>低风险（1周内处理）</strong>：信息不完整、文件留存、预防机制建设、品牌注册申请</div></li>
+      <li><span class="dot blue"></span><div><strong>信息不足（需补充资料）</strong>：数据缺失，无法确认，需用户提供后台数据或截图</div></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="icon">📐</span> 核心原则</div>
+    <div class="principle">
+      <div class="principle-title">证据链驱动</div>
+      <div class="principle-desc">每个判断标注证据来源（SIF数据 / 上传文件 / 推理 / 经验），信息不足时标记"需补充资料"，绝不凭空编造</div>
+    </div>
+    <div class="principle">
+      <div class="principle-title">品类触发检查</div>
+      <div class="principle-desc">不同品类触发不同认证链路：儿童产品→CPC/CPSIA、电子产品→FCC/UL、食品→FDA、化妆品→FDA注册+Prop 65、医疗器械→510(k)</div>
+    </div>
+    <div class="principle">
+      <div class="principle-title">跨市场差异尊重</div>
+      <div class="principle-desc">不同站点/国家的法规要求不同，不用美国站标准套用欧洲站，按目标市场分别检查准入法规、认证、标签和税务</div>
+    </div>
+    <div class="principle">
+      <div class="principle-title">合规边界守护</div>
+      <div class="principle-desc">检查结论是"运营风险筛查"，不是"官方确认合规"。法律/税务/认证/知识产权问题以官方政策和专业意见为准</div>
+    </div>
+    <div class="principle">
+      <div class="principle-title">政策时效性</div>
+      <div class="principle-desc">检查标准紧跟最新政策：2024年10月AHR重复违规新规、2025年1月Listing标题新规等，不用过时标准</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="icon">💬</span> 使用示例</div>
+    <div class="examples">
+      <div class="example"><span class="quote">"我要上架一个新品，帮我做合规检查"</span><span class="arrow">→</span>全链路市场合规扫描</div>
+      <div class="example"><span class="quote">"我想拓展到欧洲站，需要检查什么"</span><span class="arrow">→</span>跨市场准入检查</div>
+      <div class="example"><span class="quote">"这个产品是儿童玩具，需要什么认证"</span><span class="arrow">→</span>品类触发产品安全检查</div>
+      <div class="example"><span class="quote">"收到ODR警告，怎么办"</span><span class="arrow">→</span>账号风险排查与申诉</div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <div class="disclaimer-title">合规声明</div>
+    <div class="disclaimer-text">本专家提供的检查结果为运营合规风险筛查，不构成法律、税务或平台官方确认。涉及当地法规、税务申报、认证准入、侵权争议时，请以亚马逊官方政策、当地监管要求、认证机构或专业顾问意见为准。</div>
+  </div>
+</div>
+</body>
+</html>

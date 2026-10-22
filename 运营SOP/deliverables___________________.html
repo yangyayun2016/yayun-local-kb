@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>反推关键词广告市场容量 — 搜索词展示量份额估算方法论</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --outer-bg:#E4E1DC;
+    --page-bg:#FDFCF9;
+    --surface:#FFFFFF;
+    --border:#E8E6E2;
+    --divider:#C5C0BA;
+    --text-primary:#151515;
+    --text-body:#3D3D3D;
+    --text-secondary:#717171;
+    --hero-bg:#DEE5F7;
+    --hero-deco:#A3AEEE;
+    --hero-deco2:#7F8FE0;
+    --success-bg:#E8FBCF; --success-fg:#3D4826;
+    --warning-bg:#FFF0DC; --warning-fg:#E47700;
+    --info-bg:#DEE5F7; --info-fg:#3E54CE;
+    --error-bg:#FDECEA; --error-fg:#C4433A;
+    --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+    --blue:#3E54CE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--outer-bg);
+    font-family:'Inter Tight','Noto Sans SC',sans-serif;
+    color:var(--text-body);
+    line-height:1.7;
+    font-size:14px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    max-width:1200px;
+    margin:0 auto;
+    background:var(--page-bg);
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(21,21,21,.08);
+  }
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    background:var(--hero-bg);
+    padding:56px 64px 44px;
+    overflow:hidden;
+    color:var(--text-primary);
+  }
+  .blob{position:absolute;border-radius:60% 40% 55% 45%/50% 60% 40% 50%;opacity:.16;pointer-events:none;}
+  .blob.b1{width:340px;height:240px;background:var(--hero-deco);top:-70px;right:8%;transform:rotate(18deg);}
+  .blob.b2{width:220px;height:200px;background:var(--hero-deco2);bottom:-60px;left:22%;transform:rotate(-14deg);}
+  .blob.b3{width:150px;height:130px;background:var(--hero-deco);top:30px;left:46%;transform:rotate(30deg);}
+  .blob.b4{width:180px;height:150px;background:var(--hero-deco2);bottom:-40px;right:30%;transform:rotate(-24deg);}
+  .eyebrow{
+    display:inline-block;font-size:12px;font-weight:600;letter-spacing:.14em;
+    color:var(--info-fg);background:rgba(255,255,255,.55);
+    padding:5px 12px;border-radius:20px;margin-bottom:18px;border:1px solid rgba(126,143,224,.25);
+  }
+  .hero h1{
+    font-size:30px;font-weight:700;line-height:1.35;letter-spacing:-.01em;
+    max-width:820px;position:relative;z-index:1;
+  }
+  .hero .subtitle{
+    margin-top:14px;font-size:14px;color:var(--text-body);max-width:760px;position:relative;z-index:1;
+  }
+  .hero .metric-wrap{
+    margin-top:30px;display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;position:relative;z-index:1;
+  }
+  .hero .metric-label{font-size:13px;color:var(--text-body);margin-bottom:2px;}
+  .hero .metric{
+    font-family:'Noto Serif SC',serif;
+    font-size:48px;font-weight:500;letter-spacing:-.02em;line-height:1;
+  }
+  .hero .metric small{font-size:20px;font-weight:600;letter-spacing:0;margin-left:8px;}
+  .hero .metric-note{font-size:12px;color:var(--text-secondary);max-width:300px;margin-bottom:6px;}
+  .hero .hairline{height:1px;background:rgba(21,21,21,.14);margin:26px 0 20px;}
+  .hero .stat-row{display:flex;gap:44px;flex-wrap:wrap;position:relative;z-index:1;}
+  .hero .stat{min-width:150px;}
+  .hero .stat .v{font-size:24px;font-weight:600;color:var(--text-primary);line-height:1.2;}
+  .hero .stat .l{font-size:12px;color:var(--text-secondary);margin-top:2px;}
+  /* ---------- Layout ---------- */
+  .content{padding:44px 64px 56px;}
+  section{margin-bottom:52px;}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
+  .sec-no{font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.1em;}
+  .sec-title{font-size:17px;font-weight:600;color:var(--text-primary);}
+  .sec-sub{font-size:12px;color:var(--text-secondary);margin-bottom:16px;}
+  .rule{height:.5px;background:var(--border);margin-bottom:24px;}
+  .lead{font-size:14px;color:var(--text-body);max-width:900px;}
+  p+p{margin-top:12px;}
+  strong{color:var(--text-primary);font-weight:600;}
+  em{font-style:normal;color:var(--blue);font-weight:500;}
+  .hl{background:linear-gradient(transparent 62%,#DFE5FA 62%);padding:0 2px;}
+  /* ---------- Cards / grid ---------- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr;}}
+  .card{
+    background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:18px 20px;
+  }
+  .card .ct{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:6px;}
+  .card .cm{font-size:12px;color:var(--text-secondary);margin-bottom:12px;}
+  .card .cb{font-size:13.5px;}
+  .formula{
+    background:var(--surface);border:.5px solid var(--border);border-radius:12px;
+    padding:16px 20px;margin-top:10px;position:relative;
+  }
+  .formula .tag{
+    position:absolute;top:-10px;left:16px;font-size:11px;font-weight:600;
+    background:var(--info-bg);color:var(--info-fg);padding:2px 10px;border-radius:20px;
+  }
+  .formula .expr{font-family:'Inter Tight',monospace;font-size:15px;font-weight:600;color:var(--text-primary);}
+  .formula .desc{font-size:12.5px;color:var(--text-secondary);margin-top:6px;}
+  /* ---------- Alerts ---------- */
+  .alert{border-radius:10px;padding:14px 16px;margin-top:14px;}
+  .alert .at{font-weight:600;font-size:13.5px;margin-bottom:4px;}
+  .alert .ab{font-size:13px;}
+  .alert.warn{background:var(--warning-bg);}
+  .alert.warn .at{color:var(--warning-fg);}
+  .alert.warn .ab{color:var(--text-body);}
+  .alert.err{background:var(--error-bg);}
+  .alert.err .at{color:var(--error-fg);}
+  .alert.err .ab{color:var(--text-body);}
+  .alert.info{background:var(--info-bg);}
+  .alert.info .at{color:var(--info-fg);}
+  .alert.info .ab{color:var(--text-body);}
+  .alert.ok{background:var(--success-bg);}
+  .alert.ok .at{color:var(--success-fg);}
+  .alert.ok .ab{color:var(--text-body);}
+  /* ---------- Table ---------- */
+  .tbl-wrap{overflow-x:auto;border:.5px solid var(--border);border-radius:12px;background:var(--surface);}
+  table{width:100%;border-collapse:collapse;min-width:640px;}
+  thead th{
+    font-size:12px;font-weight:500;color:var(--text-secondary);
+    text-align:left;padding:12px 16px;border-bottom:1px solid var(--divider);
+    background:#FAF9F6;
+  }
+  tbody td{font-size:13px;padding:12px 16px;border-bottom:.5px solid var(--border);vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody td .en{font-size:12px;color:var(--text-secondary);display:block;margin-top:1px;}
+  .pill{
+    display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;white-space:nowrap;
+  }
+  .pill.info{background:var(--info-bg);color:var(--info-fg);}
+  .pill.ok{background:var(--success-bg);color:var(--success-fg);}
+  .pill.warn{background:var(--warning-bg);color:var(--warning-fg);}
+  .pill.err{background:var(--error-bg);color:var(--error-fg);}
+  .pill.neu{background:var(--neutral-bg);color:var(--neutral-fg);}
+  /* ---------- Calculator ---------- */
+  .calc{
+    background:var(--surface);border:.5px solid var(--border);border-radius:16px;
+    padding:26px 28px;display:grid;grid-template-columns:1fr 1.4fr;gap:28px;
+  }
+  @media(max-width:820px){.calc{grid-template-columns:1fr;}}
+  .calc .inp-label{font-size:12px;font-weight:600;color:var(--text-secondary);letter-spacing:.05em;margin-bottom:6px;display:block;}
+  .calc input{
+    width:100%;font-family:'Inter Tight',sans-serif;font-size:18px;font-weight:600;color:var(--text-primary);
+    border:.5px solid var(--divider);border-radius:10px;padding:10px 14px;outline:none;background:#FBFAF7;
+  }
+  .calc input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(62,84,206,.12);background:#fff;}
+  .calc .inp{margin-bottom:16px;}
+  .calc .out-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:12px 0;border-bottom:.5px solid var(--border);
+  }
+  .calc .out-row:last-child{border-bottom:none;}
+  .calc .out-l{font-size:13px;color:var(--text-body);}
+  .calc .out-l .en{font-size:11.5px;color:var(--text-secondary);display:block;}
+  .calc .out-v{font-size:19px;font-weight:700;color:var(--text-primary);font-variant-numeric:tabular-nums;}
+  .calc .out-v.acc{color:var(--blue);}
+  .calc .out-v.hint{color:var(--text-secondary);}
+  .calc-head{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .calc-note{font-size:11.5px;color:var(--text-secondary);margin-top:12px;line-height:1.6;}
+  /* ---------- Bars / funnel ---------- */
+  .bar-row{margin-bottom:18px;}
+  .bar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+  .bar-top .bl{font-size:13px;color:var(--text-body);}
+  .bar-top .bl .en{font-size:11.5px;color:var(--text-secondary);display:block;}
+  .bar-top .bv{font-size:14px;font-weight:600;color:var(--text-primary);font-variant-numeric:tabular-nums;}
+  .bar-track{height:26px;background:var(--border);border-radius:7px;overflow:hidden;position:relative;}
+  .bar-fill{height:100%;border-radius:7px;display:flex;align-items:center;transition:width .8s ease;}
+  .bar-fill .seg{height:100%;display:flex;align-items:center;}
+  .bar-seg-a{background:var(--blue);}
+  .bar-seg-b{background:#A3AEEE;}
+  .bar-seg-c{background:#C9D4F5;}
+  .bar-legend{display:flex;gap:18px;margin-top:6px;flex-wrap:wrap;}
+  .bar-legend span{font-size:11.5px;color:var(--text-secondary);display:flex;align-items:center;gap:6px;}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  /* ---------- Step chain ---------- */
+  .chain{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:8px;}
+  @media(max-width:820px){.chain{grid-template-columns:1fr;gap:10px;}}
+  .step{padding:16px 14px;background:var(--surface);border:.5px solid var(--border);border-radius:12px;position:relative;}
+  .step .n{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.08em;}
+  .step .t{font-size:13.5px;font-weight:600;color:var(--text-primary);margin:4px 0 2px;}
+  .step .d{font-size:12px;color:var(--text-secondary);}
+  /* ---------- Keyword cards ---------- */
+  .kw-card{background:var(--surface);border:.5px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden;}
+  .kw-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;}
+  .kw-a::before{background:var(--success-fg);}
+  .kw-b::before{background:var(--warning-fg);}
+  .kw-c::before{background:var(--error-fg);}
+  .kw-d::before{background:var(--blue);}
+  .kw-tag{font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--text-secondary);}
+  .kw-name{font-size:19px;font-weight:700;color:var(--text-primary);margin:4px 0 10px;}
+  .kw-metric{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+  .kw-metric .m{font-size:12px;background:#FBFAF7;border:.5px solid var(--border);border-radius:8px;padding:4px 9px;}
+  .kw-metric .m b{font-weight:600;color:var(--text-primary);}
+  .kw-desc{font-size:13px;}
+  .kw-verdict{font-size:12.5px;font-weight:600;margin-top:12px;padding-top:10px;border-top:.5px solid var(--border);}
+  .kw-a .kw-verdict{color:var(--success-fg);}
+  .kw-b .kw-verdict{color:var(--warning-fg);}
+  .kw-c .kw-verdict{color:var(--error-fg);}
+  .kw-d .kw-verdict{color:var(--blue);}
+  /* ---------- KPI ---------- */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:16px;}
+  .kpi{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:14px 16px;}
+  .kpi .l{font-size:12px;color:var(--text-secondary);}
+  .kpi .v{font-size:26px;font-weight:600;color:var(--text-primary);letter-spacing:-.01em;font-variant-numeric:tabular-nums;}
+  .kpi .d{font-size:12px;color:var(--text-secondary);margin-top:2px;}
+  .kpi .d.up{color:var(--success-fg);}
+  /* ---------- Chart ---------- */
+  .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;}
+  @media(max-width:820px){.chart-grid{grid-template-columns:1fr;}}
+  .chart-card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:18px 20px;}
+  .chart-card .ct{font-size:15px;font-weight:600;color:var(--text-primary);}
+  .chart-card .cm{font-size:12px;color:var(--text-secondary);margin-bottom:12px;}
+  .legend{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;justify-content:center;}
+  .legend span{font-size:12px;color:var(--text-body);display:flex;align-items:center;gap:6px;}
+  .legend .sq{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  /* ---------- Quote ---------- */
+  .quote{
+    border-left:3px solid var(--blue);background:var(--neutral-bg);
+    border-radius:0 10px 10px 0;padding:14px 18px;margin-top:16px;font-size:13px;color:var(--text-body);
+  }
+  .quote .src{display:block;margin-top:8px;font-size:11.5px;color:var(--text-secondary);}
+  /* ---------- Footer ---------- */
+  .footer{
+    position:relative;background:var(--hero-bg);padding:44px 64px 30px;overflow:hidden;color:var(--text-primary);
+  }
+  .footer .f-brand{font-size:16px;font-weight:700;letter-spacing:-.01em;position:relative;z-index:1;}
+  .footer .f-sub{font-size:12px;color:var(--text-body);margin-top:2px;position:relative;z-index:1;}
+  .footer .hairline{height:1px;background:rgba(21,21,21,.14);margin:22px 0 18px;}
+  .footer .f-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--text-body);position:relative;z-index:1;}
+  .footer a{color:var(--info-fg);text-decoration:none;font-weight:500;}
+  .footer a:hover{text-decoration:underline;}
+  .ref-list{margin-top:14px;font-size:12.5px;position:relative;z-index:1;}
+  .ref-list li{margin-bottom:8px;color:var(--text-body);}
+  .ref-list a{color:var(--info-fg);text-decoration:none;word-break:break-all;}
+  .ref-list a:hover{text-decoration:underline;}
+  .ref-title{font-size:14px;font-weight:700;margin-top:26px;position:relative;z-index:1;}
+  .note-tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;}
+  .note-tag.fact{background:#E8F6FA;color:#1E7E99;}
+  .note-tag.model{background:var(--warning-bg);color:var(--warning-fg);}
+  .note-tag.model2{background:var(--error-bg);color:var(--error-fg);}
+  ul.tight{list-style:none;margin-top:10px;}
+  ul.tight li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;}
+  ul.tight li::before{content:'▸';position:absolute;left:0;color:var(--blue);}
+  @media(max-width:760px){
+    .hero{padding:40px 22px 34px;}
+    .content{padding:32px 22px 40px;}
+    .footer{padding:36px 22px 26px;}
+    .hero h1{font-size:24px;}
+    .hero .metric{font-size:40px;}
+    .hero .stat-row{gap:22px;}
+    .page{border-radius:0;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+    <span class="eyebrow">亚马逊广告 · 数据方法论</span>
+    <h1>一个搜索词的广告市场到底有多大?<br>用「展示量份额」反推关键词市场曝光量</h1>
+    <p class="subtitle">搜索词报告新增了所投放 ASIN 对应广告位的数据维度,叠加 Search Term Impression Share 与 Impression Rank,让我们第一次能够从「我的广告表现」升级为「关键词广告市场规模」的估算。</p>
+    <div class="metric-wrap">
+      <div>
+        <div class="metric-label">案例词 · 统计周期内 SP 广告市场总曝光量</div>
+        <div class="metric"><span id="heroMetric">0</span><small>次</small></div>
+      </div>
+      <p class="metric-note">= 点击量 ÷ CTR ÷ 展示量份额<br>(Clicks ÷ CTR ÷ Search Term Impression Share)</p>
+    </div>
+    <div class="hairline"></div>
+    <div class="stat-row">
+      <div class="stat"><div class="v">54.83%</div><div class="l">我的展示量份额 SIS</div></div>
+      <div class="stat"><div class="v">112,170</div><div class="l">自有广告曝光(次)</div></div>
+      <div class="stat"><div class="v">92,408</div><div class="l">其他广告主曝光(次)</div></div>
+      <div class="stat"><div class="v">45.17%</div><div class="l">尚未获取的曝光空间</div></div>
+    </div>
+  </header>
+
+  <!-- ================= CONTENT ================= -->
+  <main class="content">
+
+    <!-- 01 背景 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">01</span><span class="sec-title">这张表,第一次让你看清「市场」</span></div>
+      <div class="rule"></div>
+      <p class="lead">过去,搜索词报告回答的问题始终是:<strong>我花了多少钱 → 拿到多少点击 → 出多少订单</strong>。它描述的是"我的广告表现",天然只能看到自己的一亩三分地。</p>
+      <p>现在情况变了。搜索词报告新增了两类关键数据:</p>
+      <ul class="tight">
+        <li><strong>Search Term Impression Share(搜索词展示量份额)</strong>:某搜索词下,你的账户获得的 Sponsored Products 广告展示量,占该搜索词全部 SP 广告展示量的比例。</li>
+        <li><strong>Impression Rank(展示量排名)</strong>:你的账户在该搜索词上的 SP 展示量,在所有产生展示的广告主中的排名。Rank = 3,即排第 3。</li>
+        <li><strong>ASIN × 广告位维度</strong>:报告可以看到所投放的 ASIN 对应的广告位数据(Top of Search / Rest of Search / Product Pages),把"词"的层面进一步拆到"词 × 产品 × 位置"。</li>
+      </ul>
+      <p>这三样东西合在一起,意味着我们可以<em>逆推</em>出一个词在统计周期内的 SP 广告曝光池总规模——即"这个关键词的广告市场有多大,而我吃掉了多少"。</p>
+      <div class="quote">
+        亚马逊官方定义:Search term impression share 是"你在这个词上获得的展示量,占该词全部展示量的百分比";impression rank 则是"你的账户级展示份额相对所有同词广告主的数值排名"。<span class="src">— Amazon Advertising 官方文档(Search Term Impression Share 报告)</span>
+      </div>
+    </section>
+
+    <!-- 02 核心方法 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">02</span><span class="sec-title">核心方法:两步反推,一个公式</span></div>
+      <div class="rule"></div>
+      <p class="lead">逻辑链条只有两步,但每一步都必须建立在口径一致的前提上(见第 07 节)。</p>
+      <div class="grid2" style="margin-top:16px;">
+        <div class="formula">
+          <span class="tag">公式 1 · 事实值</span>
+          <div class="expr">Own Impressions = Clicks ÷ CTR</div>
+          <div class="desc">由 CTR 的定义倒推:CTR = 点击量 ÷ 展示量,因此自己的广告展示量 = 点击量 ÷ CTR。这一步完全由报表字段算出,属于事实值。</div>
+        </div>
+        <div class="formula">
+          <span class="tag">公式 2 · 市场反推</span>
+          <div class="expr">Market Impressions = Own ÷ Impression Share</div>
+          <div class="desc">我的曝光占市场 SIS 的比例已知,用"部分 ÷ 占比"即可还原整体,即该搜索词全市场的 SP 广告曝光池。</div>
+        </div>
+      </div>
+      <div class="formula" style="margin-top:14px;">
+        <span class="tag">合并 · KAME 核心公式</span>
+        <div class="expr">KAME = Clicks ÷ CTR ÷ Search Term Impression Share</div>
+        <div class="desc">Keyword Advertising Market Exposure(关键词广告市场曝光量)。Excel 中若 I 列为点击量、K 列为点击率、L 列为展示量份额,则市场曝光量 = ROUND(I2 / K2 / L2, 0)。前提:K、L 是百分比数值而非文本。</div>
+      </div>
+    </section>
+
+    <!-- 03 案例拆解 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">03</span><span class="sec-title">案例拆解:758 次点击如何算出 20.4 万次市场曝光</span></div>
+      <div class="rule"></div>
+      <p class="lead">以报告中某搜索词的一行数据为例,完整跑一遍反推链路,并验证与 Excel 计算值的一致性。</p>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="l">点击量 Clicks</div><div class="v">758</div><div class="d">该词实际点击</div></div>
+        <div class="kpi"><div class="l">点击率 CTR(显示值)</div><div class="v">0.68%</div><div class="d">报表四舍五入</div></div>
+        <div class="kpi"><div class="l">展示量份额 SIS</div><div class="v">54.83%</div><div class="d">账户级口径</div></div>
+        <div class="kpi"><div class="l">Excel 计算的市场曝光</div><div class="v">204,578</div><div class="d up">基准值 ✓</div></div>
+      </div>
+      <div class="grid3" style="margin-top:14px;">
+        <div class="card">
+          <div class="ct">第一步 · 自有曝光</div>
+          <div class="cb">758 ÷ 0.68% ≈ <strong>111,471 次</strong><br><span style="font-size:12px;color:var(--text-secondary);">用截图显示值粗算的结果</span></div>
+        </div>
+        <div class="card">
+          <div class="ct">第二步 · 市场总曝光</div>
+          <div class="cb">111,471 ÷ 54.83% ≈ <strong>203,302 次</strong><br><span style="font-size:12px;color:var(--text-secondary);">与 Excel 值 204,578 差约 0.62%</span></div>
+        </div>
+        <div class="card">
+          <div class="ct">差异来源 · 四舍五入</div>
+          <div class="cb">Excel 用原始 CTR 计算:<strong>0.675759%</strong><br><span style="font-size:12px;color:var(--text-secondary);">自有曝光 112,170,验证 758 ÷ 112,170 ≈ 0.67576% ✓</span></div>
+        </div>
+      </div>
+      <div class="alert info" style="margin-top:14px;">
+        <div class="at">结论:204,578 是对的</div>
+        <div class="ab">粗算与 Excel 值的 0.62% 偏差,完全来自报表把 CTR 四舍五入显示为 0.68%。只要用原始小数计算,两者严格一致。<strong>做系统时必须取原始数值,不能取显示值。</strong></div>
+      </div>
+    </section>
+
+    <!-- 04 计算器 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">04</span><span class="sec-title">交互演示:输入你的三个数,立即得到市场容量</span></div>
+      <div class="rule"></div>
+      <p class="lead">把上面三步做成可复用的计算器。填入任意搜索词的点击量、点击率、展示量份额,自动输出该词的市场广告曝光池及竞争结构。</p>
+      <div class="calc" style="margin-top:18px;">
+        <div>
+          <div class="calc-head">◈ 输入(该词报表字段)</div>
+          <div class="inp"><label class="inp-label">点击量 Clicks</label><input id="cClicks" type="number" value="758" step="1" min="0"></div>
+          <div class="inp"><label class="inp-label">点击率 CTR(%)</label><input id="cCtr" type="number" value="0.675759" step="0.000001" min="0"></div>
+          <div class="inp"><label class="inp-label">展示量份额 SIS(%)</label><input id="cSis" type="number" value="54.83" step="0.01" min="0" max="100"></div>
+          <p class="calc-note">CTR 建议填报表背后的原始值;若只有两位小数的显示值,结果会有 ±1% 以内的误差。</p>
+        </div>
+        <div>
+          <div class="calc-head">◈ 输出(该词市场结构)</div>
+          <div class="out-row"><span class="out-l">自有广告曝光量<span class="en">Own Impressions = Clicks ÷ CTR</span></span><span class="out-v" id="oOwn">—</span></div>
+          <div class="out-row"><span class="out-l">市场 SP 广告总曝光量<span class="en">KAME = Own ÷ SIS</span></span><span class="out-v acc" id="oMarket">—</span></div>
+          <div class="out-row"><span class="out-l">其他广告主曝光<span class="en">Market − Own</span></span><span class="out-v" id="oComp">—</span></div>
+          <div class="out-row"><span class="out-l">未获取曝光空间<span class="en">Uncaptured = 1 − SIS</span></span><span class="out-v hint" id="oSpace">—</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 概念区分 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">05</span><span class="sec-title">必须区分:20.4 万 ≠ 搜索量</span></div>
+      <div class="rule"></div>
+      <p class="lead">反推出来的是<strong>广告曝光池</strong>,不是<strong>搜索量</strong>。这两个概念在系统里绝不能混用,否则会得到错误的容量判断。</p>
+      <div class="grid2" style="margin-top:16px;">
+        <div class="card">
+          <div class="ct">广告曝光池(本方法得出)</div>
+          <div class="cb">统计周期内,该词<strong>所有广告主投放 SP 广告被展示的总次数</strong>。它反映的是广告竞争规模,由竞价、预算、相关度共同决定。<br><br><span class="pill info">用途:广告竞争分析</span></div>
+        </div>
+        <div class="card">
+          <div class="ct">搜索量(ABA 得出)</div>
+          <div class="cb">统计周期内,买家<strong>真实搜索该词的次数</strong>。它反映的是需求规模,与广告投放无关。<br><br><span class="pill warn">用途:需求规模判断</span></div>
+        </div>
+      </div>
+      <div class="alert warn" style="margin-top:14px;">
+        <div class="at">为什么两者必然不同</div>
+        <div class="ab">一次搜索可能展示多个广告(搜索结果页 + 商品页),也可能一个广告都不展示(无人竞价、预算耗尽、相关性不足)。因此曝光池与搜索量之间不存在固定换算系数,任何"曝光 ÷ 某系数 = 搜索量"的做法都缺乏依据。</div>
+      </div>
+    </section>
+
+    <!-- 06 置信度 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">06</span><span class="sec-title">从事实到模型:数据置信度必须分级</span></div>
+      <div class="rule"></div>
+      <p class="lead">曝光量是"事实值";一旦向外延伸,每多推一步就多一层假设。系统里必须给每个指标打上置信度标签。</p>
+      <div class="chain" style="margin-top:14px;">
+        <div class="step"><div class="n">LEVEL 1 · 事实值</div><div class="t">市场广告曝光量</div><div class="d">Clicks ÷ CTR ÷ SIS,直接反推,接近事实 <span class="note-tag fact">FACT</span></div></div>
+        <div class="step"><div class="n">LEVEL 2 · 模型估算</div><div class="t">市场理论点击池</div><div class="d">假设竞对 CTR ≈ 你的 CTR <span class="note-tag model">EST</span></div></div>
+        <div class="step"><div class="n">LEVEL 3 · 二次估算</div><div class="t">市场理论订单池</div><div class="d">再假设竞对 CVR ≈ 你的 CVR <span class="note-tag model2">EST²</span></div></div>
+        <div class="step"><div class="n">LEVEL 4 · 三次估算</div><div class="t">流量商业价值</div><div class="d">再叠加 ASP 假设,仅供优先级排序 <span class="note-tag model2">EST³</span></div></div>
+      </div>
+      <div class="grid2" style="margin-top:16px;">
+        <div class="chart-card">
+          <div class="ct">该词市场曝光池的归属结构</div>
+          <div class="cm">事实值(Level 1)</div>
+          <div style="position:relative;height:250px;">
+            <canvas id="shareChart"></canvas>
+          </div>
+          <div class="legend">
+            <span><span class="sq" style="background:#3E54CE;"></span>我的曝光 112,170(54.83%)</span>
+            <span><span class="sq" style="background:#A3AEEE;"></span>其他广告主 92,408(45.17%)</span>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="ct">理论池 vs 你的实际(模型值)</div>
+          <div class="cm">Level 2 / Level 3,仅作估算参考</div>
+          <div style="position:relative;height:250px;">
+            <canvas id="poolChart"></canvas>
+          </div>
+          <div class="legend">
+            <span><span class="sq" style="background:#3E54CE;"></span>理论市场池</span>
+            <span><span class="sq" style="background:#C9D4F5;"></span>你的实际</span>
+          </div>
+        </div>
+      </div>
+      <div class="alert warn" style="margin-top:14px;">
+        <div class="at">以本案例为例</div>
+        <div class="ab">理论市场点击池 ≈ 204,578 × 0.67576% ≈ <strong>1,382 次</strong>(你已获得 758,剩余理论空间约 624);理论订单池 ≈ 1,382 × 17.68% ≈ <strong>244 单</strong>(你已获得 134,剩余约 110)。但竞对的主图、价格、Review、Coupon、品牌力不同,CTR/CVR 不可能与你完全一致——<strong>曝光量可以直接反推,点击与订单只能估算</strong>,且置信度逐级递减。</div>
+      </div>
+    </section>
+
+    <!-- 07 口径陷阱 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">07</span><span class="sec-title">两个口径陷阱:ASIN 维度与广告位维度</span></div>
+      <div class="rule"></div>
+      <p class="lead">新数据维度带来了更高的分辨率,也带来了最容易算错的两个地方。</p>
+      <div class="alert err">
+        <div class="at">陷阱 A:ASIN 维度不能乱算 —— SIS 是账户级口径</div>
+        <div class="ab">
+          Amazon 官方定义的 Search Term Impression Share 是<strong>账户级(account-wide)</strong>的搜索词展示份额。因此:
+          <br>✗ 错误做法:把 ASIN A 曝光 ÷ 54.83%、ASIN B 曝光 ÷ 54.83%……当作三个不同的"关键词市场容量"。
+          <br>✓ 正确做法:先 <strong>GROUP BY Marketplace + Date Range + Search Term + Ad Type</strong>,把账户下该词全部 ASIN 的曝光汇总(如 50,000 + 40,000 + 22,170 = 112,170),再 ÷ SIS ≈ 204,578。
+          <br><span style="font-size:12px;color:var(--text-secondary);">这是批量算法最容易踩的坑:每个 ASIN 行都除一次 SIS,会把市场规模重复放大 N 倍。</span>
+        </div>
+      </div>
+      <div class="alert err">
+        <div class="at">陷阱 B:广告位维度需要「同口径」份额 —— Numerator / Denominator Granularity Matching</div>
+        <div class="ab">
+          现在能看到 Top of Search / Rest of Search / Product Pages 的曝光分布,但<strong>不能拿整体 Search Term SIS 去反推每个广告位的市场曝光</strong>。54.83% 是"词"的整体口径,不代表 Top of Search 这一位置的份额。
+          <br>✓ 只有 Amazon 提供了同口径数据(如 Top-of-Search Impression Share、Placement-specific Impression Share)时,才能计算:市场 Top 曝光 = 我的 Top 曝光 ÷ Top IS。
+          <br><span style="font-size:12px;color:var(--text-secondary);">建议把"分子口径 = 分母口径"做成算法里的强制校验,口径不匹配直接拒绝计算。</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 竞争指数 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">08</span><span class="sec-title">沉淀为「关键词市场竞争指数」</span></div>
+      <div class="rule"></div>
+      <p class="lead">把上述字段全部落到每个 Search Term 上,一组数据就能回答:市场多大、我占多少、效率如何、还剩多少空间、值不值得抢。</p>
+      <div class="tbl-wrap" style="margin-top:16px;">
+        <table>
+          <thead><tr><th style="width:34%;">字段</th><th>定义 / 公式</th><th style="width:120px;">数据性质</th></tr></thead>
+          <tbody>
+            <tr><td>市场规模 Market Impression Pool<span class="en">关键词广告市场曝光池</span></td><td>Clicks ÷ CTR ÷ SIS</td><td><span class="pill info">事实值</span></td></tr>
+            <tr><td>市场占有率<span class="en">Search Term Impression Share</span></td><td>报表直接给出(账户级)</td><td><span class="pill info">事实值</span></td></tr>
+            <tr><td>市场排名<span class="en">Impression Rank</span></td><td>报表直接给出</td><td><span class="pill info">事实值</span></td></tr>
+            <tr><td>剩余流量空间<span class="en">Uncaptured Opportunity</span></td><td>1 − SIS</td><td><span class="pill info">事实值</span></td></tr>
+            <tr><td>自身效率<span class="en">CTR / CVR / CPC</span></td><td>报表直接给出</td><td><span class="pill info">事实值</span></td></tr>
+            <tr><td>市场理论点击池<span class="en">Est. Click Pool</span></td><td>Market Impressions × 自身 CTR</td><td><span class="pill warn">模型估算</span></td></tr>
+            <tr><td>市场理论订单池<span class="en">Est. Order Pool</span></td><td>Est. Click Pool × 自身 CVR</td><td><span class="pill warn">二次估算</span></td></tr>
+            <tr><td>流量商业价值<span class="en">Traffic Value</span></td><td>Market Imp × Est CTR × Est CVR × ASP</td><td><span class="pill warn">三次估算</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:14px;font-size:13.5px;">于是每个关键词不再只是一个"搜索量高不高"的问题,而是:市场多大 × 我占多少 × 我的效率 × 剩余空间 × 值不值得继续抢。</p>
+    </section>
+
+    <!-- 09 四类关键词 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">09</span><span class="sec-title">据此形成四类关键词决策框架</span></div>
+      <div class="rule"></div>
+      <div class="grid2" style="margin-top:16px;">
+        <div class="kw-card kw-a">
+          <div class="kw-tag">类型 A · 抢量优先</div>
+          <div class="kw-name">高容量 + 低占有率 + 高转化</div>
+          <div class="kw-metric"><span class="m">市场曝光 <b>500,000</b></span><span class="m">SIS <b>5%</b></span><span class="m">CVR <b>20%</b></span></div>
+          <div class="kw-desc">市场大、份额低、转化好:说明产品契合需求但尚未吃透流量。这是<strong>最值得加预算抢量的词</strong>。</div>
+          <div class="kw-verdict">✓ 优先动作:加预算、提竞价、抢 Top of Search</div>
+        </div>
+        <div class="kw-card kw-b">
+          <div class="kw-tag">类型 B · 见顶评估</div>
+          <div class="kw-name">低容量 + 高占有率</div>
+          <div class="kw-metric"><span class="m">市场曝光 <b>50,000</b></span><span class="m">SIS <b>75%</b></span><span class="m">CVR <b>20%</b></span></div>
+          <div class="kw-desc">盘子小且已接近吃满,继续猛加预算的边际收益极低,钱应挪去更有空间的地方。</div>
+          <div class="kw-verdict">⚠ 评估:维持预算,优化效率,不盲目加钱</div>
+        </div>
+        <div class="kw-card kw-c">
+          <div class="kw-tag">类型 C · 意图错配</div>
+          <div class="kw-name">大市场 + 低转化</div>
+          <div class="kw-metric"><span class="m">市场曝光 <b>600,000</b></span><span class="m">SIS <b>8%</b></span><span class="m">CVR <b>3%</b></span></div>
+          <div class="kw-desc">市场很大,但产品与搜索意图不匹配。流量再大也接不住,<strong>不能因为市场大就盲目抢量</strong>。</div>
+          <div class="kw-verdict">✗ 处理:收缩预算,或优化 Listing 匹配度后重测</div>
+        </div>
+        <div class="kw-card kw-d">
+          <div class="kw-tag">类型 D · 战略核心</div>
+          <div class="kw-name">大市场 + 高占有率 + 高转化</div>
+          <div class="kw-metric"><span class="m">市场曝光 <b>300,000</b></span><span class="m">SIS <b>45%</b></span><span class="m">CVR <b>18%</b></span><span class="m">ROAS <b>高</b></span></div>
+          <div class="kw-desc">市场、份额、效率、回报全部占优,是品牌的核心阵地。</div>
+          <div class="kw-verdict">★ 重点投入:Top of Search 抢位、预算覆盖、分时竞价、自然排名协同</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 结论 -->
+    <section>
+      <div class="sec-head"><span class="sec-no">10</span><span class="sec-title">真正的突破:从「看自己」到「看市场」</span></div>
+      <div class="rule"></div>
+      <p class="lead">以前 Amazon 广告分析基本是"看我自己投得怎么样";现在可以升级为"看整个关键词广告市场有多大,以及我占了多少"。这个指标可以正式定义为:</p>
+      <div class="formula" style="margin-top:16px;">
+        <span class="tag">KAME · Keyword Advertising Market Exposure</span>
+        <div class="expr">KAME = Clicks ÷ CTR ÷ Search Term Impression Share</div>
+        <div class="desc">本案例:758 点击 → 约 11.22 万自有广告曝光 → 54.83% 市场份额 → 约 20.46 万搜索词 SP 市场广告曝光池。</div>
+      </div>
+      <p style="margin-top:16px;">把 <strong>Search Term × ASIN × Placement × Date × SIS × CTR × CVR × CPC × Rank</strong> 全部串起来,就能搭建一个「关键词市场容量与广告竞争系统」。相比单纯拿 ABA 搜索排名或第三方搜索量估算做市场判断,这套方法多出了<strong>"真实广告竞争份额"</strong>这一层事实数据——而 Amazon 官方也明确建议利用展示量份额和排名来判断关键词竞争与优化机会。</p>
+      <div class="alert ok" style="margin-top:16px;">
+        <div class="at">落地建议</div>
+        <div class="ab">① 批量计算前强制 GROUP BY(站点 + 时间 + 词 + 广告类型),防止 ASIN 行重复放大;② 广告位反推必须用同口径份额,否则拒绝计算;③ 所有模型类指标统一加 Estimated 标记并分级;④ 用四类关键词框架输出可执行的预算与竞价动作。</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="f-brand">关键词广告市场曝光量估算方法论</div>
+    <div class="f-sub">基于搜索词展示量份额(SIS)的亚马逊 SP 广告市场容量估算 · 案例分析版</div>
+    <div class="hairline"></div>
+    <div class="ref-title">参考资料</div>
+    <ol class="ref-list">
+      <li>Amazon Advertising — Search Term Impression Share (SIS) Report for Sponsored Products: <a href="https://advertising.amazon.com/help/display/ads-console/sponsored-products-reports/search-term-impression-share-sis-report-for-sponsored-products" target="_blank" rel="noopener">advertising.amazon.com/help/…/search-term-impression-share-sis-report-for-sponsored-products</a></li>
+      <li>Amazon Advertising — Sponsored Products 官方指南: <a href="https://advertising.amazon.com/library/guides/sponsored-products" target="_blank" rel="noopener">advertising.amazon.com/library/guides/sponsored-products</a></li>
+      <li>Amazon Advertising — Brand Analytics(搜索词搜索量 / 搜索频率排名数据源): <a href="https://advertising.amazon.com/brand-analytics" target="_blank" rel="noopener">advertising.amazon.com/brand-analytics</a></li>
+      <li>Amazon Seller Central — Brand Analytics Search Terms Report(Search Frequency Rank): <a href="https://sellercentral.amazon.com/help/hub/reference/G202128100" target="_blank" rel="noopener">sellercentral.amazon.com/help/hub/reference/G202128100</a></li>
+    </ol>
+    <div class="hairline"></div>
+    <div class="f-bottom">
+      <span>关键词市场容量与广告竞争分析</span>
+      <span>生成于 <a href="https://allyhub.com" target="_blank" rel="noopener">AllyHub AI</a> · 数据口径以 Amazon Ads 官方报表为准</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* Hero metric count-up */
+(function(){
+  var target = 204578;
+  var el = document.getElementById('heroMetric');
+  var dur = 1200, start = null;
+  function step(ts){
+    if(!start) start = ts;
+    var p = Math.min((ts - start)/dur, 1);
+    var eased = 1 - Math.pow(1-p, 3);
+    el.textContent = Math.round(target * eased).toLocaleString('en-US');
+    if(p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+
+/* Share donut chart */
+(function(){
+  var ctx = document.getElementById('shareChart');
+  if(!ctx || typeof Chart === 'undefined') return;
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['我的曝光 112,170', '其他广告主 92,408'],
+      datasets: [{
+        data: [112170, 92408],
+        backgroundColor: ['#3E54CE', '#A3AEEE'],
+        borderWidth: 0,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '65%',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return c.label + ' 次'; } } } }
+    }
+  });
+  var wrap = ctx.parentElement;
+  var overlay = document.createElement('div');
+  overlay.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;';
+  overlay.innerHTML = '<div style="font-size:26px;font-weight:700;color:#151515;">54.83%</div><div style="font-size:11.5px;color:#717171;">展示量份额</div>';
+  wrap.appendChild(overlay);
+})();
+
+/* Pool comparison bar chart */
+(function(){
+  var ctx = document.getElementById('poolChart');
+  if(!ctx || typeof Chart === 'undefined') return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['理论市场点击池', '理论市场订单池'],
+      datasets: [
+        { label: '理论市场池', data: [1382, 244], backgroundColor: '#3E54CE', borderRadius: 6, barPercentage: .5 },
+        { label: '你的实际', data: [758, 134], backgroundColor: '#C9D4F5', borderRadius: 6, barPercentage: .5 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#717171', font: { size: 11 } } },
+        y: { grid: { color: '#E8E6E2' }, ticks: { color: '#717171', font: { size: 11 } } }
+      }
+    }
+  });
+})();
+
+/* Calculator */
+(function(){
+  var clicks = document.getElementById('cClicks');
+  var ctr = document.getElementById('cCtr');
+  var sis = document.getElementById('cSis');
+  var oOwn = document.getElementById('oOwn');
+  var oMarket = document.getElementById('oMarket');
+  var oComp = document.getElementById('oComp');
+  var oSpace = document.getElementById('oSpace');
+  function fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+  function calc(){
+    var c = parseFloat(clicks.value) || 0;
+    var ct = (parseFloat(ctr.value) || 0) / 100;
+    var s = (parseFloat(sis.value) || 0) / 100;
+    if(ct <= 0 || s <= 0){ oOwn.textContent = '—'; oMarket.textContent = '—'; oComp.textContent = '—'; oSpace.textContent = '—'; return; }
+    var own = c / ct;
+    var market = own / s;
+    oOwn.textContent = fmt(own) + ' 次';
+    oMarket.textContent = fmt(market) + ' 次';
+    oComp.textContent = fmt(market - own) + ' 次';
+    oSpace.textContent = (100 - s * 100).toFixed(2) + '%';
+  }
+  [clicks, ctr, sis].forEach(function(i){ i.addEventListener('input', calc); });
+  calc();
+})();
+</script>
+</body>
+</html>

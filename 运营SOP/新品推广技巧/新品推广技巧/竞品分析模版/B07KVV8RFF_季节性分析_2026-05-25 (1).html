@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B07KVV8RFF 季节性销量波动分析</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f1923;color:#d4dde8;font-family:'Segoe UI',Arial,sans-serif;font-size:14px;padding:24px}
+h1{color:#7ec8e3;font-size:22px;margin-bottom:4px}
+.subtitle{color:#8a9bb0;margin-bottom:24px;font-size:13px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+@media(max-width:800px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:linear-gradient(135deg,#1a2f45,#1e3a52);border-radius:10px;padding:18px;text-align:center}
+.kpi .val{font-size:24px;font-weight:700;color:#7ec8e3}
+.kpi .lbl{color:#8a9bb0;font-size:12px;margin-top:5px}
+.section-title{color:#7ec8e3;font-size:16px;border-left:3px solid #7ec8e3;padding-left:10px;margin:28px 0 14px;font-weight:600}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+@media(max-width:900px){.chart-grid{grid-template-columns:1fr}}
+.chart-box{background:#142030;border-radius:10px;padding:16px}
+.chart-box canvas{max-height:280px}
+.chart-full{background:#142030;border-radius:10px;padding:16px;margin-bottom:18px}
+.chart-full canvas{max-height:300px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#1a2f45;color:#7ec8e3;padding:9px 12px;text-align:left;white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid #1c2e40;white-space:nowrap}
+tr:hover td{background:#142030}
+.heatmap-table th,.heatmap-table td{text-align:center;padding:7px 10px;font-size:12px}
+.advice-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+@media(max-width:800px){.advice-grid{grid-template-columns:1fr}}
+.advice-card{background:#142030;border-radius:10px;padding:18px}
+.advice-title{color:#7ec8e3;font-weight:700;margin-bottom:8px;font-size:14px}
+.advice-body{color:#c8d6e0;line-height:1.8;font-size:13px}
+.legend-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;font-size:12px;align-items:center}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-dot{width:14px;height:14px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<h1>📅 B07KVV8RFF 季节性销量波动分析</h1>
+<div class="subtitle">
+  Loveseat Slipcovers | Home & Kitchen &nbsp;|&nbsp;
+  数据周期：2023-01 ~ 2026-05（41 个月）&nbsp;|&nbsp; 生成：2026-05-25
+</div>
+
+<!-- KPI -->
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="val">11月</div>
+    <div class="lbl">销量最高月份</div>
+  </div>
+  <div class="kpi">
+    <div class="val">144</div>
+    <div class="lbl">旺季季节指数峰值</div>
+  </div>
+  <div class="kpi">
+    <div class="val">70</div>
+    <div class="lbl">淡季季节指数低谷</div>
+  </div>
+  <div class="kpi">
+    <div class="val">7.0x</div>
+    <div class="lbl">旺/淡季销量倍差</div>
+  </div>
+</div>
+
+<!-- 图表1: 全周期销量时序 -->
+<div class="section-title">全周期月度销量与BSR走势</div>
+<div class="chart-full"><canvas id="chartTimeline"></canvas></div>
+
+<!-- 图表2+3 -->
+<div class="section-title">季节性指数 & 年度同期对比</div>
+<div class="chart-grid">
+  <div class="chart-box"><canvas id="chartSI"></canvas></div>
+  <div class="chart-box"><canvas id="chartYoY"></canvas></div>
+</div>
+
+<!-- 图表4+5 -->
+<div class="chart-grid">
+  <div class="chart-box"><canvas id="chartFlow"></canvas></div>
+  <div class="chart-box"><canvas id="chartPrice"></canvas></div>
+</div>
+
+<!-- 季节指数统计表 -->
+<div class="section-title">月度季节性指数统计表</div>
+<div class="legend-bar">
+  <span class="legend-item"><span class="legend-dot" style="background:#ff6347"></span>🔥 旺季高峰（指数≥130）</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#ffa500"></span>📈 旺季（110~130）</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#7ec8e3"></span>➡️ 平季（90~110）</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#6495ed"></span>📉 淡季（70~90）</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#555"></span>❄️ 深度淡季（<70）</span>
+</div>
+<div style="overflow-x:auto;margin-bottom:28px">
+<table>
+  <thead><tr>
+    <th>月份</th><th>季节定性</th><th>季节指数（均值=100）</th>
+    <th>月均销量</th><th>历史范围</th><th>样本年数</th>
+  </tr></thead>
+  <tbody><tr>
+      <td><b>1月</b></td>
+      <td>➡️ 平季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:95px;height:14px;background:#7ec8e3;border-radius:3px;min-width:4px"></div>
+          <b>95.8</b>
+        </div>
+      </td>
+      <td>3,667</td>
+      <td>2,000 ~ 5,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>2月</b></td>
+      <td>📉 淡季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:87px;height:14px;background:#6495ed;border-radius:3px;min-width:4px"></div>
+          <b>87.1</b>
+        </div>
+      </td>
+      <td>3,333</td>
+      <td>2,000 ~ 4,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>3月</b></td>
+      <td>➡️ 平季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:95px;height:14px;background:#7ec8e3;border-radius:3px;min-width:4px"></div>
+          <b>95.8</b>
+        </div>
+      </td>
+      <td>3,667</td>
+      <td>3,000 ~ 4,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>4月</b></td>
+      <td>➡️ 平季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:95px;height:14px;background:#7ec8e3;border-radius:3px;min-width:4px"></div>
+          <b>95.8</b>
+        </div>
+      </td>
+      <td>3,667</td>
+      <td>3,000 ~ 4,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>5月</b></td>
+      <td>📉 淡季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:87px;height:14px;background:#6495ed;border-radius:3px;min-width:4px"></div>
+          <b>87.1</b>
+        </div>
+      </td>
+      <td>3,333</td>
+      <td>3,000 ~ 4,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>6月</b></td>
+      <td>❄️ 深度淡季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:69px;height:14px;background:#555;border-radius:3px;min-width:4px"></div>
+          <b>69.7</b>
+        </div>
+      </td>
+      <td>2,667</td>
+      <td>1,000 ~ 4,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>7月</b></td>
+      <td>➡️ 平季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:104px;height:14px;background:#7ec8e3;border-radius:3px;min-width:4px"></div>
+          <b>104.5</b>
+        </div>
+      </td>
+      <td>4,000</td>
+      <td>2,000 ~ 6,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>8月</b></td>
+      <td>➡️ 平季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:104px;height:14px;background:#7ec8e3;border-radius:3px;min-width:4px"></div>
+          <b>104.5</b>
+        </div>
+      </td>
+      <td>4,000</td>
+      <td>2,000 ~ 5,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>9月</b></td>
+      <td>➡️ 平季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:95px;height:14px;background:#7ec8e3;border-radius:3px;min-width:4px"></div>
+          <b>95.8</b>
+        </div>
+      </td>
+      <td>3,667</td>
+      <td>2,000 ~ 5,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>10月</b></td>
+      <td>➡️ 平季</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:95px;height:14px;background:#7ec8e3;border-radius:3px;min-width:4px"></div>
+          <b>95.8</b>
+        </div>
+      </td>
+      <td>3,667</td>
+      <td>2,000 ~ 5,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>11月</b></td>
+      <td>🔥 旺季高峰</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:139px;height:14px;background:#ff6347;border-radius:3px;min-width:4px"></div>
+          <b>139.3</b>
+        </div>
+      </td>
+      <td>5,333</td>
+      <td>3,000 ~ 7,000</td>
+      <td>3 年</td>
+    </tr><tr>
+      <td><b>12月</b></td>
+      <td>🔥 旺季高峰</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:143px;height:14px;background:#ff6347;border-radius:3px;min-width:4px"></div>
+          <b>143.7</b>
+        </div>
+      </td>
+      <td>5,500</td>
+      <td>5,000 ~ 6,000</td>
+      <td>2 年</td>
+    </tr></tbody>
+</table>
+</div>
+
+<!-- 热力图 -->
+<div class="section-title">各年各月销量热力图（颜色越深=销量越高）</div>
+<div style="overflow-x:auto;margin-bottom:28px"><table class="heatmap-table"><thead><tr><th>年份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>10月</th><th>11月</th><th>12月</th></tr></thead><tbody><tr><td><b>2023</b></td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:rgb(20,40,80);color:#000;font-weight:600;text-align:center">1,000</td><td style="background:rgb(59,63,73);color:#000;font-weight:600;text-align:center">2,000</td><td style="background:rgb(59,63,73);color:#000;font-weight:600;text-align:center">2,000</td><td style="background:rgb(59,63,73);color:#000;font-weight:600;text-align:center">2,000</td><td style="background:rgb(59,63,73);color:#000;font-weight:600;text-align:center">2,000</td><td style="background:rgb(98,86,66);color:#000;font-weight:600;text-align:center">3,000</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td></tr><tr><td><b>2024</b></td><td style="background:rgb(59,63,73);color:#000;font-weight:600;text-align:center">2,000</td><td style="background:rgb(59,63,73);color:#000;font-weight:600;text-align:center">2,000</td><td style="background:rgb(98,86,66);color:#000;font-weight:600;text-align:center">3,000</td><td style="background:rgb(98,86,66);color:#000;font-weight:600;text-align:center">3,000</td><td style="background:rgb(98,86,66);color:#000;font-weight:600;text-align:center">3,000</td><td style="background:rgb(98,86,66);color:#000;font-weight:600;text-align:center">3,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(176,133,53);color:#000;font-weight:600;text-align:center">5,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(215,156,46);color:#000;font-weight:600;text-align:center">6,000</td><td style="background:rgb(176,133,53);color:#000;font-weight:600;text-align:center">5,000</td></tr><tr><td><b>2025</b></td><td style="background:rgb(176,133,53);color:#000;font-weight:600;text-align:center">5,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(215,156,46);color:#000;font-weight:600;text-align:center">6,000</td><td style="background:rgb(176,133,53);color:#000;font-weight:600;text-align:center">5,000</td><td style="background:rgb(176,133,53);color:#000;font-weight:600;text-align:center">5,000</td><td style="background:rgb(176,133,53);color:#000;font-weight:600;text-align:center">5,000</td><td style="background:rgb(255,180,40);color:#000;font-weight:600;text-align:center">7,000</td><td style="background:rgb(215,156,46);color:#000;font-weight:600;text-align:center">6,000</td></tr><tr><td><b>2026</b></td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(137,110,60);color:#000;font-weight:600;text-align:center">4,000</td><td style="background:rgb(98,86,66);color:#000;font-weight:600;text-align:center">3,000</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td><td style="background:#1a2535;color:#ccc;font-weight:600;text-align:center">—</td></tr></tbody></table></div>
+
+<!-- YoY 表 -->
+<div class="section-title">同比增长率（YoY）明细表</div>
+<div style="overflow-x:auto;margin-bottom:28px">
+<table>
+  <thead><tr><th>年份</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月</th><th>10月</th><th>11月</th><th>12月</th></tr></thead>
+  <tbody><tr><td><b>2024</b></td><td style="color:#555">—</td><td style="color:#555">—</td><td style="color:#555">—</td><td style="color:#555">—</td><td style="color:#555">—</td><td style="color:#6fcf97;font-weight:600">+200.0%</td><td style="color:#6fcf97;font-weight:600">+100.0%</td><td style="color:#6fcf97;font-weight:600">+150.0%</td><td style="color:#6fcf97;font-weight:600">+100.0%</td><td style="color:#6fcf97;font-weight:600">+100.0%</td><td style="color:#6fcf97;font-weight:600">+100.0%</td><td style="color:#555">—</td></tr><tr><td><b>2025</b></td><td style="color:#6fcf97;font-weight:600">+150.0%</td><td style="color:#6fcf97;font-weight:600">+100.0%</td><td style="color:#6fcf97;font-weight:600">+33.3%</td><td style="color:#6fcf97;font-weight:600">+33.3%</td><td style="color:#6fcf97;font-weight:600">+33.3%</td><td style="color:#6fcf97;font-weight:600">+33.3%</td><td style="color:#6fcf97;font-weight:600">+50.0%</td><td style="color:#ff6b6b;font-weight:600">0.0%</td><td style="color:#6fcf97;font-weight:600">+25.0%</td><td style="color:#6fcf97;font-weight:600">+25.0%</td><td style="color:#6fcf97;font-weight:600">+16.7%</td><td style="color:#6fcf97;font-weight:600">+20.0%</td></tr><tr><td><b>2026</b></td><td style="color:#ff6b6b;font-weight:600">-20.0%</td><td style="color:#ff6b6b;font-weight:600">0.0%</td><td style="color:#ff6b6b;font-weight:600">0.0%</td><td style="color:#ff6b6b;font-weight:600">0.0%</td><td style="color:#ff6b6b;font-weight:600">-25.0%</td><td style="color:#555">—</td><td style="color:#555">—</td><td style="color:#555">—</td><td style="color:#555">—</td><td style="color:#555">—</td><td style="color:#555">—</td><td style="color:#555">—</td></tr></tbody>
+</table>
+</div>
+
+<!-- 运营建议 -->
+<div class="section-title">选品 & 运营节奏建议</div>
+<div class="advice-grid">
+<div class="advice-card">
+  <div class="advice-title">📦 选品/备货节奏</div>
+  <div class="advice-body">
+    旺季集中在 <b>11月（指数139.3）、12月（指数143.7）</b>，建议提前 <b>6~8 周</b>完成备货入仓。
+    高峰月销量可达平均水平的 <b>144%</b>，
+    需预留充足安全库存。
+  </div>
+</div>
+<div class="advice-card">
+  <div class="advice-title">💰 定价策略</div>
+  <div class="advice-body">
+    旺季月均价约 <b>$23.39</b>，淡季约 <b>$24.04</b>，
+    旺季通过降价促量，以量换排名。
+    淡季建议使用 Coupon / BD 维持排名热度。
+  </div>
+</div>
+<div class="advice-card">
+  <div class="advice-title">📣 广告投放节奏</div>
+  <div class="advice-body">
+    淡季（2月（指数87.1）、5月（指数87.1）、6月（指数69.7））自然流量下滑，建议加大 SP 广告维持曝光，防止排名下滑。
+    旺季前 1 个月开始预热出价，旺季高峰期以 ACOS 换排名，旺季末逐步收缩预算。
+  </div>
+</div>
+<div class="advice-card">
+  <div class="advice-title">📈 年度增长趋势</div>
+  <div class="advice-body">
+    BSR 与销量相关系数 <b>0.267</b>（负相关，BSR 越小销量越高）。
+    2023→2024→2025 年同比持续增长，品牌势能强劲，
+    新入局者需在淡季低竞争期切入，避免旺季正面硬刚。
+  </div>
+</div>
+</div>
+
+<script>
+const M   = ["2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05"];
+const SLS = [0, 0, 0, 0, 0, 1000, 2000, 2000, 2000, 2000, 3000, 0, 2000, 2000, 3000, 3000, 3000, 3000, 4000, 5000, 4000, 4000, 6000, 5000, 5000, 4000, 4000, 4000, 4000, 4000, 6000, 5000, 5000, 5000, 7000, 6000, 4000, 4000, 4000, 4000, 3000];
+const BSR = [62, 70, 85, 85, 140, 205, 208, 155, 136, 200, 150, 152, 160, 89, 112, 129, 152, 247, 215, 140, 166, 197, 133, 370, 124, 123, 152, 182, 168, 217, 293, 279, 212, 209, 215, 384, 239, 305, 194, 269, 482];
+const PRC = [27.76, 26.45, 26.89, 26.79, 27.28, 28.19, 28.83, 27.47, 24.64, 24.71, 24.69, 24.8, 24.65, 24.9, 24.45, 24.84, 24.28, 23.91, 25.36, 23.47, 25.31, 22.65, 22.51, 26.31, 24.01, 24.89, 23.74, 24.75, 23.2, 24.21, 22.01, 21.78, 21.91, 22.16, 21.82, 21.63, 21.37, 21.43, 21.72, 20.87, 21.39];
+const SIM = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+const SIV = [95.8, 87.1, 95.8, 95.8, 87.1, 69.7, 104.5, 104.5, 95.8, 95.8, 139.3, 143.7];
+const SIC = ["rgba(126,200,227,0.75)", "rgba(100,149,237,0.75)", "rgba(126,200,227,0.75)", "rgba(126,200,227,0.75)", "rgba(100,149,237,0.75)", "rgba(80,80,120,0.6)", "rgba(126,200,227,0.75)", "rgba(126,200,227,0.75)", "rgba(126,200,227,0.75)", "rgba(126,200,227,0.75)", "rgba(255,99,71,0.85)", "rgba(255,99,71,0.85)"];
+const NAT = [36318.0, 36516.0, 33180.0, 36734.0, 28607.0, 25067.0, 39580.0, 38631.0, 36237.0, 40218.0, 53499.0, 46998.0];
+const AD  = [9903.0, 8640.0, 8875.0, 5453.0, 5090.0, 6200.0, 9517.0, 9183.0, 8381.0, 8091.0, 7902.0, 9206.0];
+
+const yoySeries = {"2024": [null, null, null, null, null, 200.0, 100.0, 150.0, 100.0, 100.0, 100.0, null], "2025": [150.0, 100.0, 33.3, 33.3, 33.3, 33.3, 50.0, 0.0, 25.0, 25.0, 16.7, 20.0], "2026": [-20.0, 0.0, 0.0, 0.0, -25.0, null, null, null, null, null, null, null]};
+const yoyYears  = [2024, 2025, 2026];
+
+const grid='#1c2e40', tick='#8a9bb0';
+
+// 1. Timeline
+new Chart(document.getElementById('chartTimeline'),{
+  data:{labels:M,datasets:[
+    {type:'bar',label:'近30天销量',data:SLS,backgroundColor:'rgba(126,200,227,0.5)',yAxisID:'y',order:2},
+    {type:'line',label:'大类BSR',data:BSR,borderColor:'#ff6b6b',tension:0.3,pointRadius:0,borderWidth:2,yAxisID:'y2',order:1},
+  ]},
+  options:{responsive:true,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:'#d4dde8'}},title:{display:true,text:'全周期月度销量 & 大类BSR走势',color:'#7ec8e3',font:{size:14}}},
+    scales:{
+      x:{ticks:{color:tick,maxRotation:45,maxTicksLimit:24},grid:{color:grid}},
+      y:{position:'left',ticks:{color:'#7ec8e3'},grid:{color:grid},title:{display:true,text:'近30天销量',color:'#7ec8e3'}},
+      y2:{position:'right',reverse:true,ticks:{color:'#ff6b6b'},grid:{drawOnChartArea:false},title:{display:true,text:'大类BSR（越小越好）',color:'#ff6b6b'}},
+    }
+  }
+});
+
+// 2. 季节性指数
+new Chart(document.getElementById('chartSI'),{
+  type:'bar',
+  data:{labels:SIM,datasets:[
+    {label:'季节性指数',data:SIV,backgroundColor:SIC},
+    {type:'line',label:'基准线(100)',data:Array(12).fill(100),borderColor:'rgba(255,255,255,0.4)',borderDash:[5,5],pointRadius:0,borderWidth:1.5},
+  ]},
+  options:{responsive:true,plugins:{
+    legend:{labels:{color:'#d4dde8'}},
+    title:{display:true,text:'月度季节性指数（均值=100）',color:'#7ec8e3'}
+  },scales:{
+    x:{ticks:{color:tick},grid:{color:grid}},
+    y:{ticks:{color:tick},grid:{color:grid},suggestedMin:0,suggestedMax:200}
+  }}
+});
+
+// 3. YoY 各年折线
+const yoyColors=['#7ec8e3','#6fcf97','#f0c040','#ff6b6b','#b39ddb'];
+const yoyDatasets = yoyYears.map((yr,i)=>{
+  const data = yoySeries[yr] || Array(12).fill(null);
+  return {type:'line',label:yr+'年同比',data:data,borderColor:yoyColors[i%5],tension:0.3,pointRadius:3,borderWidth:2,spanGaps:true};
+});
+new Chart(document.getElementById('chartYoY'),{
+  data:{labels:SIM,datasets:[
+    ...yoyDatasets,
+    {type:'line',label:'基准(0%)',data:Array(12).fill(0),borderColor:'rgba(255,255,255,0.3)',borderDash:[5,5],pointRadius:0,borderWidth:1},
+  ]},
+  options:{responsive:true,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:'#d4dde8'}},title:{display:true,text:'各年同比增长率（%）',color:'#7ec8e3'}},
+    scales:{
+      x:{ticks:{color:tick},grid:{color:grid}},
+      y:{ticks:{color:tick,callback:v=>v+'%'},grid:{color:grid}},
+    }
+  }
+});
+
+// 4. 月均流量结构
+new Chart(document.getElementById('chartFlow'),{
+  type:'bar',
+  data:{labels:SIM,datasets:[
+    {label:'月均自然流量',data:NAT,backgroundColor:'rgba(111,207,151,0.8)'},
+    {label:'月均广告流量',data:AD,backgroundColor:'rgba(240,192,64,0.8)'},
+  ]},
+  options:{responsive:true,plugins:{legend:{labels:{color:'#d4dde8'}},title:{display:true,text:'各月均流量结构（自然 vs 广告）',color:'#7ec8e3'}},
+    scales:{x:{stacked:true,ticks:{color:tick},grid:{color:grid}},y:{stacked:true,ticks:{color:tick},grid:{color:grid}}}
+  }
+});
+
+// 5. 月均成交价
+new Chart(document.getElementById('chartPrice'),{
+  type:'line',
+  data:{labels:M,datasets:[{label:'月均成交价($)',data:PRC,borderColor:'#f0c040',tension:0.3,pointRadius:0,fill:true,backgroundColor:'rgba(240,192,64,0.08)'}]},
+  options:{responsive:true,plugins:{legend:{labels:{color:'#d4dde8'}},title:{display:true,text:'月均成交价走势',color:'#7ec8e3'}},
+    scales:{x:{ticks:{color:tick,maxRotation:45,maxTicksLimit:20},grid:{color:grid}},y:{ticks:{color:tick},grid:{color:grid}}}
+  }
+});
+</script>
+</body>
+</html>

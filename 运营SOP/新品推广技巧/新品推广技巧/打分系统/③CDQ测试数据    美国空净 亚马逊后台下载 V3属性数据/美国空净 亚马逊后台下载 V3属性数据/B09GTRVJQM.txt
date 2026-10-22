@@ -1,0 +1,463 @@
+{
+  "asin": "B09GTRVJQM",
+  "conditionOfferSummaries": [
+    {
+      "condition": "New",
+      "landedPrice": {
+        "itemPrice": "$49.99",
+        "shippingPrice": "$0.00",
+        "points": 0
+      },
+      "offerCount": 1
+    }
+  ],
+  "imageUrl": "https://m.media-amazon.com/images/I/41ODC2Uu41L._SS160_.jpg",
+  "reconciledProductAttributes": [
+    {
+      "displayLabel": null,
+      "value": "centimeters",
+      "name": "item_package_dimensions#1.length.unit"
+    },
+    {
+      "displayLabel": null,
+      "value": "19.812",
+      "name": "item_package_dimensions#1.length.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "19.9898",
+      "name": "item_package_dimensions#1.width.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "29.591",
+      "name": "item_package_dimensions#1.height.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "LEVOIT Air Purifiers for Bedroom Home Dorm, AHAM VERIFIDE, 3-in-1 Filter Cleaner With Aroma Pad, Filters Smoke, Allergens, Pet Dander, Odor, Dust, Office, Desktop, Core Mini-P, White",
+      "name": "item_name#1.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "kilograms",
+      "name": "item_package_weight#1.unit"
+    },
+    {
+      "displayLabel": null,
+      "value": "1.339",
+      "name": "item_package_weight#1.value"
+    }
+  ],
+  "reconciledListing": {
+    "detailPageListingResponse": {
+      "supplier_declared_dg_hz_regulation#1.value": {
+        "displayLabel": "Dangerous Goods Regulations",
+        "value": "not_applicable"
+      },
+      "voltage#1.value": {
+        "displayLabel": "Voltage",
+        "value": "100.0"
+      },
+      "item_name#1.value": {
+        "displayLabel": "Item Name",
+        "value": "LEVOIT Air Purifiers for Bedroom Home Dorm, AHAM VERIFIDE, 3-in-1 Filter Cleaner With Aroma Pad, Filters Smoke, Allergens, Pet Dander, Odor, Dust, Office, Desktop, Core Mini-P, White"
+      },
+      "unit_count#1.value": {
+        "displayLabel": "Unit Count",
+        "value": "1.0"
+      },
+      "item_weight#1.value": {
+        "displayLabel": "Item Weight",
+        "value": "2.2"
+      },
+      "number_of_packs#1.value": {
+        "displayLabel": "Number of Packs",
+        "value": "1"
+      },
+      "model_number#1.value": {
+        "displayLabel": "Model Number",
+        "value": "LAP-C161-WUS"
+      },
+      "detail_page_primary_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/41ODC2Uu41L._SL75_.jpg"
+      },
+      "bullet_point#1.value": {
+        "displayLabel": "Bullet Point",
+        "value": "𝗪𝗛𝗬 𝗖𝗛𝗢𝗢𝗦𝗘 𝗔𝗛𝗔𝗠 𝗩𝗘𝗥𝗜𝗙𝗜𝗗𝗘 𝗔𝗜𝗥 𝗣𝗨𝗥𝗜𝗙𝗜𝗘𝗥𝗦: AHAM (Association of Home Appliance Manufacturers) is an ANSI-accredited organization that sets strict standards for appliance performance. Air purifiers with the AHAM VERIFIDE seal have been independently tested for air cleaning performance, safety, and energy efficiency. When you choose an AHAM certified air purifier, you're choosing a product trusted for reliable and effective indoor air quality improvement"
+      },
+      "wattage#1.unit": {
+        "displayLabel": "Wattage Unit",
+        "value": "watts"
+      },
+      "material#1.value": {
+        "displayLabel": "Material",
+        "value": "ABS"
+      },
+      "control_method#1.value": {
+        "displayLabel": "Control Method",
+        "value": "touch"
+      },
+      "fcc_radio_frequency_emission_compliance#1.point_of_contact_email": {
+        "displayLabel": "SDoC Contact Email Address",
+        "value": "arthur.sun@etekcity.com"
+      },
+      "pt04_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/41+J3taGAKL._SL75_.jpg"
+      },
+      "pesticide_marking#1.marking_type": {
+        "displayLabel": "Pesticide Marking",
+        "value": "epa_establishment_number"
+      },
+      "item_package_weight#1.value": {
+        "displayLabel": "Package Weight",
+        "value": "1.339"
+      },
+      "pt07_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/41VkebycZIL._SL75_.jpg"
+      },
+      "california_proposition_65#1.compliance_type": {
+        "displayLabel": "California Proposition 65 Warning Type",
+        "value": "chemical"
+      },
+      "batteries_required#1.value": {
+        "displayLabel": "Are batteries required?",
+        "value": "false"
+      },
+      "sales_rank": {
+        "displayLabel": "",
+        "value": "28"
+      },
+      "variation_theme#1.name": {
+        "displayLabel": "Variation Theme Name",
+        "value": "SET_NAME"
+      },
+      "product_site_launch_date#1.value": {
+        "displayLabel": "Product Site Launch Date",
+        "value": "2021-12-07T08:00:01.000Z"
+      },
+      "particle_retention_size#1.value": {
+        "displayLabel": "Particle Retention Size",
+        "value": "0.1"
+      },
+      "item_package_dimensions#1.width.value": {
+        "displayLabel": "Item Package Width",
+        "value": "19.9898"
+      },
+      "filter_class#1.value": {
+        "displayLabel": "Filter Class",
+        "value": "3-in-1 Filter"
+      },
+      "legal_compliance_certifications#1.regulatory_organization_name": {
+        "displayLabel": "Regulatory Organization Name",
+        "value": "California Environmental Protection Agency - Air Resources Board"
+      },
+      "fcc_radio_frequency_emission_compliance#1.point_of_contact_address": {
+        "displayLabel": "SDoC Contact US Mailing Address",
+        "value": "1202 North Miller Street, Suite A, Anaheim, CA 92806"
+      },
+      "pesticide_marking#1.certification_number": {
+        "displayLabel": "Pesticide Certification Number",
+        "value": "94660-CHN-1"
+      },
+      "model_name#1.value": {
+        "displayLabel": "Model Name",
+        "value": "Core Mini-P"
+      },
+      "item_package_dimensions#1.width.unit": {
+        "displayLabel": "Package Width Unit",
+        "value": "centimeters"
+      },
+      "special_feature#1.value": {
+        "displayLabel": "Special Features",
+        "value": "Manual"
+      },
+      "fcc_radio_frequency_emission_compliance#1.point_of_contact_phone_number": {
+        "displayLabel": "SDOC Contact US Phone Number",
+        "value": "714-790-3767"
+      },
+      "pesticide_marking#1.registration_status": {
+        "displayLabel": "Pesticide Registration Status",
+        "value": "fifra_registration_required"
+      },
+      "batteries_included#1.value": {
+        "displayLabel": "Are batteries included?",
+        "value": "false"
+      },
+      "item_depth_width_height#1.width.value": {
+        "displayLabel": "Item Width Side to Side",
+        "value": "6.5"
+      },
+      "item_depth_width_height#1.height.unit": {
+        "displayLabel": "Item Height Unit",
+        "value": "inches"
+      },
+      "item_weight#1.normalized_value.unit": {
+        "displayLabel": "Item Weight Unit",
+        "value": "pounds"
+      },
+      "pt05_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/51UusamiLzL._SL75_.jpg"
+      },
+      "legal_compliance_certifications#1.certification_status": {
+        "displayLabel": "Compliance Certification Status",
+        "value": "Compliant"
+      },
+      "noise_level#1.unit": {
+        "displayLabel": "Noise Level Unit",
+        "value": "decibels"
+      },
+      "california_proposition_65#1.chemical_names#1": {
+        "displayLabel": "California Proposition 65 Chemical Name(s)",
+        "value": "lead"
+      },
+      "legal_compliance_certifications#1.value": {
+        "displayLabel": "Compliance Certification Value",
+        "value": "CARB Compliance Certificate"
+      },
+      "item_depth_width_height#1.width.unit": {
+        "displayLabel": "Item Width Unit",
+        "value": "inches"
+      },
+      "color#1.standardized_values#1": {
+        "displayLabel": "Color Map",
+        "value": "White"
+      },
+      "item_depth_width_height#1.height.value": {
+        "displayLabel": "Height Base to Top",
+        "value": "10.4"
+      },
+      "pt01_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/51MX5AhCpfL._SL75_.jpg"
+      },
+      "contaminant_filtration_capability#1.value": {
+        "displayLabel": "Contaminant Filtration Capability",
+        "value": "Cigarette Smoke"
+      },
+      "unit_count#1.type.value": {
+        "displayLabel": "Unit Count Type",
+        "value": "Count"
+      },
+      "noise_level#1.value": {
+        "displayLabel": "Noise Level",
+        "value": "25.0"
+      },
+      "filter_type#1.value": {
+        "displayLabel": "Filter Type",
+        "value": "3-in-1 Filter"
+      },
+      "warranty_description#1.value": {
+        "displayLabel": "Warranty Description",
+        "value": "2-year warranty"
+      },
+      "brand#1.value": {
+        "displayLabel": "Brand Name",
+        "value": "Levoit"
+      },
+      "pattern#1.value": {
+        "displayLabel": "Pattern",
+        "value": "Air Purifier"
+      },
+      "set_name#1.value": {
+        "displayLabel": "Set Name",
+        "value": "Core Mini-P White"
+      },
+      "item_depth_width_height#1.depth.value": {
+        "displayLabel": "Item Depth Front to Back",
+        "value": "6.5"
+      },
+      "item_package_weight#1.unit": {
+        "displayLabel": "Package Weight Unit",
+        "value": "kilograms"
+      },
+      "number_of_items#1.value": {
+        "displayLabel": "Number of Items",
+        "value": "1"
+      },
+      "product_type#1.value": {
+        "displayLabel": "Product Type",
+        "value": "AIR_PURIFIER"
+      },
+      "color#1.value": {
+        "displayLabel": "Color",
+        "value": "White"
+      },
+      "controller_type#1.value": {
+        "displayLabel": "Controller Type",
+        "value": "Button Control"
+      },
+      "item_package_dimensions#1.height.unit": {
+        "displayLabel": "Package Height Unit",
+        "value": "centimeters"
+      },
+      "item_package_dimensions#1.height.value": {
+        "displayLabel": "Item Package Height",
+        "value": "29.591"
+      },
+      "size#1.value": {
+        "displayLabel": "Size",
+        "value": "Core Mini-P"
+      },
+      "fcc_radio_frequency_emission_compliance#1.registration_status": {
+        "displayLabel": "Radio Frequency Emission & Authorization Status",
+        "value": "fcc_supplier_declaration_of_conformity"
+      },
+      "item_package_dimensions#1.length.value": {
+        "displayLabel": "Item Package Length",
+        "value": "19.812"
+      },
+      "part_number#1.value": {
+        "displayLabel": "Part Number",
+        "value": "Core Mini-P"
+      },
+      "style#1.value": {
+        "displayLabel": "Style",
+        "value": "Core Mini-P"
+      },
+      "regulatory_compliance_certification#1.value": {
+        "displayLabel": "Regulatory Identification",
+        "value": "G-21-478"
+      },
+      "included_components#1.value": {
+        "displayLabel": "Included Components",
+        "value": "1*Air Purifier ;"
+      },
+      "pt02_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/51kKZBua1dL._SL75_.jpg"
+      },
+      "item_depth_width_height#1.depth.unit": {
+        "displayLabel": "Item Depth Unit",
+        "value": "inches"
+      },
+      "pt03_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/51NuS0TEBPL._SL75_.jpg"
+      },
+      "particle_retention_size#1.unit": {
+        "displayLabel": "Particle Retention Size Unit",
+        "value": "micrometer"
+      },
+      "floor_area#1.unit": {
+        "displayLabel": "Floor Area Unit",
+        "value": "square_feet"
+      },
+      "manufacturer#1.value": {
+        "displayLabel": "Manufacturer",
+        "value": "LEVOIT"
+      },
+      "externally_assigned_product_identifier#1.value": {
+        "displayLabel": "External Product ID",
+        "value": "810043375368"
+      },
+      "has_automatic_shutoff#1.value": {
+        "displayLabel": "Automatic Shutoff",
+        "value": "false"
+      },
+      "item_weight#1.normalized_value.value": {
+        "displayLabel": "Value",
+        "value": "2.2"
+      },
+      "power_source_type#1.value": {
+        "displayLabel": "Power Source",
+        "value": "ac"
+      },
+      "is_assembly_required#1.value": {
+        "displayLabel": "Required Assembly",
+        "value": "false"
+      },
+      "item_package_quantity#1.value": {
+        "displayLabel": "Item Package Quantity",
+        "value": "1"
+      },
+      "pt06_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/513JNeysZKL._SL75_.jpg"
+      },
+      "floor_area#1.value": {
+        "displayLabel": "Floor Area",
+        "value": "255.0"
+      },
+      "fcc_radio_frequency_emission_compliance#1.point_of_contact_name": {
+        "displayLabel": "SDoC Contact Name",
+        "value": "Arthur Sun"
+      },
+      "item_type_keyword#1.value": {
+        "displayLabel": "Item Type Keyword",
+        "value": "air-purifiers"
+      },
+      "item_package_dimensions#1.length.unit": {
+        "displayLabel": "Package Length Unit",
+        "value": "centimeters"
+      },
+      "regulatory_compliance_certification#1.regulation_type": {
+        "displayLabel": "Compliance Regulation Type",
+        "value": "carb_eo"
+      },
+      "specification_met#1.value": {
+        "displayLabel": "Specification Met",
+        "value": "ETL Certified"
+      },
+      "wattage#1.value": {
+        "displayLabel": "Wattage",
+        "value": "7.0"
+      },
+      "item_weight#1.unit": {
+        "displayLabel": "Item Weight Unit",
+        "value": "pounds"
+      },
+      "list_price#1.value": {
+        "displayLabel": "List Price",
+        "value": "49.99"
+      },
+      "externally_assigned_product_identifier#1.type": {
+        "displayLabel": "External Product ID Type",
+        "value": "upc"
+      }
+    },
+    "detailPageListingResponseImsv3": "{\"batteries_included\":[{\"value\":\"false\"}],\"batteries_required\":[{\"value\":\"false\"}],\"brand\":[{\"value\":\"Levoit\"}],\"bullet_point\":[{\"value\":\"𝗪𝗛𝗬 𝗖𝗛𝗢𝗢𝗦𝗘 𝗔𝗛𝗔𝗠 𝗩𝗘𝗥𝗜𝗙𝗜𝗗𝗘 𝗔𝗜𝗥 𝗣𝗨𝗥𝗜𝗙𝗜𝗘𝗥𝗦: AHAM (Association of Home Appliance Manufacturers) is an ANSI-accredited organization that sets strict standards for appliance performance. Air purifiers with the AHAM VERIFIDE seal have been independently tested for air cleaning performance, safety, and energy efficiency. When you choose an AHAM certified air purifier, you're choosing a product trusted for reliable and effective indoor air quality improvement\"}],\"california_proposition_65\":[{\"chemical_names\":[\"lead\"],\"compliance_type\":\"chemical\"}],\"color\":[{\"standardized_values\":[\"White\"],\"value\":\"White\"}],\"contaminant_filtration_capability\":[{\"value\":\"Cigarette Smoke\"}],\"control_method\":[{\"value\":\"touch\"}],\"controller_type\":[{\"value\":\"Button Control\"}],\"detail_page_primary_image_url\":\"https://m.media-amazon.com/images/I/41ODC2Uu41L._SL75_.jpg\",\"externally_assigned_product_identifier\":[{\"type\":\"upc\",\"value\":\"810043375368\"}],\"fcc_radio_frequency_emission_compliance\":[{\"point_of_contact_address\":\"1202 North Miller Street, Suite A, Anaheim, CA 92806\",\"point_of_contact_email\":\"arthur.sun@etekcity.com\",\"point_of_contact_name\":\"Arthur Sun\",\"point_of_contact_phone_number\":\"714-790-3767\",\"registration_status\":\"fcc_supplier_declaration_of_conformity\"}],\"filter_class\":[{\"value\":\"3-in-1 Filter\"}],\"filter_type\":[{\"value\":\"3-in-1 Filter\"}],\"floor_area\":[{\"unit\":\"square_feet\",\"value\":\"255.0\"}],\"has_automatic_shutoff\":[{\"value\":\"false\"}],\"included_components\":[{\"value\":\"1*Air Purifier ;\"}],\"is_assembly_required\":[{\"value\":\"false\"}],\"item_depth_width_height\":[{\"depth\":{\"unit\":\"inches\",\"value\":\"6.5\"},\"height\":{\"unit\":\"inches\",\"value\":\"10.4\"},\"width\":{\"unit\":\"inches\",\"value\":\"6.5\"}}],\"item_name\":[{\"value\":\"LEVOIT Air Purifiers for Bedroom Home Dorm, AHAM VERIFIDE, 3-in-1 Filter Cleaner With Aroma Pad, Filters Smoke, Allergens, Pet Dander, Odor, Dust, Office, Desktop, Core Mini-P, White\"}],\"item_package_dimensions\":[{\"height\":{\"unit\":\"centimeters\",\"value\":\"29.591\"},\"length\":{\"unit\":\"centimeters\",\"value\":\"19.812\"},\"width\":{\"unit\":\"centimeters\",\"value\":\"19.9898\"}}],\"item_package_quantity\":[{\"value\":\"1\"}],\"item_package_weight\":[{\"unit\":\"kilograms\",\"value\":\"1.339\"}],\"item_type_keyword\":[{\"value\":\"air-purifiers\"}],\"item_weight\":[{\"normalized_value\":{\"unit\":\"pounds\",\"value\":\"2.2\"},\"unit\":\"pounds\",\"value\":\"2.2\"}],\"legal_compliance_certifications\":[{\"certification_status\":\"Compliant\",\"regulatory_organization_name\":\"California Environmental Protection Agency - Air Resources Board\",\"value\":\"CARB Compliance Certificate\"}],\"list_price\":[{\"value\":\"49.99\"}],\"manufacturer\":[{\"value\":\"LEVOIT\"}],\"material\":[{\"value\":\"ABS\"}],\"model_name\":[{\"value\":\"Core Mini-P\"}],\"model_number\":[{\"value\":\"LAP-C161-WUS\"}],\"noise_level\":[{\"unit\":\"decibels\",\"value\":\"25.0\"}],\"number_of_items\":[{\"value\":\"1\"}],\"number_of_packs\":[{\"value\":\"1\"}],\"part_number\":[{\"value\":\"Core Mini-P\"}],\"particle_retention_size\":[{\"unit\":\"micrometer\",\"value\":\"0.1\"}],\"pattern\":[{\"value\":\"Air Purifier\"}],\"pesticide_marking\":[{\"certification_number\":\"94660-CHN-1\",\"marking_type\":\"epa_establishment_number\",\"registration_status\":\"fifra_registration_required\"}],\"power_source_type\":[{\"value\":\"ac\"}],\"product_site_launch_date\":[{\"value\":\"2021-12-07T08:00:01.000Z\"}],\"product_type\":[{\"value\":\"AIR_PURIFIER\"}],\"pt01_image_url\":\"https://m.media-amazon.com/images/I/51MX5AhCpfL._SL75_.jpg\",\"pt02_image_url\":\"https://m.media-amazon.com/images/I/51kKZBua1dL._SL75_.jpg\",\"pt03_image_url\":\"https://m.media-amazon.com/images/I/51NuS0TEBPL._SL75_.jpg\",\"pt04_image_url\":\"https://m.media-amazon.com/images/I/41+J3taGAKL._SL75_.jpg\",\"pt05_image_url\":\"https://m.media-amazon.com/images/I/51UusamiLzL._SL75_.jpg\",\"pt06_image_url\":\"https://m.media-amazon.com/images/I/513JNeysZKL._SL75_.jpg\",\"pt07_image_url\":\"https://m.media-amazon.com/images/I/41VkebycZIL._SL75_.jpg\",\"regulatory_compliance_certification\":[{\"regulation_type\":\"carb_eo\",\"value\":\"G-21-478\"}],\"sales_rank\":\"28\",\"set_name\":[{\"value\":\"Core Mini-P White\"}],\"size\":[{\"value\":\"Core Mini-P\"}],\"special_feature\":[{\"value\":\"Manual\"}],\"specification_met\":[{\"value\":\"ETL Certified\"}],\"style\":[{\"value\":\"Core Mini-P\"}],\"supplier_declared_dg_hz_regulation\":[{\"value\":\"not_applicable\"}],\"unit_count\":[{\"type\":{\"value\":\"Count\"},\"value\":\"1.0\"}],\"variation_theme\":[{\"name\":\"SET_NAME\"}],\"voltage\":[{\"value\":\"100.0\"}],\"warranty_description\":[{\"value\":\"2-year warranty\"}],\"wattage\":[{\"unit\":\"watts\",\"value\":\"7.0\"}]}",
+    "reconciledDataSummary": null,
+    "debug": null
+  },
+  "salesRank": "28",
+  "productType": "AIR_PURIFIER",
+  "detailPageSummary": {
+    "detailPageLink": "http://www.amazon.com/dp/B09GTRVJQM",
+    "offerSummaries": [
+      {
+        "numOffers": 7,
+        "offerType": "New",
+        "lowestOfferPrice": "$49.99",
+        "offerListingLink": "http://www.amazon.com/gp/offer-listing/B09GTRVJQM?condition=new"
+      }
+    ],
+    "salesRanks": [
+      {
+        "rank": 28,
+        "storeContextName": "Home & Kitchen",
+        "bestSellersLink": "http://www.amazon.com/gp/bestsellers/home-garden"
+      },
+      {
+        "rank": 1,
+        "storeContextName": "Home Air Purifiers",
+        "bestSellersLink": "http://www.amazon.com/gp/bestsellers/home-garden/267554011"
+      }
+    ],
+    "customerReviewSummary": {
+      "reviewCount": "44,091",
+      "reviewStars": 4,
+      "hasHalfStar": true
+    }
+  },
+  "debug": null,
+  "itemName": {
+    "displayLabel": null,
+    "value": "LEVOIT Air Purifiers for Bedroom Home Dorm, AHAM VERIFIDE, 3-in-1 Filter Cleaner With Aroma Pad, Filters Smoke, Allergens, Pet Dander, Odor, Dust, Office, Desktop, Core Mini-P, White",
+    "name": "item_name#1.value"
+  }
+}

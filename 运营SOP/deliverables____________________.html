@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>对标亚马逊官方「选品模拟器」· 产品选品决策模板说明</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Noto+Serif+SC:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF;
+  --border:#E8E6E2; --divider:#C5C0BA;
+  --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+  --hero-bg:#DEE5F7; --hero-deco:#A3AEEE; --hero-deco2:#7F8FE0;
+  --success-bg:#E8FBCF; --success-fg:#3D4826;
+  --warning-bg:#FFF0DC; --warning-fg:#E47700;
+  --info-bg:#DEE5F7; --info-fg:#3E54CE;
+  --error-bg:#FDECEA; --error-fg:#C4433A;
+  --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--outer-bg);font-family:'Inter Tight',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;color:var(--text-body);line-height:1.65;-webkit-font-smoothing:antialiased}
+.page{max-width:1200px;margin:24px auto;background:var(--page-bg);border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(20,20,30,.08)}
+section{padding:26px 34px 6px}
+.wrap{max-width:1060px;margin:0 auto}
+/* hero */
+.hero{background:var(--hero-bg);position:relative;overflow:hidden;padding:38px 34px 30px}
+.blob{position:absolute;opacity:.18;filter:blur(1px)}
+.blob.b1{width:300px;height:240px;background:var(--hero-deco);top:-70px;right:6%;border-radius:62% 38% 55% 45%/48% 60% 40% 52%;transform:rotate(-14deg);animation:float 14s ease-in-out infinite}
+.blob.b2{width:220px;height:190px;background:var(--hero-deco2);bottom:-70px;left:2%;border-radius:40% 60% 45% 55%/55% 40% 60% 45%;transform:rotate(12deg);animation:float 18s ease-in-out infinite reverse}
+.blob.b3{width:150px;height:140px;background:var(--hero-deco);top:6px;left:38%;border-radius:58% 42% 60% 40%/45% 55% 42% 58%;animation:float 12s ease-in-out infinite}
+.blob.b4{width:180px;height:160px;background:var(--hero-deco2);bottom:-40px;right:28%;border-radius:45% 55% 38% 62%/60% 42% 58% 40%;transform:rotate(24deg);animation:float 16s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-16px) rotate(var(--r,0deg))}}
+.hero .z{position:relative;z-index:2;max-width:1060px;margin:0 auto}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--info-fg);text-transform:uppercase;margin-bottom:10px}
+h1{font-size:30px;line-height:1.25;color:var(--text-primary);font-weight:600;letter-spacing:-.01em;margin-bottom:12px}
+.sub{font-size:14.5px;color:var(--text-body);max-width:860px}
+.hairline{height:1px;background:rgba(255,255,255,.75);margin:20px 0 16px;border:0}
+.stats{display:flex;gap:14px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.55);border:1px solid rgba(127,143,224,.25);border-radius:12px;padding:10px 18px;min-width:120px}
+.stat .v{font-family:'Noto Serif SC',serif;font-size:30px;font-weight:500;color:var(--info-fg);letter-spacing:-.02em;line-height:1.1}
+.stat .l{font-size:12px;color:var(--text-secondary);margin-top:2px}
+/* headings */
+h2{font-size:17px;font-weight:600;color:var(--text-primary);letter-spacing:.01em;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+h2 .no{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:8px;background:var(--hero-bg);color:var(--info-fg);font-size:13px;font-weight:600}
+.sub-label{font-size:12px;color:var(--text-secondary);margin:0 0 14px 36px}
+.rule{height:.5px;background:var(--border);border:0;margin:10px 0 20px}
+/* cards / grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px}
+.card h4{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:8px}
+.card p{font-size:13.5px}
+.meta{font-size:12px;color:var(--text-secondary)}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.mini{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:12px 14px;text-align:center}
+.mini .v{font-size:22px;font-weight:600;color:var(--info-fg)}
+.mini .l{font-size:12px;color:var(--text-secondary);margin-top:4px}
+/* tags */
+.pill{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;margin:2px 3px 2px 0}
+.pill.g{background:var(--success-bg);color:var(--success-fg)}
+.pill.w{background:var(--warning-bg);color:var(--warning-fg)}
+.pill.i{background:var(--info-bg);color:var(--info-fg)}
+.pill.r{background:var(--error-bg);color:var(--error-fg)}
+.pill.n{background:var(--neutral-bg);color:var(--neutral-fg)}
+/* tables */
+.tbl-scroll{overflow-x:auto;border:.5px solid var(--border);border-radius:12px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+th{font-size:12px;font-weight:500;color:var(--text-secondary);text-align:left;padding:10px 14px;border-bottom:1px solid var(--divider);white-space:nowrap}
+td{padding:9px 14px;border-bottom:.5px solid var(--border);vertical-align:top;color:var(--text-body)}
+tr:last-child td{border-bottom:none}
+td.c,th.c{text-align:center}
+code{background:var(--neutral-bg);border-radius:5px;padding:1px 6px;font-size:12px;color:var(--neutral-fg)}
+/* bars */
+.bar-row{margin:9px 0}
+.bar-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.bar-top .k{color:var(--text-body)}
+.bar-top .v{color:var(--text-secondary);font-variant-numeric:tabular-nums}
+.track{height:6px;background:var(--border);border-radius:4px;overflow:hidden}
+.fill{height:100%;border-radius:4px;background:var(--hero-deco2);width:0;transition:width 1s ease}
+/* steps */
+.steps{counter-reset:st}
+.step{display:flex;gap:14px;padding:12px 0;border-bottom:.5px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step .n{flex:0 0 30px;height:30px;border-radius:10px;background:var(--hero-bg);color:var(--info-fg);font-weight:600;display:flex;align-items:center;justify-content:center;font-size:14px;margin-top:2px}
+.step h4{font-size:14.5px;font-weight:600;color:var(--text-primary)}
+.step p{font-size:13.5px}
+.step .tag{font-size:12px;color:var(--text-secondary)}
+/* alerts */
+.alert{border-radius:10px;padding:13px 16px;margin:10px 0;font-size:13.5px}
+.alert b{display:block;font-size:13.5px;margin-bottom:2px}
+.alert.ok{background:var(--success-bg);color:var(--success-fg)}
+.alert.warn{background:var(--warning-bg);color:var(--warning-fg)}
+.alert.info{background:var(--info-bg);color:var(--info-fg)}
+.alert.err{background:var(--error-bg);color:var(--error-fg)}
+ul.clean{list-style:none}
+ul.clean li{padding:5px 0 5px 22px;position:relative;font-size:13.5px}
+ul.clean li:before{content:"";position:absolute;left:4px;top:13px;width:7px;height:7px;border-radius:50%;background:var(--hero-deco2)}
+sup a{color:var(--info-fg);text-decoration:none;font-size:11px}
+.chartbox{position:relative;height:280px}
+/* footer */
+footer{background:var(--hero-bg);margin-top:26px;padding:30px 34px 22px;position:relative;overflow:hidden}
+footer .fz{position:relative;z-index:2;max-width:1060px;margin:0 auto}
+footer .top{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brand{font-size:17px;font-weight:600;color:var(--text-primary)}
+.brand small{display:block;font-size:12px;color:var(--text-secondary);font-weight:400;margin-top:2px}
+.refs{font-size:12px;color:var(--text-secondary);max-width:560px}
+.refs a{color:var(--info-fg);text-decoration:none;word-break:break-all}
+.hairline2{height:1px;background:rgba(255,255,255,.75);border:0;margin:18px 0 12px}
+.bottom{display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);flex-wrap:wrap;gap:8px}
+@media(max-width:760px){
+  body{background:var(--page-bg)}
+  .page{margin:0;border-radius:0;box-shadow:none}
+  section{padding:22px 18px 4px}
+  .hero{padding:28px 18px 24px}
+  footer{padding:24px 18px 18px}
+  .grid2{grid-template-columns:1fr}
+  h1{font-size:24px}
+  .sub-label{margin-left:0}
+}
+.fade{opacity:0;transform:translateY(8px);animation:fadein .5s ease forwards}
+@keyframes fadein{to{opacity:1;transform:none}}
+.d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.19s}.d4{animation-delay:.26s}.d5{animation-delay:.33s}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hero fade">
+    <div class="blob b1" style="--r:-14deg"></div>
+    <div class="blob b2" style="--r:12deg"></div>
+    <div class="blob b3" style="--r:6deg"></div>
+    <div class="blob b4" style="--r:24deg"></div>
+    <div class="z">
+      <div class="eyebrow">选品决策 · 模板说明</div>
+      <h1>对标亚马逊官方「选品模拟器」<br>打造可落地的产品选品决策模板</h1>
+      <p class="sub">依据亚马逊卖家平台「验证产品创意 / Validate Product Ideas」(选品模拟器) 的官方页面、输入口径与内嵌调研问卷，把官方“发现与验证”工具的输出模块，扩展为一套覆盖 <b>季节预测 · 广告经济 · 含FBA利润 · 供应链成本 · 情景建模 · 跨市场 · 买家画像</b> 的完整决策工作簿——官方不做或做不了的环节，由人工调研、第三方工具与您的判断补足。</p>
+      <hr class="hairline">
+      <div class="stats">
+        <div class="stat"><div class="v">16</div><div class="l">个工作表(输入→验证→决策)</div></div>
+        <div class="stat"><div class="v">7</div><div class="l">官方模拟器输出模块全覆盖</div></div>
+        <div class="stat"><div class="v">7</div><div class="l">官方问卷“缺口维度”全部补足</div></div>
+        <div class="stat"><div class="v">134</div><div class="l">处自动计算公式</div></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="fade d1"><div class="wrap">
+    <h2><span class="no">1</span>官方工具是什么</h2>
+    <p class="sub-label">先还原对标对象，再谈模板设计</p>
+    <hr class="rule">
+    <div class="grid2">
+      <div class="card">
+        <h4>「选品模拟器」= 商机探测器内的新品验证功能 <span class="pill i">官方</span><span class="pill g">免费</span></h4>
+        <p>它把您的产品创意与<b>类似且表现优异的产品</b>做比较，评估竞争定位、市场状况、客户喜好与关键功能。2026 年 8 月起面向美国及英/法/德/意/西专业卖家开放。<sup><a href="#ref1" target="_blank">[1]</a></sup></p>
+        <br>
+        <p class="meta"><b>输入要求：</b>商城与语言 · 产品标题(≥3词) · 类目 · 目标售价 · 描述(≥10词) · 3个以上要点；系统匹配不准时，可手动指定 5–10 个对标 ASIN。</p>
+      </div>
+      <div class="card">
+        <h4>它输出的七大模块</h4>
+        <ul class="clean">
+          <li><b>研究结果总结</b>：竞争定位 / 功能完善度 / 买家满意度 三色卡片 + AI 优化建议</li>
+          <li><b>竞争定位与市场细分</b>：主要竞品售价·评分·评论·上线时间，头部品牌份额</li>
+          <li><b>逐项功能对比</b>：与类目热销品平均逐项比较，绿=我优 红=我劣</li>
+          <li><b>买家满意度 / 评论洞察</b>：评论高频优点、刚需功能、竞品差评痛点</li>
+          <li><b>季节性</b>：全年流量走势、需求模式、点击份额</li>
+          <li><b>买家画像</b>：年龄 / 性别 / 收入特征</li>
+        </ul>
+      </div>
+    </div>
+    <div class="alert warn" style="margin-top:12px"><b>官方工具的三个边界(官方自己也在问卷里问)</b>1) 它是“发现/验证工具”，不是完整决策系统，成本、FBA费用、广告、合规、交期仍需外部尽调；2) 搜索量、竞争与成本持续变化，超过 30 天的数据需要重新验证；3) 预测仅供参考，最终判断仍要结合前台实搜、真实 Listing 与您的供应链。<sup><a href="#ref2" target="_blank">[2]</a></sup></div>
+  </div></section>
+
+  <section class="fade d2"><div class="wrap">
+    <h2><span class="no">2</span>对标映射：官方模块 → 模板工作表</h2>
+    <p class="sub-label">每一块官方输出，在模板里都有对应的工作底稿；官方提示“需外部验证”的部分正是模板③–⑮</p>
+    <hr class="rule">
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>官方「选品模拟器」输出</th><th class="c">对应表</th><th>模板做了什么</th></tr></thead>
+        <tbody>
+          <tr><td>研究结果总结(三色卡片)</td><td class="c">⑯总结与决策</td><td>把官方 3 卡扩展为 10 项状态卡(N/U/F 自动配色)，接入加权总分与“通过/待确认/否决”自动裁决</td></tr>
+          <tr><td>产品概念概要</td><td class="c">② / ⑭</td><td>概念一句话、目标用户、差异化卖点、价格定位、冷启动策略</td></tr>
+          <tr><td>竞争定位 + 市场细分</td><td class="c">③市场细分与竞争格局</td><td>搜索量/增速/自营占比/退货率/转化率/缺货率 + 卖家·品牌·商品三层集中度</td></tr>
+          <tr><td>相似产品分析(逐项功能对比)</td><td class="c">④相似产品与功能对比</td><td>TOP10 竞品清单(Score效率=月销÷评论) + 我方 vs 类目热销平均的功能矩阵</td></tr>
+          <tr><td>买家满意度 / 评论洞察</td><td class="c">⑤VOC客户反馈</td><td>好评卖点 / 差评痛点聚类，原话逐字引用，逐条判断“能否设计规避”</td></tr>
+          <tr><td>季节性</td><td class="c">⑥季节性需求预测</td><td>销量指数 + Google趋势 + 类目需求，自动算淡旺季系数与进场时机</td></tr>
+          <tr><td>买家画像</td><td class="c">⑫买家画像与购买路径</td><td>ABA 人口统计 + 搜索/点击/购买路径 + 购物篮 + Persona 卡</td></tr>
+          <tr><td>产品优化建议</td><td class="c">⑭概念概要优化建议</td><td>证据→动作→预期影响的建议清单(官方示例话术: 差异化有限则突出最大优势)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div></section>
+
+  <section class="fade d3"><div class="wrap">
+    <h2><span class="no">3</span>官方问卷里“卖家最想要的额外信息” → 模板补足</h2>
+    <p class="sub-label">官方内嵌问卷问卖家“哪些额外信息能帮您更快做上市决策(最多选3项)”——这 7 项正是官方模拟器暂时给不了、而卖家最缺的</p>
+    <hr class="rule">
+    <div class="grid4">
+      <div class="mini"><div class="v">⑥</div><div class="l">季节性需求预测<br>淡旺季/季节问题</div></div>
+      <div class="mini"><div class="v">⑦</div><div class="l">预计广告费用<br>投入产出/难易程度</div></div>
+      <div class="mini"><div class="v">⑧</div><div class="l">利润率/盈利预测<br>(已计入FBA费用)</div></div>
+      <div class="mini"><div class="v">⑨</div><div class="l">供应商/采购成本基准<br>供应链问题</div></div>
+      <div class="mini"><div class="v">⑩</div><div class="l">“假设”情景建模<br>不同价格点</div></div>
+      <div class="mini"><div class="v">⑪</div><div class="l">跨市场潜力<br>美国→欧盟及其他站</div></div>
+      <div class="mini"><div class="v">⑫</div><div class="l">买家画像信息<br>人口/收入/行为/路径</div></div>
+      <div class="mini"><div class="v">⑬</div><div class="l">数据源工具矩阵<br>证据可回溯</div></div>
+    </div>
+    <div class="alert info" style="margin-top:12px"><b>模板如何回答这些</b>⑥ 看竞品历史销量曲线 + Google Trends 多年曲线 + 类目点击份额；⑦ 用“目标CPC = 目标ACOS × 客单价 × 转化率”反推广告是否可行；⑧ 全链路算到“单位毛利→毛利率→现金流峰值→回本周期”；⑨ 多家询价后反推“目标采购价上限”用于谈判；⑩ 五个价格情景一键对比净利与回本；⑪ 四维打分(需求/竞争/合规/广告)排拓展批次；⑫ 用 ABA 第一方数据画购买路径与 Persona。</div>
+  </div></section>
+
+  <section class="fade d4"><div class="wrap">
+    <h2><span class="no">4</span>数据从哪来：三通道互补</h2>
+    <p class="sub-label">官方问卷同样问卖家“之前如何评估新概念”——三通道各有不可替代的价值，模板按“官方 &gt; 插件估算 &gt; 推算”分层标注</p>
+    <hr class="rule">
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>通道</th><th>代表工具</th><th>最擅长补什么</th><th>在模板中的位置</th></tr></thead>
+        <tbody>
+          <tr><td><b>亚马逊官方</b></td><td>商机探测器(POE) · ABA品牌分析 · 选品指南针 · 广告后台</td><td>搜索需求、转化率、退货率、人口统计、购物篮、点击/转化份额等第一方数据</td><td>③⑤⑫⑬</td></tr>
+          <tr><td><b>第三方工具</b></td><td>SIF(历史销量/自然vs广告流量) · Helium10 · 卖家精灵 · 极目</td><td>官方不给的细节：竞品历史曲线、关键词反查、CPC、FBA利润拆分</td><td>④⑥⑦⑧</td></tr>
+          <tr><td><b>人工调研(免费)</b></td><td>Google Trends · 前台竞品列表 · 逐条读评论</td><td>宏观趋势、一手买家语言、对官方数据的实搜验证</td><td>⑥④⑤</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert warn" style="margin-top:12px"><b>三条纪律</b>① 每个数值带“来源 + 快照日 + 口径”(如官方月销“X+ bought”是下限值)；② 自然/广告流量占比必须注明是曝光口径还是点击口径；③ VOC 原话逐字引用，不改写、不编造。</div>
+  </div></section>
+
+  <section class="fade d4"><div class="wrap">
+    <h2><span class="no">5</span>模板结构总览：16 表走完“输入 → 验证 → 决策”</h2>
+    <p class="sub-label">工作表按使用顺序从左到右排列</p>
+    <hr class="rule">
+    <div class="grid2">
+      <div style="background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px">
+        <h4 style="font-size:15px;font-weight:600;margin-bottom:8px">工作表分工</h4>
+        <table style="min-width:0">
+          <thead><tr><th>阶段</th><th>工作表</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill n">输入</span></td><td>①使用说明 · ②产品概念输入卡</td></tr>
+            <tr><td><span class="pill i">市场与竞品</span></td><td>③市场细分与竞争格局 · ④相似产品与功能对比 · ⑤VOC评论洞察</td></tr>
+            <tr><td><span class="pill w">经济测算</span></td><td>⑥季节性 · ⑦广告费用 · ⑧利润率(含FBA) · ⑨供应商成本 · ⑩情景建模</td></tr>
+            <tr><td><span class="pill g">拓展与画像</span></td><td>⑪跨市场潜力 · ⑫买家画像与购买路径</td></tr>
+            <tr><td><span class="pill r">证据与决策</span></td><td>⑬数据源工具矩阵 · ⑭概念概要优化建议 · ⑮审核与评分 · ⑯总结与决策</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px">
+        <h4 style="font-size:15px;font-weight:600;margin-bottom:8px">工作表功能分层</h4>
+        <div style="position:relative;height:240px">
+          <canvas id="donut"></canvas>
+        </div>
+        <div id="legend" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;font-size:12px;color:var(--text-secondary)"></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="fade d5"><div class="wrap">
+    <h2><span class="no">6</span>评分与决策规则(⑮⑯)</h2>
+    <p class="sub-label">结论不是感觉，是规则跑出来的；但拍板权永远在您手上</p>
+    <hr class="rule">
+    <div class="grid2">
+      <div class="card">
+        <h4>15 项审核(N/U/F)</h4>
+        <p>每条状态：<span class="pill g">N=已验证</span><span class="pill w">U=未知待确认</span><span class="pill r">F=否决</span></p>
+        <ul class="clean">
+          <li>任何 <b>F</b> → 整体否决并出具否决报告</li>
+          <li><b>知识产权与合规为硬否决</b>(标红行)：F 立即终止，U 须人工/法务复核后才可进入评分</li>
+          <li>U 项不允许“猜着打分”，一律转为待确认清单</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>10 项加权评分(满分 5)</h4>
+        <p class="meta">加权分 = 得分 × 权重，总分自动汇总到⑯。</p>
+        <div id="bars" style="margin-top:10px"></div>
+      </div>
+    </div>
+    <div class="alert ok" style="margin-top:12px"><b>最终裁决(⑯自动计算)</b>否决项 &gt; 0 → <b>否决</b>；总分 ≥ 3.8 → <b>通过·建议启动</b>；3.0–3.79 → <b>待人工确认</b>(补齐 U 项证据后复评)；&lt; 3.0 → <b>建议否决</b>。裁决后进入“行动清单”：概念定价定稿 → 打样谈判 → 知识产权终检 → 广告排期 → 备货头程 → 评论冷启动。</div>
+  </div></section>
+
+  <section class="fade d5"><div class="wrap">
+    <h2><span class="no">7</span>六步使用流程</h2>
+    <hr class="rule">
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><h4>输入产品概念</h4><p>填②输入卡：站点/语言/标题/类目/目标售价/描述/≥3要点——与官方模拟器输入口径一致。</p><p class="tag">产物：② 概念输入卡(黄色区)</p></div></div>
+      <div class="step"><div class="n">2</div><div><h4>看市场与对手</h4><p>③竞争格局(商机探测器+卖家精灵)→④竞品清单(TOP10 拆解)→功能矩阵逐项对比。</p><p class="tag">产物：③④ → 竞争定位结论</p></div></div>
+      <div class="step"><div class="n">3</div><div><h4>听客户声音</h4><p>⑤VOC：好评卖点(最强文案)与差评痛点(产品机会)原话入库。</p><p class="tag">产物：⑤ → 买家满意度卡</p></div></div>
+      <div class="step"><div class="n">4</div><div><h4>算经济账</h4><p>⑥季节→⑦广告→⑧利润(含FBA)→⑨供应商→⑩情景→⑪跨市场，六张表逐项核算。</p><p class="tag">产物：⑥–⑪ 经济性全套证据</p></div></div>
+      <div class="step"><div class="n">5</div><div><h4>画买家画像</h4><p>⑫ ABA 人口统计 + 购买路径 + Persona；⑬ 记录每个数据来源与快照日。</p><p class="tag">产物：⑫ 画像卡 + ⑬ 证据台账</p></div></div>
+      <div class="step"><div class="n">6</div><div><h4>汇总评分决策</h4><p>⑭ 概念概要+优化建议 → ⑮ 15项审核 + 10项评分 → ⑯ 自动裁决 + 行动清单。</p><p class="tag">产物：通过 / 待确认 / 否决</p></div></div>
+    </div>
+  </div></section>
+
+  <section class="fade d5"><div class="wrap">
+    <h2><span class="no">8</span>使用提醒</h2>
+    <hr class="rule">
+    <div class="alert err"><b>模板是决策支持，不是决策本身</b>本模板把官方模拟器的输出结构化、把卖家缺口量化，但商业模式取舍、报价、备货与是否进入，永远由您拍板。</div>
+    <div class="grid2">
+      <div class="alert warn" style="margin:0"><b>数据时效</b>搜索量、竞争与成本持续变化；官方提示超过 30 天的数据需重验。每个表都留了“快照日”格子，请养成填写习惯。</div>
+      <div class="alert info" style="margin:0"><b>VC / 3P 口径差异</b>财务表可按模式切换口径：第三方卖家=售价−佣金−FBA；Vendor Central=PO/Net 账期、出厂价口径，回款周期按实际账期填写。灰色公式仅为教学演示，重大决策前请用精确测算复核。</div>
+    </div>
+    <div style="height:8px"></div>
+    <div class="alert ok"><b>IP 与合规先行</b>知识产权检索(DE/EP/RCD，INPADOC 同族去重、仅计“法律状态有效”且人工确认相关者)与合规(GPSR/EPR/食品接触等按站点)出现 F 即终止——不要在没查清前投入一分钱。</div>
+  </div></section>
+
+  <footer>
+    <div class="blob b2" style="--r:10deg"></div><div class="blob b1" style="--r:-8deg"></div>
+    <div class="fz">
+      <div class="top">
+        <div>
+          <div class="brand">产品选品决策模板 <small>对标亚马逊官方「选品模拟器」(Validate Product Ideas)</small></div>
+        </div>
+        <div class="refs">
+          <b>参考与依据：</b><br>
+          <a id="ref1" href="https://sellercentral-europe.amazon.com/validate-product-ideas" target="_blank">[1] 亚马逊卖家平台 · 选品模拟器/验证产品创意入口</a><br>
+          <a id="ref2" href="https://amazonextna.qualtrics.com/jfe/form/SV_3VFtRvDNmEk1wwK" target="_blank">[2] 官方内嵌问卷: Validate Product Ideas 使用反馈</a><br>
+          <a href="https://sellercentral.amazon.com/help/hub/reference" target="_blank">[3] 商机探测器(Product Opportunity Explorer)· 官方帮助中心</a><br>
+          <a href="https://www.cifnews.com/" target="_blank">[4] 雨果跨境: “商机探测器”功能解读与选品模拟器上线报道</a><br>
+          <a href="https://www.amazon.com/" target="_blank">[5] 亚马逊官方公告: AI 增强商机探测器(2025)</a>
+        </div>
+      </div>
+      <hr class="hairline2">
+      <div class="bottom">
+        <span>模板生成于 2026-09-09 · 数据口径以亚马逊最新官方页面为准 · 工作簿内“黄色=手工填写, 灰色=公式自动”</span>
+        <span>Generated by <a href="https://allyhub.com" target="_blank" style="color:var(--info-fg);text-decoration:none">AllyHub AI</a></span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+// donut: 工作表功能分层
+const cat = [
+  {n:'输入与说明', v:2, c:'#7F8FE0'},
+  {n:'市场/竞品/VOC', v:3, c:'#5F7ADB'},
+  {n:'需求与财务测算', v:5, c:'#A3AEEE'},
+  {n:'拓展与画像', v:2, c:'#8FA3E8'},
+  {n:'工具与概要', v:2, c:'#C3CCF5'},
+  {n:'评分与决策', v:2, c:'#E1E6FA'}
+];
+const total = cat.reduce((s,x)=>s+x.v,0);
+const box = document.getElementById('donut').parentElement;
+const ctx = document.getElementById('donut').getContext('2d');
+new Chart(ctx,{
+  type:'doughnut',
+  data:{labels:cat.map(x=>x.n),datasets:[{data:cat.map(x=>x.v),backgroundColor:cat.map(x=>x.c),borderWidth:0,cutout:'62%'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} 个表(${Math.round(c.raw/total*100)}%)`}}}}
+});
+// 环形图中心文字(绝对定位覆盖层)
+const ov = document.createElement('div');
+ov.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;';
+ov.innerHTML=`<span style="font-family:'Noto Serif SC',serif;font-size:30px;font-weight:500;color:#3E54CE;line-height:1.1">${total}</span><span style="font-size:11px;color:#717171">个工作表</span>`;
+box.appendChild(ov);
+// 自定义图例
+const leg = document.getElementById('legend');
+cat.forEach(x=>{
+  const d=document.createElement('span');
+  d.style.cssText='display:inline-flex;align-items:center;gap:6px';
+  d.innerHTML=`<span style="width:10px;height:10px;border-radius:3px;background:${x.c};display:inline-block"></span>${x.n} <b style="font-weight:500">${x.v}</b>`;
+  leg.appendChild(d);
+});
+// 加权评分权重进度条(源自⑮ 10项权重)
+const items=[
+  ['市场机会与增速','15%'],['单位利润与资金效率','15%'],['竞争结构与难度','10%'],['差异化与功能领先','10%'],['VOC痛点覆盖','10%'],
+  ['广告经济可行性','10%'],['合规与知识产权安全','10%'],['类目流量与关键词入口','8%'],['供应链成熟度','7%'],['跨市场与长期潜力','5%']
+];
+const bars=document.getElementById('bars');
+items.forEach(x=>{
+  const w=parseFloat(x[1]);
+  const row=document.createElement('div');
+  row.className='bar-row';
+  row.innerHTML=`<div class="bar-top"><span class="k">${x[0]}</span><span class="v">${x[1]}</span></div><div class="track"><div class="fill" data-w="${w}"></div></div>`;
+  bars.appendChild(row);
+});
+setTimeout(()=>{document.querySelectorAll('#bars .fill').forEach(f=>{f.style.width=f.dataset.w+'%';});},150);
+</script>
+</body>
+</html>

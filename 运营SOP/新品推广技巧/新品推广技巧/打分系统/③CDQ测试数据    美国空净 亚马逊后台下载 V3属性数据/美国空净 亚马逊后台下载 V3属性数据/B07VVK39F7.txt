@@ -1,0 +1,486 @@
+{
+  "asin": "B07VVK39F7",
+  "conditionOfferSummaries": [
+    {
+      "condition": "New",
+      "landedPrice": {
+        "itemPrice": "$99.00",
+        "shippingPrice": "$0.00",
+        "points": 0
+      },
+      "offerCount": 2
+    },
+    {
+      "condition": "Used",
+      "landedPrice": {
+        "itemPrice": "$81.30",
+        "shippingPrice": "$0.00",
+        "points": 0
+      },
+      "offerCount": 2
+    }
+  ],
+  "imageUrl": "https://m.media-amazon.com/images/I/419EDCYNm+L._SS160_.jpg",
+  "reconciledProductAttributes": [
+    {
+      "displayLabel": null,
+      "value": "centimeters",
+      "name": "item_package_dimensions#1.length.unit"
+    },
+    {
+      "displayLabel": null,
+      "value": "25.4",
+      "name": "item_package_dimensions#1.length.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "25.8064",
+      "name": "item_package_dimensions#1.width.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "41.3004",
+      "name": "item_package_dimensions#1.height.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "LEVOIT Air Purifier for Home Allergies Pet Hair in Bedroom, Covers Up to 1073 ft² by 56W High Torque Motor, AHAM VERIFIDE, 3-in-1 Filter with HEPA Sleep Mode, Remove Dust Smoke Odor, Core300-P, White",
+      "name": "item_name#1.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "kilograms",
+      "name": "item_package_weight#1.unit"
+    },
+    {
+      "displayLabel": null,
+      "value": "3.992",
+      "name": "item_package_weight#1.value"
+    }
+  ],
+  "reconciledListing": {
+    "detailPageListingResponse": {
+      "supplier_declared_dg_hz_regulation#1.value": {
+        "displayLabel": "Dangerous Goods Regulations",
+        "value": "not_applicable"
+      },
+      "voltage#1.value": {
+        "displayLabel": "Voltage",
+        "value": "220.0"
+      },
+      "item_name#1.value": {
+        "displayLabel": "Item Name",
+        "value": "LEVOIT Air Purifier for Home Allergies Pet Hair in Bedroom, Covers Up to 1073 ft² by 56W High Torque Motor, AHAM VERIFIDE, 3-in-1 Filter with HEPA Sleep Mode, Remove Dust Smoke Odor, Core300-P, White"
+      },
+      "unit_count#1.value": {
+        "displayLabel": "Unit Count",
+        "value": "1.0"
+      },
+      "item_weight#1.value": {
+        "displayLabel": "Item Weight",
+        "value": "7.9"
+      },
+      "compliance_media#1.source_location": {
+        "displayLabel": "Compliance Media Source Location",
+        "value": "http://DummyComplianceMediaLocation.pdf"
+      },
+      "number_of_packs#1.value": {
+        "displayLabel": "Number of Packs",
+        "value": "1"
+      },
+      "model_number#1.value": {
+        "displayLabel": "Model Number",
+        "value": "Core 300-P"
+      },
+      "detail_page_primary_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/71t-9BTIg9L.jpg"
+      },
+      "bullet_point#1.value": {
+        "displayLabel": "Bullet Point",
+        "value": "WHY CHOOSE AHAM VERIFIDE AIR PURIFIERS: AHAM (Association of Home Appliance Manufacturers) is an ANSI-accredited organization that sets strict standards for appliance performance. Air purifiers with the AHAM VERIFIDE seal have been independently tested for air cleaning performance and energy efficiency. When you choose an AHAM certified air purifier, you're choosing a product trusted for reliable and effective indoor air quality improvement"
+      },
+      "control_method#1.value": {
+        "displayLabel": "Control Method",
+        "value": "touch"
+      },
+      "fcc_radio_frequency_emission_compliance#1.point_of_contact_email": {
+        "displayLabel": "SDoC Contact Email Address",
+        "value": "arthur.sun@etekcity.com"
+      },
+      "pt04_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/714IzGtWarL.jpg"
+      },
+      "pesticide_marking#1.marking_type": {
+        "displayLabel": "Pesticide Marking",
+        "value": "epa_registration_number"
+      },
+      "item_package_weight#1.value": {
+        "displayLabel": "Package Weight",
+        "value": "3.992"
+      },
+      "pt07_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/71zkbvsEYRL.jpg"
+      },
+      "california_proposition_65#1.compliance_type": {
+        "displayLabel": "California Proposition 65 Warning Type",
+        "value": "chemical"
+      },
+      "batteries_required#1.value": {
+        "displayLabel": "Are batteries required?",
+        "value": "false"
+      },
+      "sales_rank": {
+        "displayLabel": "",
+        "value": "108"
+      },
+      "variation_theme#1.name": {
+        "displayLabel": "Variation Theme Name",
+        "value": "COLOR_NAME/STYLE_NAME"
+      },
+      "product_site_launch_date#1.value": {
+        "displayLabel": "Product Site Launch Date",
+        "value": "2019-08-26T08:00:01.000Z"
+      },
+      "particle_retention_size#1.value": {
+        "displayLabel": "Particle Retention Size",
+        "value": "0.1"
+      },
+      "item_package_dimensions#1.width.value": {
+        "displayLabel": "Item Package Width",
+        "value": "25.8064"
+      },
+      "filter_class#1.value": {
+        "displayLabel": "Filter Class",
+        "value": "3-in-1 Filtration"
+      },
+      "legal_compliance_certifications#1.regulatory_organization_name": {
+        "displayLabel": "Regulatory Organization Name",
+        "value": "California Environmental Protection Agency - Air Resources Board"
+      },
+      "fcc_radio_frequency_emission_compliance#1.point_of_contact_address": {
+        "displayLabel": "SDoC Contact US Mailing Address",
+        "value": "1202 North Miller Street, Suite A, Anaheim, CA 92806"
+      },
+      "pesticide_marking#1.certification_number": {
+        "displayLabel": "Pesticide Certification Number",
+        "value": "94660-CHN-1"
+      },
+      "compliance_media#1.content_language": {
+        "displayLabel": "Compliance Media Language",
+        "value": "en_US"
+      },
+      "model_name#1.value": {
+        "displayLabel": "Model Name",
+        "value": "Core 300-P"
+      },
+      "item_package_dimensions#1.width.unit": {
+        "displayLabel": "Package Width Unit",
+        "value": "centimeters"
+      },
+      "special_feature#1.value": {
+        "displayLabel": "Special Features",
+        "value": "Portable"
+      },
+      "fcc_radio_frequency_emission_compliance#1.point_of_contact_phone_number": {
+        "displayLabel": "SDOC Contact US Phone Number",
+        "value": "714-790-3767"
+      },
+      "master_packs_per_layer_quantity#1.value": {
+        "displayLabel": "Master Packs Per Layer Quantity",
+        "value": "1"
+      },
+      "pesticide_marking#1.registration_status": {
+        "displayLabel": "Pesticide Registration Status",
+        "value": "fifra_registration_required"
+      },
+      "batteries_included#1.value": {
+        "displayLabel": "Are batteries included?",
+        "value": "false"
+      },
+      "item_depth_width_height#1.width.value": {
+        "displayLabel": "Item Width Side to Side",
+        "value": "8.7"
+      },
+      "gpsr_safety_attestation#1.value": {
+        "displayLabel": "Safety Attestation",
+        "value": "true"
+      },
+      "item_depth_width_height#1.height.unit": {
+        "displayLabel": "Item Height Unit",
+        "value": "inches"
+      },
+      "item_weight#1.normalized_value.unit": {
+        "displayLabel": "Item Weight Unit",
+        "value": "pounds"
+      },
+      "pt05_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/71JgRg3ah9L.jpg"
+      },
+      "legal_compliance_certifications#1.certification_status": {
+        "displayLabel": "Compliance Certification Status",
+        "value": "Compliant"
+      },
+      "noise_level#1.unit": {
+        "displayLabel": "Noise Level Unit",
+        "value": "decibels"
+      },
+      "california_proposition_65#1.chemical_names#1": {
+        "displayLabel": "California Proposition 65 Chemical Name(s)",
+        "value": "lead"
+      },
+      "legal_compliance_certifications#1.value": {
+        "displayLabel": "Compliance Certification Value",
+        "value": "G-19-112"
+      },
+      "item_depth_width_height#1.width.unit": {
+        "displayLabel": "Item Width Unit",
+        "value": "inches"
+      },
+      "color#1.standardized_values#1": {
+        "displayLabel": "Color Map",
+        "value": "White"
+      },
+      "item_depth_width_height#1.height.value": {
+        "displayLabel": "Height Base to Top",
+        "value": "14.2"
+      },
+      "pt01_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/7176A9IqNZL.jpg"
+      },
+      "contaminant_filtration_capability#1.value": {
+        "displayLabel": "Contaminant Filtration Capability",
+        "value": "Cigarette Smoke"
+      },
+      "unit_count#1.type.value": {
+        "displayLabel": "Unit Count Type",
+        "value": "Count"
+      },
+      "noise_level#1.value": {
+        "displayLabel": "Noise Level",
+        "value": "24.0"
+      },
+      "filter_type#1.value": {
+        "displayLabel": "Filter Type",
+        "value": "3 in 1 Filtration"
+      },
+      "warranty_description#1.value": {
+        "displayLabel": "Warranty Description",
+        "value": "2 years warranty"
+      },
+      "voltage#1.unit": {
+        "displayLabel": "Voltage Unit",
+        "value": "volts"
+      },
+      "brand#1.value": {
+        "displayLabel": "Brand Name",
+        "value": "Levoit"
+      },
+      "pattern#1.value": {
+        "displayLabel": "Pattern",
+        "value": "Core 300-P 1Pack White"
+      },
+      "item_depth_width_height#1.depth.value": {
+        "displayLabel": "Item Depth Front to Back",
+        "value": "8.7"
+      },
+      "master_pack_layers_per_pallet_quantity#1.value": {
+        "displayLabel": "Master Pack Layers per Pallet Quantity",
+        "value": "1"
+      },
+      "item_package_weight#1.unit": {
+        "displayLabel": "Package Weight Unit",
+        "value": "kilograms"
+      },
+      "number_of_items#1.value": {
+        "displayLabel": "Number of Items",
+        "value": "1"
+      },
+      "product_type#1.value": {
+        "displayLabel": "Product Type",
+        "value": "AIR_PURIFIER"
+      },
+      "color#1.value": {
+        "displayLabel": "Color",
+        "value": "White"
+      },
+      "controller_type#1.value": {
+        "displayLabel": "Controller Type",
+        "value": "Touch"
+      },
+      "item_package_dimensions#1.height.unit": {
+        "displayLabel": "Package Height Unit",
+        "value": "centimeters"
+      },
+      "item_package_dimensions#1.height.value": {
+        "displayLabel": "Item Package Height",
+        "value": "41.3004"
+      },
+      "size#1.value": {
+        "displayLabel": "Size",
+        "value": "Core 300 1Pack"
+      },
+      "fcc_radio_frequency_emission_compliance#1.registration_status": {
+        "displayLabel": "Radio Frequency Emission & Authorization Status",
+        "value": "fcc_supplier_declaration_of_conformity"
+      },
+      "item_package_dimensions#1.length.value": {
+        "displayLabel": "Item Package Length",
+        "value": "25.4"
+      },
+      "part_number#1.value": {
+        "displayLabel": "Part Number",
+        "value": "Core 300-P"
+      },
+      "skip_offer#1.value": {
+        "displayLabel": "Skip Offer",
+        "value": "false"
+      },
+      "style#1.value": {
+        "displayLabel": "Style",
+        "value": "Core 300-P 1Pack"
+      },
+      "included_components#1.value": {
+        "displayLabel": "Included Components",
+        "value": "1 x Air Purifier, 1 x 3-Stage Original Filter (Pre-Installed), 1 x User Manual, 1 x Quick Start Guide"
+      },
+      "pt02_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/7103ZlQ8ElL.jpg"
+      },
+      "item_depth_width_height#1.depth.unit": {
+        "displayLabel": "Item Depth Unit",
+        "value": "inches"
+      },
+      "pt03_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/81OZl0iOAgL.jpg"
+      },
+      "particle_retention_size#1.unit": {
+        "displayLabel": "Particle Retention Size Unit",
+        "value": "micron"
+      },
+      "floor_area#1.unit": {
+        "displayLabel": "Floor Area Unit",
+        "value": "square_feet"
+      },
+      "manufacturer#1.value": {
+        "displayLabel": "Manufacturer",
+        "value": "LEVOIT"
+      },
+      "externally_assigned_product_identifier#1.value": {
+        "displayLabel": "External Product ID",
+        "value": "817915027684"
+      },
+      "has_automatic_shutoff#1.value": {
+        "displayLabel": "Automatic Shutoff",
+        "value": "false"
+      },
+      "item_weight#1.normalized_value.value": {
+        "displayLabel": "Value",
+        "value": "7.9"
+      },
+      "power_source_type#1.value": {
+        "displayLabel": "Power Source",
+        "value": "Corded Electric"
+      },
+      "is_assembly_required#1.value": {
+        "displayLabel": "Required Assembly",
+        "value": "false"
+      },
+      "item_package_quantity#1.value": {
+        "displayLabel": "Item Package Quantity",
+        "value": "1"
+      },
+      "pt06_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/71Lo-KVfzKL.jpg"
+      },
+      "floor_area#1.value": {
+        "displayLabel": "Floor Area",
+        "value": "1073.0"
+      },
+      "fcc_radio_frequency_emission_compliance#1.point_of_contact_name": {
+        "displayLabel": "SDoC Contact Name",
+        "value": "Arthur Sun"
+      },
+      "item_type_keyword#1.value": {
+        "displayLabel": "Item Type Keyword",
+        "value": "air-purifiers"
+      },
+      "item_package_dimensions#1.length.unit": {
+        "displayLabel": "Package Length Unit",
+        "value": "centimeters"
+      },
+      "specification_met#1.value": {
+        "displayLabel": "Specification Met",
+        "value": "ETL Certified"
+      },
+      "item_weight#1.unit": {
+        "displayLabel": "Item Weight Unit",
+        "value": "pounds"
+      },
+      "list_price#1.value": {
+        "displayLabel": "List Price",
+        "value": "99.99"
+      },
+      "externally_assigned_product_identifier#1.type": {
+        "displayLabel": "External Product ID Type",
+        "value": "upc"
+      },
+      "compliance_media#1.content_type": {
+        "displayLabel": "Compliance Media Content Type",
+        "value": "user_manual"
+      }
+    },
+    "detailPageListingResponseImsv3": "{\"batteries_included\":[{\"value\":\"false\"}],\"batteries_required\":[{\"value\":\"false\"}],\"brand\":[{\"value\":\"Levoit\"}],\"bullet_point\":[{\"value\":\"WHY CHOOSE AHAM VERIFIDE AIR PURIFIERS: AHAM (Association of Home Appliance Manufacturers) is an ANSI-accredited organization that sets strict standards for appliance performance. Air purifiers with the AHAM VERIFIDE seal have been independently tested for air cleaning performance and energy efficiency. When you choose an AHAM certified air purifier, you're choosing a product trusted for reliable and effective indoor air quality improvement\"}],\"california_proposition_65\":[{\"chemical_names\":[\"lead\"],\"compliance_type\":\"chemical\"}],\"color\":[{\"standardized_values\":[\"White\"],\"value\":\"White\"}],\"compliance_media\":[{\"content_language\":\"en_US\",\"content_type\":\"user_manual\",\"source_location\":\"http://DummyComplianceMediaLocation.pdf\"}],\"contaminant_filtration_capability\":[{\"value\":\"Cigarette Smoke\"}],\"control_method\":[{\"value\":\"touch\"}],\"controller_type\":[{\"value\":\"Touch\"}],\"detail_page_primary_image_url\":\"https://m.media-amazon.com/images/I/71t-9BTIg9L.jpg\",\"externally_assigned_product_identifier\":[{\"type\":\"upc\",\"value\":\"817915027684\"}],\"fcc_radio_frequency_emission_compliance\":[{\"point_of_contact_address\":\"1202 North Miller Street, Suite A, Anaheim, CA 92806\",\"point_of_contact_email\":\"arthur.sun@etekcity.com\",\"point_of_contact_name\":\"Arthur Sun\",\"point_of_contact_phone_number\":\"714-790-3767\",\"registration_status\":\"fcc_supplier_declaration_of_conformity\"}],\"filter_class\":[{\"value\":\"3-in-1 Filtration\"}],\"filter_type\":[{\"value\":\"3 in 1 Filtration\"}],\"floor_area\":[{\"unit\":\"square_feet\",\"value\":\"1073.0\"}],\"gpsr_safety_attestation\":[{\"value\":\"true\"}],\"has_automatic_shutoff\":[{\"value\":\"false\"}],\"included_components\":[{\"value\":\"1 x Air Purifier, 1 x 3-Stage Original Filter (Pre-Installed), 1 x User Manual, 1 x Quick Start Guide\"}],\"is_assembly_required\":[{\"value\":\"false\"}],\"item_depth_width_height\":[{\"depth\":{\"unit\":\"inches\",\"value\":\"8.7\"},\"height\":{\"unit\":\"inches\",\"value\":\"14.2\"},\"width\":{\"unit\":\"inches\",\"value\":\"8.7\"}}],\"item_name\":[{\"value\":\"LEVOIT Air Purifier for Home Allergies Pet Hair in Bedroom, Covers Up to 1073 ft² by 56W High Torque Motor, AHAM VERIFIDE, 3-in-1 Filter with HEPA Sleep Mode, Remove Dust Smoke Odor, Core300-P, White\"}],\"item_package_dimensions\":[{\"height\":{\"unit\":\"centimeters\",\"value\":\"41.3004\"},\"length\":{\"unit\":\"centimeters\",\"value\":\"25.4\"},\"width\":{\"unit\":\"centimeters\",\"value\":\"25.8064\"}}],\"item_package_quantity\":[{\"value\":\"1\"}],\"item_package_weight\":[{\"unit\":\"kilograms\",\"value\":\"3.992\"}],\"item_type_keyword\":[{\"value\":\"air-purifiers\"}],\"item_weight\":[{\"normalized_value\":{\"unit\":\"pounds\",\"value\":\"7.9\"},\"unit\":\"pounds\",\"value\":\"7.9\"}],\"legal_compliance_certifications\":[{\"certification_status\":\"Compliant\",\"regulatory_organization_name\":\"California Environmental Protection Agency - Air Resources Board\",\"value\":\"G-19-112\"}],\"list_price\":[{\"value\":\"99.99\"}],\"manufacturer\":[{\"value\":\"LEVOIT\"}],\"master_pack_layers_per_pallet_quantity\":[{\"value\":\"1\"}],\"master_packs_per_layer_quantity\":[{\"value\":\"1\"}],\"model_name\":[{\"value\":\"Core 300-P\"}],\"model_number\":[{\"value\":\"Core 300-P\"}],\"noise_level\":[{\"unit\":\"decibels\",\"value\":\"24.0\"}],\"number_of_items\":[{\"value\":\"1\"}],\"number_of_packs\":[{\"value\":\"1\"}],\"part_number\":[{\"value\":\"Core 300-P\"}],\"particle_retention_size\":[{\"unit\":\"micron\",\"value\":\"0.1\"}],\"pattern\":[{\"value\":\"Core 300-P 1Pack White\"}],\"pesticide_marking\":[{\"certification_number\":\"94660-CHN-1\",\"marking_type\":\"epa_registration_number\",\"registration_status\":\"fifra_registration_required\"}],\"power_source_type\":[{\"value\":\"Corded Electric\"}],\"product_site_launch_date\":[{\"value\":\"2019-08-26T08:00:01.000Z\"}],\"product_type\":[{\"value\":\"AIR_PURIFIER\"}],\"pt01_image_url\":\"https://m.media-amazon.com/images/I/7176A9IqNZL.jpg\",\"pt02_image_url\":\"https://m.media-amazon.com/images/I/7103ZlQ8ElL.jpg\",\"pt03_image_url\":\"https://m.media-amazon.com/images/I/81OZl0iOAgL.jpg\",\"pt04_image_url\":\"https://m.media-amazon.com/images/I/714IzGtWarL.jpg\",\"pt05_image_url\":\"https://m.media-amazon.com/images/I/71JgRg3ah9L.jpg\",\"pt06_image_url\":\"https://m.media-amazon.com/images/I/71Lo-KVfzKL.jpg\",\"pt07_image_url\":\"https://m.media-amazon.com/images/I/71zkbvsEYRL.jpg\",\"sales_rank\":\"108\",\"size\":[{\"value\":\"Core 300 1Pack\"}],\"skip_offer\":[{\"value\":\"false\"}],\"special_feature\":[{\"value\":\"Portable\"}],\"specification_met\":[{\"value\":\"ETL Certified\"}],\"style\":[{\"value\":\"Core 300-P 1Pack\"}],\"supplier_declared_dg_hz_regulation\":[{\"value\":\"not_applicable\"}],\"unit_count\":[{\"type\":{\"value\":\"Count\"},\"value\":\"1.0\"}],\"variation_theme\":[{\"name\":\"COLOR_NAME/STYLE_NAME\"}],\"voltage\":[{\"unit\":\"volts\",\"value\":\"220.0\"}],\"warranty_description\":[{\"value\":\"2 years warranty\"}]}",
+    "reconciledDataSummary": null,
+    "debug": null
+  },
+  "salesRank": "108",
+  "productType": "AIR_PURIFIER",
+  "detailPageSummary": {
+    "detailPageLink": "http://www.amazon.com/dp/B07VVK39F7",
+    "offerSummaries": [
+      {
+        "numOffers": 4,
+        "offerType": "New",
+        "lowestOfferPrice": "$99.00",
+        "offerListingLink": "http://www.amazon.com/gp/offer-listing/B07VVK39F7?condition=new"
+      },
+      {
+        "numOffers": 2,
+        "offerType": "Used",
+        "lowestOfferPrice": "$81.30",
+        "offerListingLink": "http://www.amazon.com/gp/offer-listing/B07VVK39F7?condition=used"
+      }
+    ],
+    "salesRanks": [
+      {
+        "rank": 108,
+        "storeContextName": "Home & Kitchen",
+        "bestSellersLink": "http://www.amazon.com/gp/bestsellers/home-garden"
+      },
+      {
+        "rank": 1,
+        "storeContextName": "HEPA Filter Air Purifiers",
+        "bestSellersLink": "http://www.amazon.com/gp/bestsellers/home-garden/510192"
+      }
+    ],
+    "customerReviewSummary": {
+      "reviewCount": "107,798",
+      "reviewStars": 4,
+      "hasHalfStar": true
+    }
+  },
+  "debug": null,
+  "itemName": {
+    "displayLabel": null,
+    "value": "LEVOIT Air Purifier for Home Allergies Pet Hair in Bedroom, Covers Up to 1073 ft² by 56W High Torque Motor, AHAM VERIFIDE, 3-in-1 Filter with HEPA Sleep Mode, Remove Dust Smoke Odor, Core300-P, White",
+    "name": "item_name#1.value"
+  }
+}

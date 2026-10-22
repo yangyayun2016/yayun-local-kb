@@ -1,0 +1,430 @@
+{
+  "asin": "B0DY4S3HP2",
+  "conditionOfferSummaries": [
+    {
+      "condition": "New",
+      "landedPrice": {
+        "itemPrice": "$26.99",
+        "shippingPrice": "$0.00",
+        "points": 0
+      },
+      "offerCount": 3
+    },
+    {
+      "condition": "Used",
+      "landedPrice": {
+        "itemPrice": "$26.72",
+        "shippingPrice": "$0.00",
+        "points": 0
+      },
+      "offerCount": 2
+    }
+  ],
+  "imageUrl": "https://m.media-amazon.com/images/I/41BE3lVftQL._SS160_.jpg",
+  "reconciledProductAttributes": [
+    {
+      "displayLabel": null,
+      "value": "centimeters",
+      "name": "item_package_dimensions#1.length.unit"
+    },
+    {
+      "displayLabel": null,
+      "value": "17.7038",
+      "name": "item_package_dimensions#1.length.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "17.7038",
+      "name": "item_package_dimensions#1.width.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "29.0068",
+      "name": "item_package_dimensions#1.height.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "Air Purifiers for Home with High Efficiency Filter Up to 1076 Ft² for Pet Hair, Odors, Pollen, Smoke, Compact Air Cleaner with 3 Speeds, Timer, Aroma Quiet 360°Intake Filter, White",
+      "name": "item_name#1.value"
+    },
+    {
+      "displayLabel": null,
+      "value": "kilograms",
+      "name": "item_package_weight#1.unit"
+    },
+    {
+      "displayLabel": null,
+      "value": "1.188",
+      "name": "item_package_weight#1.value"
+    }
+  ],
+  "reconciledListing": {
+    "detailPageListingResponse": {
+      "supplier_declared_dg_hz_regulation#1.value": {
+        "displayLabel": "Dangerous Goods Regulations",
+        "value": "not_applicable"
+      },
+      "item_name#1.value": {
+        "displayLabel": "Item Name",
+        "value": "Air Purifiers for Home with High Efficiency Filter Up to 1076 Ft² for Pet Hair, Odors, Pollen, Smoke, Compact Air Cleaner with 3 Speeds, Timer, Aroma Quiet 360°Intake Filter, White"
+      },
+      "unit_count#1.value": {
+        "displayLabel": "Unit Count",
+        "value": "1.0"
+      },
+      "item_weight#1.value": {
+        "displayLabel": "Item Weight",
+        "value": "2.56"
+      },
+      "number_of_packs#1.value": {
+        "displayLabel": "Number of Packs",
+        "value": "1"
+      },
+      "model_number#1.value": {
+        "displayLabel": "Model Number",
+        "value": "DH-JH12"
+      },
+      "detail_page_primary_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/61ILVPCouhL.jpg"
+      },
+      "bullet_point#1.value": {
+        "displayLabel": "Bullet Point",
+        "value": "Effortless Operation: Simplified control panel with intuitive design makes it easy to operate. No complicated setup—just one tap, and you're on your way to cleaner air, saving time and letting you relax with ease"
+      },
+      "wattage#1.unit": {
+        "displayLabel": "Wattage Unit",
+        "value": "watts"
+      },
+      "control_method#1.value": {
+        "displayLabel": "Control Method",
+        "value": "touch"
+      },
+      "pt04_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/71k87qqYsEL.jpg"
+      },
+      "pesticide_marking#1.marking_type": {
+        "displayLabel": "Pesticide Marking",
+        "value": "epa_establishment_number"
+      },
+      "item_package_weight#1.value": {
+        "displayLabel": "Package Weight",
+        "value": "1.188"
+      },
+      "pt07_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/718fLXZiiiL.jpg"
+      },
+      "batteries_required#1.value": {
+        "displayLabel": "Are batteries required?",
+        "value": "false"
+      },
+      "sales_rank": {
+        "displayLabel": "",
+        "value": "220"
+      },
+      "variation_theme#1.name": {
+        "displayLabel": "Variation Theme Name",
+        "value": "COLOR"
+      },
+      "product_site_launch_date#1.value": {
+        "displayLabel": "Product Site Launch Date",
+        "value": "2025-03-10T19:49:36.152Z"
+      },
+      "particle_retention_size#1.value": {
+        "displayLabel": "Particle Retention Size",
+        "value": "0.3"
+      },
+      "item_package_dimensions#1.width.value": {
+        "displayLabel": "Item Package Width",
+        "value": "17.7038"
+      },
+      "filter_class#1.value": {
+        "displayLabel": "Filter Class",
+        "value": "High Efficiency&Activated Carbon"
+      },
+      "legal_compliance_certifications#1.regulatory_organization_name": {
+        "displayLabel": "Regulatory Organization Name",
+        "value": "California Environmental Protection Agency - Air Resources Board"
+      },
+      "pesticide_marking#1.certification_number": {
+        "displayLabel": "Pesticide Certification Number",
+        "value": "103387-WA-1"
+      },
+      "model_name#1.value": {
+        "displayLabel": "Model Name",
+        "value": "DH-JH12"
+      },
+      "item_package_dimensions#1.width.unit": {
+        "displayLabel": "Package Width Unit",
+        "value": "centimeters"
+      },
+      "special_feature#1.value": {
+        "displayLabel": "Special Features",
+        "value": "Manual"
+      },
+      "pesticide_marking#1.registration_status": {
+        "displayLabel": "Pesticide Registration Status",
+        "value": "fifra_registration_required"
+      },
+      "item_depth_width_height#1.width.value": {
+        "displayLabel": "Item Width Side to Side",
+        "value": "6.69"
+      },
+      "item_depth_width_height#1.height.unit": {
+        "displayLabel": "Item Height Unit",
+        "value": "inches"
+      },
+      "item_weight#1.normalized_value.unit": {
+        "displayLabel": "Item Weight Unit",
+        "value": "pounds"
+      },
+      "pt05_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/713-V4ZNc6L.jpg"
+      },
+      "legal_compliance_certifications#1.certification_status": {
+        "displayLabel": "Compliance Certification Status",
+        "value": "Compliant"
+      },
+      "noise_level#1.unit": {
+        "displayLabel": "Noise Level Unit",
+        "value": "decibels"
+      },
+      "pt08_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/71+opYhlt3L.jpg"
+      },
+      "legal_compliance_certifications#1.value": {
+        "displayLabel": "Compliance Certification Value",
+        "value": "CARB Compliance Certificate"
+      },
+      "item_depth_width_height#1.width.unit": {
+        "displayLabel": "Item Width Unit",
+        "value": "inches"
+      },
+      "color#1.standardized_values#1": {
+        "displayLabel": "Color Map",
+        "value": "White"
+      },
+      "item_depth_width_height#1.height.value": {
+        "displayLabel": "Height Base to Top",
+        "value": "9.84"
+      },
+      "pt01_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/81f-vPrAhRL.jpg"
+      },
+      "contaminant_filtration_capability#1.value": {
+        "displayLabel": "Contaminant Filtration Capability",
+        "value": "Cigarette Smoke"
+      },
+      "unit_count#1.type.value": {
+        "displayLabel": "Unit Count Type",
+        "value": "Count"
+      },
+      "noise_level#1.value": {
+        "displayLabel": "Noise Level",
+        "value": "22.0"
+      },
+      "filter_type#1.value": {
+        "displayLabel": "Filter Type",
+        "value": "HEPA"
+      },
+      "brand#1.value": {
+        "displayLabel": "Brand Name",
+        "value": "VOOPNU"
+      },
+      "item_depth_width_height#1.depth.value": {
+        "displayLabel": "Item Depth Front to Back",
+        "value": "6.69"
+      },
+      "item_package_weight#1.unit": {
+        "displayLabel": "Package Weight Unit",
+        "value": "kilograms"
+      },
+      "number_of_items#1.value": {
+        "displayLabel": "Number of Items",
+        "value": "1"
+      },
+      "product_type#1.value": {
+        "displayLabel": "Product Type",
+        "value": "AIR_PURIFIER"
+      },
+      "color#1.value": {
+        "displayLabel": "Color",
+        "value": "White"
+      },
+      "controller_type#1.value": {
+        "displayLabel": "Controller Type",
+        "value": "Button Control"
+      },
+      "item_package_dimensions#1.height.unit": {
+        "displayLabel": "Package Height Unit",
+        "value": "centimeters"
+      },
+      "item_package_dimensions#1.height.value": {
+        "displayLabel": "Item Package Height",
+        "value": "29.0068"
+      },
+      "size#1.value": {
+        "displayLabel": "Size",
+        "value": "1"
+      },
+      "item_package_dimensions#1.length.value": {
+        "displayLabel": "Item Package Length",
+        "value": "17.7038"
+      },
+      "part_number#1.value": {
+        "displayLabel": "Part Number",
+        "value": "DH-JH12"
+      },
+      "skip_offer#1.value": {
+        "displayLabel": "Skip Offer",
+        "value": "false"
+      },
+      "regulatory_compliance_certification#1.value": {
+        "displayLabel": "Regulatory Identification",
+        "value": "G-25-147"
+      },
+      "included_components#1.value": {
+        "displayLabel": "Included Components",
+        "value": "1"
+      },
+      "pt02_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/81MAugkg2NL.jpg"
+      },
+      "item_depth_width_height#1.depth.unit": {
+        "displayLabel": "Item Depth Unit",
+        "value": "inches"
+      },
+      "required_product_compliance_certificate#1.value": {
+        "displayLabel": "Product Compliance Certificate",
+        "value": "California Air Review Board (CARB)"
+      },
+      "pt03_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/71UGq3-DdQL.jpg"
+      },
+      "particle_retention_size#1.unit": {
+        "displayLabel": "Particle Retention Size Unit",
+        "value": "micron"
+      },
+      "floor_area#1.unit": {
+        "displayLabel": "Floor Area Unit",
+        "value": "square_feet"
+      },
+      "manufacturer#1.value": {
+        "displayLabel": "Manufacturer",
+        "value": "VOOPNU"
+      },
+      "externally_assigned_product_identifier#1.value": {
+        "displayLabel": "External Product ID",
+        "value": "757530685459"
+      },
+      "item_weight#1.normalized_value.value": {
+        "displayLabel": "Value",
+        "value": "2.56"
+      },
+      "power_source_type#1.value": {
+        "displayLabel": "Power Source",
+        "value": "AC"
+      },
+      "is_assembly_required#1.value": {
+        "displayLabel": "Required Assembly",
+        "value": "false"
+      },
+      "item_package_quantity#1.value": {
+        "displayLabel": "Item Package Quantity",
+        "value": "1"
+      },
+      "pt06_image_url": {
+        "displayLabel": "",
+        "value": "https://m.media-amazon.com/images/I/71t0SHIS2+L.jpg"
+      },
+      "floor_area#1.value": {
+        "displayLabel": "Floor Area",
+        "value": "250.0"
+      },
+      "item_type_keyword#1.value": {
+        "displayLabel": "Item Type Keyword",
+        "value": "hepa-filter-air-purifiers"
+      },
+      "item_package_dimensions#1.length.unit": {
+        "displayLabel": "Package Length Unit",
+        "value": "centimeters"
+      },
+      "regulatory_compliance_certification#1.regulation_type": {
+        "displayLabel": "Compliance Regulation Type",
+        "value": "carb_eo"
+      },
+      "specification_met#1.value": {
+        "displayLabel": "Specification Met",
+        "value": "CARB Certified"
+      },
+      "wattage#1.value": {
+        "displayLabel": "Wattage",
+        "value": "5.0"
+      },
+      "item_weight#1.unit": {
+        "displayLabel": "Item Weight Unit",
+        "value": "pounds"
+      },
+      "list_price#1.value": {
+        "displayLabel": "List Price",
+        "value": "38.99"
+      },
+      "externally_assigned_product_identifier#1.type": {
+        "displayLabel": "External Product ID Type",
+        "value": "upc"
+      }
+    },
+    "detailPageListingResponseImsv3": "{\"batteries_required\":[{\"value\":\"false\"}],\"brand\":[{\"value\":\"VOOPNU\"}],\"bullet_point\":[{\"value\":\"Effortless Operation: Simplified control panel with intuitive design makes it easy to operate. No complicated setup—just one tap, and you're on your way to cleaner air, saving time and letting you relax with ease\"}],\"color\":[{\"standardized_values\":[\"White\"],\"value\":\"White\"}],\"contaminant_filtration_capability\":[{\"value\":\"Cigarette Smoke\"}],\"control_method\":[{\"value\":\"touch\"}],\"controller_type\":[{\"value\":\"Button Control\"}],\"detail_page_primary_image_url\":\"https://m.media-amazon.com/images/I/61ILVPCouhL.jpg\",\"externally_assigned_product_identifier\":[{\"type\":\"upc\",\"value\":\"757530685459\"}],\"filter_class\":[{\"value\":\"High Efficiency&Activated Carbon\"}],\"filter_type\":[{\"value\":\"HEPA\"}],\"floor_area\":[{\"unit\":\"square_feet\",\"value\":\"250.0\"}],\"included_components\":[{\"value\":\"1\"}],\"is_assembly_required\":[{\"value\":\"false\"}],\"item_depth_width_height\":[{\"depth\":{\"unit\":\"inches\",\"value\":\"6.69\"},\"height\":{\"unit\":\"inches\",\"value\":\"9.84\"},\"width\":{\"unit\":\"inches\",\"value\":\"6.69\"}}],\"item_name\":[{\"value\":\"Air Purifiers for Home with High Efficiency Filter Up to 1076 Ft² for Pet Hair, Odors, Pollen, Smoke, Compact Air Cleaner with 3 Speeds, Timer, Aroma Quiet 360°Intake Filter, White\"}],\"item_package_dimensions\":[{\"height\":{\"unit\":\"centimeters\",\"value\":\"29.0068\"},\"length\":{\"unit\":\"centimeters\",\"value\":\"17.7038\"},\"width\":{\"unit\":\"centimeters\",\"value\":\"17.7038\"}}],\"item_package_quantity\":[{\"value\":\"1\"}],\"item_package_weight\":[{\"unit\":\"kilograms\",\"value\":\"1.188\"}],\"item_type_keyword\":[{\"value\":\"hepa-filter-air-purifiers\"}],\"item_weight\":[{\"normalized_value\":{\"unit\":\"pounds\",\"value\":\"2.56\"},\"unit\":\"pounds\",\"value\":\"2.56\"}],\"legal_compliance_certifications\":[{\"certification_status\":\"Compliant\",\"regulatory_organization_name\":\"California Environmental Protection Agency - Air Resources Board\",\"value\":\"CARB Compliance Certificate\"}],\"list_price\":[{\"value\":\"38.99\"}],\"manufacturer\":[{\"value\":\"VOOPNU\"}],\"model_name\":[{\"value\":\"DH-JH12\"}],\"model_number\":[{\"value\":\"DH-JH12\"}],\"noise_level\":[{\"unit\":\"decibels\",\"value\":\"22.0\"}],\"number_of_items\":[{\"value\":\"1\"}],\"number_of_packs\":[{\"value\":\"1\"}],\"part_number\":[{\"value\":\"DH-JH12\"}],\"particle_retention_size\":[{\"unit\":\"micron\",\"value\":\"0.3\"}],\"pesticide_marking\":[{\"certification_number\":\"103387-WA-1\",\"marking_type\":\"epa_establishment_number\",\"registration_status\":\"fifra_registration_required\"}],\"power_source_type\":[{\"value\":\"AC\"}],\"product_site_launch_date\":[{\"value\":\"2025-03-10T19:49:36.152Z\"}],\"product_type\":[{\"value\":\"AIR_PURIFIER\"}],\"pt01_image_url\":\"https://m.media-amazon.com/images/I/81f-vPrAhRL.jpg\",\"pt02_image_url\":\"https://m.media-amazon.com/images/I/81MAugkg2NL.jpg\",\"pt03_image_url\":\"https://m.media-amazon.com/images/I/71UGq3-DdQL.jpg\",\"pt04_image_url\":\"https://m.media-amazon.com/images/I/71k87qqYsEL.jpg\",\"pt05_image_url\":\"https://m.media-amazon.com/images/I/713-V4ZNc6L.jpg\",\"pt06_image_url\":\"https://m.media-amazon.com/images/I/71t0SHIS2+L.jpg\",\"pt07_image_url\":\"https://m.media-amazon.com/images/I/718fLXZiiiL.jpg\",\"pt08_image_url\":\"https://m.media-amazon.com/images/I/71+opYhlt3L.jpg\",\"regulatory_compliance_certification\":[{\"regulation_type\":\"carb_eo\",\"value\":\"G-25-147\"}],\"required_product_compliance_certificate\":[{\"value\":\"California Air Review Board (CARB)\"}],\"sales_rank\":\"220\",\"size\":[{\"value\":\"1\"}],\"skip_offer\":[{\"value\":\"false\"}],\"special_feature\":[{\"value\":\"Manual\"}],\"specification_met\":[{\"value\":\"CARB Certified\"}],\"supplier_declared_dg_hz_regulation\":[{\"value\":\"not_applicable\"}],\"unit_count\":[{\"type\":{\"value\":\"Count\"},\"value\":\"1.0\"}],\"variation_theme\":[{\"name\":\"COLOR\"}],\"wattage\":[{\"unit\":\"watts\",\"value\":\"5.0\"}]}",
+    "reconciledDataSummary": null,
+    "debug": null
+  },
+  "salesRank": "220",
+  "productType": "AIR_PURIFIER",
+  "detailPageSummary": {
+    "detailPageLink": "http://www.amazon.com/dp/B0DY4S3HP2",
+    "offerSummaries": [
+      {
+        "numOffers": 3,
+        "offerType": "New",
+        "lowestOfferPrice": "$26.99",
+        "offerListingLink": "http://www.amazon.com/gp/offer-listing/B0DY4S3HP2?condition=new"
+      },
+      {
+        "numOffers": 2,
+        "offerType": "Used",
+        "lowestOfferPrice": "$26.72",
+        "offerListingLink": "http://www.amazon.com/gp/offer-listing/B0DY4S3HP2?condition=used"
+      }
+    ],
+    "salesRanks": [
+      {
+        "rank": 220,
+        "storeContextName": "Home & Kitchen",
+        "bestSellersLink": "http://www.amazon.com/gp/bestsellers/home-garden"
+      },
+      {
+        "rank": 2,
+        "storeContextName": "HEPA Filter Air Purifiers",
+        "bestSellersLink": "http://www.amazon.com/gp/bestsellers/home-garden/510192"
+      }
+    ],
+    "customerReviewSummary": {
+      "reviewCount": "3,521",
+      "reviewStars": 4,
+      "hasHalfStar": true
+    }
+  },
+  "debug": null,
+  "itemName": {
+    "displayLabel": null,
+    "value": "Air Purifiers for Home with High Efficiency Filter Up to 1076 Ft² for Pet Hair, Odors, Pollen, Smoke, Compact Air Cleaner with 3 Speeds, Timer, Aroma Quiet 360°Intake Filter, White",
+    "name": "item_name#1.value"
+  }
+}

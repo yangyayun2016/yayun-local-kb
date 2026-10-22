@@ -1,0 +1,57 @@
+{
+  "manifest_version": 3,
+  "name": "FlyFus - Amazon Rufus AI 卖家助手",
+  "version": "1.0.7",
+  "description": "基于 Amazon Rufus AI 的深度洞察工具。帮助卖家一键获取产品认知得分、解析消费者核心诉求、监控竞品趋势，助力产品运营与转化优化。",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "cookies",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://*.flyfus.com/*",
+    "*://flyfus.com/*"
+  ],
+  "background": {
+    "service_worker": "service-worker-loader.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "assets/index.tsx-loader-CtiMYvcY.js"
+      ],
+      "matches": [
+        "https://*.amazon.com/*"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "https://*.amazon.com/*"
+      ],
+      "resources": [
+        "logo-horizontal.png",
+        "assets/triangle-alert-SzIFUkAN.js",
+        "assets/index.tsx-Vvbx_5-a.js"
+      ],
+      "use_dynamic_url": false
+    }
+  ]
+}

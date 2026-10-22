@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>消费者洞察报告 | Consumer Insight</title>
+<style>
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-card: #111827;
+  --bg-section: #0d1321;
+  --accent-gold: #f0c040;
+  --accent-blue: #4a9eff;
+  --accent-green: #22c55e;
+  --accent-red: #ef4444;
+  --accent-purple: #a855f7;
+  --accent-cyan: #06b6d4;
+  --text-primary: #f0f4ff;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', system-ui, 'Microsoft YaHei', sans-serif;
+  background: var(--bg-primary); color: var(--text-secondary); line-height: 1.6;
+}
+.report-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,14,26,0.96); backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(168,85,247,0.2);
+  padding: 0.65rem 2rem; display: flex; gap: 0.5rem; align-items: center; overflow-x: auto;
+}
+.nav-brand { color: var(--accent-purple); font-weight: 700; font-size: 0.9rem; margin-right: 1rem; white-space: nowrap; }
+.nav-link { color: var(--text-secondary); text-decoration: none; font-size: 0.78rem;
+  padding: 0.3rem 0.75rem; border-radius: 20px; white-space: nowrap; transition: all 0.2s; }
+.nav-link:hover { color: var(--accent-purple); background: rgba(168,85,247,0.1); }
+
+.report-header {
+  background: linear-gradient(135deg, #1a0f2e 0%, #0a0e1a 55%, #0f1a2e 100%);
+  padding: 4rem 3rem 3rem; border-bottom: 1px solid rgba(168,85,247,0.15); position: relative; overflow: hidden;
+}
+.report-header::before { content: '👥'; position: absolute; right: 3rem; top: 2rem; font-size: 8rem; opacity: 0.06; }
+.report-badge { display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.3); color: var(--accent-purple);
+  padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.78rem; font-weight: 600; margin-bottom: 1rem; }
+.report-title { font-size: 2.4rem; font-weight: 800; color: var(--text-primary); line-height: 1.2; }
+.report-meta { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.meta-item { font-size: 0.82rem; color: var(--text-muted); }
+.meta-item span { color: var(--text-secondary); font-weight: 500; }
+
+.section { padding: 3rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.section-title { font-size: 1.2rem; font-weight: 700; color: var(--accent-purple);
+  margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.6rem; }
+.section-title::before { content: ''; display: block; width: 4px; height: 1.2em; 
+  background: var(--accent-purple); border-radius: 2px; }
+
+.card { background: var(--bg-card); border: 1px solid rgba(168,85,247,0.1);
+  border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.card-purple { border-top: 3px solid var(--accent-purple); }
+.card-gold   { border-top: 3px solid var(--accent-gold); }
+.card-green  { border-top: 3px solid var(--accent-green); }
+.card-blue   { border-top: 3px solid var(--accent-blue); }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
+
+.badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+.badge-purple { background: rgba(168,85,247,0.15); color: var(--accent-purple); }
+.badge-gold   { background: rgba(240,192,64,0.15);  color: var(--accent-gold); }
+.badge-green  { background: rgba(34,197,94,0.15);   color: var(--accent-green); }
+.badge-blue   { background: rgba(74,158,255,0.15);  color: var(--accent-blue); }
+.badge-gray   { background: rgba(71,85,105,0.3);    color: var(--text-muted); }
+
+/* ECOSYSTEM LAYERS */
+.eco-layers { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.eco-layer { padding: 1.5rem; border-radius: 12px; position: relative; overflow: hidden; }
+.eco-core   { background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(11,14,26,0.9));
+              border: 1px solid rgba(239,68,68,0.2); }
+.eco-mid    { background: linear-gradient(135deg, rgba(240,192,64,0.08), rgba(11,14,26,0.9));
+              border: 1px solid rgba(240,192,64,0.2); }
+.eco-outer  { background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(11,14,26,0.9));
+              border: 1px solid rgba(168,85,247,0.2); }
+.eco-num { font-size: 2rem; font-weight: 900; opacity: 0.15; position: absolute; right: 1rem; top: 0.5rem; }
+.eco-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+.eco-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+.eco-body { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* SCENARIO CARDS */
+.scenario-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+.scenario-card { padding: 1.2rem; border-radius: 10px; background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06); }
+.scenario-label { font-size: 0.68rem; font-weight: 700; color: var(--accent-purple);
+  letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.scenario-title { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.8rem; }
+.sentiment-pos { border-left: 3px solid var(--accent-green); padding: 0.4rem 0.6rem;
+  font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+.sentiment-neg { border-left: 3px solid var(--accent-red); padding: 0.4rem 0.6rem;
+  font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+.logic-note { font-size: 0.72rem; color: var(--text-muted); font-style: italic; margin-top: 0.5rem; }
+
+/* VOC SAMPLES */
+.voc-sample { padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02);
+  border-left: 3px solid; margin-bottom: 0.7rem; }
+.voc-positive { border-color: var(--accent-green); }
+.voc-negative { border-color: var(--accent-red); }
+.voc-stars { font-size: 0.8rem; margin-bottom: 0.3rem; }
+.voc-en { font-size: 0.83rem; color: var(--text-primary); font-style: italic; line-height: 1.5; }
+.voc-cn { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+/* SOCIAL SIGNALS */
+.signal-row { display: flex; gap: 1rem; align-items: flex-start;
+  padding: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.signal-platform { width: 90px; flex-shrink: 0; }
+.platform-tag { display: inline-block; padding: 3px 8px; border-radius: 4px;
+  font-size: 0.68rem; font-weight: 700; }
+.platform-yt { background: rgba(255,0,0,0.15); color: #ff4444; }
+.platform-tt { background: rgba(0,0,0,0.4); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+.platform-rd { background: rgba(255,87,34,0.15); color: #ff7043; }
+.platform-ig { background: rgba(225,48,108,0.15); color: #e1306c; }
+.signal-body { flex: 1; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+.signal-reach { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+/* PERSONA */
+.persona-section { margin-bottom: 2rem; }
+.persona-header { display: flex; gap: 1.2rem; align-items: center; margin-bottom: 1.2rem; }
+.persona-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+.persona-avatar-purple { background: linear-gradient(135deg, #6b21a8, #a855f7); }
+.persona-avatar-blue   { background: linear-gradient(135deg, #1e40af, #4a9eff); }
+.persona-avatar-green  { background: linear-gradient(135deg, #14532d, #22c55e); }
+.persona-avatar-gold   { background: linear-gradient(135deg, #92400e, #f0c040); }
+.persona-avatar-pink   { background: linear-gradient(135deg, #831843, #ec4899); }
+.persona-name { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+.persona-role { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; }
+.persona-share { font-size: 1.8rem; font-weight: 800; color: var(--accent-purple); margin-left: auto; }
+.persona-share-label { font-size: 0.68rem; color: var(--text-muted); text-align: center; }
+
+.persona-def { font-size: 0.83rem; color: var(--text-secondary); line-height: 1.7;
+  background: rgba(168,85,247,0.04); border-left: 3px solid var(--accent-purple);
+  padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; margin-bottom: 1.2rem; }
+
+.jtbd-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.jtbd-table th { background: rgba(168,85,247,0.07); color: var(--accent-purple);
+  padding: 0.6rem 0.8rem; text-align: left; font-weight: 600;
+  border-bottom: 1px solid rgba(168,85,247,0.15); }
+.jtbd-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-secondary); }
+.jtbd-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+.kano-delight  { color: var(--accent-gold); font-weight: 600; }
+.kano-expected { color: var(--accent-blue); font-weight: 600; }
+.kano-basic    { color: var(--text-secondary); }
+
+.drive-card { padding: 1rem; border-radius: 8px; margin-bottom: 0.7rem; }
+.drive-main { background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.15); }
+.drive-sub  { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
+.drive-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.3rem; }
+.drive-title { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+.drive-body  { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+
+.objection-list { list-style: none; }
+.objection-list li { padding: 0.5rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.82rem; color: var(--text-secondary); display: flex; gap: 0.5rem; }
+.objection-list li::before { content: '❓'; flex-shrink: 0; }
+
+.done-list { list-style: none; }
+.done-list li { padding: 0.4rem 0.8rem; font-size: 0.82rem; color: var(--text-secondary);
+  display: flex; gap: 0.5rem; }
+.done-list li::before { content: '✅'; flex-shrink: 0; }
+
+/* FINDING CARDS */
+.finding-card { padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;
+  background: linear-gradient(135deg, rgba(168,85,247,0.05), rgba(11,14,26,0.95));
+  border: 1px solid rgba(168,85,247,0.12); }
+.finding-num { font-size: 0.68rem; font-weight: 700; color: var(--accent-purple);
+  letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+.finding-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem; }
+.finding-body { font-size: 0.83rem; color: var(--text-secondary); line-height: 1.7; }
+.finding-meta { display: flex; gap: 0.8rem; margin-top: 0.8rem; flex-wrap: wrap; }
+.finding-meta-item { font-size: 0.72rem; color: var(--text-muted); }
+.finding-meta-item span { color: var(--text-secondary); }
+
+/* CROSS TABLE */
+.cross-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.cross-table th { background: rgba(168,85,247,0.07); color: var(--accent-purple);
+  padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; }
+.cross-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.cross-table td:first-child { color: var(--text-primary); font-weight: 600; }
+.cross-high { color: var(--accent-green); font-weight: 600; }
+
+/* DATA OVERVIEW */
+.data-overview { display: grid; grid-template-columns: repeat(5,1fr); gap: 0; }
+.do-cell { padding: 0.8rem; border: 1px solid rgba(255,255,255,0.06); font-size: 0.75rem; text-align: center; }
+.do-header { background: rgba(168,85,247,0.07); color: var(--accent-purple); font-weight: 600; }
+
+/* INSIGHT BOX */
+.insight-box { background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(11,14,26,0.9));
+  border: 1px solid rgba(168,85,247,0.2); border-radius: 10px;
+  padding: 1.2rem 1.5rem; margin-top: 1.5rem; display: flex; gap: 0.8rem; align-items: flex-start; }
+.insight-icon { font-size: 1.3rem; flex-shrink: 0; }
+.insight-body { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; }
+.insight-body strong { color: var(--text-primary); }
+
+/* INFLUENCER */
+.inf-card { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem;
+  background: rgba(255,255,255,0.02); border-radius: 8px; margin-bottom: 0.7rem; }
+.inf-avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(168,85,247,0.2);
+  display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 800;
+  color: var(--accent-purple); flex-shrink: 0; }
+.inf-name { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
+.inf-role { font-size: 0.72rem; color: var(--text-muted); }
+.inf-body { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.3rem; line-height: 1.5; }
+
+/* NARRATIVE */
+.narrative-line { padding: 1.2rem; border-radius: 10px; margin-bottom: 0.8rem;
+  background: rgba(255,255,255,0.02); border-left: 4px solid; }
+.nl-1 { border-color: var(--accent-gold); }
+.nl-2 { border-color: var(--accent-green); }
+.nl-3 { border-color: var(--accent-blue); }
+.nl-num { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.3rem; letter-spacing: 0.08em; }
+.nl-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.2rem; }
+.nl-sub { font-size: 0.78rem; color: var(--accent-gold); margin-bottom: 0.5rem; font-style: italic; }
+.nl-body { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* SEASON */
+.season-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+.season-card { padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06); text-align: center; }
+.season-label { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.3rem; }
+.season-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
+.season-name { font-size: 0.8rem; color: var(--accent-purple); font-weight: 600; margin-bottom: 0.4rem; }
+.season-body { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+
+.report-footer { padding: 2rem 3rem; text-align: center; font-size: 0.75rem; color: var(--text-muted); }
+
+@media(max-width:768px){
+  .section{ padding: 1.5rem; }
+  .report-header{ padding: 2.5rem 1.5rem 2rem; }
+  .grid-2,.grid-3{ grid-template-columns:1fr; }
+  .eco-layers,.scenario-grid,.season-cards{ grid-template-columns:1fr; }
+  .data-overview{ grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="report-nav">
+  <span class="nav-brand">👥 Consumer Insight</span>
+  <a href="#data-scope" class="nav-link">数据口径</a>
+  <a href="#ecosystem" class="nav-link">三圈层模型</a>
+  <a href="#core-layer" class="nav-link">核心圈</a>
+  <a href="#middle-layer" class="nav-link">中间圈</a>
+  <a href="#outer-layer" class="nav-link">外围圈</a>
+  <a href="#personas" class="nav-link">关键人群</a>
+  <a href="#key-findings" class="nav-link">洞察发现</a>
+</nav>
+
+<!-- HEADER -->
+<header class="report-header">
+  <div class="report-badge">👥 CONSUMER INSIGHT REPORT</div>
+  <h1 class="report-title">消费者洞察报告</h1>
+  <p style="font-size:1rem;color:var(--text-secondary);margin-top:0.5rem">{{品类}} 美国消费者行为深度分析</p>
+  <div class="report-meta">
+    <div class="meta-item">品类 <span>{{品类名称}}</span></div>
+    <div class="meta-item">数据日期 <span>{{YYYY-MM-DD}}</span></div>
+    <div class="meta-item">VOC样本 <span>{{85+}} 条</span></div>
+    <div class="meta-item">社媒讨论 <span>{{6,088}} 条</span></div>
+    <div class="meta-item">全网触达量 <span>~{{9.19}} 亿</span></div>
+  </div>
+</header>
+
+<!-- SECTION 1: 数据口径 -->
+<section class="section" id="data-scope">
+  <div class="section-title">📋 数据支撑与研究口径</div>
+  <div class="grid-2">
+    <div class="card card-purple">
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">1.1 数据范围</div>
+      <table style="width:100%;font-size:0.8rem;border-collapse:collapse">
+        <tr><td style="padding:0.4rem 0;color:var(--text-muted);width:80px">品类</td><td style="color:var(--text-secondary)">{{品类名称（中/英）}}</td></tr>
+        <tr><td style="padding:0.4rem 0;color:var(--text-muted)">时间范围</td><td style="color:var(--text-secondary)">{{YYYY.MM – YYYY.MM}}</td></tr>
+        <tr><td style="padding:0.4rem 0;color:var(--text-muted)">地理范围</td><td style="color:var(--text-secondary)">{{美国（US）}}</td></tr>
+        <tr><td style="padding:0.4rem 0;color:var(--text-muted)">语言范围</td><td style="color:var(--text-secondary)">{{英语（EN）}}</td></tr>
+      </table>
+    </div>
+    <div class="card card-blue">
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">1.2 数据来源构成</div>
+      <div style="margin-bottom:0.8rem">
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.3rem">A. 电商平台评论 (VOC)</div>
+        <div style="font-size:0.9rem;font-weight:700;color:var(--accent-blue)">{{85+}} 条</div>
+        <div style="font-size:0.72rem;color:var(--text-muted)">代表"真实使用后体验" · 来源：Amazon US 等</div>
+      </div>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.3rem">B. 社媒与社区讨论 (Social)</div>
+        <div style="font-size:0.9rem;font-weight:700;color:var(--accent-purple)">{{6,088}} 条</div>
+        <div style="font-size:0.72rem;color:var(--text-muted)">代表"决策过程 + 社会化证据"</div>
+      </div>
+    </div>
+  </div>
+  <!-- Reach breakdown -->
+  <div class="grid-3" style="margin-top:1rem">
+    <div class="card" style="text-align:center">
+      <div style="font-size:1.8rem;font-weight:800;color:var(--accent-purple)">~{{9.19}} 亿</div>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem">全网总触达量（Reach Proxy）</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:1.8rem;font-weight:800;color:#ff4444">~{{3.97}} 亿</div>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem">YouTube 性能实证 ({{43%}})</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:1.8rem;font-weight:800;color:#1db954">~{{3.31}} 亿</div>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem">TikTok 视觉传播 ({{36%}})</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: 三圈层生态 -->
+<section class="section" id="ecosystem">
+  <div class="section-title">🌐 三圈层信息生态模型 (Information Ecosystem Model)</div>
+  <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:1.5rem">
+    为全面解码美国消费者在 <strong style="color:var(--text-primary)">{{品类}}</strong> 品类的认知、决策与体验，构建"三圈层信息生态"分析框架。
+  </p>
+
+  <div class="eco-layers">
+    <div class="eco-layer eco-core">
+      <div class="eco-num">01</div>
+      <div class="eco-tag" style="color:#f87171">CORE LAYER</div>
+      <div class="eco-title">核心圈：个人体验层</div>
+      <div class="eco-body">
+        最直接、最真实的用户体验反馈层。通过分析 <strong>{{85+}} 核心体验片段（VOC）</strong>，
+        深度挖掘消费者在实际使用中的具体痛点。<br><br>
+        <strong>核心逻辑：</strong>{{描述该品类在核心圈的主要体验特征，正面率数值，以及核心负面反馈集中点。}}
+      </div>
+      <div style="margin-top:0.8rem;font-size:0.7rem;color:var(--text-muted)">
+        Source: E-commerce VOC / User Reviews<br>
+        Focus: {{核心关注维度}}
+      </div>
+    </div>
+    <div class="eco-layer eco-mid">
+      <div class="eco-num">02</div>
+      <div class="eco-tag" style="color:var(--accent-gold)">MIDDLE LAYER</div>
+      <div class="eco-title">中间圈：社区传播层</div>
+      <div class="eco-body">
+        口碑发酵和社交影响的关键中转层。通过分析 <strong>{{6,088}} 条社媒讨论</strong>，
+        特别是各平台流量触达结构，理解品类如何通过内容建立信任。<br><br>
+        <strong>核心逻辑：</strong>{{描述各平台在该品类传播中扮演的角色，YouTube/TikTok/Reddit的差异化功能定位。}}
+      </div>
+      <div style="margin-top:0.8rem;font-size:0.7rem;color:var(--text-muted)">
+        Source: Social Media &amp; Tech Forums<br>
+        Focus: {{视觉验证与技术排障}}
+      </div>
+    </div>
+    <div class="eco-layer eco-outer">
+      <div class="eco-num">03</div>
+      <div class="eco-tag" style="color:var(--accent-purple)">OUTER LAYER</div>
+      <div class="eco-title">外围圈：文化叙事层</div>
+      <div class="eco-body">
+        塑造消费者长期价值观和行为模式的宏观背景层。解读驱动目标用户的深层动机。<br><br>
+        <strong>核心逻辑：</strong>{{描述产品在文化层面的象征意义转变，从功能性工具到生活方式符号的演变逻辑。}}
+      </div>
+      <div style="margin-top:0.8rem;font-size:0.7rem;color:var(--text-muted)">
+        Source: Cultural Narrative &amp; Lifestyle Studies<br>
+        Focus: {{自主性与健康/生活方式身份}}
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>跨圈层启示：</strong>{{综合三圈层数据得出的跨层核心洞察。描述各圈层之间信号的一致性或矛盾点，以及品牌可以利用的交叉机会。}}
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: 核心圈 -->
+<section class="section" id="core-layer">
+  <div class="section-title">🤿 核心圈：个人体验层分析 (VOC)</div>
+
+  <!-- 体验深度层次 -->
+  <div class="grid-3" style="margin-bottom:1.5rem">
+    <div class="card" style="text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:0.3rem">🌊</div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--accent-blue)">{{30%}}</div>
+      <div style="font-size:0.75rem;color:var(--text-muted)">浅层：纯情绪表达</div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">（如"酷"、"改变体验"）</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:0.3rem">🏊</div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--accent-gold)">{{50%}}</div>
+      <div style="font-size:0.75rem;color:var(--text-muted)">中层：场景化功能反馈</div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">（{{核心使用场景}}）</div>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:0.3rem">🤿</div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--accent-purple)">{{20%}}</div>
+      <div style="font-size:0.75rem;color:var(--text-muted)">深层：技术归因与维护</div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem">（{{技术类话题}}）</div>
+    </div>
+  </div>
+
+  <!-- 使用场景矩阵 -->
+  <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:1rem">
+    🔢 核心使用场景体验矩阵
+  </div>
+  <div class="scenario-grid" style="margin-bottom:1.5rem">
+    <div class="scenario-card">
+      <div class="scenario-label">SCENARIO 01</div>
+      <div class="scenario-title">{{场景1名称}}</div>
+      <div class="sentiment-pos">
+        <strong>正面体感：</strong>{{正面体验描述}}
+      </div>
+      <div class="sentiment-neg">
+        <strong>痛点/风险：</strong>{{负面痛点描述}}
+      </div>
+      <div class="logic-note">体验逻辑: {{该场景的核心张力与矛盾}}</div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-label">SCENARIO 02</div>
+      <div class="scenario-title">{{场景2名称}}</div>
+      <div class="sentiment-pos">
+        <strong>正面体感：</strong>{{正面体验描述}}
+      </div>
+      <div class="sentiment-neg">
+        <strong>痛点/风险：</strong>{{负面痛点描述}}
+      </div>
+      <div class="logic-note">体验逻辑: {{该场景的核心张力与矛盾}}</div>
+    </div>
+    <div class="scenario-card">
+      <div class="scenario-label">SCENARIO 03</div>
+      <div class="scenario-title">{{场景3名称}}</div>
+      <div class="sentiment-pos">
+        <strong>正面体感：</strong>{{正面体验描述}}
+      </div>
+      <div class="sentiment-neg">
+        <strong>痛点/风险：</strong>{{负面痛点描述}}
+      </div>
+      <div class="logic-note">体验逻辑: {{该场景的核心张力与矛盾}}</div>
+    </div>
+  </div>
+
+  <!-- VOC 样本 -->
+  <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:1rem">💬 Sample VOC 样本展示</div>
+  <div class="voc-sample voc-positive">
+    <div class="voc-stars">⭐⭐⭐⭐⭐ {{维度标签}}</div>
+    <div class="voc-en">"{{英文原文评论}}"</div>
+    <div class="voc-cn">"{{中文翻译}}"</div>
+  </div>
+  <div class="voc-sample voc-negative">
+    <div class="voc-stars">⭐⭐ {{维度标签}}</div>
+    <div class="voc-en">"{{英文原文评论}}"</div>
+    <div class="voc-cn">"{{中文翻译}}"</div>
+  </div>
+  <div class="voc-sample voc-negative">
+    <div class="voc-stars">⭐ {{维度标签}}</div>
+    <div class="voc-en">"{{英文原文评论}}"</div>
+    <div class="voc-cn">"{{中文翻译}}"</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>核心圈终极洞察：</strong>{{对该品类核心圈数据的综合判断，描述产品目前所处的体验阶段，以及哪些结构性问题如果不解决将限制品类从早期用户向大众市场的跨越。}}
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: 中间圈 -->
+<section class="section" id="middle-layer">
+  <div class="section-title">📡 中间圈：社区传播层分析 (Social Proof)</div>
+
+  <!-- 社媒信号 -->
+  <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:1rem">📊 社媒信号强度展示</div>
+  <div class="card card-gold" style="padding:0;overflow:hidden;margin-bottom:1.5rem">
+    <div class="signal-row">
+      <div class="signal-platform"><span class="platform-tag platform-yt">YouTube</span></div>
+      <div class="signal-body">
+        <strong style="color:var(--text-primary)">{{内容类型}}</strong>：{{内容描述}}
+        <div class="signal-reach">🎯 Reach: <strong>~{{3.97亿}}</strong> · 核心传播点：{{传播关键点}}</div>
+      </div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-platform"><span class="platform-tag platform-tt">TikTok</span></div>
+      <div class="signal-body">
+        <strong style="color:var(--text-primary)">{{内容类型}}</strong>：{{内容描述}}
+        <div class="signal-reach">🎯 Reach: <strong>~{{3.31亿}}</strong> · 核心传播点：{{传播关键点}}</div>
+      </div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-platform"><span class="platform-tag platform-rd">Reddit</span></div>
+      <div class="signal-body">
+        <strong style="color:var(--text-primary)">{{内容类型}}</strong>：{{内容描述}}
+        <div class="signal-reach">🎯 互动: <strong>极高互动</strong> · 核心传播点：{{传播关键点}}</div>
+      </div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-platform"><span class="platform-tag platform-ig">Instagram</span></div>
+      <div class="signal-body">
+        <strong style="color:var(--text-primary)">{{内容类型}}</strong>：{{内容描述}}
+        <div class="signal-reach">🎯 Reach: <strong>中</strong> · 核心传播点：{{传播关键点}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KOL 画像 -->
+  <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:1rem">🎭 关键社区传播者形象</div>
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="inf-card">
+      <div class="inf-avatar">{{TR}}</div>
+      <div>
+        <div class="inf-name">"The Tech Reviewer" ({{角色名称}})</div>
+        <div class="inf-role">渠道: {{YouTube}}</div>
+        <div class="inf-body">
+          <strong>形象：</strong>{{专业、硬核，量化测量导向}}。<br>
+          <strong>价值：</strong>{{决定了产品的专业门槛认知}}
+        </div>
+      </div>
+    </div>
+    <div class="inf-card">
+      <div class="inf-avatar">{{LG}}</div>
+      <div>
+        <div class="inf-name">"{{生活方式 KOL 角色名}}"</div>
+        <div class="inf-role">渠道: {{TikTok / Instagram}}</div>
+        <div class="inf-body">
+          <strong>形象：</strong>{{优雅、从容，生活方式导向}}。<br>
+          <strong>价值：</strong>{{将产品从工具转译为品味符号}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 季节性趋势 -->
+  <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:1rem">📅 时间演进与季节性趋势</div>
+  <div class="season-cards">
+    <div class="season-card">
+      <div class="season-label">{{秋季}} (Peak)</div>
+      <div class="season-name">{{节日礼赠季}}</div>
+      <div class="season-body">{{该季节消费者行为特征与核心话题}}</div>
+    </div>
+    <div class="season-card">
+      <div class="season-label">{{春季}} (Rising)</div>
+      <div class="season-name">{{赛季筹备季}}</div>
+      <div class="season-body">{{该季节消费者行为特征与核心话题}}</div>
+    </div>
+    <div class="season-card">
+      <div class="season-label">{{夏季}} (Stable)</div>
+      <div class="season-name">{{口碑扩散季}}</div>
+      <div class="season-body">{{该季节消费者行为特征与核心话题}}</div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-icon">💡</div>
+    <div class="insight-body">
+      <strong>中间圈总结洞察：</strong>{{对该品类社区传播生态的核心判断，指出品牌可以利用哪些渠道组合来解决核心圈中的负面认知，并加速外围圈用户的转化。}}
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: 外围圈 -->
+<section class="section" id="outer-layer">
+  <div class="section-title">🌍 外围圈：文化叙事层分析 (Cultural Narrative)</div>
+
+  <div style="margin-bottom:1.5rem">
+    <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:1rem">核心叙事线解析 (Top 3 Narrative Lines)</div>
+    <div class="narrative-line nl-1">
+      <div class="nl-num">01</div>
+      <div class="nl-title">{{叙事线1主题}}</div>
+      <div class="nl-sub">{{副标题}}</div>
+      <div class="nl-body">
+        <strong>文化价值：</strong>{{文化心理层面的核心价值}} &nbsp;·&nbsp;
+        <strong>价值路径：</strong>{{消费者如何通过产品实现该价值}} &nbsp;·&nbsp;
+        <strong>典型语境：</strong>{{代表性场景或用户心理语录}}
+      </div>
+    </div>
+    <div class="narrative-line nl-2">
+      <div class="nl-num">02</div>
+      <div class="nl-title">{{叙事线2主题}}</div>
+      <div class="nl-sub">{{副标题}}</div>
+      <div class="nl-body">
+        <strong>文化价值：</strong>{{文化心理层面的核心价值}} &nbsp;·&nbsp;
+        <strong>价值路径：</strong>{{价值实现路径}} &nbsp;·&nbsp;
+        <strong>典型语境：</strong>{{典型场景}}
+      </div>
+    </div>
+    <div class="narrative-line nl-3">
+      <div class="nl-num">03</div>
+      <div class="nl-title">{{叙事线3主题}}</div>
+      <div class="nl-sub">{{副标题}}</div>
+      <div class="nl-body">
+        <strong>文化价值：</strong>{{文化心理层面的核心价值}} &nbsp;·&nbsp;
+        <strong>价值路径：</strong>{{价值实现路径}} &nbsp;·&nbsp;
+        <strong>典型语境：</strong>{{典型场景}}
+      </div>
+    </div>
+  </div>
+
+  <!-- 跨圈层一致性 -->
+  <div style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">🔗 跨圈层验证与一致性分析</div>
+  <div style="overflow-x:auto;border-radius:8px;margin-bottom:1.5rem">
+    <table class="cross-table" style="min-width:700px">
+      <thead>
+        <tr>
+          <th>分析维度</th>
+          <th>核心圈 (VOC)</th>
+          <th>中间圈 (社媒/论坛)</th>
+          <th>外围圈 (文化叙事)</th>
+          <th>一致性结论</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>功能预期</td>
+          <td>{{VOC功能反馈}}</td>
+          <td>{{社媒功能讨论}}</td>
+          <td>{{文化层功能叙事}}</td>
+          <td class="cross-high">高度一致</td>
+        </tr>
+        <tr>
+          <td>场景应用</td>
+          <td>{{核心使用场景}}</td>
+          <td>{{社媒场景内容}}</td>
+          <td>{{文化层场景叙事}}</td>
+          <td class="cross-high">高度一致</td>
+        </tr>
+        <tr>
+          <td>痛点映射</td>
+          <td>{{VOC核心痛点}}</td>
+          <td>{{社媒痛点讨论}}</td>
+          <td>{{文化层担忧}}</td>
+          <td style="color:var(--accent-gold)">一致</td>
+        </tr>
+        <tr>
+          <td>心理动机</td>
+          <td>{{用户直接动机}}</td>
+          <td>{{社区认同需求}}</td>
+          <td>{{深层文化动机}}</td>
+          <td class="cross-high">高度一致</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SECTION 6: 关键人群 -->
+<section class="section" id="personas">
+  <div class="section-title">🎭 关键人群发现 (Key Personas)</div>
+
+  <!-- ===== PERSONA 1 ===== -->
+  <div class="card card-purple persona-section">
+    <div class="persona-header">
+      <div class="persona-avatar persona-avatar-purple">🛡️</div>
+      <div>
+        <div class="persona-name">{{Persona名称}}</div>
+        <div class="persona-role">{{角色 + 场景 + 核心约束}}</div>
+        <span class="badge badge-purple" style="margin-top:0.4rem">关注: {{核心关注点}}</span>
+      </div>
+      <div style="margin-left:auto;text-align:center">
+        <div class="persona-share">{{20%}}</div>
+        <div class="persona-share-label">人群占比</div>
+      </div>
+    </div>
+
+    <div class="persona-def">{{一句话定义：这类用户的年龄/收入/性别/地域/生活状态/核心约束的完整画像描述。}}</div>
+
+    <!-- 决策驱动 -->
+    <div class="grid-2" style="margin-bottom:1.2rem">
+      <div class="drive-card drive-main">
+        <div class="drive-label">主驱动</div>
+        <div class="drive-title">{{主驱动标题}}</div>
+        <div class="drive-body">{{主驱动详细解释}}</div>
+      </div>
+      <div class="drive-card drive-sub">
+        <div class="drive-label">次驱动</div>
+        <div class="drive-title">{{次驱动标题}}</div>
+        <div class="drive-body">{{次驱动详细解释}}</div>
+      </div>
+    </div>
+
+    <!-- 关键反对点 -->
+    <div style="margin-bottom:1.2rem">
+      <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);margin-bottom:0.6rem">❓ 他们会直接问你的 3 个问题</div>
+      <ul class="objection-list">
+        <li>{{反对点1}}</li>
+        <li>{{反对点2}}</li>
+        <li>{{反对点3}}</li>
+      </ul>
+    </div>
+
+    <!-- 成交条件 -->
+    <div style="margin-bottom:1.2rem">
+      <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);margin-bottom:0.6rem">✅ 成交条件 (Done Criteria)</div>
+      <ul class="done-list">
+        <li><strong>{{条件1关键词}}：</strong>{{条件1具体说明}}</li>
+        <li><strong>{{条件2关键词}}：</strong>{{条件2具体说明}}</li>
+        <li><strong>{{条件3关键词}}：</strong>{{条件3具体说明}}</li>
+      </ul>
+    </div>
+
+    <!-- JTBD 映射表 -->
+    <div style="font-size:0.82rem;font-weight:600;color:var(--text-primary);margin-bottom:0.8rem">🗺️ 洞察-需求-功能映射表</div>
+    <div style="overflow-x:auto;border-radius:8px">
+      <table class="jtbd-table" style="min-width:700px">
+        <thead>
+          <tr>
+            <th>核心洞察</th>
+            <th>核心需求</th>
+            <th>功能映射</th>
+            <th>实现方式</th>
+            <th>KANO 分类</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{洞察1}}</td>
+            <td>{{需求1}}</td>
+            <td>{{功能1}}</td>
+            <td style="font-size:0.72rem">{{实现方式1}}</td>
+            <td><span class="kano-delight">⭐⭐⭐⭐⭐<br>必备/期望需求</span></td>
+          </tr>
+          <tr>
+            <td>{{洞察2}}</td>
+            <td>{{需求2}}</td>
+            <td>{{功能2}}</td>
+            <td style="font-size:0.72rem">{{实现方式2}}</td>
+            <td><span class="kano-expected">⭐⭐⭐⭐<br>期望需求</span></td>
+          </tr>
+          <tr>
+            <td>{{洞察3}}</td>
+            <td>{{需求3}}</td>
+            <td>{{功能3}}</td>
+            <td style="font-size:0.72rem">{{实现方式3}}</td>
+            <td><span class="kano-delight">⭐⭐⭐⭐⭐<br>魅力需求</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- 可复制上方 Persona 卡片添加更多人群 -->
+
+</section>
+
+<!-- SECTION 7: 关键洞察 -->
+<section class="section" id="key-findings">
+  <div class="section-title">🔑 关键洞察发现 (Key Findings)</div>
+
+  <div class="finding-card">
+    <div class="finding-num">Finding 1</div>
+    <div class="finding-title">{{洞察标题}}</div>
+    <div class="finding-body">{{洞察详细说明。描述该发现的数据支撑、市场意义，以及对产品和营销策略的启发。}}</div>
+    <div class="finding-meta">
+      <div class="finding-meta-item">关联人群: <span>{{相关 Persona 名称}}</span></div>
+      <div class="finding-meta-item">VOC/KW: <span>{{代表性引语或关键词}}</span></div>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <div class="finding-num">Finding 2</div>
+    <div class="finding-title">{{洞察标题}}</div>
+    <div class="finding-body">{{洞察详细说明}}</div>
+    <div class="finding-meta">
+      <div class="finding-meta-item">关联人群: <span>{{Persona名称}}</span></div>
+      <div class="finding-meta-item">Search: <span>["{{搜索词1}}", "{{搜索词2}}"]</span></div>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <div class="finding-num">Finding 3</div>
+    <div class="finding-title">{{洞察标题}}</div>
+    <div class="finding-body">{{洞察详细说明}}</div>
+    <div class="finding-meta">
+      <div class="finding-meta-item">关联人群: <span>{{Persona名称}}</span></div>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <div class="finding-num">Finding 4</div>
+    <div class="finding-title">{{洞察标题}}</div>
+    <div class="finding-body">{{洞察详细说明}}</div>
+    <div class="finding-meta">
+      <div class="finding-meta-item">关联人群: <span>{{Persona名称}}</span></div>
+      <div class="finding-meta-item">KW: <span>["{{关键词1}}", "{{关键词2}}"]</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="report-footer">
+  <div>👥 Consumer Insight Report · Powered by StoreClaw × VOC Engine</div>
+  <div style="margin-top:0.3rem">数据口径：电商评论 VOC + 社媒讨论 + 文化叙事分析 · 三圈层信息生态模型</div>
+  <div style="margin-top:0.3rem">⚠️ 本报告为数据分析参考，人群画像为典型特征描述，非全量覆盖</div>
+</footer>
+
+</body>
+</html>

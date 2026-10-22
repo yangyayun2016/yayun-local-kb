@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雨伞 · 美客多墨西哥市场调研</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Serif:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF;
+  --border:#E8E6E2; --divider:#C5C0BA;
+  --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+  --hero-bg:#DDE3E8; --hero-deco:#9BADB0; --hero-deco2:#6E9298;
+  --success-bg:#E8FBCF; --success-fg:#3D4826;
+  --warning-bg:#FFF0DC; --warning-fg:#E47700;
+  --info-bg:#DEE5F7; --info-fg:#3E54CE;
+  --error-bg:#FDECEA; --error-fg:#C4433A;
+  --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+  --c1:#6E9298; --c2:#9BADB0; --c3:#C4A8A2; --c4:#A99778; --c5:#8F6AAF; --c6:#B87D50; --c7:#5E8F52;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--outer-bg);font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  color:var(--text-body);line-height:1.6;padding:28px 18px}
+.page{max-width:1200px;margin:0 auto;background:var(--page-bg);border-radius:24px;overflow:hidden;
+  box-shadow:0 1px 3px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.06)}
+/* hero */
+.hero{position:relative;background:var(--hero-bg);padding:40px 40px 34px;overflow:hidden}
+.blob{position:absolute;opacity:.18;pointer-events:none}
+.b1{width:320px;height:260px;background:var(--hero-deco);top:-70px;right:60px;
+  border-radius:52% 48% 61% 39%/47% 55% 45% 53%}
+.b2{width:200px;height:200px;background:var(--hero-deco2);bottom:-80px;right:280px;
+  border-radius:63% 37% 42% 58%/55% 43% 57% 45%}
+.b3{width:150px;height:130px;background:var(--hero-deco);top:20px;left:-40px;
+  border-radius:45% 55% 58% 42%/52% 46% 54% 48%}
+.hero-content{position:relative;z-index:1}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#4a5b60;margin-bottom:12px}
+.hero h1{font-size:30px;font-weight:700;color:var(--text-primary);letter-spacing:-.02em;line-height:1.2}
+.hero .sub{font-size:14px;color:#4d5a5e;margin-top:10px;max-width:720px}
+.hr{height:1px;background:#fff;opacity:.6;margin:22px 0}
+.statrow{display:flex;flex-wrap:wrap;gap:26px 42px}
+.stat .v{font-family:'Noto Serif',serif;font-size:26px;font-weight:600;color:var(--text-primary);letter-spacing:-.02em;line-height:1.1}
+.stat .l{font-size:12px;color:#54606600;color:#546066;margin-top:4px}
+/* layout */
+.wrap{padding:34px 40px 44px}
+section{margin-bottom:40px}
+.shead{border-bottom:.5px solid var(--border);padding-bottom:9px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.shead h2{font-size:17px;font-weight:600;color:var(--text-primary)}
+.shead .sub{font-size:12px;color:var(--text-secondary)}
+p{margin-bottom:12px;font-size:14px}
+.lead{font-size:14.5px;color:var(--text-body)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 17px}
+.card h3{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:8px}
+.card .meta{font-size:12px;color:var(--text-secondary);margin-bottom:8px}
+.metric{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:15px 16px}
+.metric .l{font-size:12px;color:var(--text-secondary)}
+.metric .v{font-size:26px;font-weight:600;color:var(--text-primary);letter-spacing:-.02em;line-height:1.2;margin-top:3px}
+.metric .d{font-size:12px;font-weight:500;margin-top:4px}
+.up{color:var(--success-fg)} .down{color:var(--error-fg)} .neu{color:var(--text-secondary)}
+.pill{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;margin:2px 4px 2px 0}
+.p-ok{background:var(--success-bg);color:var(--success-fg)}
+.p-warn{background:var(--warning-bg);color:var(--warning-fg)}
+.p-info{background:var(--info-bg);color:var(--info-fg)}
+.p-err{background:var(--error-bg);color:var(--error-fg)}
+.p-neu{background:var(--neutral-bg);color:var(--neutral-fg)}
+.alert{border-radius:10px;padding:14px 16px;font-size:13.5px;margin-bottom:12px}
+.a-ok{background:var(--success-bg);color:var(--success-fg)}
+.a-warn{background:var(--warning-bg);color:var(--warning-fg)}
+.a-info{background:var(--info-bg);color:var(--info-fg)}
+.a-err{background:var(--error-bg);color:var(--error-fg)}
+.alert b{display:block;margin-bottom:3px}
+.bar{display:grid;grid-template-columns:150px 1fr 62px;align-items:center;gap:10px;margin-bottom:9px;font-size:13px}
+.track{height:5px;background:var(--border);border-radius:4px;overflow:hidden}
+.fill{height:100%;border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+th{font-size:12px;font-weight:500;color:var(--text-secondary);text-align:left;padding:8px 10px;border-bottom:1px solid var(--divider);white-space:nowrap}
+td{padding:8px 10px;border-bottom:.5px solid var(--border);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.chartcard{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 17px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:var(--text-secondary)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:middle}
+ul.tick{list-style:none;margin-top:4px}
+ul.tick li{position:relative;padding-left:18px;font-size:13.5px;margin-bottom:7px}
+ul.tick li:before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--c1)}
+ul.tick.r li:before{background:var(--error-fg)} ul.tick.g li:before{background:var(--success-fg)} ul.tick.w li:before{background:var(--warning-fg)}
+.score{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:.5px solid var(--border)}
+.score:last-child{border-bottom:none}
+.score .name{flex:1;font-size:13.5px}
+.score .verdict{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px}
+.foot{position:relative;background:var(--hero-bg);padding:30px 40px;overflow:hidden}
+.foot-content{position:relative;z-index:1}
+.foot .brand{font-size:16px;font-weight:700;color:var(--text-primary)}
+.foot .sub2{font-size:12px;color:#546066;margin-top:2px}
+.foot .meta2{display:flex;gap:40px;flex-wrap:wrap;justify-content:flex-end;font-size:12px;color:#4d5a5e}
+.foot .meta2 div b{display:block;color:var(--text-primary);font-weight:600;font-size:13px}
+.foot-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.foot .bottom{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11.5px;color:#546066;margin-top:6px}
+.refs{font-size:12.5px;color:var(--text-secondary)}
+.refs li{margin-bottom:6px;line-height:1.5}
+.refs a{color:var(--info-fg);text-decoration:none;border-bottom:1px solid rgba(62,84,206,.3)}
+.refs a:hover{border-bottom-color:var(--info-fg)}
+.note{font-size:11.5px;color:var(--text-secondary);margin-top:8px}
+h4.mini{font-size:13.5px;font-weight:600;color:var(--text-primary);margin:12px 0 6px}
+@media(max-width:860px){
+  .g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wrap{padding:26px 22px 34px} .hero{padding:32px 22px 26px} .foot{padding:26px 22px}
+}
+@media(max-width:600px){
+  body{padding:0}
+  .page{border-radius:0;max-width:100%}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .hero h1{font-size:24px}
+  .hero{padding:30px 18px 24px} .wrap{padding:24px 18px 30px} .foot{padding:24px 18px}
+  .bar{grid-template-columns:110px 1fr 54px;font-size:12px}
+  .statrow{gap:18px 28px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <svg class="blob b1" viewBox="0 0 200 160" aria-hidden="true"><path d="M40,20 C90,-10 170,10 185,60 C200,110 150,150 95,152 C40,154 5,120 8,72 C10,40 15,35 40,20Z" fill="#9BADB0"/></svg>
+    <svg class="blob b2" viewBox="0 0 200 200" aria-hidden="true"><path d="M52,28 C110,0 180,40 178,96 C176,152 120,196 66,182 C12,168 -8,110 14,66 C24,44 30,38 52,28Z" fill="#6E9298"/></svg>
+    <svg class="blob b3" viewBox="0 0 200 160" aria-hidden="true"><path d="M30,30 C80,0 150,20 165,70 C180,120 120,155 70,145 C20,135 0,100 6,62 C9,46 12,40 30,30Z" fill="#9BADB0"/></svg>
+    <div class="hero-content">
+      <div class="eyebrow">Mercado Libre México · 品类市场调研</div>
+      <h1>雨伞（Paraguas）在美客多墨西哥</h1>
+      <div class="sub">28 条美客多在售链接样本 × 213 条墨西哥全渠道个人伞样本 × 品类结构、季节性、进口合规综合评估。采样日 2026-10-03。</div>
+      <div class="hr"></div>
+      <div class="statrow">
+        <div class="stat"><div class="v">MXN 170</div><div class="l">美客多个人伞价格中位数</div></div>
+        <div class="stat"><div class="v">100–200</div><div class="l">美客多主力价格带 (MXN)</div></div>
+        <div class="stat"><div class="v">1 万+</div><div class="l">头部链接累计销量</div></div>
+        <div class="stat"><div class="v">5–10 月</div><div class="l">雨季需求窗口</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- 1 结论 -->
+    <section>
+      <div class="shead"><h2>一、结论速览</h2><span class="sub">先看判断，再看证据</span></div>
+      <div class="grid g3" style="margin-bottom:16px">
+        <div class="metric"><div class="l">市场容量</div><div class="v">大</div><div class="d up">需求真实、盘子不小</div></div>
+        <div class="metric"><div class="l">竞争烈度</div><div class="v">极高</div><div class="d down">白牌铺货、价格血海</div></div>
+        <div class="metric"><div class="l">与你标准匹配度</div><div class="v">低</div><div class="d down">价格带对不上</div></div>
+      </div>
+      <div class="alert a-err"><b>核心结论：这是一个"有量没利"的红海品类，按你现在的选品标准不建议进。</b>
+        美客多墨西哥个人伞的主流成交价在 <b>100–200 MXN（约 5–10 美元 / 4.5–9 欧元）</b>，价格中位数仅 MXN 170，是全渠道里最低的价格洼地。你设定的目标零售价 40–50 欧（≈ 850–1050 MXN）在个人伞品类几乎找不到落点；而你 50–100 元人民币的采购目标（≈ 130–260 MXN）已经逼近当地零售价本身——采购价吃掉售价，毛利模型直接不成立。</div>
+      <div class="grid g3">
+        <div class="alert a-ok" style="margin:0"><b>机会点</b>雨季刚需、冲动型复购、UV 防晒伞在旱区/旅游区有溢价空间；庭院/户外伞价格高、竞争相对分散。</div>
+        <div class="alert a-warn" style="margin:0"><b>风险点</b>头部白牌单品已卖破 1 万件，评论壁垒与价格锚定已形成；品类强季节，10 月后进入淡季。</div>
+        <div class="alert a-info" style="margin:0"><b>若要试水</b>只能打差异化细分（反向伞 / LED / 儿童 / 联名设计）并接受 MXN 250–500 的价位，用它做流量而非利润。</div>
+      </div>
+    </section>
+
+    <!-- 2 平台背景 -->
+    <section>
+      <div class="shead"><h2>二、平台背景：为什么先看美客多</h2><span class="sub">Mercado Libre México</span></div>
+      <p class="lead">美客多是拉美最大电商平台，墨西哥是它的第二大市场，贡献其约四分之一的业务指标；墨西哥电商大盘预计 2026 年达到约 620 亿美元规模。美客多与亚马逊墨西哥形成"双寡头"，合计拿下超过三分之二的增量销售。</p>
+      <div class="grid g4">
+        <div class="metric"><div class="l">平台角色</div><div class="v">拉美第一</div><div class="d neu">墨西哥第 2 大市场</div></div>
+        <div class="metric"><div class="l">支付生态</div><div class="v">Mercado Pago</div><div class="d neu">分期/免息渗透深</div></div>
+        <div class="metric"><div class="l">履约</div><div class="v">Full / Direct</div><div class="d neu">本地仓显著提升转化</div></div>
+        <div class="metric"><div class="l">费率结构</div><div class="v">成交才收费</div><div class="d neu">Classic/Premium 两档</div></div>
+      </div>
+      <p class="note">对卖家而言：本地备货 + 免息分期是美客多转化的两个关键杠杆，但都意味着先压资金；上传免费、成交抽佣，另有低客单价（≤ MXN 299）的按件附加费，正好命中雨伞这个价格带。</p>
+    </section>
+
+    <!-- 3 品类结构 -->
+    <section>
+      <div class="shead"><h2>三、品类结构：个人伞 vs 庭院伞</h2><span class="sub">两个完全不同的生意</span></div>
+      <div class="grid g2">
+        <div class="card">
+          <h3>个人伞（Paraguas）— 目标品类</h3>
+          <div class="meta">"Ropa, Bolsas y Calzado &gt; Accesorios de Moda &gt; Paraguas"</div>
+          <p>折叠/自动/防紫外为主，便携、冲动购买、单价低、同质化严重。是本次调研的主战场。</p>
+          <span class="pill p-info">低单价</span><span class="pill p-warn">高同质</span><span class="pill p-err">价格战</span>
+        </div>
+        <div class="card">
+          <h3>庭院 / 户外伞（Sombrilla）— 相邻品类</h3>
+          <div class="meta">搜索 "sombrilla" 的结果主体</div>
+          <p>沙滩、花园、露台用大伞，价格 MXN 500–3000+，体积大、非冲动型、竞争更分散——但与你"小体积 + 低头程/FBA"的思路相冲突。</p>
+          <span class="pill p-neu">高单价</span><span class="pill p-neu">体积大</span><span class="pill p-ok">竞争较分散</span>
+        </div>
+      </div>
+      <p class="note">注：西班牙语里 paraguas 与 sombrilla 常被混用，但墨西哥消费者搜 "paraguas" 指向个人伞、"sombrilla" 多指向庭院/遮阳大伞，做数据时必须分开看，否则价格分布会被拉爆。</p>
+    </section>
+
+    <!-- 4 价格竞争 -->
+    <section>
+      <div class="shead"><h2>四、价格与竞争格局</h2><span class="sub">美客多是全渠道的价格地板</span></div>
+      <div class="grid g2" style="margin-bottom:16px">
+        <div class="chartcard">
+          <div class="meta" style="font-size:13px;font-weight:600;color:var(--text-primary)">各渠道个人伞价格中位数（MXN）</div>
+          <div style="position:relative;height:300px;margin-top:10px"><canvas id="chChannel"></canvas></div>
+        </div>
+        <div class="chartcard">
+          <div class="meta" style="font-size:13px;font-weight:600;color:var(--text-primary)">价格带分布：全渠道 vs 美客多（条数）</div>
+          <div style="position:relative;height:300px;margin-top:10px"><canvas id="chBand"></canvas></div>
+          <div class="legend"><span><i style="background:#9BADB0"></i>全渠道</span><span><i style="background:#6E9298"></i>美客多</span></div>
+        </div>
+      </div>
+      <div class="grid g4" style="margin-bottom:14px">
+        <div class="metric"><div class="l">美客多 · 中位价</div><div class="v">170.3</div><div class="d neu">MXN · 均值 216</div></div>
+        <div class="metric"><div class="l">亚马逊MX · 中位价</div><div class="v">411.9</div><div class="d down">约为美客多 2.4 倍</div></div>
+        <div class="metric"><div class="l">Walmart 墨西哥 · 中位价</div><div class="v">400.9</div><div class="d neu">MXN</div></div>
+        <div class="metric"><div class="l">美客多价格区间</div><div class="v">80–1089</div><div class="d neu">MXN · 长尾极短</div></div>
+      </div>
+      <div class="alert a-warn"><b>看点</b>美客多把个人伞价格压到了全渠道最低——中位价 MXN 170、主力在 100–200 区间；而亚马逊墨西哥、Walmart、线下百货的中位价都在 MXN 400 以上。同一个产品在美客多卖的是"低价走量"，在别的渠道卖的是"品牌溢价"。若你习惯的是亚马逊式的溢价逻辑，美客多的价格预期需要整体下调一档。</div>
+      <div class="alert a-err"><b>竞争壁垒</b>美客多头部链接是铺货型白牌（MENGYUAN、JOYTEKK、KITCHOP、BLACKTEK、MRUSTC 等），单品累计销量常见 +1000 / +5mil / +10mil vendidos。头部已用"超低价 + 万件销量"锁死搜索位与价格锚点，新链接正面硬刚几乎无胜算。</div>
+    </section>
+
+    <!-- 5 卖家与卖点 -->
+    <section>
+      <div class="shead"><h2>五、卖点结构与产品方向</h2><span class="sub">美客多在卖什么？</span></div>
+      <div class="grid g2">
+        <div class="chartcard">
+          <div class="meta" style="font-size:13px;font-weight:600;color:var(--text-primary)">美客多样本中卖点出现频次（条）</div>
+          <div style="position:relative;height:280px;margin-top:10px"><canvas id="chFeat"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>高频卖点 = 入场门票</h3>
+          <ul class="tick">
+            <li><b>自动开合</b>：几乎是标配，非自动款在搜索里直接被过滤。</li>
+            <li><b>防紫外 UPF50+</b>：墨西哥日照强，UV 是搜索高频修饰词。</li>
+            <li><b>多骨加固（24 / 60 骨）</b>：用"骨数"制造"更结实"的感知，是差异化话术。</li>
+            <li><b>口袋/迷你/卡片伞</b>：便携刚需，低价段主力，也是 UV 伞的载体。</li>
+            <li><b>反向收纳 / LED 照明</b>：噱头型差异点，能撑起 MXN 250–450 的溢价。</li>
+          </ul>
+          <p class="note">差异化切口：反向伞 + 反光条 + 大伞面（雨天进车不湿），或儿童安全伞（圆角、卡通），在美客多样本里都还只是零星，是少数还没被铺货填满的位置。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 季节性 -->
+    <section>
+      <div class="shead"><h2>六、季节性与需求节奏</h2><span class="sub">典型"雨季脉冲"品类</span></div>
+      <div class="grid g2">
+        <div class="chartcard">
+          <div class="meta" style="font-size:13px;font-weight:600;color:var(--text-primary)">墨西哥雨季强度（月度示意）</div>
+          <div style="position:relative;height:270px;margin-top:10px"><canvas id="chSeason"></canvas></div>
+          <div class="legend"><span><i style="background:#6E9298"></i>降水强度（示意）</span></div>
+        </div>
+        <div class="card">
+          <h3>什么时候好卖</h3>
+          <ul class="tick">
+            <li><b>雨季 5/6 月–10 月</b>，全国性需求上台阶；<b>9–10 月</b>为降水与飓风高峰。</li>
+            <li>墨西哥城（中部高原）雨季 <b>6 月–10 月中</b>，<b>7 月</b>最湿，是全年最大单月脉冲。</li>
+            <li>墨西哥湾沿岸、Tabasco、加勒比（坎昆）常年多雨，<b>全年有稳定需求</b>。</li>
+            <li>Baja 半岛与北部高原干旱，那边是 <b>遮阳/UV 伞</b> 的主场。</li>
+          </ul>
+          <div class="alert a-warn" style="margin-top:12px;margin-bottom:0"><b>时间点提醒</b>现在（10 月初）正处雨季尾段——即便决定做，也要按"淡季铺链接、明年 4–5 月旺季前起量"的节奏倒排，而不是现在冲量。</div>
+        </div>
+      </div>
+      <div class="grid g3" style="margin-top:14px">
+        <div class="metric"><div class="l">需求峰值</div><div class="v">7 月</div><div class="d neu">墨西哥城中部</div></div>
+        <div class="metric"><div class="l">全年最强脉冲</div><div class="v">9–10 月</div><div class="d neu">飓风/强降雨季</div></div>
+        <div class="metric"><div class="l">相对淡季</div><div class="v">12–4 月</div><div class="d neu">旱季 + 假日分流</div></div>
+      </div>
+    </section>
+
+    <!-- 7 供应链合规 -->
+    <section>
+      <div class="shead"><h2>七、供应链与进口合规</h2><span class="sub">成本与红线</span></div>
+      <div class="grid g2">
+        <div class="card">
+          <h3>到岸成本拆解</h3>
+          <table>
+            <tr><th>项目</th><th>口径 / 区间</th></tr>
+            <tr><td>中国 FOB 出厂价</td><td>约 US$0.65–6/把（促销伞低至 ~US$0.9）</td></tr>
+            <tr><td>IGI 进口关税</td><td>视税则号而定，约 5%–50%（2026 年起多线调高）</td></tr>
+            <tr><td>DTA 海关手续费</td><td>0.8%（千分之八）</td></tr>
+            <tr><td>IVA 增值税</td><td>16%（边境区可降至 8%）</td></tr>
+            <tr><td>MOQ</td><td>常见 100–300 把起订</td></tr>
+          </table>
+          <p class="note">IGI 必须按<b>准确税则号</b>核定，不能套"大部中国货 2%–5%"的经验值。一次性投入：打样 + 认证 + 首次备货，量小则单把成本被摊薄不了。</p>
+        </div>
+        <div class="card">
+          <h3>合规红线</h3>
+          <ul class="tick r">
+            <li><b>NOM 认证</b>：墨西哥强制技术法规覆盖 2000+ 品类，需先确认雨伞是否落入具体 NOM；落入即需墨西哥认可实验室测试 + 合格证书。</li>
+            <li><b>商业信息 NOM</b>：西语标签、说明书、保修信息缺一不可，否则可被海关扣留或下架。</li>
+            <li><b>税则号核定</b>：错误归类 = 补税 + 罚款 + 清关延误，建议找持牌报关行确认。</li>
+            <li>儿童伞若带卡通 IP/形象，另有<b>知识产权</b>风险，务必做商标/外观检索。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 匹配度 -->
+    <section>
+      <div class="shead"><h2>八、与你选品标准的匹配度</h2><span class="sub">逐条对照</span></div>
+      <div class="card" style="padding:8px 18px">
+        <div class="score"><span class="name">体积小、头程/FBA 费用低</span><span class="verdict p-ok">符合</span></div>
+        <div class="score"><span class="name">行业需求在涨</span><span class="verdict p-warn">部分符合 · 强季节，非持续上行</span></div>
+        <div class="score"><span class="name">目标售价 40–50 欧（后续 60–80 欧）</span><span class="verdict p-err">不符合 · 美客多个人伞无此价位落点</span></div>
+        <div class="score"><span class="name">采购价 50–100 元人民币（≤100 元）</span><span class="verdict p-err">不符合 · 已接近当地零售价</span></div>
+        <div class="score"><span class="name">CPC ≤ 1.1 欧、最好 1 欧内</span><span class="verdict p-err">高风险 · 低价低毛利撑不起广告</span></div>
+        <div class="score"><span class="name">差异化/竞争壁垒可控</span><span class="verdict p-err">不符合 · 白牌铺货、价格锚已死</span></div>
+      </div>
+      <div class="alert a-err" style="margin-top:14px"><b>一句话</b>雨伞的"体积小、需求真实"是对你有利的两点，但它的<b>低单价 + 高同质 + 强季节</b>，恰好和你追求的单位经济与广告经济性完全相反。这不是一个用你的标准能赢的品类。</div>
+    </section>
+
+    <!-- 9 行动建议 -->
+    <section>
+      <div class="shead"><h2>九、行动建议</h2><span class="sub">如果一定要碰，怎么碰</span></div>
+      <div class="grid g2">
+        <div class="card">
+          <h3>主张：先不进</h3>
+          <ul class="tick g">
+            <li>把雨伞放进"观察池"而非"进入池"，别用主力资金试错。</li>
+            <li>若已有一批小体积货源想清库存，可作<b>引流款</b>用，不指望利润。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>若坚持试水，三条纪律</h3>
+          <ul class="tick w">
+            <li><b>只打差异化细分</b>：反向伞 / LED / 儿童安全伞 / 设计联名，避开 ¥15 折叠伞主战场。</li>
+            <li><b>接受 250–500 MXN 价位</b>，把 UV + 多骨 + 防风做成真实卖点，而不是拼低价。</li>
+            <li><b>按季节倒排</b>：淡季上架养权重 + 攒评论，4–5 月雨季前放量，10 月后收手。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="alert a-info" style="margin-top:14px"><b>顺带一句</b>如果你真正想做的是"防晒/UV 小件"这条线，与其做伞，不如看 UV 手套、冰袖、防晒帽这类更轻、更刚需、广告更好投的小件——伞的体积与结构复杂度其实并不低。</div>
+    </section>
+
+    <!-- 附录 -->
+    <section>
+      <div class="shead"><h2>附录：美客多在售雨伞样本（按价格升序）</h2><span class="sub">28 条 · MXN</span></div>
+      <div class="tblwrap">
+        <table>
+          <thead><tr><th>#</th><th>商品标题</th><th style="text-align:right">价格</th><th style="text-align:right">评分</th><th style="text-align:right">评论数</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Paraguas Sombrilla Portatil Bolsillo UV botella</td><td class="num">79.99</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>2</td><td>Paraguas Sombrilla de Bolsillo Portatil Economico</td><td class="num">99.00</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>3</td><td>Miniparaguas plegable para mujer anti-UV</td><td class="num">112.11</td><td class="num">4.0</td><td class="num">838</td></tr>
+            <tr><td>4</td><td>Paraguas plegable automatico reforzado 24 varillas</td><td class="num">118.52</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>5</td><td>Paraguas sombrilla proteccion UV automatico 24 varillas</td><td class="num">119.76</td><td class="num">4.7</td><td class="num">204</td></tr>
+            <tr><td>6</td><td>Paraguas Proteccion UV Automatico Grande 105cm con hebilla</td><td class="num">124.66</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>7</td><td>Paraguas Sombrilla Proteccion UV Automatico varillas</td><td class="num">135.98</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>8</td><td>Vanance Paraguas Automatico LED UV UPF50+ 10 varillas</td><td class="num">138.68</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>9</td><td>Paraguas Sombrilla de Bolsillo Proteccion UV</td><td class="num">139.94</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>10</td><td>Paraguas O Sombrilla de Bolsillo 6 gajos</td><td class="num">145.00</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>11</td><td>Paraguas Sombrilla Proteccion UV Automatico 24 varillas</td><td class="num">146.00</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>12</td><td>Paraguas Automatico Bluelander Compacto UV UPF50+</td><td class="num">168.00</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>13</td><td>6 paraguas de tarjeta plegable capsula UV</td><td class="num">170.31</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>14</td><td>Sombrilla Paraguas de Bolsillo Filtro UV</td><td class="num">175.00</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>15</td><td>Paraguas Anti-UV doblar boton automatico</td><td class="num">178.99</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>16</td><td>Paraguas plegable automatico abre/cierra anti-UV</td><td class="num">181.22</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>17</td><td>Paraguas Plegable Totalmente Automatico sol y lluvia</td><td class="num">191.84</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>18</td><td>Paraguas automatico de 24 varillas</td><td class="num">214.94</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>19</td><td>Paraguas Automatico salpicaduras colores</td><td class="num">234.55</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>20</td><td>Paraguas Automatico Plegable Anti Viento Reforzado MX</td><td class="num">251.26</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>21</td><td>Paraguas Sombrilla Bolsillo Anti-UV + bolsa</td><td class="num">263.36</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>22</td><td>Paraguas de bolsillo para lluvia y sol mini UV</td><td class="num">271.62</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>23</td><td>Paraguas de Bolsillo Bluelander</td><td class="num">281.34</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>24</td><td>Paraguas Reversible Automatico Promo Click con funda</td><td class="num">429.99</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>25</td><td>Sombrilla nicole lee</td><td class="num">519.00</td><td class="num">—</td><td class="num">—</td></tr>
+            <tr><td>26</td><td>Paraguas Automatico de Bolsillo Escoces 6 piezas</td><td class="num">1,089.00</td><td class="num">—</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">样本为公开比价索引可检索到的美客多在售链接，非美客多全类目穷举；价格为链接标价，非后台成交价。"—"表示该链接未展示评分/评论数据。</p>
+    </section>
+
+    <!-- 参考 -->
+    <section>
+      <div class="shead"><h2>参考资料</h2><span class="sub">数据与来源</span></div>
+      <ol class="refs">
+        <li>美客多墨西哥（平台与品类结构）— <a href="https://www.mercadolibre.com.mx" target="_blank">mercadolibre.com.mx</a></li>
+        <li>墨西哥电商大盘与双寡头格局 — <a href="https://mexicobusiness.news" target="_blank">Mexico Business News</a> · <a href="https://www.bringgoship.com" target="_blank">BringGoShip</a></li>
+        <li>墨西哥雨伞市场需求与季节性（雨季/区域差异）— <a href="https://www.6wresearch.com" target="_blank">6W Research</a></li>
+        <li>中国雨伞出口 FOB 价格区间 — <a href="https://www.china-umbrellafactory.com" target="_blank">China Umbrella Factory</a> · <a href="https://www.jingsourcing.com" target="_blank">Jing Sourcing</a></li>
+        <li>墨西哥 2026 年进口关税调整（IGI 5%–50%）— <a href="https://www.clarkhill.com" target="_blank">Clark Hill</a></li>
+        <li>NOM 强制认证与商业信息要求 — <a href="https://www.gob.mx/se" target="_blank">墨西哥经济部 (SE)</a></li>
+      </ol>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="foot">
+    <svg class="blob" style="width:220px;height:180px;top:-50px;left:40px;border-radius:55% 45% 60% 40%/48% 52% 48% 52%;opacity:.16" viewBox="0 0 200 160" aria-hidden="true"><path d="M40,20 C90,-10 170,10 185,60 C200,110 150,150 95,152 C40,154 5,120 8,72 C10,40 15,35 40,20Z" fill="#6E9298"/></svg>
+    <div class="foot-content">
+      <div class="foot-top">
+        <div>
+          <div class="brand">雨伞 · 美客多墨西哥市场调研</div>
+          <div class="sub2">品类机会评估 · 数据快照</div>
+        </div>
+        <div class="meta2">
+          <div><b>28 条</b>美客多样本链接</div>
+          <div><b>213 条</b>全渠道个人伞样本</div>
+          <div><b>2026-10-03</b>采样日</div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="bottom">
+        <span>数据为公开比价索引抓取的链接标价，非平台后台成交数据，仅供决策参考。</span>
+        <span>Generated by <a href="https://allyhub.com" target="_blank" style="color:#3E54CE;text-decoration:none">AllyHub AI</a></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+Chart.defaults.font.family="'Inter Tight',sans-serif";
+Chart.defaults.font.size=12;
+Chart.defaults.color="#717171";
+
+// 1. channel median
+new Chart(document.getElementById('chChannel'),{
+  type:'bar',
+  data:{labels:['美客多','其他线上/品牌','Walmart 墨西哥','线下/百货系','亚马逊 MX','专业/家居/户外'],
+    datasets:[{data:[170.31,151.46,400.93,409.00,411.88,209.00],
+      backgroundColor:['#6E9298','#9BADB0','#B87D50','#C4A8A2','#8F6AAF','#A99778'],
+      borderRadius:5,barThickness:26}]},
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'MXN '+c.parsed.x}}},
+    scales:{x:{grid:{color:'#E8E6E2'},ticks:{callback:v=>'MXN '+v}},y:{grid:{display:false}}}}
+});
+
+// 2. price band grouped
+new Chart(document.getElementById('chBand'),{
+  type:'bar',
+  data:{labels:['<100','100-150','150-200','200-300','300-500','500-1000','>1000'],
+    datasets:[
+      {label:'全渠道',data:[9,19,29,44,38,58,16],backgroundColor:'#9BADB0',borderRadius:4,barPercentage:.8},
+      {label:'美客多',data:[2,10,6,7,1,1,1],backgroundColor:'#6E9298',borderRadius:4,barPercentage:.8}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{x:{grid:{display:false}},y:{grid:{color:'#E8E6E2'},title:{display:true,text:'条数'}}}}
+});
+
+// 3. feature freq
+new Chart(document.getElementById('chFeat'),{
+  type:'bar',
+  data:{labels:['自动开合','防紫外 UV','口袋/迷你','多骨加固','防风','反向收纳','LED'],
+    datasets:[{data:[15,14,10,6,3,1,1],
+      backgroundColor:['#6E9298','#5E8F52','#9BADB0','#A99778','#C4A8A2','#8F6AAF','#B87D50'],
+      borderRadius:5,barThickness:20}]},
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x+' 条'}}},
+    scales:{x:{grid:{color:'#E8E6E2'}},y:{grid:{display:false}}}}
+});
+
+// 4. seasonality
+new Chart(document.getElementById('chSeason'),{
+  type:'line',
+  data:{labels:['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+    datasets:[{data:[8,8,12,22,48,75,96,88,92,70,30,12],
+      borderColor:'#6E9298',backgroundColor:'rgba(110,146,152,.14)',fill:true,tension:.4,
+      pointRadius:0,borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'强度指数 '+c.parsed.y}}},
+    scales:{x:{grid:{display:false}},y:{grid:{color:'#E8E6E2'},title:{display:true,text:'相对强度（示意）'}}}}
+});
+</script>
+</body>
+</html>
