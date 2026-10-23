@@ -1,0 +1,5 @@
+Reassemble under extract root:
+  cat 'local-kb/d-cpan-program-files/C桌面下载/天哥复刻第二版 优化的.zip.ca_part'* > 'local-kb/d-cpan-program-files/C桌面下载/天哥复刻第二版 优化的.zip' && rm 'local-kb/d-cpan-program-files/C桌面下载/天哥复刻第二版 优化的.zip.ca_part'*
+Source pack: public_localkb_003.tar.gz
+Parts: 2
+Original size: 34085224 bytes
