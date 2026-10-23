@@ -1,0 +1,12 @@
+{
+  "name": "tianji-agent-prd",
+  "version": "1.0.0",
+  "private": true,
+  "description": "天机智能体 PRD 文档生成器",
+  "scripts": {
+    "build": "node create_prd.js"
+  },
+  "dependencies": {
+    "docx": "^9.5.0"
+  }
+}
