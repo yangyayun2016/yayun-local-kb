@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ABA 关键词市场容量估算工具｜最小公共样本量算法</title>
+<style>
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",Arial,sans-serif;margin:0;background:#f4f7fb;color:#1f2937}
+  header{background:#0f62b7;color:white;padding:18px 24px}
+  h1{font-size:22px;margin:0 0 6px}
+  h2{font-size:18px;margin:24px 0 10px;color:#0f3f7a}
+  .sub{font-size:13px;opacity:.9}
+  main{padding:18px 24px;max-width:1440px;margin:auto}
+  .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+  .card{background:white;border:1px solid #d8e2ee;border-radius:12px;box-shadow:0 2px 10px rgba(15,40,80,.06);padding:16px}
+  textarea{width:100%;height:260px;border:1px solid #c7d7eb;border-radius:8px;padding:10px;font-family:Consolas,Menlo,monospace;font-size:12px;box-sizing:border-box}
+  label{display:block;font-weight:600;margin:8px 0 4px}
+  input,select{border:1px solid #c7d7eb;border-radius:8px;padding:8px;width:100%;box-sizing:border-box}
+  .settings{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  button{background:#1668c7;color:white;border:none;border-radius:22px;padding:10px 18px;font-weight:700;cursor:pointer}
+  button.secondary{background:#607d9f}
+  button.ghost{background:white;color:#1668c7;border:1px solid #1668c7}
+  table{border-collapse:collapse;width:100%;font-size:12px;background:white}
+  th,td{border-bottom:1px solid #d9e2ec;padding:7px 8px;text-align:right;white-space:nowrap}
+  th{background:#e6eef8;color:#334155;position:sticky;top:0;z-index:1}
+  td:first-child,th:first-child,td:nth-child(2),th:nth-child(2){text-align:left}
+  .table-wrap{overflow:auto;max-height:430px;border:1px solid #d9e2ec;border-radius:10px}
+  .note{font-size:13px;line-height:1.7;color:#334155}
+  .formula{background:#f8fafc;border-left:4px solid #1668c7;padding:10px 12px;margin:8px 0;border-radius:6px;font-family:Consolas,Menlo,monospace;font-size:12px;overflow:auto}
+  .ok{color:#0f8a3b;font-weight:700}.warn{color:#b45309;font-weight:700}.bad{color:#b91c1c;font-weight:700}
+  .pill{display:inline-block;padding:3px 8px;border-radius:999px;background:#e6eef8;color:#0f3f7a;font-size:12px;margin-right:6px}
+  .small{font-size:12px;color:#64748b}
+</style>
+</head>
+<body>
+<header>
+  <h1>ABA 关键词市场容量估算工具｜最小公共样本量算法</h1>
+  <div class="sub">用 ABA Top ASIN 点击占比 / 购买占比反推关键词点击量、订单量、CVR，并聚合成关键词市场容量。</div>
+</header>
+
+<main>
+  <div class="grid">
+    <section class="card">
+      <h2>1. 粘贴 ABA 数据</h2>
+      <p class="note">
+        支持 CSV。必填字段：<b>date, keyword, click_share1, order_share1, click_share2, order_share2, click_share3, order_share3</b>。<br>
+        可选字段：search_frequency, asin1, asin2, asin3, price, cogs, fba, referral_rate, keyword_group。占比可写 <b>16.397%</b> 或 <b>0.16397</b>。
+      </p>
+<textarea id="csvInput">date,keyword,search_frequency,asin1,click_share1,order_share1,asin2,click_share2,order_share2,asin3,click_share3,order_share3,price,cogs,fba,referral_rate,keyword_group
+2021-05-30~2021-06-05,jewelry making kit,,B078WP879G,16.397%,21.5054%,B0858Z8B5K,15.8578%,17.7419%,B08SLWNXBM,10.1258%,7.5269%,19.99,6,4,15%,jewelry making kit
+2021-06-20,resin molds,450,B07PJ8RFRR,6.0381%,7.0796%,B08W1XY66W,5.9089%,7.5221%,B08PVTTY93,5.36%,5.3097%,15.99,4.5,3.5,15%,resin molds
+2021-03-25,sushi maker,13404,,,,,,,,,12.99,3.5,3,15%,sushi kit
+2021-03-25,sushi roller,14347,,,,,,,,,12.99,3.5,3,15%,sushi kit</textarea>
+
+      <div class="settings">
+        <div>
+          <label>最大反推总量 N</label>
+          <input id="maxDen" type="number" value="200000" min="100" step="1000" />
+        </div>
+        <div>
+          <label>容差倍率</label>
+          <input id="tolMul" type="number" value="1.15" min="1" step="0.05" />
+        </div>
+        <div>
+          <label>缺失占比处理</label>
+          <select id="missingMode">
+            <option value="skip">跳过该行反推</option>
+            <option value="keep">保留行但不计入容量</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <button onclick="runEstimate()">开始估算</button>
+        <button class="secondary" onclick="downloadCSV('row')">导出明细 CSV</button>
+        <button class="secondary" onclick="downloadCSV('agg')">导出聚合 CSV</button>
+        <button class="ghost" onclick="loadDemo()">恢复示例</button>
+      </div>
+      <p class="small">说明：本工具是前端单文件版，不上传数据。大批量月度数据建议把最大 N 调高，但运行会变慢。</p>
+    </section>
+
+    <section class="card">
+      <h2>2. 程序原理</h2>
+      <div class="formula">
+ABA 给出：p = Top ASIN 点击占比 / 购买占比。<br>
+真实关系：p ≈ x / N，其中 x 是该 ASIN 的整数点击/订单，N 是该关键词总点击/总订单。<br>
+反推目标：找到最小 N，使每个 p_i × N 都接近整数。<br>
+N_click = min N satisfying round(p_click_i × N) / N ≈ p_click_i<br>
+N_order = min N satisfying round(p_order_i × N) / N ≈ p_order_i
+      </div>
+      <p class="note">
+        这不是数学课本里“几个整数求 LCM”的机械算法，而是“最小公倍数思想”：多个占比必须同时来自同一个总样本量，所以寻找那个最小公共分母 / 最小公共样本量。
+      </p>
+      <h2>3. 准确度评分</h2>
+      <p class="note">
+        <span class="pill">占比锚点数</span>
+        <span class="pill">小数精度</span>
+        <span class="pill">整数残差</span>
+        <span class="pill">订单≤点击</span>
+        <span class="pill">CVR 合理性</span>
+      </p>
+      <p class="note">
+        结果分为：<span class="ok">高</span>、<span class="warn">中</span>、<span class="bad">低</span>。低置信度通常来自占比缺失、ABA 百分比被截断、Top ASIN 变化、N 超过最大搜索范围，或关键词购买量太小。
+      </p>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:16px">
+    <h2>4. 明细估算结果</h2>
+    <div class="table-wrap">
+      <table id="rowTable"></table>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:16px">
+    <h2>5. 关键词组 / 市场容量聚合</h2>
+    <div class="table-wrap">
+      <table id="aggTable"></table>
+    </div>
+  </section>
+</main>
+
+<script>
+let lastRows = [];
+let lastAgg = [];
+
+function loadDemo(){
+  document.getElementById('csvInput').value = `date,keyword,search_frequency,asin1,click_share1,order_share1,asin2,click_share2,order_share2,asin3,click_share3,order_share3,price,cogs,fba,referral_rate,keyword_group
+2021-05-30~2021-06-05,jewelry making kit,,B078WP879G,16.397%,21.5054%,B0858Z8B5K,15.8578%,17.7419%,B08SLWNXBM,10.1258%,7.5269%,19.99,6,4,15%,jewelry making kit
+2021-06-20,resin molds,450,B07PJ8RFRR,6.0381%,7.0796%,B08W1XY66W,5.9089%,7.5221%,B08PVTTY93,5.36%,5.3097%,15.99,4.5,3.5,15%,resin molds
+2021-03-25,sushi maker,13404,,,,,,,,,12.99,3.5,3,15%,sushi kit
+2021-03-25,sushi roller,14347,,,,,,,,,12.99,3.5,3,15%,sushi kit`;
+}
+
+function splitCSVLine(line){
+  const out=[]; let cur='', inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch === '"'){
+      if(inQ && line[i+1] === '"'){cur+='"'; i++;}
+      else inQ=!inQ;
+    }else if(ch===',' && !inQ){out.push(cur); cur='';}
+    else cur+=ch;
+  }
+  out.push(cur);
+  return out.map(x=>x.trim());
+}
+
+function parseCSV(text){
+  const lines=text.split(/\r?\n/).filter(x=>x.trim().length>0);
+  if(lines.length<2) return [];
+  const headers=splitCSVLine(lines[0]).map(h=>h.trim());
+  const rows=[];
+  for(let i=1;i<lines.length;i++){
+    const vals=splitCSVLine(lines[i]);
+    const obj={};
+    headers.forEach((h,idx)=>obj[h]=vals[idx]||'');
+    rows.push(obj);
+  }
+  return rows;
+}
+
+function parseNum(v, def=0){
+  if(v===undefined || v===null || String(v).trim()==='') return def;
+  let s=String(v).replace(/[$,]/g,'').trim();
+  if(s.endsWith('%')) return parseFloat(s.slice(0,-1))/100;
+  const n=parseFloat(s);
+  if(isNaN(n)) return def;
+  return n;
+}
+
+function parseShare(v){
+  if(v===undefined || v===null) return null;
+  let s=String(v).trim();
+  if(!s) return null;
+  let isPct=s.includes('%');
+  s=s.replace('%','').replace(/,/g,'').trim();
+  if(s==='') return null;
+  let raw=parseFloat(s);
+  if(isNaN(raw)) return null;
+
+  let decimals=0;
+  if(s.includes('.')) decimals=s.split('.')[1].length;
+  let frac=isPct ? raw/100 : raw;
+  if(!isPct && raw>1) frac=raw/100;
+  // 百分比小数位 d：16.397% 的 fraction 单位是 10^-3 / 100
+  // 小数 fraction d：0.16397 的单位是 10^-5
+  let unit = isPct ? Math.pow(10, -decimals)/100 : Math.pow(10, -decimals);
+  if(decimals===0) unit = isPct ? 0.01 : 1;
+  let tol = unit/2;
+  // 避免用户输入 5.36% 这类较少小数导致容差过宽，设置合理下限
+  tol = Math.max(tol, 0.00000045);
+  return {frac, tol, txt:String(v)};
+}
+
+function estimateDenominator(shares, maxDen, tolMul){
+  const arr=shares.map(parseShare).filter(x=>x && x.frac>0 && x.frac<1);
+  if(arr.length < 2) return {N:null, counts:[], residual:null, anchors:arr.length, confidence:'低', reason:'有效占比少于2个'};
+  let best=null, bestPenalty=Infinity;
+  for(let N=1; N<=maxDen; N++){
+    let ok=true, counts=[], residual=0, normResidual=0;
+    for(const a of arr){
+      const k=Math.round(a.frac*N);
+      const err=Math.abs(k/N-a.frac);
+      counts.push(k);
+      residual += err;
+      normResidual += err/(a.tol*tolMul);
+      if(err > a.tol*tolMul + 1e-15){ ok=false; break; }
+    }
+    if(ok){
+      const avgResidual = residual/arr.length;
+      const avgNorm = normResidual/arr.length;
+      return {N, counts, residual:avgResidual, normResidual:avgNorm, anchors:arr.length, confidence:'高', reason:'所有占比同时满足整数还原'};
+    }
+    // fallback best: every 1/N penalty + normalized distance to integer
+    let dist=0;
+    for(const a of arr){
+      const x=a.frac*N;
+      dist += Math.abs(x-Math.round(x));
+    }
+    const penalty = dist/arr.length + N*1e-9;
+    if(penalty<bestPenalty){
+      bestPenalty=penalty;
+      best={N, counts:arr.map(a=>Math.round(a.frac*N)), residual:dist/arr.length/N, normResidual:null, anchors:arr.length};
+    }
+  }
+  if(best){
+    best.confidence='低';
+    best.reason='未在最大 N 内找到严格解，返回最接近整数的估计';
+    return best;
+  }
+  return {N:null, counts:[], residual:null, anchors:arr.length, confidence:'低', reason:'无解'};
+}
+
+function confidenceLabel(row){
+  if(!row.est_clicks || !row.est_orders) return '<span class="bad">低</span>';
+  let cvr=row.est_orders/row.est_clicks;
+  if(row.click_conf==='高' && row.order_conf==='高' && cvr>0 && cvr<0.35) return '<span class="ok">高</span>';
+  if(cvr>0 && cvr<0.5) return '<span class="warn">中</span>';
+  return '<span class="bad">低</span>';
+}
+
+function format(n, d=0){
+  if(n===null || n===undefined || isNaN(n)) return '';
+  return Number(n).toLocaleString('zh-CN',{maximumFractionDigits:d,minimumFractionDigits:d});
+}
+
+function runEstimate(){
+  const maxDen=parseInt(document.getElementById('maxDen').value || '200000',10);
+  const tolMul=parseFloat(document.getElementById('tolMul').value || '1.15');
+  const raw=parseCSV(document.getElementById('csvInput').value);
+  const rows=[];
+  for(const r of raw){
+    const clickShares=[r.click_share1,r.click_share2,r.click_share3];
+    const orderShares=[r.order_share1,r.order_share2,r.order_share3];
+    const ec=estimateDenominator(clickShares,maxDen,tolMul);
+    const eo=estimateDenominator(orderShares,maxDen,tolMul);
+    const price=parseNum(r.price,0);
+    const cogs=parseNum(r.cogs,0);
+    const fba=parseNum(r.fba,0);
+    const referral=parseNum(r.referral_rate,0.15);
+    const clicks=ec.N;
+    const orders=eo.N;
+    const revenue=(orders||0)*price;
+    const unitProfit=price - cogs - fba - price*referral;
+    const grossProfit=(orders||0)*unitProfit;
+    rows.push({
+      date:r.date||'',
+      keyword:r.keyword||'',
+      group:r.keyword_group||r.keyword||'',
+      search_frequency:parseNum(r.search_frequency,null),
+      est_clicks:clicks,
+      est_orders:orders,
+      cvr:(clicks&&orders)?orders/clicks:null,
+      price, revenue, unitProfit, grossProfit,
+      click_counts:ec.counts.join('/'),
+      order_counts:eo.counts.join('/'),
+      click_conf:ec.confidence,
+      order_conf:eo.confidence,
+      reason_click:ec.reason,
+      reason_order:eo.reason
+    });
+  }
+  lastRows=rows;
+  buildRowTable(rows);
+  buildAggTable(rows);
+}
+
+function buildRowTable(rows){
+  const headers=['日期','关键词','关键词组','搜索频率','估算点击','估算订单','平均CVR','销售额','单件毛利','毛利','Top点击整数','Top订单整数','置信度','说明'];
+  let html='<thead><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>';
+  for(const r of rows){
+    const conf=confidenceLabel(r);
+    html+=`<tr>
+      <td>${r.date}</td><td>${r.keyword}</td><td>${r.group}</td><td>${r.search_frequency??''}</td>
+      <td>${format(r.est_clicks,0)}</td><td>${format(r.est_orders,0)}</td><td>${r.cvr==null?'':format(r.cvr*100,2)+'%'}</td>
+      <td>${format(r.revenue,2)}</td><td>${format(r.unitProfit,2)}</td><td>${format(r.grossProfit,2)}</td>
+      <td>${r.click_counts}</td><td>${r.order_counts}</td><td>${conf}</td>
+      <td style="text-align:left">${r.reason_click}；${r.reason_order}</td>
+    </tr>`;
+  }
+  html+='</tbody>';
+  document.getElementById('rowTable').innerHTML=html;
+}
+
+function buildAggTable(rows){
+  const map={};
+  for(const r of rows){
+    if(!r.est_clicks || !r.est_orders) continue;
+    const g=r.group || r.keyword;
+    if(!map[g]) map[g]={group:g, keywords:new Set(), rows:0, clicks:0, orders:0, revenue:0, grossProfit:0, sfSum:0, sfN:0};
+    const m=map[g];
+    m.keywords.add(r.keyword); m.rows++;
+    m.clicks += r.est_clicks; m.orders += r.est_orders; m.revenue += r.revenue; m.grossProfit += r.grossProfit;
+    if(r.search_frequency!==null && !isNaN(r.search_frequency)){m.sfSum += r.search_frequency; m.sfN++;}
+  }
+  const arr=Object.values(map).map(m=>({
+    group:m.group, keyword_count:m.keywords.size, rows:m.rows, clicks:m.clicks, orders:m.orders,
+    cvr:m.orders/m.clicks, revenue:m.revenue, grossProfit:m.grossProfit,
+    avg_search_frequency:m.sfN?m.sfSum/m.sfN:null
+  })).sort((a,b)=>b.orders-a.orders);
+  lastAgg=arr;
+  const headers=['关键词组/市场','关键词数','记录数','总点击','总订单','市场CVR','销售额','毛利','平均搜索频率'];
+  let html='<thead><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>';
+  for(const r of arr){
+    html+=`<tr>
+      <td>${r.group}</td><td>${r.keyword_count}</td><td>${r.rows}</td><td>${format(r.clicks,0)}</td><td>${format(r.orders,0)}</td>
+      <td>${format(r.cvr*100,2)}%</td><td>${format(r.revenue,2)}</td><td>${format(r.grossProfit,2)}</td>
+      <td>${r.avg_search_frequency==null?'':format(r.avg_search_frequency,0)}</td>
+    </tr>`;
+  }
+  html+='</tbody>';
+  document.getElementById('aggTable').innerHTML=html;
+}
+
+function rowsToCSV(rows){
+  if(!rows.length) return '';
+  const headers=Object.keys(rows[0]);
+  const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  return headers.join(',')+'\n'+rows.map(r=>headers.map(h=>esc(r[h])).join(',')).join('\n');
+}
+
+function downloadCSV(type){
+  const data=type==='agg'?lastAgg:lastRows;
+  if(!data.length) runEstimate();
+  const finalData=type==='agg'?lastAgg:lastRows;
+  const csv=rowsToCSV(finalData);
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=type==='agg'?'aba_market_aggregation.csv':'aba_keyword_estimation_rows.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+runEstimate();
+</script>
+</body>
+</html>

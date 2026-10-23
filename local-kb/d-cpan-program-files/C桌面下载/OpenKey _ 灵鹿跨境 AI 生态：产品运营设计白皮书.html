@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OpenKey / 灵鹿跨境 AI 生态：对标 Soldy 的产品运营设计白皮书</title>
+  <style>
+    :root{--ink:#182027;--muted:#657079;--paper:#f4f2ed;--card:#fff;--line:#dddeda;--purple:#6d4fd3;--purple2:#8e73e5;--blue:#315f8f;--green:#27745a;--amber:#a46b10;--red:#b44b42;--amazon:#ff9900;--tiktok:#00a7a3;--navy:#192e44}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.72}a{color:#315e91;text-decoration:none}a:hover{text-decoration:underline}.wrap{max-width:1190px;margin:auto;padding:0 28px}.hero{padding:68px 0 54px;color:#fff;background:radial-gradient(circle at 78% 20%,#7453d7 0,#7453d700 32%),linear-gradient(135deg,#11171c,#263641 60%,#362c5e)}.eyebrow{font-size:12px;letter-spacing:.15em;color:#d0caf5}.hero h1{font-size:44px;line-height:1.16;margin:14px 0 18px}.hero p{max-width:900px;color:#d8e0e5;font-size:18px}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:23px}.chip{padding:5px 11px;border:1px solid #ffffff38;border-radius:999px;background:#ffffff0d;font-size:12px}.nav{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);background:#f4f2edf2;backdrop-filter:blur(12px)}.nav .wrap{display:flex;gap:20px;overflow:auto;white-space:nowrap;padding-top:12px;padding-bottom:12px}.nav a{font-size:13px;color:#424c53}.section{padding:53px 0;border-bottom:1px solid var(--line)}h2{font-size:30px;line-height:1.25;margin:0 0 10px}h3{font-size:21px;margin:29px 0 10px}h4{font-size:16px;margin:0 0 8px}.lead{max-width:930px;color:var(--muted)}.grid{display:grid;gap:18px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.four{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:21px;box-shadow:0 8px 20px #17222a08}.card p:last-child{margin-bottom:0}.purple{border-top:5px solid var(--purple)}.amazon{border-top:5px solid var(--amazon)}.tiktok{border-top:5px solid var(--tiktok)}.good{border-top:5px solid var(--green)}.metric{font-size:27px;font-weight:760;line-height:1.2}.small{font-size:12.5px;color:var(--muted)}.callout{margin:19px 0;padding:18px 20px;border-radius:12px;background:#ede9fb;border-left:4px solid var(--purple)}.callout.ok{background:#e8f4ef;border-left-color:var(--green)}.callout.warn{background:#fff1df;border-left-color:var(--amber)}.quote{padding:20px 0;font-size:23px;font-weight:680;line-height:1.48;color:var(--navy)}.tag{display:inline-block;margin:2px;padding:2px 8px;border-radius999px;font-size:11px;background:#eceeeb;color:#40484d}.tag.best{background:#e7e0fb;color:#53359f}.tag.mid{background:#fff0cb;color:#765100}.tag.low{background:#eee;color:#555}.tag.p1{background:#fee4dd;color:#91362c}.tag.p2{background:#e4f2eb;color:#205e47}.table-wrap{overflow:auto}table{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden;font-size:13px}th{text-align:left;vertical-align:top;padding:12px;background:#eceeea;color:#374148}td{padding:13px 12px;vertical-align:top;border-top:1px solid #e7e7e2}tr:hover td{background:#fbfbf8}ul{padding-left:20px}li{margin:5px 0}.architecture{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;align-items:stretch;margin:24px 0}.arch-col{display:grid;gap:10px}.arch-title{text-align:center;font-weight:750;font-size:14px;color:#4b5660}.node{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;font-size:13px}.node.core{background:linear-gradient(135deg,#6d4fd3,#8c70e1);color:#fff;border:0;box-shadow:0 12px 25px #6042c42c}.node.connect{border:2px solid #a995e4;background:#faf9ff}.arch-col:not(:last-child) .node:after{content:"→";position:absolute;right:-22px;top:35%;color:#8f979b;font-size:18px;z-index:2}.layer{display:grid;grid-template-columns:62px 1fr;gap:16px;margin:18px 0;padding:22px;background:#fff;border:1px solid var(--line);border-radius:15px}.layer-num{width:50px;height:50px;display:grid;place-items:center;border-radius:14px;background:#e9e2fb;color:#5337a1;font-weight:800;font-size:20px}.layer h3{margin:0 0 5px}.codebox{margin:16px 0;padding:18px;border-radius:12px;background:#17222d;color:#e8edf1;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;overflow:auto}.codebox .arrow{display:block;text-align:center;color:#b9a8f4;font-size:19px}.task-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}.task{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}.task h3{margin-top:0}.task ul{margin-bottom:0}.priority{display:grid;grid-template-columns:64px 1fr;gap:18px;padding:22px 0;border-top:1px solid var(--line)}.priority:first-child{border-top:0}.priority-num{width:54px;height:54px;display:grid;place-items:center;border-radius:50%;background:#e9e2fb;color:#50349c;font-size:20px;font-weight:800}.priority h3{margin:0 0 6px}.entry{display:flex;flex-wrap:wrap;gap:8px;margin:11px 0}.entry span{padding:5px 9px;border-radius:8px;background:#edf0ed;font-size:12px}.flow{display:grid;grid-template-columns:repeat(9,1fr);gap:7px;margin:24px 0}.step{position:relative;min-height:106px;padding:13px 9px;background:#fff;border:1px solid var(--line);border-radius:10px}.step:not(:last-child):after{content:"→";position:absolute;right:-10px;top:38%;z-index:2;color:#8b9498}.step b{display:block;font-size:12.5px}.step span{font-size:11px;color:var(--muted)}.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}.phase{background:#fff;border:1px solid var(--line);border-radius:14px;padding:19px}.phase .time{font-size:12px;font-weight:750;color:var(--purple);letter-spacing:.05em}.phase h3{margin:7px 0 9px;font-size:18px}.final{background:linear-gradient(135deg,#1b2934,#352b5b);color:#fff;border-radius:18px;padding:30px;margin-top:22px}.final p{color:#d8dee4}.final .quote{color:#fff;padding-bottom:0}.footer{padding:44px 0 70px;color:var(--muted);font-size:12px}
+    @media(max-width:900px){.hero h1{font-size:33px}.two,.three,.four,.architecture,.task-grid,.timeline{grid-template-columns:1fr}.arch-col:not(:last-child) .node:after{display:none}.flow{grid-template-columns:1fr 1fr}.step:not(:last-child):after{display:none}.wrap{padding:0 18px}table{min-width:850px}}
+    @media print{.nav{display:none}.hero{background:#273641!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.card,table,.layer,.phase{break-inside:avoid}.wrap{max-width:none}}
+  </style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <div class="eyebrow">OPENKEY × 灵鹿 AI AGENT CROSS-BORDER STRATEGY</div>
+    <h1>对标 Soldy 的跨境电商 AI 生态运营与产品全景计划</h1>
+    <p>从单一视频生成工具演进为跨境工作流的“内容+流量”资产生产层。通过独立控制台、原生轻量面板与自动化连接器，驱动 AI 开品、智能视频与红人自动化闭环。</p>
+    <div class="chips"><span class="chip">Xflow OS 架构</span><span class="chip">元素迁移选品</span><span class="chip">n8n+Dify 编排</span><span class="chip">本地沙盒防封</span><span class="chip">GEO 流量分发</span><span class="chip">Profitable Agent 路线</span></div>
+  </div></header>
+
+  <nav class="nav"><div class="wrap"><a href="#conclusion">核心结论</a><a href="#routes">路线比较</a><a href="#architecture">产品架构</a><a href="#interface">商家界面</a><a href="#tools">接入工具</a><a href="#workflow">使用流程</a><a href="#business">商业化路径</a><a href="#roadmap">落地路线</a><a href="#final">最终建议</a></div></nav>
+
+  <main>
+    <section id="conclusion" class="section"><div class="wrap">
+      <h2>核心结论</h2>
+      <p class="lead">对标 Soldy 等海外浏览器 Agent 产品，我们拒绝做重度的全功能 ERP，也不局限于单一的视频渲染站。最契合中国跨境卖家的落地形态是“铁三角”协同：</p>
+      <div class="grid three">
+        <div class="card purple"><h3>独立创作工作台</h3><div class="metric">OpenKey Studio</div><p>承载 Brand Kit（品牌资产）、深入的 RAG 知识库、Storyboard（分镜脚本）与复杂 Campaign 的宏观调配中枢。</p></div>
+        <div class="card good"><h3>本地扩展轻量面板</h3><div class="metric">灵鹿 Connect</div><p>以 Chrome Extension 形式直接嵌入 ERP、刊登工具或商品页。利用本地真实浏览器沙盒，维持真实登录态与 IP，彻底解决反爬风控。</p></div>
+        <div class="card"><h3>自动化连接能力</h3><div class="metric">Creative Job API</div><p>以异步任务 API 和 Webhook 为底座，深度集成至 n8n、Dify、OpenClaw，向自动化生态提供标准 Remote MCP 节点。</p></div>
+      </div>
+      <div class="quote">“先做赚钱的 Agent，再做生态。” 卖家在现有 ERP 或 Listing 页面无感调用灵鹿；只有需要深度定制和管理大盘资产时，才登录 OpenKey 独立工作台。</div>
+    </div></section>
+
+    <section id="routes" class="section"><div class="wrap">
+      <h2>一、三种产品路线比较</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>路线</th><th>优点</th><th>问题</th><th>战略判断</th></tr></thead>
+        <tbody>
+          <tr><td><b>纯独立 Web 端网站（Soldy 早期模式）</b></td><td>开发周期短、产品功能完全自主可控。</td><td>脱离商家高频场景，需要高频手动复制 Listing 和素材，难以建立复利习惯。</td><td><span class="tag low">仅作底座</span></td></tr>
+          <tr><td><b>深耕各大官方应用市场（Amazon/TikTok App）</b></td><td>原生合规授信、数据流相对完整。</td><td>审核上架周期极长（SP-API 严苛），且云端无头浏览器运行极易触发Bot风控。</td><td><span class="tag mid">中长期推进</span></td></tr>
+          <tr><td><b>核心创意引擎 + Chrome 扩展本地沙盒 + API 节点</b></td><td>利用本地 Cookie/IP 完美过反爬，直接切入高频工作流。</td><td>需要设计极佳的异步任务（Job）和 Webhook 调度机制，开发规范要求高。</td><td><span class="tag best">P0 级首选</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout ok"><b>架构洞察：</b>底层创意引擎（LLM+VLM）统一收口，前端入口采用“寄生”策略。利用 Chrome 插件在用户第一现场拿上下文（Context），大幅降低 Token 消耗与获客成本。</div>
+    </div></section>
+
+    <section id="architecture" class="section"><div class="wrap">
+      <h2>二、OpenKey / 灵鹿产品架构（Xflow OS 基础版）</h2>
+      <p class="lead">将选品、视觉内容、达人建联与流量放大，通过模块化技术栈（n8n + Dify + OpenClaw）串联为高抗鲁棒性的电商自动化总线。</p>
+      <div class="architecture">
+        <div class="arch-col">
+          <div class="arch-title">第一现场（第一现场数据及登录态）</div>
+          <div class="node">Amazon Listing / SIF 自然位</div>
+          <div class="node">TikTok Shop 商品后台</div>
+          <div class="node">领星 / 店小秘 ERP</div>
+          <div class="node">卖家精灵数据页</div>
+          <div class="node">本地真实浏览器（Cookie/IP）</div>
+        </div>
+        <div class="arch-col">
+          <div class="arch-title">灵鹿核心驱动层 (Xflow OS)</div>
+          <div class="node connect">灵鹿 Connect (Chrome Extension)<br><span class="small">DOM 解析 · 本地指纹维持 · 安全跳转</span></div>
+          <div class="node core"><b>OpenKey Creative Engine</b><br><span>Dify 矛盾分析 RAG 知识库</span><br><span>元素迁移（Element Migration）算法</span><br><span>VLM 视频结构化切片与混剪</span><br><span>ElevenLabs 跨语种声音克隆</span><br><span>Memory 复利记忆体（成本递减）</span></div>
+          <div class="node connect">数据与资产返回<br><span class="small">Job API · Webhook · 异步队列确认</span></div>
+        </div>
+        <div class="arch-col">
+          <div class="arch-title">高价值结果流</div>
+          <div class="node">红人全网联系方式 (Brave Search)</div>
+          <div class="node">自动化邮件/飞书外发 (OpenClaw)</div>
+          <div class="node">1拆10 矩阵营销短视频</div>
+          <div class="node">Amazon Rufus (GEO 优化排位)</div>
+          <div class="node">ERP 增值素材库/回写 Listing</div>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="layer-num">1</div>
+        <div><h3>OpenKey Studio：品牌资产与深度决策中枢</h3><p>负责Brand Kit（品牌色、品牌调性、Logo印章风格）的长期沉淀。集成 Dify 矛盾分析工作流，对亚马逊 Review 差评及 TikTok 爆款趋势进行 RAG 深度检索，输出选品改良方案及高转化 Storyboard 脚本。</p><p class="small">它是商家的“大脑”，建立品牌与底层技术模型的长期复利记忆（Memory）。</p></div>
+      </div>
+      <div class="layer">
+        <div class="layer-num">2</div>
+        <div><h3>灵鹿 Connect：高频寄生型操作面板</h3><p>以 Chrome 插件形式驻留。当卖家停留在亚马逊 ASIN 页面、卖家精灵趋势页或 ERP 刊登页时，无需切换工具，一键提取商品上下文。例如：</p><div class="codebox">识别当前ASIN → 插件抓取标题/图片/卖点 → 调用 Dify 选品 Agent 识别竞品弱点 → 自动生成 3 组针对性买家秀脚本 → 唤起视频渲染引擎</div></div>
+      </div>
+      <div class="layer">
+        <div class="layer-num">3</div>
+        <div><h3>Creative Job API & Webhook：自动化开发者的基石</h3><p>暴露结构化的经营任务接口，彻底屏蔽底层复杂的模型参数（不让商家去猜模型或调提示词）。支持 n8n 原生节点与 ChatGPT/Claude 的 Remote MCP (模型上下文协议) 客户端。</p><div class="codebox">商品核心要素 + 经营目标 (如:新品测款/清库存) + 品牌 Kit<span class="arrow">↓</span>接口调用: create_video_job → 异步处理 → Webhook 回调通知<span class="arrow">↓</span>输出: 匹配平台规范的视频 + 多比例封面 + 结构化红人脚本 Brief</div></div>
+      </div>
+
+      <h3>Creative API 精准经营任务类型</h3>
+      <div class="entry">
+        <span>amazon_listing_video</span><span>amazon_sponsored_brands_video</span><span>amazon_sponsored_products_video</span><span>tiktok_shoppable_video</span><span>tiktok_hook_variations</span><span>tiktok_ugc_ad</span><span>affiliate_creator_reference</span><span>element_migration_report</span>
+      </div>
+    </div></section>
+
+    <section id="interface" class="section"><div class="wrap">
+      <h2>三、商家第一步真正应该看到的操作界面</h2>
+      <p class="lead">拒绝把高技术门槛的“虚拟人选择、提示词输入、大模型切换”扔给卖家。界面第一步应当永远是**场景和经营任务的选择**：</p>
+      <div class="task-grid">
+        <div class="task amazon"><h3>Amazon 卖家任务面板</h3><ul>
+          <li>为该 ASIN 生成主图/A+ Listing 视频</li>
+          <li>生成 Sponsored Brands 视频广告素材</li>
+          <li>生成无声/纯字幕 Sponsored Products 广告</li>
+          <li>基于 SIF 自然位数据补量低转化关键词视频</li>
+          <li>逆向生成符合 Amazon Rufus 检索的文本特征码</li>
+        </ul></div>
+        <div class="task tiktok"><h3>TikTok Shop 卖家任务面板</h3><ul>
+          <li>为该商品批量生成一周不重样挂车短视频</li>
+          <li>生成 5 种不同前 3 秒黄金首镜（Hooks Studio）</li>
+          <li>自动抓取类目红人并通过 OpenClaw 进行寄样建联</li>
+          <li>针对达人寄回素材进行 AI 自动混剪与二次包装</li>
+          <li>生成直播预热（Live Teaser）高燃切片</li>
+        </ul></div>
+      </div>
+      <div class="codebox">商家一键选择经营任务 → 灵鹿引擎在后台全自动映射逻辑：<br>[任务: 亚马逊主图视频] → [自动匹配: 16:9 比例 + 无敏感词预审 + 卖点强调 Mode + 4K 渲染]</div>
+    </section>
+
+    <section id="tools" class="section"><div class="wrap">
+      <h2>四、优先切入的生态伙伴与自动化工作流</h2>
+      <p class="lead">不盲目追求全大盘覆盖，依据“能否直接获取商品上下文”和“能否安全通过风控节点”进行梯队式生态合作。</p>
+
+      <div class="priority">
+        <div class="priority-num">1</div>
+        <div>
+          <h3>第一优先：头部跨境 ERP、选品工具与自研插件（流量第一现场）</h3>
+          <div class="table-wrap"><table>
+            <thead><tr><th>生态类型</th><th>对标/代表产品</th><th>高频应用场景</th><th>产品融合形态</th><th>合作与获客方案</th></tr></thead>
+            <tbody>
+              <tr><td><b>跨境主流 ERP</b></td><td>领星、店小秘、马帮</td><td>新品上架、 Listing 就绪或大促广告建档时，一键批量勾选 SKU 触发内容流。</td><td>ERP 商品列表行内集成“灵鹿生成”按钮/侧边栏；成片自动回写至 ERP 媒体素材库。</td><td>联合大客户试点，接入领星开放平台，提供 ERP 增值订阅包或积分分成。</td></tr>
+              <tr><td><b>大盘选品工具</b></td><td>卖家精灵、Helium 10</td><td>在调研具有“爆款潜质”或“高差评率可改良”的类目时，直接进行元素迁移分析。</td><td>提供“生成 AI 选品与视频 Brief 提案”按钮，支持一键安全带上下文跳转。</td><td>共建“爆款元素迁移模版”，作为高级会员权益联名获客，按转化分成。</td></tr>
+              <tr><td><b>自研外挂插件</b></td><td>Amazon/TikTok 官方后台商品页</td><td>在官方没有开放 API 授权时，直接读取屏幕上的标题、图片和变体，完成冷启动。</td><td>灵鹿 Chrome 原生扩展程序面板。</td><td>作为最轻量、最快验证用户痛点与高频页面交互的 MVP 入口。</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <div class="priority">
+        <div class="priority-num">2</div>
+        <div>
+          <h3>第二优先：自动化与 AI Agent 平台（打通高级商家的定制生产流）</h3>
+          <p>新一代大卖家正在将内容与流量生产编排进自动化总线，灵鹿不去做编排软件，而是要做其中最可靠的“视频内容生产节点”。</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>平台类型</th><th>代表产品</th><th>商家应用场景</th><th>灵鹿产品形态</th><th>生态交付方案</th></tr></thead>
+            <tbody>
+              <tr><td><b>可视化自动化平台</b></td><td>n8n、Make、Zapier</td><td>Listing状态改变自动触发内容包；爆款视频播放衰退自动触发 Hook 变体补充。</td><td>提供官方自研的 n8n Connector / 触发器节点；输出结构化的 job_id 及视频云端 URL。</td><td>上架官方节点市场，随书附赠 3 套可直接复制的跨境自动化工作流模板。</td></tr>
+              <tr><td><b>AI 智能体编排</b></td><td>Dify、扣子 (Coze)</td><td>搭建“自动化内容运营 Agent”，根据品牌规则、产品说明书自发进行多轮次、长周期的内容迭代。</td><td>封装标准 Dify Tool Plugin；工具层仅暴露明确经营语义，拒绝复杂模型参数。</td><td>入驻插件生态，与行业知名 AI 实施顾问合作，面向中大型大卖家交付定制方案。</td></tr>
+              <tr><td><b>通用大模型客户端</b></td><td>ChatGPT、Claude MCP</td><td>在日常调教、对话中完成“帮我看看这几个 ASIN 的视频渲染进度，并把成片拉下来”。</td><td>开发标准的 OAuth Remote MCP Server，暴露关键 Tool 指令。</td><td>提供企业级私有 MCP 链接，使用商家 OpenKey 账户统一计费，保留安全调用审计日志。</td></tr>
+            </tbody>
+          </table></div>
+          <div class="callout ok"><b>技术演进策略：先 API 底座，后封装 MCP 规范，再适配各可视化平台。</b>确保任何自动化 Agent 调用的都是同一套安全、稳定且具备防封指纹的执行核心。</div>
+        </div>
+      </div>
+
+      <div class="priority">
+        <div class="priority-num">3</div>
+        <div><h3>第三优先：TikTok Shop 官方公共/定制应用</h3><p>利用 TikTok Shop 开放平台能力。第一阶段优先申请 **Product Basic（商品基础资料）及商品图片权限**，严禁过早染指订单、财务、履约等高度敏感和高风控权限，保持应用轻量。先通过 Custom App 服务少数大卖家验证链路，再申请 Public App 上架服务商市场。</p></div>
+      </div>
+
+      <div class="priority">
+        <div class="priority-num">4</div>
+        <div><h3>第四优先：Amazon Selling Partner Appstore (SP-API)</h3><p>通过 Catalog Items API 调取 ASIN 的标准规格、类目节点、高频变体信息。因 Amazon 官方服务商生态审核极度冗长，建议先通过 ERP 合作和浏览器外挂插件跑通商业闭环，在录得稳定现金流后，再投入安全合规审计，进驻官方 Appstore。</p></div>
+      </div>
+    </div></section>
+
+    <section id="workflow" class="section"><div class="wrap">
+      <h2>五、全链路商家全自动化工作流程设计</h2>
+      <p class="lead">以“消灭网页脏活累活”为核心，让卖家在最少的点击和无代码学习成本下完成全链路闭环。</p>
+      <div class="flow">
+        <div class="step"><b>1 自动选品</b><span>Dify Agent 提取差评痛点进行元素迁移</span></div>
+        <div class="step"><b>2 抓取上下文</b><span>插件无感同步图片、卖点、品牌 Kit</span></div>
+        <div class="step"><b>3 确定经营任务</b><span>选择“亚马逊 Sponsored Brands 视频”</span></div>
+        <div class="step"><b>4 创意生成</b><span>OpenKey 引擎给出 3 组针对性分镜脚本</span></div>
+        <div class="step"><b>5 红人自动化建联</b><span>Brave Search 提纯邮箱，OpenClaw 批量发信寄样</span></div>
+        <div class="step"><b>6 素材多模态切片</b><span>红人素材回流，VLM 自动识别结构化时间轴</span></div>
+        <div class="step"><b>7 AI 二创混剪</b><span>自动生成 1 拆 10 爆款多语种字幕与配音短视频</span></div>
+        <div class="step"><b>8 矩阵式分发</b><span>本地沙盒模拟人工点击，一键发布至站内外流量池</span></div>
+        <div class="step"><b>9 GEO 流量放大</b><span>根据表现回流，指导下一批智能埋词与补量生产</span></div>
+      </div>
+    </div></section>
+
+    <section id="business" class="section"><div class="wrap">
+      <h2>六、多元化商业化路径与生态利益分配</h2>
+      <p class="lead">不和生态伙伴抢生意。通过“伙伴获渠道与交付收益，OpenKey 留核心创意资产与用户关系”的原则设计共赢机制。</p>
+      <div class="grid three">
+        <div class="card purple"><h3>Studio 席位订阅 + 算力点数</h3><p>面向终端大卖家收取固定月度/年度席位费，购买高级 Campaign 额度及长视频 VLM 渲染积分。牢牢锁定品牌资产（Brand Kit）所有权。</p></div>
+        <div class="card good"><h3>Connect 生态渠道让利分成</h3><p>插件免费供卖家下载。对于 ERP、选品工具等流量入口伙伴，为其用户提供专属优惠券，并向伙伴提供高达 20%—30% 的持续流水佣金返点，或支持伙伴大批量低价采购积分转售。</p></div>
+        <div class="card"><h3>API & MCP 企业用量合同</h3><p>面向技术型大卖家、AI 独立实施顾问、大型 MCN 机构和代运营公司。采用按任务（Job）成功回调计费、按并发数和分辨率阶梯收费，阶梯设置企业最低月度承诺消（Commitment）。</p></div>
+      </div>
+    </div></section>
+
+    <section id="roadmap" class="section"><div class="wrap">
+      <h2>七、精益落地路线图（以月为绝对维度）</h2>
+      <div class="timeline">
+        <div class="phase"><div class="time">第 1 — 3 个月</div><h3>第一阶段：核心切片破局</h3><ul><li>上线灵鹿 Chrome 插件 MVP。</li><li>跑通 Amazon/TTS 页面数据一键提取。</li><li>上线“红人自动化建联 Agent”，集成 Brave Search API 精准提纯全网联系方式。</li><li>利用 OpenClaw 跑通飞书/邮件批量寄样流程，**完成第一个能独立赚钱、自带现金流的 Profitable Agent 验证。**</li></ul></div>
+        <div class="phase"><div class="time">第 4 — 6 个月</div><h3>第二阶段：内容与视觉深化</h3><ul><li>发布标准的 Creative Job API 与 异步 Webhook。</li><li>上线“红人原生素材 VLM 智能切片混剪”功能。</li><li>集成 ElevenLabs 实现跨语种配音克隆与无损字幕对齐。</li><li>打通“红人代发 -> 素材回流 -> AI 混剪 1 拆 10”的半自动化内容流水线。</li></ul></div>
+        <div class="phase"><div class="time">第 7 — 9 个月</div><h3>第三阶段：数据反哺与应用进驻</h3><ul><li>上线 Dify 矛盾分析选品 RAG 知识库，正式引入“元素迁移（Element Migration）”分析。</li><li>申请 TikTok Shop Public App 与 Amazon SP-API。</li><li>与至少一家主流跨境 ERP 厂商（如领星）达成深度内嵌联合试点。</li></ul></div>
+        <div class="phase"><div class="time">第 10 — 12 个月</div><h3>第四阶段：完全体完全生态化</h3><ul><li>上线站内外一键矩阵式分发 Agent。</li><li>推出 GEO（生成式引擎优化）功能，专门优化产品在 Amazon Rufus 导购助手中的自然推荐赢率。</li><li>正式发布 Xflow OS（灵鹿核心驱动 + OpenKey 平台身份）完全体，举办天机跨境 AI 沙龙，全面爆发商业价值。</li></ul></div>
+      </div>
+      <div class="callout warn"><b>战略红线与边界：</b>即使未来全面接入流量转化与表现数据，灵鹿仍旧死死聚焦于“内容建议与再生产层”，绝对不要过早扩张和染指广告预算管理、库存、订单及供应链履约等传统 ERP 的重度深水区。</div>
+    </div></section>
+
+    <section id="final" class="section"><div class="wrap">
+      <h2>最终战略建议</h2>
+      <div class="final">
+        <p>无论是 Soldy 还是灵鹿，最成功的产品定位永远不是：</p>
+        <div class="quote">又一个需要卖家记住网址、单独登录、去学习提示词的 AI 视频或独立选品网站。</div>
+        <p>它应该成为：</p>
+        <div class="quote">跨境电商整个大生态里无处不在的“内容+流量”基础设施生产层。</div>
+        <p><b>商家在哪里管理商品、在哪里浏览趋势、在哪里看广告自然位，灵鹿的“生成选品方向 / 智能一键做片 / 自动化找红人”按钮就寄生在哪里。</b> OpenKey 负责沉淀品牌复利记忆，灵鹿 Connect 负责本地沙盒第一现场破局，Creative API 负责自动化规模化爆发。用高鲁棒性的技术栈、最克制的切入路径，先做赚钱的 Agent，再稳步咬合出最坚固的跨境电商 AI 生态圈。</p>
+      </div>
+    </div></section>
+  </main>
+
+  <footer class="footer"><div class="wrap">OpenKey × 灵鹿跨境 AI 生态产品白皮书 · 深圳天马星空科技 & 天机跨境 联合发布 · 2026</div></footer>
+</body>
+</html>
