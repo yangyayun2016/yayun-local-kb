@@ -1,0 +1,29 @@
+# Local configuration for Gbrian Brain.
+
+storage:
+  db_tracked:
+    - people/
+    - companies/
+    - projects/
+    - ideas/
+    - concepts/
+    - meetings/
+    - sources/
+    - agent/
+    - prompts/
+    - inbox/
+    - archive/
+
+archive-crawler:
+  scan_paths: []
+
+recency:
+  people/:
+    halflifeDays: 180
+    coefficient: 0.15
+  projects/:
+    halflifeDays: 60
+    coefficient: 0.25
+  meetings/:
+    halflifeDays: 30
+    coefficient: 0.25

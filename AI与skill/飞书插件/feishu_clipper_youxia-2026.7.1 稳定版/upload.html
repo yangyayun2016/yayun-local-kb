@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文档上传</title>
+    <!-- 重点 2: 之前页面中用到的小动画可以放在这里，如果是全局的 -->
+    <style>
+        /* 如果你的组件里没有加 scoped，这段动画最好放在全局的 style.css 里，或者留在这里 */
+        @keyframes float-y {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        .animate-floating { animation: float-y 2s ease-in-out infinite; }
+    </style>
+  <script type="module" crossorigin src="/chunks/upload-BV9moiXJ.js"></script>
+  <link rel="modulepreload" crossorigin href="/chunks/vendor-modules-Bd0NCYl9.js">
+  <link rel="modulepreload" crossorigin href="/chunks/fs-helper-D8mvVDjc.js">
+  <link rel="modulepreload" crossorigin href="/chunks/main-B6dHUz4W.js">
+  <link rel="modulepreload" crossorigin href="/chunks/logo-WkAdmnf0.js">
+  <link rel="modulepreload" crossorigin href="/chunks/header.vue_vue_type_script_setup_true_lang-BuIrkZa3.js">
+  <link rel="modulepreload" crossorigin href="/chunks/task-C75Px4jp.js">
+  <link rel="modulepreload" crossorigin href="/chunks/opfs-meta-helper-BFRHuZmf.js">
+  <link rel="stylesheet" crossorigin href="/assets/vendor-modules-CTVJBpxC.css">
+  <link rel="stylesheet" crossorigin href="/assets/main-DS8KuzXa.css">
+  <link rel="stylesheet" crossorigin href="/assets/upload-CJUwP10F.css">
+</head>
+
+<!-- 重点 3: 将字体、背景色、文字颜色全部转为 Tailwind 类 -->
+<body class="min-h-screen bg-[#f8fafc] text-[#334155] font-sans antialiased">
+    
+    <!-- 重点 4: 给 #app 也加上高度，防止内部 flex 撑不开屏幕 -->
+    <div id="app" class="flex flex-col min-h-screen w-full"></div>
+    
+</body>
+
+</html>
