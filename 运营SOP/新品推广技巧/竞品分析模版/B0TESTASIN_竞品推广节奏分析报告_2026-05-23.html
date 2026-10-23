@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B0TESTASIN 竞品推广节奏分析报告</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+    *{box-sizing:border-box} body{margin:0;background:#0f1720;color:#d9e4ef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;padding:24px;line-height:1.65}
+    .container{max-width:1240px;margin:0 auto} h1{font-size:26px;margin:0;color:#80d8ff}.subtitle{color:#8fa3b8;margin:6px 0 24px}.muted{color:#8fa3b8}.warn{background:#3a2a12;color:#ffd28a;padding:10px 14px;border-radius:10px}
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0 30px}@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.kpi-grid{grid-template-columns:1fr}}
+    .kpi{border:1px solid #1d3348;background:linear-gradient(135deg,#142638,#1b3d56);border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.18)}.kpi .val{font-size:28px;font-weight:800;color:#80d8ff}.kpi .lbl{font-size:12px;color:#8fa3b8;margin-top:4px}
+    .section{margin:30px 0}.section-title{font-size:18px;font-weight:800;color:#80d8ff;border-left:4px solid #80d8ff;padding-left:12px;margin-bottom:14px}.panel{background:#121f2d;border:1px solid #1d3348;border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+    .timeline-item{display:grid;grid-template-columns:16px 180px 1fr;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #1d3348}.timeline-item:last-child{border-bottom:none}.tl-dot{width:10px;height:10px;border-radius:50%;background:#80d8ff;box-shadow:0 0 12px #80d8ff}
+    .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:960px){.chart-grid{grid-template-columns:1fr}}.chart-box{background:#121f2d;border:1px solid #1d3348;border-radius:16px;padding:16px;margin-bottom:18px}.chart-box canvas{max-height:330px}
+    table{width:100%;border-collapse:collapse;font-size:12px}th{background:#19334a;color:#80d8ff;text-align:left;padding:9px 10px;white-space:nowrap}td{border-bottom:1px solid #1d3348;padding:8px 10px;white-space:nowrap}tr:hover td{background:#142638}.table-scroll{overflow-x:auto}.tag{display:inline-block;background:#183e5a;color:#80d8ff;border-radius:999px;padding:2px 10px;font-size:12px;margin-left:8px}
+    .month-card,.data-table-wrap{background:#121f2d;border:1px solid #1d3348;border-radius:16px;margin-bottom:12px;overflow:hidden}.month-card summary,.data-table-wrap summary{cursor:pointer;padding:14px 18px;color:#80d8ff;font-weight:750;display:flex;align-items:center;justify-content:space-between;gap:10px}.month-body{padding:0 18px 18px}.sub-section{margin-top:12px;background:#0f1720;border:1px solid #1d3348;border-radius:12px;padding:12px 14px}.risk-badge{display:inline-block;margin:4px 6px 4px 0;background:#19334a;border-radius:999px;padding:4px 10px}.quality-list{margin:0;padding-left:20px}.footer{color:#8fa3b8;font-size:12px;margin-top:28px;text-align:center}
+    </style>
+</head>
+<body>
+<div class="container">
+  <h1>B0TESTASIN 竞品前4个月推广节奏分析报告</h1>
+  <div class="subtitle">分析周期：2026-01-01 ~ 2026-04-22 ｜ 主分析表：全量明细 ｜ 生成时间：2026-05-23</div>
+  
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="val">311</div><div class="lbl">前4月总销量</div></div>
+    <div class="kpi"><div class="val">$6,687.89</div><div class="lbl">前4月销售额</div></div>
+    <div class="kpi"><div class="val">88</div><div class="lbl">累计新增评论</div></div>
+    <div class="kpi"><div class="val">3,100</div><div class="lbl">大类最佳 BSR</div></div>
+  </div>
+
+  <section class="section">
+    <div class="section-title">关键时间节点</div>
+    <div class="panel"><div class='timeline-item'><span class='tl-dot'></span><b>数据起始日期</b><span>2026-01-01</span></div><div class='timeline-item'><span class='tl-dot'></span><b>最早出单</b><span>2026-01-01</span></div><div class='timeline-item'><span class='tl-dot'></span><b>首次出单 BuyBox 价</b><span>$19.99</span></div><div class='timeline-item'><span class='tl-dot'></span><b>首次 Prime</b><span>2026-01-01</span></div><div class='timeline-item'><span class='tl-dot'></span><b>首条评论</b><span>2026-01-15</span></div><div class='timeline-item'><span class='tl-dot'></span><b>首次改价</b><span>2026-01-15（$19.99 → $18.99）</span></div><div class='timeline-item'><span class='tl-dot'></span><b>首次 Coupon</b><span>2026-01-15，Coupon价 $1.00</span></div><div class='timeline-item'><span class='tl-dot'></span><b>首次修改标题</b><span>2026-01-15</span></div><div class='timeline-item'><span class='tl-dot'></span><b>首次 DEAL</b><span>2026-01-30，LD价 $16.99</span></div><div class='timeline-item'><span class='tl-dot'></span><b>首次修改主图</b><span>2026-01-30</span></div><div class='timeline-item'><span class='tl-dot'></span><b>首次卖家增加</b><span>2026-02-25（1 → 2）</span></div></div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">核心趋势图表</div>
+    <div class="chart-box"><canvas id="chartTrend"></canvas></div>
+    <div class="chart-grid">
+      <div class="chart-box"><canvas id="chartSales"></canvas></div>
+      <div class="chart-box"><canvas id="chartReviews"></canvas></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">前4个月汇总表</div>
+    <div class="panel table-scroll">
+      <table>
+        <thead><tr><th>月份</th><th>策略标签</th><th>销量</th><th>销售额</th><th>月均成交价</th><th>大类BSR最佳</th><th>小类最佳</th><th>月末评论数</th><th>新增评论</th><th>留评率</th><th>广告流量占比</th><th>新增广告</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>2026-01</td><td><span class="tag">低价切入+评论拉升</span></td>
+          <td>28</td><td>$533.72</td><td>$19.32</td>
+          <td>21,000</td><td>1,400</td><td>8</td>
+          <td>8</td><td>28.6%</td><td>30.7%</td><td>3</td>
+        </tr>
+        
+        <tr>
+          <td>2026-02</td><td><span class="tag">排名回落观察</span></td>
+          <td>60</td><td>$1,199.40</td><td>$19.99</td>
+          <td>9,200</td><td>520</td><td>27</td>
+          <td>19</td><td>31.7%</td><td>38.5%</td><td>6</td>
+        </tr>
+        
+        <tr>
+          <td>2026-03</td><td><span class="tag">排名回落观察</span></td>
+          <td>86</td><td>$1,805.14</td><td>$20.99</td>
+          <td>6,500</td><td>410</td><td>48</td>
+          <td>21</td><td>24.4%</td><td>39.0%</td><td>7</td>
+        </tr>
+        
+        <tr>
+          <td>2026-04</td><td><span class="tag">广告调整+排名冲刺</span></td>
+          <td>137</td><td>$3,149.63</td><td>$22.99</td>
+          <td>3,100</td><td>190</td><td>88</td>
+          <td>40</td><td>29.2%</td><td>45.0%</td><td>14</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">月度推广节奏拆解</div>
+    
+        <details class="month-card" open>
+          <summary><span>MONTH 1 — 第 1 个月（2026-01）</span><span class="tag">低价切入+评论拉升</span></summary>
+          <div class="month-body">
+            <div class="sub-section"><b>■ 销量与排名</b><br>
+              销量：<b>28</b>；销售额：<b>$533.72</b>；
+              大类 BSR 最佳：<b>21,000</b>；小类最佳：<b>1,400</b>。
+            </div>
+            <div class="sub-section"><b>■ Listing 策略</b><br>
+              标题修改：<b>1</b> 次；主图修改：<b>1</b> 次。
+            </div>
+            <div class="sub-section"><b>■ 价格策略</b><br>
+              月初成交价：<b>$19.99</b> → 月末成交价：<b>$18.99</b>；月均成交价：<b>$19.32</b>；LD 次数：<b>1</b>。
+            </div>
+            <div class="sub-section"><b>■ 评论策略</b><br>
+              月末评论数：<b>8</b>；新增评论：<b>8</b>；留评率：<b>28.6%</b>。
+            </div>
+            <div class="sub-section"><b>■ 流量策略</b><br>
+              全部流量：<b>1,150</b>；自然流量：<b>765</b>（69.3%）；广告流量：<b>385</b>（30.7%）；新增广告：<b>3</b>。
+            </div>
+            <div class="sub-section"><b>■ 风险判断</b><br><span class='risk-badge'>🔴 留评率&gt;3%，需警惕刷单或激励评论风险</span></div>
+            <div class="sub-section"><b>■ 运营判断</b><br>该月疑似通过价格优势获得初始转化，同时配合评论积累。</div>
+          </div>
+        </details>
+        
+        <details class="month-card">
+          <summary><span>MONTH 2 — 第 2 个月（2026-02）</span><span class="tag">排名回落观察</span></summary>
+          <div class="month-body">
+            <div class="sub-section"><b>■ 销量与排名</b><br>
+              销量：<b>60</b>；销售额：<b>$1,199.40</b>；
+              大类 BSR 最佳：<b>9,200</b>；小类最佳：<b>520</b>。
+            </div>
+            <div class="sub-section"><b>■ Listing 策略</b><br>
+              标题修改：<b>0</b> 次；主图修改：<b>0</b> 次。
+            </div>
+            <div class="sub-section"><b>■ 价格策略</b><br>
+              月初成交价：<b>$19.99</b> → 月末成交价：<b>$19.99</b>；月均成交价：<b>$19.99</b>；LD 次数：<b>0</b>。
+            </div>
+            <div class="sub-section"><b>■ 评论策略</b><br>
+              月末评论数：<b>27</b>；新增评论：<b>19</b>；留评率：<b>31.7%</b>。
+            </div>
+            <div class="sub-section"><b>■ 流量策略</b><br>
+              全部流量：<b>2,270</b>；自然流量：<b>1,400</b>（61.5%）；广告流量：<b>870</b>（38.5%）；新增广告：<b>6</b>。
+            </div>
+            <div class="sub-section"><b>■ 风险判断</b><br><span class='risk-badge'>🔴 留评率&gt;3%，需警惕刷单或激励评论风险</span></div>
+            <div class="sub-section"><b>■ 运营判断</b><br>排名波动偏大，需要关注广告预算、转化率或评论增长是否跟不上。</div>
+          </div>
+        </details>
+        
+        <details class="month-card">
+          <summary><span>MONTH 3 — 第 3 个月（2026-03）</span><span class="tag">排名回落观察</span></summary>
+          <div class="month-body">
+            <div class="sub-section"><b>■ 销量与排名</b><br>
+              销量：<b>86</b>；销售额：<b>$1,805.14</b>；
+              大类 BSR 最佳：<b>6,500</b>；小类最佳：<b>410</b>。
+            </div>
+            <div class="sub-section"><b>■ Listing 策略</b><br>
+              标题修改：<b>0</b> 次；主图修改：<b>0</b> 次。
+            </div>
+            <div class="sub-section"><b>■ 价格策略</b><br>
+              月初成交价：<b>$20.99</b> → 月末成交价：<b>$20.99</b>；月均成交价：<b>$20.99</b>；LD 次数：<b>0</b>。
+            </div>
+            <div class="sub-section"><b>■ 评论策略</b><br>
+              月末评论数：<b>48</b>；新增评论：<b>21</b>；留评率：<b>24.4%</b>。
+            </div>
+            <div class="sub-section"><b>■ 流量策略</b><br>
+              全部流量：<b>3,320</b>；自然流量：<b>2,024</b>（61.0%）；广告流量：<b>1,296</b>（39.0%）；新增广告：<b>7</b>。
+            </div>
+            <div class="sub-section"><b>■ 风险判断</b><br><span class='risk-badge'>🔴 留评率&gt;3%，需警惕刷单或激励评论风险</span></div>
+            <div class="sub-section"><b>■ 运营判断</b><br>排名波动偏大，需要关注广告预算、转化率或评论增长是否跟不上。</div>
+          </div>
+        </details>
+        
+        <details class="month-card">
+          <summary><span>MONTH 4 — 第 4 个月（2026-04）</span><span class="tag">广告调整+排名冲刺</span></summary>
+          <div class="month-body">
+            <div class="sub-section"><b>■ 销量与排名</b><br>
+              销量：<b>137</b>；销售额：<b>$3,149.63</b>；
+              大类 BSR 最佳：<b>3,100</b>；小类最佳：<b>190</b>。
+            </div>
+            <div class="sub-section"><b>■ Listing 策略</b><br>
+              标题修改：<b>0</b> 次；主图修改：<b>1</b> 次。
+            </div>
+            <div class="sub-section"><b>■ 价格策略</b><br>
+              月初成交价：<b>$22.99</b> → 月末成交价：<b>$22.99</b>；月均成交价：<b>$22.99</b>；LD 次数：<b>1</b>。
+            </div>
+            <div class="sub-section"><b>■ 评论策略</b><br>
+              月末评论数：<b>88</b>；新增评论：<b>40</b>；留评率：<b>29.2%</b>。
+            </div>
+            <div class="sub-section"><b>■ 流量策略</b><br>
+              全部流量：<b>5,900</b>；自然流量：<b>3,238</b>（55.0%）；广告流量：<b>2,662</b>（45.0%）；新增广告：<b>14</b>。
+            </div>
+            <div class="sub-section"><b>■ 风险判断</b><br><span class='risk-badge'>🔴 留评率&gt;3%，需警惕刷单或激励评论风险</span></div>
+            <div class="sub-section"><b>■ 运营判断</b><br>广告流量占比上升，可能进入放量或排名冲刺阶段。</div>
+          </div>
+        </details>
+        
+  </section>
+
+  <section class="section">
+    <div class="section-title">数据质量与缺失字段</div>
+    <div class="panel"><ul class="quality-list"><li>关键字段基本完整。</li></ul></div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">明细数据表</div>
+    
+        <details class="data-table-wrap">
+          <summary>全量明细（9 行）</summary>
+          
+          <div class="table-scroll">
+            <table><thead><tr><th>日期</th><th>ASIN</th><th>大类排名</th><th>小类排名</th><th>卖家数</th><th>销量</th><th>销售额</th><th>成交价</th><th>BuyBox价</th><th>LD数</th><th>LD价</th><th>Coupon价</th><th>Prime</th><th>评论数</th><th>评分</th><th>新增评论</th><th>新增广告</th><th>修改标题</th><th>修改主图</th><th>全部流量</th><th>自然流量</th><th>广告流量</th><th>自然%</th><th>广告%</th></tr></thead><tbody><tr><td>2026-01-01</td><td>B0TESTASIN</td><td>52000</td><td>3200</td><td>1</td><td>2</td><td>39.98</td><td>19.99</td><td>19.99</td><td>0</td><td></td><td>0</td><td>是</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>120</td><td>90</td><td>30</td><td>75</td><td>25</td></tr><tr><td>2026-01-15</td><td>B0TESTASIN</td><td>36000</td><td>2100</td><td>1</td><td>8</td><td>151.92</td><td>18.99</td><td>18.99</td><td>0</td><td></td><td>1.00</td><td>是</td><td>3</td><td>4.7</td><td>3</td><td>1</td><td>1</td><td>0</td><td>350</td><td>245</td><td>105</td><td>70</td><td>30</td></tr><tr><td>2026-01-30</td><td>B0TESTASIN</td><td>21000</td><td>1400</td><td>1</td><td>18</td><td>341.82</td><td>18.99</td><td>18.99</td><td>1</td><td>16.99</td><td>1.00</td><td>是</td><td>8</td><td>4.8</td><td>5</td><td>2</td><td>0</td><td>1</td><td>680</td><td>430</td><td>250</td><td>63</td><td>37</td></tr><tr><td>2026-02-10</td><td>B0TESTASIN</td><td>14500</td><td>850</td><td>1</td><td>24</td><td>479.76</td><td>19.99</td><td>19.99</td><td>0</td><td></td><td>0</td><td>是</td><td>15</td><td>4.8</td><td>7</td><td>3</td><td>0</td><td>0</td><td>920</td><td>560</td><td>360</td><td>61</td><td>39</td></tr><tr><td>2026-02-25</td><td>B0TESTASIN</td><td>9200</td><td>520</td><td>2</td><td>36</td><td>719.64</td><td>19.99</td><td>19.99</td><td>0</td><td></td><td>0</td><td>是</td><td>27</td><td>4.7</td><td>12</td><td>3</td><td>0</td><td>0</td><td>1350</td><td>840</td><td>510</td><td>62</td><td>38</td></tr><tr><td>2026-03-10</td><td>B0TESTASIN</td><td>6500</td><td>410</td><td>2</td><td>46</td><td>965.54</td><td>20.99</td><td>20.99</td><td>0</td><td></td><td>0</td><td>是</td><td>39</td><td>4.7</td><td>12</td><td>4</td><td>0</td><td>0</td><td>1740</td><td>1044</td><td>696</td><td>60</td><td>40</td></tr><tr><td>2026-03-25</td><td>B0TESTASIN</td><td>7800</td><td>480</td><td>2</td><td>40</td><td>839.60</td><td>20.99</td><td>20.99</td><td>0</td><td></td><td>0</td><td>是</td><td>48</td><td>4.6</td><td>9</td><td>3</td><td>0</td><td>0</td><td>1580</td><td>980</td><td>600</td><td>62</td><td>38</td></tr><tr><td>2026-04-08</td><td>B0TESTASIN</td><td>4300</td><td>260</td><td>2</td><td>62</td><td>1425.38</td><td>22.99</td><td>22.99</td><td>0</td><td></td><td>0</td><td>是</td><td>66</td><td>4.6</td><td>18</td><td>6</td><td>0</td><td>1</td><td>2600</td><td>1456</td><td>1144</td><td>56</td><td>44</td></tr><tr><td>2026-04-22</td><td>B0TESTASIN</td><td>3100</td><td>190</td><td>3</td><td>75</td><td>1724.25</td><td>22.99</td><td>22.99</td><td>1</td><td>19.99</td><td>0</td><td>是</td><td>88</td><td>4.6</td><td>22</td><td>8</td><td>0</td><td>0</td><td>3300</td><td>1782</td><td>1518</td><td>54</td><td>46</td></tr></tbody></table>
+          </div>
+        </details>
+        
+
+        <details class="data-table-wrap">
+          <summary>近4月聚合（4 行）</summary>
+          
+          <div class="table-scroll">
+            <table><thead><tr><th>月份</th><th>销量</th><th>销售额</th><th>成交价</th><th>大类排名</th><th>评论数</th><th>新增评论</th><th>广告%</th></tr></thead><tbody><tr><td>2026-01</td><td>28</td><td>533.72</td><td>19.32</td><td>21000</td><td>8</td><td>8</td><td>31</td></tr><tr><td>2026-02</td><td>60</td><td>1199.40</td><td>19.99</td><td>9200</td><td>27</td><td>19</td><td>38.5</td></tr><tr><td>2026-03</td><td>86</td><td>1805.14</td><td>20.99</td><td>6500</td><td>48</td><td>21</td><td>39</td></tr><tr><td>2026-04</td><td>137</td><td>3149.63</td><td>22.99</td><td>3100</td><td>88</td><td>40</td><td>45</td></tr></tbody></table>
+          </div>
+        </details>
+        
+  </section>
+
+  <div class="footer">本报告仅基于用户提供的数据生成；缺失字段不会被估算或编造。</div>
+</div>
+<script>
+const chartDates = ["2026-01-01", "2026-01-15", "2026-01-30", "2026-02-10", "2026-02-25", "2026-03-10", "2026-03-25", "2026-04-08", "2026-04-22"];
+const chartBsr = [52000, 36000, 21000, 14500, 9200, 6500, 7800, 4300, 3100];
+const chartPrice = [19.99, 18.99, 18.99, 19.99, 19.99, 20.99, 20.99, 22.99, 22.99];
+const chartReviews = [0, 3, 8, 15, 27, 39, 48, 66, 88];
+const chartMonths = ["2026-01", "2026-02", "2026-03", "2026-04"];
+const chartSales = [28.0, 60.0, 86.0, 137.0];
+const chartOrganicSales = [19.4124, 36.9, 52.46, 75.35];
+const chartAdSales = [8.5876, 23.1, 33.54, 61.65];
+const chartNewReviews = [8, 19, 21, 40];
+
+const commonColor = '#d9e4ef';
+const gridColor = '#1d3348';
+
+if (window.Chart) {
+  new Chart(document.getElementById('chartTrend'), {
+    data: { labels: chartDates, datasets: [
+      {type:'line', label:'大类BSR', data: chartBsr, yAxisID:'y', tension:.25, pointRadius:0, borderColor:'#80d8ff'},
+      {type:'line', label:'成交价', data: chartPrice, yAxisID:'y2', tension:.25, pointRadius:0, borderColor:'#ffd166'},
+      {type:'line', label:'评论数', data: chartReviews, yAxisID:'y3', tension:.25, pointRadius:0, borderColor:'#8ee28e', fill:true, backgroundColor:'rgba(142,226,142,.08)'}
+    ]},
+    options: {responsive:true, interaction:{mode:'index',intersect:false}, plugins:{legend:{labels:{color:commonColor}}, title:{display:true,text:'BSR / 成交价 / 评论数综合趋势',color:'#80d8ff'}}, scales:{x:{ticks:{color:commonColor,maxTicksLimit:10},grid:{color:gridColor}}, y:{type:'linear',position:'left',reverse:true,ticks:{color:'#80d8ff'},grid:{color:gridColor},title:{display:true,text:'BSR',color:'#80d8ff'}}, y2:{type:'linear',position:'right',ticks:{color:'#ffd166'},grid:{drawOnChartArea:false},title:{display:true,text:'成交价',color:'#ffd166'}}, y3:{type:'linear',position:'right',ticks:{color:'#8ee28e'},grid:{drawOnChartArea:false},title:{display:true,text:'评论数',color:'#8ee28e'}} } }
+  });
+
+  new Chart(document.getElementById('chartSales'), {
+    type:'bar', data:{ labels:chartMonths, datasets:[
+      {label:'总销量', data:chartSales, backgroundColor:'rgba(128,216,255,.65)'},
+      {label:'自然流量折算销量', data:chartOrganicSales, backgroundColor:'rgba(142,226,142,.65)'},
+      {label:'广告流量折算销量', data:chartAdSales, backgroundColor:'rgba(255,209,102,.65)'}
+    ]},
+    options:{responsive:true, plugins:{legend:{labels:{color:commonColor}}, title:{display:true,text:'月度销量结构对比',color:'#80d8ff'}}, scales:{x:{ticks:{color:commonColor},grid:{color:gridColor}}, y:{ticks:{color:commonColor},grid:{color:gridColor}}}}
+  });
+
+  new Chart(document.getElementById('chartReviews'), {
+    type:'bar', data:{ labels:chartMonths, datasets:[{label:'新增评论', data:chartNewReviews, backgroundColor:'rgba(142,226,142,.75)'}] },
+    options:{responsive:true, plugins:{legend:{labels:{color:commonColor}}, title:{display:true,text:'月度新增评论数',color:'#80d8ff'}}, scales:{x:{ticks:{color:commonColor},grid:{color:gridColor}}, y:{ticks:{color:commonColor},grid:{color:gridColor}}}}
+  });
+} else {
+  document.body.insertAdjacentHTML('afterbegin', '<div style="padding:12px;background:#3a2a12;color:#ffd28a">Chart.js 未加载，图表不可用；表格数据仍可查看。</div>');
+}
+</script>
+</body>
+</html>
