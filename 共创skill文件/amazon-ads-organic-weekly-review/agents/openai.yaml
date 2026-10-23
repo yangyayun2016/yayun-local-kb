@@ -1,0 +1,7 @@
+interface:
+  display_name: "亚马逊运营：每周广告撬动自然流量复盘"
+  short_description: "用 SIF 数据每周复盘广告是否带来自然流量沉淀"
+  default_prompt: "Use $amazon-ads-organic-weekly-review to review whether this week Amazon ads drove organic traffic for my ASIN."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>天机OS 广告中心 | 亚马逊广告健康诊断系统</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="os-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#dashboard" aria-label="天机OS广告中心">
+          <span class="brand-icon">天</span>
+          <span>
+            <strong>天机 OS</strong>
+            <small>Amazon Ads Decision OS</small>
+          </span>
+        </a>
+
+        <nav class="main-menu" id="mainMenu" aria-label="主菜单"></nav>
+
+        <section class="side-card">
+          <p class="side-label">当前试点</p>
+          <strong>星辰大海 · 北美US</strong>
+          <span>广告诊断闭环 MVP</span>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">广告中心</p>
+            <h1>亚马逊广告健康诊断系统</h1>
+          </div>
+          <div class="top-actions">
+            <button class="ghost-button" id="openEvidence" type="button">查看截图依据</button>
+            <span class="user-pill">飞飞 · 老板</span>
+          </div>
+        </header>
+
+        <nav class="tabbar" id="tabbar" aria-label="广告中心页面"></nav>
+
+        <section class="view active" id="view-dashboard">
+          <div class="view-head">
+            <div>
+              <p class="eyebrow">Dashboard</p>
+              <h2>每日广告诊断单</h2>
+            </div>
+            <div class="date-control">
+              <button class="seg active" type="button">近7天</button>
+              <button class="seg" type="button">近30天</button>
+              <button class="seg" type="button">自定义</button>
+            </div>
+          </div>
+          <div class="alert-strip" id="dashboardAlerts"></div>
+          <div class="metric-table" id="dashboardMetrics"></div>
+          <div class="table-card">
+            <div class="card-head">
+              <h3>店铺广告健康明细</h3>
+              <span id="dashboardAsOf"></span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>店铺</th>
+                    <th>广告花费</th>
+                    <th>广告销售额</th>
+                    <th>ACOS</th>
+                    <th>TACOS</th>
+                    <th>广告出单</th>
+                    <th>广告占比</th>
+                    <th>曝光量</th>
+                    <th>点击量</th>
+                    <th>CTR</th>
+                    <th>CPC</th>
+                    <th>CVR</th>
+                    <th>打满次数</th>
+                    <th>健康状态</th>
+                  </tr>
+                </thead>
+                <tbody id="storeRows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-diagnosis">
+          <div class="two-column">
+            <form class="form-card" id="diagnosisForm">
+              <p class="eyebrow">Submit Diagnosis</p>
+              <h2>提交广告健康诊断</h2>
+              <div class="form-grid">
+                <label>
+                  <span>店铺</span>
+                  <input name="store" value="星辰大海(北美)-US" />
+                </label>
+                <label>
+                  <span>站点</span>
+                  <select name="site">
+                    <option>US</option>
+                    <option>CA</option>
+                    <option>MX</option>
+                  </select>
+                </label>
+                <label>
+                  <span>ASIN</span>
+                  <input name="asin" value="B0XX-01" />
+                </label>
+                <label>
+                  <span>诊断周期</span>
+                  <select name="period">
+                    <option>近30天</option>
+                    <option>近14天</option>
+                    <option>近7天</option>
+                  </select>
+                </label>
+                <label class="wide">
+                  <span>竞品ASIN</span>
+                  <input name="competitors" value="BOYY-A, BOYY-D" />
+                </label>
+                <label class="wide">
+                  <span>备注</span>
+                  <textarea name="note" rows="3">使用ABA、SIF和Campaign层级数据，输出完整13步广告诊断报告。</textarea>
+                </label>
+              </div>
+              <div class="check-row">
+                <label><input type="checkbox" checked /> 使用ABA</label>
+                <label><input type="checkbox" checked /> 使用SIF</label>
+                <label><input type="checkbox" checked /> 生成处理清单</label>
+              </div>
+              <div class="button-row">
+                <button class="primary-button" type="submit">提交分析</button>
+                <button class="ghost-button" type="button" data-go="keywords">查看竞品/关键词</button>
+              </div>
+              <div class="missing-box" id="missingBox"></div>
+            </form>
+
+            <aside class="pipeline-card">
+              <div class="card-head">
+                <h3>13步自动分析链路</h3>
+                <span class="status-dot ok">规则先行</span>
+              </div>
+              <ol class="pipeline-list" id="pipelineList"></ol>
+            </aside>
+          </div>
+
+          <div class="table-card">
+            <div class="card-head">
+              <h3>诊断任务列表</h3>
+              <span>完成后报告显示在下方</span>
+            </div>
+            <div id="jobCards" class="job-grid"></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-tasks">
+          <div class="view-head">
+            <div>
+              <p class="eyebrow">Action Closure</p>
+              <h2>处理清单与动作采纳</h2>
+            </div>
+            <button class="primary-button compact" id="addReportTasks" type="button">从报告生成动作</button>
+          </div>
+          <div class="task-grid" id="taskGrid"></div>
+        </section>
+
+        <section class="view" id="view-report">
+          <div class="report-layout">
+            <aside class="report-nav">
+              <p class="eyebrow">13 Steps</p>
+              <div id="reportNav"></div>
+            </aside>
+            <article class="report-document" id="reportDocument"></article>
+          </div>
+        </section>
+
+        <section class="view" id="view-keywords">
+          <div class="view-head">
+            <div>
+              <p class="eyebrow">Keyword Opportunity</p>
+              <h2>关键词机会分析</h2>
+            </div>
+            <div class="date-control">
+              <button class="seg active" data-filter="all" type="button">全部</button>
+              <button class="seg" data-filter="stop" type="button">停投</button>
+              <button class="seg" data-filter="priority" type="button">最优先</button>
+              <button class="seg" data-filter="scale" type="button">加投</button>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>关键词</th>
+                    <th>月搜索量</th>
+                    <th>花费</th>
+                    <th>订单</th>
+                    <th>销售额</th>
+                    <th>ACOS</th>
+                    <th>点击</th>
+                    <th>判断</th>
+                    <th>机会类型</th>
+                  </tr>
+                </thead>
+                <tbody id="keywordRows"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="card-head">
+              <h3>ABA搜索词绩效与长尾词</h3>
+              <span>广告效率 + BA购买占比 + SIF时机三重验证</span>
+            </div>
+            <div id="abaPanels" class="split-panels"></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-asin">
+          <div class="view-head">
+            <div>
+              <p class="eyebrow">ASIN View</p>
+              <h2>B0XX-01 诊断上下文</h2>
+            </div>
+            <button class="ghost-button" data-go="report" type="button">查看完整报告</button>
+          </div>
+          <div id="asinView" class="asin-layout"></div>
+        </section>
+
+        <section class="view" id="view-blueprint">
+          <div class="view-head">
+            <div>
+              <p class="eyebrow">Business Blueprint</p>
+              <h2>天机OS商业版图与系统模块</h2>
+            </div>
+          </div>
+          <div id="blueprintView"></div>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="evidence-dialog" id="evidenceDialog">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">Screenshot Evidence</p>
+          <h2>原型依据截图</h2>
+        </div>
+        <button class="ghost-button" id="closeEvidence" type="button">关闭</button>
+      </div>
+      <div class="evidence-grid" id="evidenceGrid"></div>
+    </dialog>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

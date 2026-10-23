@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>亚马逊广告优化工作台 | Codex + Cloudflare 固定网址</title>
+    <meta
+      name="description"
+      content="亚马逊广告优化流程板块，包含诊断、结构重建、出价预算、关键词运营、复盘自动化与 Cloudflare 固定网址发布方法。"
+    />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <header class="app-shell">
+      <a class="brand" href="#top" aria-label="回到顶部">
+        <span class="brand-mark">AD</span>
+        <span>
+          <strong>亚马逊广告优化工作台</strong>
+          <small>Codex 生成 · Cloudflare 固定网址</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="页面导航">
+        <a href="#optimizer">优化板块</a>
+        <a href="#publish">固定网址</a>
+        <a href="#reference">流程参考</a>
+      </nav>
+      <button class="icon-button" id="copyUrl" type="button" title="复制固定网址">
+        <i data-lucide="copy"></i>
+        <span>复制网址</span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="hero-band" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Amazon Ads Optimization OS</p>
+          <h1 id="hero-title">把广告诊断、操作动作和复盘发布到一个固定页面</h1>
+          <p>
+            页面以“流程画布 + 执行清单 + 发布方法”组织：先看广告问题在哪里，再决定调结构、调词、调价还是调预算，最后把 Codex 更新后的 HTML 发布到同一个 Cloudflare Pages 地址。
+          </p>
+        </div>
+        <div class="hero-actions" aria-label="关键入口">
+          <a class="primary-action" href="#optimizer">
+            <i data-lucide="workflow"></i>
+            进入广告优化板块
+          </a>
+          <a class="secondary-action" href="#publish">
+            <i data-lucide="cloud-upload"></i>
+            查看固定网址发布法
+          </a>
+        </div>
+      </section>
+
+      <section class="metric-strip" aria-label="广告诊断指标">
+        <article>
+          <span>ACOS 警戒</span>
+          <strong>31.8%</strong>
+          <small>超过利润红线 6.8%</small>
+        </article>
+        <article>
+          <span>CVR 漏斗</span>
+          <strong>9.6%</strong>
+          <small>低于目标 2.4%</small>
+        </article>
+        <article>
+          <span>关键词浪费</span>
+          <strong>18 个</strong>
+          <small>需否词或降价</small>
+        </article>
+        <article>
+          <span>自然位撬动</span>
+          <strong>#18 → #9</strong>
+          <small>核心词 14 天目标</small>
+        </article>
+      </section>
+
+      <section class="workbench" id="optimizer" aria-labelledby="optimizer-title">
+        <div class="section-heading">
+          <p class="eyebrow">01 · 广告优化板块</p>
+          <h2 id="optimizer-title">从报表到动作的自动化投放流程</h2>
+          <p>
+            每个节点都对应一类判断信号和可执行动作。点击流程节点，右侧会切换成对应的诊断口径。
+          </p>
+        </div>
+
+        <div class="board-layout">
+          <div class="process-board" aria-label="亚马逊广告优化流程">
+            <div class="lane">
+              <h3>数据接入</h3>
+              <button class="process-card active" type="button" data-stage="reports">
+                <span class="card-kicker">Search Term / Campaign</span>
+                <strong>广告报表归因</strong>
+                <small>花费、订单、点击、转化率、展示位置</small>
+              </button>
+              <button class="process-card" type="button" data-stage="sku">
+                <span class="card-kicker">ASIN / SKU</span>
+                <strong>商品利润底线</strong>
+                <small>售价、毛利、FBA、优惠券、目标 ACOS</small>
+              </button>
+            </div>
+
+            <div class="lane">
+              <h3>诊断层</h3>
+              <button class="process-card" type="button" data-stage="acos">
+                <span class="card-kicker">Guardrail</span>
+                <strong>ACOS 利润红线</strong>
+                <small>判断是词问题、价问题还是转化问题</small>
+              </button>
+              <button class="process-card warning" type="button" data-stage="leak">
+                <span class="card-kicker">Leakage</span>
+                <strong>流量浪费定位</strong>
+                <small>高花费无单、低 CTR、低 CVR、错配词</small>
+              </button>
+            </div>
+
+            <div class="lane">
+              <h3>优化层</h3>
+              <button class="process-card" type="button" data-stage="structure">
+                <span class="card-kicker">SP / SB / SD</span>
+                <strong>广告结构重建</strong>
+                <small>自动、手动、精准、广泛、竞品分层</small>
+              </button>
+              <button class="process-card success" type="button" data-stage="keyword">
+                <span class="card-kicker">Harvest</span>
+                <strong>关键词采收与否词</strong>
+                <small>把有效搜索词迁移到精准广告</small>
+              </button>
+              <button class="process-card danger" type="button" data-stage="bid">
+                <span class="card-kicker">Bid / Budget</span>
+                <strong>出价预算调度</strong>
+                <small>按转化能力、排名目标和利润空间调节</small>
+              </button>
+            </div>
+
+            <div class="lane">
+              <h3>复盘自动化</h3>
+              <button class="process-card" type="button" data-stage="review">
+                <span class="card-kicker">Weekly Review</span>
+                <strong>周复盘动作清单</strong>
+                <small>保留、放量、降价、暂停、否词</small>
+              </button>
+              <button class="process-card cloud" type="button" data-stage="cloudflare">
+                <span class="card-kicker">Cloudflare</span>
+                <strong>固定页面发布</strong>
+                <small>Codex 更新 HTML，Cloudflare 保持同一网址</small>
+              </button>
+            </div>
+          </div>
+
+          <aside class="inspector" aria-live="polite">
+            <div class="inspector-header">
+              <span id="detailKicker">Search Term / Campaign</span>
+              <h3 id="detailTitle">广告报表归因</h3>
+            </div>
+            <p id="detailSummary">
+              先统一读取广告活动、搜索词、展示位置、商品利润和自然排名，避免只看 ACOS 做单点判断。
+            </p>
+            <dl class="detail-grid">
+              <div>
+                <dt>判断信号</dt>
+                <dd id="detailSignal">花费集中、点击异常、转化不足、自然位未被撬动。</dd>
+              </div>
+              <div>
+                <dt>操作动作</dt>
+                <dd id="detailAction">建立日报表字段，按 ASIN、Campaign、Ad Group、Keyword 四层聚合。</dd>
+              </div>
+              <div>
+                <dt>输出物</dt>
+                <dd id="detailOutput">广告诊断总表、利润红线、关键词候选池。</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="action-matrix" aria-labelledby="matrix-title">
+        <div class="section-heading">
+          <p class="eyebrow">02 · 执行矩阵</p>
+          <h2 id="matrix-title">把诊断结果转成运营动作</h2>
+        </div>
+        <div class="matrix-grid">
+          <article>
+            <i data-lucide="search-check"></i>
+            <h3>高花费无订单</h3>
+            <p>看搜索词相关性、Listing 承接、竞价是否过高；优先否掉错配词，精准词先降价观察。</p>
+          </article>
+          <article>
+            <i data-lucide="target"></i>
+            <h3>有单但 ACOS 高</h3>
+            <p>保留成交词，按目标 ACOS 回推可承受 CPC；预算从低转化组转移到高确定性词组。</p>
+          </article>
+          <article>
+            <i data-lucide="trending-up"></i>
+            <h3>核心词要冲排名</h3>
+            <p>单独建精准广告，限制预算被长尾词消耗；用 7-14 天窗口观察自然位是否上升。</p>
+          </article>
+          <article>
+            <i data-lucide="route"></i>
+            <h3>自动广告采词</h3>
+            <p>自动广告负责发现词，手动广告负责承接词；成交词迁移后原自动组加否定精准。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="publish-band" id="publish" aria-labelledby="publish-title">
+        <div class="section-heading">
+          <p class="eyebrow">03 · Codex + Cloudflare</p>
+          <h2 id="publish-title">让每次生成的 HTML 都更新到固定网址</h2>
+          <p>
+            关键不是每次生成一个新文件，而是每次都部署到同一个 Cloudflare Pages 项目。
+          </p>
+        </div>
+
+        <div class="publish-grid">
+          <article class="step-card">
+            <span>1</span>
+            <h3>让 Codex 生成页面</h3>
+            <p>把 HTML、CSS、JS 放进同一个 `dist` 目录，所有图片也放在 `assets` 里。</p>
+          </article>
+          <article class="step-card">
+            <span>2</span>
+            <h3>打开 Cloudflare 授权</h3>
+            <p>运行登录命令，浏览器会进入 Cloudflare。你完成注册、登录和授权。</p>
+          </article>
+          <article class="step-card">
+            <span>3</span>
+            <h3>发布到固定项目名</h3>
+            <p>项目名固定为 `amazon-ads-ai-optimizer-20260626`，网址就会长期固定。</p>
+          </article>
+          <article class="step-card">
+            <span>4</span>
+            <h3>以后只覆盖更新</h3>
+            <p>改完网页后再次部署到同一个项目名，访问者打开的仍是同一个链接。</p>
+          </article>
+        </div>
+
+        <div class="command-panel" aria-label="发布命令">
+          <div>
+            <p>首次授权</p>
+            <button class="copy-command" type="button" data-copy="npm.cmd run login">
+              <i data-lucide="clipboard"></i>
+              <code>npm.cmd run login</code>
+            </button>
+          </div>
+          <div>
+            <p>发布或更新</p>
+            <button class="copy-command" type="button" data-copy="npm.cmd run deploy">
+              <i data-lucide="clipboard"></i>
+              <code>npm.cmd run deploy</code>
+            </button>
+          </div>
+          <div>
+            <p>固定访问地址</p>
+            <button class="copy-command" type="button" data-copy="https://amazon-ads-ai-optimizer-20260626.pages.dev">
+              <i data-lucide="link"></i>
+              <code>https://amazon-ads-ai-optimizer-20260626.pages.dev</code>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="reference-band" id="reference" aria-labelledby="reference-title">
+        <div class="section-heading">
+          <p class="eyebrow">04 · 流程参考</p>
+          <h2 id="reference-title">参考图的思路：节点可拖拽、画布可扩展、动作可追踪</h2>
+          <p>
+            这个网站先做成可分享页面；后续可以继续升级成真正的拖拽画布，把每个广告动作保存为节点。
+          </p>
+        </div>
+        <figure class="reference-figure">
+          <img src="./assets/amazon-ads-flow-reference.png" alt="亚马逊 AI 运营广告自动架构流程画布参考图" />
+        </figure>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>固定项目名：amazon-ads-ai-optimizer-20260626</span>
+      <span>更新方式：Codex 改页面，Cloudflare Pages 覆盖发布</span>
+    </footer>
+
+    <script src="./assets/app.js"></script>
+  </body>
+</html>

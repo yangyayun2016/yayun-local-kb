@@ -1,0 +1,7 @@
+interface:
+  display_name: "亚马逊新品作战skill"
+  short_description: "用 SIF 数据构建新品前两周关键词作战表和执行优先级"
+  default_prompt: "Use $amazon-new-product-battle-plan to build an Amazon new product launch keyword battle plan."
+
+policy:
+  allow_implicit_invocation: true

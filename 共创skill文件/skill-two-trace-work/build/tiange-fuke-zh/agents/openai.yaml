@@ -1,0 +1,4 @@
+interface:
+  display_name: "天哥复刻"
+  short_description: "爆款短视频复刻、分镜拆解、Seedance生成和上下屏对比"
+  default_prompt: "使用$tiange-fuke-zh复刻这条爆款视频并输出上下屏对比片。"

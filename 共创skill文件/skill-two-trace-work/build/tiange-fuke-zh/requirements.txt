@@ -1,0 +1,3 @@
+# 爆款复刻流水线的全部 Python 依赖（就一个）。装法：pip install -r requirements.txt
+# 视频拆/拼靠系统装的 ffmpeg（不是 pip 包），见 新手必读-大白话.md。
+requests>=2.28

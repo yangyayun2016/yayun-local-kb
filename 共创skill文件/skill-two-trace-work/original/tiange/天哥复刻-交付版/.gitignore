@@ -1,0 +1,6 @@
+_work/
+_frames/
+.secret.env
+**/.secret.env
+__pycache__/
+*.pyc

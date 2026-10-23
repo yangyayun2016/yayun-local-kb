@@ -1,0 +1,4 @@
+interface:
+  display_name: "亚马逊广告Director"
+  short_description: "中文亚马逊广告诊断、LT架构、搜索词治理和ASIN复盘动作清单"
+  default_prompt: "使用$amazon-ads-director-zh分析亚马逊广告报表并输出动作清单。"

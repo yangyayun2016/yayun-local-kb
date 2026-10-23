@@ -1,0 +1,13 @@
+{
+  "name": "amazon-ads-cloudflare-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler pages deploy dist --project-name amazon-ads-ai-optimizer-20260626 --branch production",
+    "login": "wrangler login",
+    "preview": "wrangler pages dev dist"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

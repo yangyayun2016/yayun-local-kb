@@ -1,0 +1,4 @@
+interface:
+  display_name: "ASIN每日竞争追踪"
+  short_description: "每日追踪自有ASIN与竞品异动、动作标记和配额提醒"
+  default_prompt: "使用$asin-daily-tracker-zh跑今天的ASIN竞争追踪。"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon Product Opportunity Map"
+  short_description: "Map seed products into Amazon category opportunities"
+  default_prompt: "Use $amazon-product-opportunity-map to expand a validated Amazon product into category opportunities and shortlist testable product ideas."
