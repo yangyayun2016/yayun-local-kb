@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Soldy基于Agent工作流的跨境电商产品运营与技术重构策略</title>
+  <style>
+    :root{--ink:#182027;--muted:#657079;--paper:#f4f2ed;--card:#fff;--line:#dddeda;--purple:#6d4fd3;--purple2:#8e73e5;--blue:#315f8f;--green:#27745a;--amber:#a46b10;--red:#b44b42;--amazon:#ff9900;--tiktok:#00a7a3;--navy:#192e44}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.72}a{color:#315e91;text-decoration:none}a:hover{text-decoration:underline}.wrap{max-width:1190px;margin:auto;padding:0 28px}.hero{padding:68px 0 54px;color:#fff;background:radial-gradient(circle at 78% 20%,#7453d7 0,#7453d700 32%),linear-gradient(135deg,#11171c,#263641 60%,#362c5e)}.eyebrow{font-size:12px;letter-spacing:.15em;color:#d0caf5}.hero h1{font-size:44px;line-height:1.16;margin:14px 0 18px}.hero p{max-width:900px;color:#d8e0e5;font-size:18px}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:23px}.chip{padding:5px 11px;border:1px solid #ffffff38;border-radius:999px;background:#ffffff0d;font-size:12px}.nav{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);background:#f4f2edf2;backdrop-filter:blur(12px)}.nav .wrap{display:flex;gap:20px;overflow:auto;white-space:nowrap;padding-top:12px;padding-bottom:12px}.nav a{font-size:13px;color:#424c53}.section{padding:53px 0;border-bottom:1px solid var(--line)}h2{font-size:30px;line-height:1.25;margin:0 0 10px}h3{font-size:21px;margin:29px 0 10px}h4{font-size:16px;margin:0 0 8px}.lead{max-width:930px;color:var(--muted)}.grid{display:grid;gap:18px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.four{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:21px;box-shadow:0 8px 20px #17222a08}.card p:last-child{margin-bottom:0}.purple{border-top:5px solid var(--purple)}.amazon{border-top:5px solid var(--amazon)}.tiktok{border-top:5px solid var(--tiktok)}.good{border-top:5px solid var(--green)}.metric{font-size:27px;font-weight:760;line-height:1.2}.small{font-size:12.5px;color:var(--muted)}.callout{margin:19px 0;padding:18px 20px;border-radius:12px;background:#ede9fb;border-left:4px solid var(--purple)}.callout.ok{background:#e8f4ef;border-left-color:var(--green)}.callout.warn{background:#fff1df;border-left-color:var(--amber)}.quote{padding:20px 0;font-size:23px;font-weight:680;line-height:1.48;color:var(--navy)}.tag{display:inline-block;margin:2px;padding:2px 8px;border-radius:999px;font-size:11px;background:#eceeeb;color:#40484d}.tag.best{background:#e7e0fb;color:#53359f}.tag.mid{background:#fff0cb;color:#765100}.tag.low{background:#eee;color:#555}.tag.p1{background:#fee4dd;color:#91362c}.tag.p2{background:#e4f2eb;color:#205e47}.table-wrap{overflow:auto}table{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden;font-size:13px}th{text-align:left;vertical-align:top;padding:12px;background:#eceeea;color:#374148}td{padding:13px 12px;vertical-align:top;border-top:1px solid #e7e7e2}tr:hover td{background:#fbfbf8}ul{padding-left:20px}li{margin:5px 0}.architecture{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;align-items:stretch;margin:24px 0}.arch-col{display:grid;gap:10px}.arch-title{text-align:center;font-weight:750;font-size:14px;color:#4b5660}.node{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;font-size:13px}.node.core{background:linear-gradient(135deg,#6d4fd3,#8c70e1);color:#fff;border:0;box-shadow:0 12px 25px #6042c42c}.node.connect{border:2px solid #a995e4;background:#faf9ff}.arch-col:not(:last-child) .node:after{content:"→";position:absolute;right:-22px;top:35%;color:#8f979b;font-size:18px;z-index:2}.layer{display:grid;grid-template-columns:62px 1fr;gap:16px;margin:18px 0;padding:22px;background:#fff;border:1px solid var(--line);border-radius:15px}.layer-num{width:50px;height:50px;display:grid;place-items:center;border-radius:14px;background:#e9e2fb;color:#5337a1;font-weight:800;font-size:20px}.layer h3{margin:0 0 5px}.codebox{margin:16px 0;padding:18px;border-radius:12px;background:#17222d;color:#e8edf1;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;overflow:auto}.codebox .arrow{display:block;text-align:center;color:#b9a8f4;font-size:19px}.task-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}.task{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}.task h3{margin-top:0}.task ul{margin-bottom:0}.priority{display:grid;grid-template-columns:64px 1fr;gap:18px;padding:22px 0;border-top:1px solid var(--line)}.priority:first-child{border-top:0}.priority-num{width:54px;height:54px;display:grid;place-items:center;border-radius:50%;background:#e9e2fb;color:#50349c;font-size:20px;font-weight:800}.priority h3{margin:0 0 6px}.entry{display:flex;flex-wrap:wrap;gap:8px;margin:11px 0}.entry span{padding:5px 9px;border-radius:8px;background:#edf0ed;font-size:12px}.flow{display:grid;grid-template-columns:repeat(9,1fr);gap:7px;margin:24px 0}.step{position:relative;min-height:106px;padding:13px 9px;background:#fff;border:1px solid var(--line);border-radius:10px}.step:not(:last-child):after{content:"→";position:absolute;right:-10px;top:38%;z-index:2;color:#8b9498}.step b{display:block;font-size:12.5px}.step span{font-size:11px;color:var(--muted)}.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}.phase{background:#fff;border:1px solid var(--line);border-radius:14px;padding:19px}.phase .time{font-size:12px;font-weight:750;color:var(--purple);letter-spacing:.05em}.phase h3{margin:7px 0 9px;font-size:18px}.final{background:linear-gradient(135deg,#1b2934,#352b5b);color:#fff;border-radius:18px;padding:30px;margin-top:22px}.final p{color:#d8dee4}.final .quote{color:#fff;padding-bottom:0}.footer{padding:44px 0 70px;color:var(--muted);font-size:12px}
+    @media(max-width:900px){.hero h1{font-size:33px}.two,.three,.four,.architecture,.task-grid,.timeline{grid-template-columns:1fr}.arch-col:not(:last-child) .node:after{display:none}.flow{grid-template-columns:1fr 1fr}.step:not(:last-child):after{display:none}.wrap{padding:0 18px}table{min-width:850px}}
+    @media print{.nav{display:none}.hero{background:#273641!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.card,table,.layer,.phase{break-inside:avoid}.wrap{max-width:none}}
+  </style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <div class="eyebrow">SOLDY RE-ARCHITECTED BY ALLYHUB PRINCIPLES</div>
+    <h1>Soldy 跨境智能化视频内容层重构策略</h1>
+    <p>摒弃单纯的视频 SaaS 模式或遥不可及的 ERP 深度集成大生态，采用“本地安全插件+AI核心工作流引擎”的 AllyHub 逻辑，直接深入商家日常已登录环境，提供零门槛、低成本、强风控保护的视频自动化闭环。</p>
+    <div class="chips"><span class="chip">安全防封沙箱</span><span class="chip">多模态 DOM 解析</span><span class="chip">复利记忆算法</span><span class="chip">赚钱的 Agent 先行</span><span class="chip">零 Headless 架构</span></div>
+  </div></header>
+
+  <nav class="nav"><div class="wrap"><a href="#conclusion">核心结论</a><a href="#routes">技术路径升级</a><a href="#architecture">重构产品架构</a><a href="#interface">经营任务映射</a><a href="#tools">生态与自动化集成</a><a href="#workflow">重塑商家流程</a><a href="#business">变现与复利计费</a><a href="#roadmap">落地路线图</a><a href="#final">主理人建议</a></div></nav>
+
+  <main>
+    <section id="conclusion" class="section"><div class="wrap">
+      <h2>核心结论</h2>
+      <p class="lead">与其赌博式地在各大 ERP 及封闭式电商平台中排队申请官方特权 API，Soldy 应当直接贯彻 <b>“浏览器安全插件即基础设施”</b> 路线，将产品重塑为三大技术协同体：</p>
+      <div class="grid three">
+        <div class="card purple"><h3>Soldy Browser Extension</h3><div class="metric">本地安全沙箱</div><p>利用真实设备指纹、本地登录态与 AI DOM 树视觉解析，零侵入无缝提取 Listing 上下文、安全回写成片。</p></div>
+        <div class="card good"><h3>VLM Creative Engine</h3><div class="metric">复利型记忆引擎</div><p>依托分布式 n8n/Dify 编排，支持根据过往视频跑通链路和爆款特征进行技术沉淀，用的越多，Token 越省。</p></div>
+        <div class="card"><h3>Unified Hub API</h3><div class="metric">MCP / 自动化连接器</div><p>放弃臃肿的第三方后台研发，为企业级卖家的 n8n、Make 自建工作流以及 Claude 客户端提供直接的 MCP 调用支持。</p></div>
+      </div>
+      <div class="quote">商家在哪里管理 Listing 和红人，Soldy 的生成动作就在哪里触发；本地执行无缝防封，完全消灭由于跨网站切换带来的高流失率。</div>
+    </div></section>
+
+    <section id="routes" class="section"><div class="wrap">
+      <h2>一、三种产品路线技术重构比较</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>路线</th><th>传统 SaaS 规划</th><th>AllyHub 逻辑注入（检修重点）</th><th>最终判断</th></tr></thead>
+        <tbody>
+          <tr><td><b>独立站工作台运营</b></td><td>要求商家重新上传图片和标题，依赖在 Soldy 网站内调教 Prompt。</td><td>仅保留作为品牌库（Brand Kit）管理中枢。<b>严禁依赖该模式作为主获客入口</b>，否则工具切换流失率极高。</td><td><span class="tag low">仅作后台</span></td></tr>
+          <tr><td><b>各平台官方 API 完整应用</b></td><td>全面开发 Amazon SP-API 和 TTS 公开 App 申请入驻，高成本、强受制于官方政策。</td><td><b>风控极高。</b> 集中式云端应用批量回传 Listing 极易因共用高风险 IP 导致成批店铺关联或封禁。</td><td><span class="tag mid">谨慎后置</span></td></tr>
+          <tr><td><b>核心创意引擎 + 本地插件沙箱</b></td><td>作为轻量辅助。</td><td><b>唯一解。</b> 类似 AllyHub，通过原生插件将渲染、数据解析动作锁死在用户本地网络（Residential IP），彻底隐蔽反爬特征。</td><td><span class="tag best">全面实施</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout ok"><b>架构检修共识：</b>将底层 API 定义从“调用云端无头浏览器”升级为“通过本地扩展调度真实执行”，从而以零 API 授权的前提，光速实现多电商系统的强力兼容。</div>
+    </div></section>
+
+    <section id="architecture" class="section"><div class="wrap">
+      <h2>二、重构的产品技术架构</h2>
+      <p class="lead">利用 VLM/LLM 技术理解混乱的、改版频繁的网页 DOM 树，将“非标”的跨境电商页面直接转化为结构化视频 Brief。</p>
+      <div class="architecture">
+        <div class="arch-col">
+          <div class="arch-title">商家本地运行环境</div>
+          <div class="node">真实登录态浏览器 / 宿主 IP</div>
+          <div class="node">Amazon 后台 / Listing 页面</div>
+          <div class="node">TikTok Shop 达人沟通后台</div>
+          <div class="node">领星 / 店小秘 Web 端行内</div>
+          <div class="node">Shopify / SHOPLINE 媒体库</div>
+        </div>
+        <div class="arch-col">
+          <div class="arch-title">Soldy 智能化中枢 (n8n/Dify)</div>
+          <div class="node connect"><b>Soldy Native Sandbox</b><br><span class="small">V3 插件 · AI DOM 解析 · 行为混淆器</span></div>
+          <div class="node core"><b>Soldy AI Memory Engine</b><br><span>由 LanceDB/RAGFlow 驱动</span><br><span>红人原生视频结构化拆解 (VLM)</span><br><span>多平台经营任务自动化映射</span><br><span>Token 成本递减策略记忆体</span><br><span>跨语种克隆与多模态合成</span></div>
+          <div class="node connect">本地回写与异步状态<br><span class="small">自动埋词验证 · 绕过 Cloudflare</span></div>
+        </div>
+        <div class="arch-col">
+          <div class="arch-title">敏捷流量与落地层</div>
+          <div class="node">自动保存至商品 Onsite 视频位</div>
+          <div class="node">一键分发 TTS 挂车短视频矩阵</div>
+          <div class="node">回传至内部飞书/Telegram审核</div>
+          <div class="node">Amazon Rufus 生成式推荐优化</div>
+          <div class="node">自动进入广告素材库测款</div>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="layer-num">1</div>
+        <div><h3>Soldy Native Sandbox：无痛突破风控墙</h3><p>基于 Chrome Extension V3 的真实环境。通过网页元素的智能化定位（AI Element Mapping），商家只需在自己日常使用的 ERP 或卖家中心页面顺手一划，插件即可利用大模型瞬间剥离出当前的标题、图册及核心卖点。<b>杜绝云端 Headless 运行模式，用完全拟真的真人随机行为路径、点击延迟和鼠标移动轨迹，消灭验证码高发问题。</b></p></div>
+      </div>
+      <div class="layer">
+        <div class="layer-num">2</div>
+        <div><h3>VLM Memory Engine：技术红利下的成本递减机制</h3><p>引入类似 AllyHub 的 <b>Compounds Down（复利进化）记忆算法</b>。通过向量数据库储存特定品牌的视频生成记录，每一次调整和生成都会进化大模型的本地约束规则。当商家二次为同品牌或同品类生成视频时，系统不再重新消费全量 Context Token，直接调用沉淀下来的 Schema，<b>让视频产出效率提升 300%，而大模型 Token 消耗成本下降 50% 以上。</b></p><div class="codebox">新商品注入 → 匹配历史大卖类似风格模式 (LanceDB) → 检索高点击 Hook → 自动生成视频结构</div></div>
+      </div>
+      <div class="layer">
+        <div class="layer-num">3</div>
+        <div><h3>Soldy Creative API / MCP：面向自动化时代</h3><p>放弃重度复杂的前端交互，把视频能力原子化。深度拥抱 <b>Model Context Protocol (MCP)</b> 协议。提供开放式架构，允许高级卖家在自建的 Claude 或 Dify/n8n 自动化画布中，直接将其作为一个通用“Action Node”引入：</p><div class="codebox">// 简化企业级 AI 工作流的异步任务表达
+{
+  "action": "create_soldy_video_job",
+  "params": {
+    "context_url": "https://www.amazon.com/dp/B0FNMBQFBC",
+    "business_goal": "amazon_sponsored_brands_video",
+    "brand_kit_id": "bk_9982"
+  }
+}</div></div>
+      </div>
+    </div></section>
+
+    <section id="interface" class="section"><div class="wrap">
+      <h2>三、重塑：商家真正应该看到的经营任务界面</h2>
+      <p class="lead">坚决把复杂的“模型选择”、“提示词微调”等研发黑箱隐藏。第一界面只允许出现直接对应的<b>跨境电商具体经营任务（Business Task）</b>，后台自动映射生成规则：</p>
+      <div class="task-grid">
+        <div class="task amazon"><h3>Amazon 提效与 GEO 获客</h3><ul>
+          <li>为指定 ASIN 提取差评痛点并生成视频</li>
+          <li>批量生成 Sponsored Brands 黄金卡位视频[cite: 1]</li>
+          <li>快速构建无声卖点展示流（用于卡位 Amazon 详情页）</li>
+          <li>针对 Amazon Rufus 生成式导购引擎的推荐关键词视频包</li>
+        </ul></div>
+        <div class="task tiktok"><h3>TikTok Shop 挂车与红人裂变</h3><ul>
+          <li>自动抓取类目博文，为指定 SKU 产出红人寄样开发信[cite: 1]</li>
+          <li>红人长视频原始素材自动一拆多（智能切出 5 种差异化首镜 Hook）[cite: 1]</li>
+          <li>一键生成 15-30s 垂直挂车种草多语种视频矩阵</li>
+          <li>全天候 TikTok Live 预热宣传与短视频补量</li>
+        </ul></div>
+      </div>
+      <div class="codebox">商家点选核心经营目标 → 插件本地感知上下文 → 自动匹配对应尺寸、时长规范、合规过滤器、Hook 比例。</div>
+    </div></section>
+
+    <section id="tools" class="section"><div class="wrap">
+      <h2>四、优先切入哪些商家工具与自动化工作流（校对版）</h2>
+      <p class="lead">放弃大规模官方商务谈判，以<b>“兼容性最高、研发成本最轻、付费意愿最强”</b>为标准对集成顺序进行硬性重组：</p>
+
+      <div class="priority">
+        <div class="priority-num">1</div>
+        <div>
+          <h3>【最高优先级】轻量化浏览器插件（无依赖冷启动）</h3>
+          <p>无需任何外部服务商配合。通过 Soldy 独立插件或采用注入式代码块，无痕挂载在任意电商主图或 ERP 网页行内。用户只要身处 Amazon 卖家后台或店小秘页面，一键直接提取当前屏幕所有的变体信息与 Listing 上下文。</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>落地形态</th><th>核心应用场景</th><th>技术壁垒与实现方式</th><th>收益与获客路径</th></tr></thead>
+            <tbody>
+              <tr><td><b>Soldy Inject View</b></td><td>亚马逊详情页、TikTok 卖家中心、领星 Listing 行内</td><td>通过 Chrome 插件的 `chrome.webRequest` 本地直接感知正在浏览的 ASIN/SKU，提供一键悬浮按钮。</td><td>最快验证刚需；通过在社群、跨境沙龙发放插件安装包，零门槛快速获客并转化。</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <div class="priority">
+        <div class="priority-num">2</div>
+        <div>
+          <h3>【第二优先级】AI 自动化与 Agent 生态集成（企业级大客）</h3>
+          <p>针对正在自建流程的大中型卖家，Soldy 不去抢夺他们的管理大盘，而是将自身做成最好用的“视频节点插件”。</p>
+          <div class="table-wrap"><table>
+            <thead><tr><th>生态类型</th><th>代表产品</th><th>技术形态</th><th>如何共建商业闭环</th></tr></thead>
+            <tbody>
+              <tr><td><b>可视化工作流</b></td><td>n8n, Make, Shopify Flow[cite: 1]</td><td>开发官方连接器（Connector）与通用 Webhook[cite: 1]</td><td>发布 3-5 个拿来即用的黑客爆款模板，在自动化咨询顾问圈层进行批量利益分销。</td></tr>
+              <tr><td><b>Agent 组装市场</b></td><td>Dify, 扣子[cite: 1]</td><td>OAuth 认证的 Remote MCP Server[cite: 1]</td><td>入驻插件市场，提供诸如“TikTok 周挂车内容补充”等 Starter Workflow 联合推广。</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <div class="priority">
+        <div class="priority-num">3</div>
+        <div>
+          <h3>【后置优先级】各平台官方应用市场（极重的财务与审核成本）</h3>
+          <p>包括 TikTok Shop Public App 和 Amazon Appstore[cite: 1]。此阶段必须压后，仅在插件模式验证了数十万美金营收后，作为高级合规动作再投入研发。<b>绝不在第一季度去消耗精力去申请无关的财务、履约等平台重度权限 API[cite: 1]。</b></p>
+        </div>
+      </div>
+    </div></section>
+
+    <section id="workflow" class="section"><div class="wrap">
+      <h2>五、优化后的商家操作工作流（消灭复杂切换）</h2>
+      <p class="lead">全链路极简交互设计：让视频生成就像安装一个一键划词翻译插件一样简单。</p>
+      <div class="flow">
+        <div class="step"><b>1 页面停留</b><span>商家在任意 ERP 或详情页停留[cite: 1]</span></div>
+        <div class="step"><b>2 顺手一划</b><span>点选商品或直接唤起插件侧边栏</span></div>
+        <div class="step"><b>3 智能提取</b><span>本地大模型瞬间把无序文本化为 Brief</span></div>
+        <div class="step"><b>4 点选任务</b><span>选择例如“Sponsored Brands 广告”[cite: 1]</span></div>
+        <div class="step"><b>5 记忆推荐</b><span>基于历史品类数据，直接智能推荐3种 Hook</span></div>
+        <div class="step"><b>6 异步生成</b><span>云端/本地异步跑通混剪与变音管线[cite: 1]</span></div>
+        <div class="step"><b>7 本地预览</b><span>在当前浏览器侧边栏无缝核对视频质量</span></div>
+        <div class="step"><b>8 安全回传</b><span>本地一键回写Listing媒体库，绝不共用 IP</span></div>
+        <div class="step"><b>9 表现微调</b><span>GEO 和 SIF 赢率反馈直接引发自动下一批补量</span></div>
+      </div>
+    </div></section>
+
+    <section id="business" class="section"><div class="wrap">
+      <h2>六、产品商业化与复利型生态路径</h2>
+      <p class="lead">不搞单一价格战，基于 Studio、Connect 插件及 API 形成多层级组合拳计费模式：</p>
+      <div class="grid three">
+        <div class="card purple"><h3>Studio 席位订阅</h3><p>提供基础版/团队版。主要针对跨国团队、大牌卖家的 Brand Kit 及品牌资产沉淀，售卖高级 Campaign 席位费。</p></div>
+        <div class="card good"><h3>Connect 消耗分成</h3><p>插件全面采取“免费安装+体验积分点数”获客。支持与 ERP、服务商深度捆绑，将视频点数打包装入其高级 SaaS 套餐转售。</p></div>
+        <div class="card"><h3>API/MCP 用量计费</h3><p>面向大卖家的自建自动化生产流（如 n8n 批量处理）。根据生成的分钟数、并发限制以及特定 VLM 算力消耗梯度计费。</p></div>
+      </div>
+      <div class="quote">技术红利：通过独特的“记忆体（Memory）”机制，用户调用次数越多，其单条视频在后台的大模型推理成本就越低，从而将技术剪刀差直接转化为平台的极高毛利空间。</div>
+    </div></section>
+
+    <section id="roadmap" class="section"><div class="wrap">
+      <h2>七、精益求精：12 个月冷启动与技术演进顺序</h2>
+      <div class="timeline">
+        <div class="phase"><div class="time">M1 — M2 (验证切片)</div><h3>核心插件与建联 Agent 破局</h3><ul><li>发布首版 Chrome Extension V3 插件[cite: 1]。</li><li>实现无 API 授权状态下的 Amazon/TikTok 商品属性与 Review 差评提取。</li><li>优先支持“爆款红人原生素材一拆多自动混剪”功能[cite: 1]。</li></ul></div>
+        <div class="phase"><div class="time">M3 — M5 (技术沉淀)</div><h3>复利引擎与 API/MCP 交付</h3><ul><li>上线云端统一处理管线，内置多语种配音与智能 Hook 切片。</li><li>引入 LanceDB 向量数据库，沉淀品类数据复利记忆体[cite: 1]。</li><li>发布通用 MCP 接口和 n8n/Make 原生节点，收割技术型极客大卖[cite: 1]。</li></ul></div>
+        <div class="phase"><div class="time">M6 — M9 (深度合规)</div><h3>生态联名与应用上架</h3><ul><li>利用积累的早期海量营收，反哺投入大平台（Amazon Appstore、TTS Public App）公开审核。</li><li>推动与领星、店小秘等第一梯队跨境大 ERP 厂商的行内应用联合试点。</li></ul></div>
+        <div class="phase"><div class="time">M10+ (完全闭环)</div><h3>GEO 数据驱动再生产</h3><ul><li>对接 SIF 自然位及 Amazon Rufus 生成式推荐算法。</li><li>系统根据内容表现，自动提醒卖家进行创意补量与智能换 Hook，彻底形成 Xflow OS 内容生产层闭环。</li></ul></div>
+      </div>
+      <div class="callout warn"><b>长期红线：</b>保持技术克制，Soldy 的底层代码与算力必须百分百聚焦在“内容建议、视觉解析与再生产”上[cite: 1]。<b>严禁跨界研发 ERP 的进销存、海外仓履约或物流管理模块[cite: 1]。</b></div>
+    </div></section>
+
+    <section id="final" class="section"><div class="wrap">
+      <h2>主理人决策建议</h2>
+      <div class="final">
+        <p>让 Soldy 获得垄断性壁垒的关键，绝对不是成为又一个设计精美却没人每天去登录的传统 AI 视频网站[cite: 1]。</p>
+        <div class="quote">而是要成为全网跨境电商智能化流转中，最顺手、最安全的“视频内容发生层”[cite: 1]。</div>
+        <p>商家在哪里管理他的商品、筛选他的红人、盯着他的广告，Soldy 这一行“一键生成多变体视频”的轻量化按钮就必须生长在哪里[cite: 1]。通过把自然语言驱动能力直接植入本地浏览器扩展，我们用最低的商务门槛和防封沙箱壁垒，解决了跨境电商最硬核的视频补量痛点，顺应了当前大模型生态大爆发的技术复利大潮。</p>
+      </div>
+    </div></section>
+  </main>
+
+  <footer class="footer"><div class="wrap">Soldy 产品重构蓝图 · 浏览器本地沙盒 × 复利型内容记忆体 × 智能化经营任务映射</div></footer>
+</body>
+</html>

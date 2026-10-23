@@ -1,0 +1,535 @@
+"""Skill Tools router — auto-generated visual panels from Skill SKILL.md.
+
+Endpoints:
+  GET  /api/skill-tools/list   → all executable skills with parsed inputs schema
+  POST /api/skill-tools/run    → execute a skill with user-provided params
+"""
+from __future__ import annotations
+
+import json
+import re
+import time
+from typing import Any, Optional
+
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
+from pydantic import BaseModel, Field
+
+from app.core.security import require_user
+from app.services import skill_repo
+
+router = APIRouter(dependencies=[Depends(require_user)])
+
+
+# ── Models ────────────────────────────────────────────────────────────────
+
+class SkillToolMeta(BaseModel):
+    """A skill exposed as an executable tool."""
+    name: str
+    category: str | None
+    description: str | None
+    description_zh: str | None = None
+    icon: str = "⊞"
+    inputs: list[dict[str, Any]] = Field(default_factory=list)
+    has_execution: bool = False  # whether the skill has a clear execution flow
+    pinned: bool = False         # pinned skills get their own sidebar entry
+    # --- Tool Spec (from the frontmatter `tool:` block, when present) -------
+    # These let the visual layer faithfully render the skill instead of
+    # guessing. Absent on legacy skills → sensible defaults.
+    kind: str | None = None          # report | transform | lookup | workflow
+    runtime: str | None = None       # llm-only | mcp
+    output_format: str = "markdown"  # markdown | text | table
+    exportable: bool = False
+    sample_params: dict[str, Any] = Field(default_factory=dict)
+
+
+class SkillToolListResponse(BaseModel):
+    tools: list[SkillToolMeta]
+    categories: dict[str, int]  # category → count
+
+
+class RunToolBody(BaseModel):
+    skill_name: str = Field(..., description="skill name")
+    params: dict[str, Any] = Field(default_factory=dict, description="user-provided parameters")
+
+
+# ── Input schema parsing ─────────────────────────────────────────────────
+
+def _parse_inputs_from_body(body: str) -> list[dict[str, Any]]:
+    """Extract input definitions from SKILL.md body.
+
+    Looks for patterns like:
+      - `{{asin}}` or `{{asin:placeholder}}` template variables
+      - Explicit `inputs:` YAML block in frontmatter (preferred)
+
+    Returns list of {name, type, label, required, placeholder, default, options}.
+    """
+    inputs = []
+    seen = set()
+
+    # Pattern 1: {{var}} or {{var:default}} template variables
+    for m in re.finditer(r'\{\{(\w+)(?::([^}]*))?\}\}', body):
+        name = m.group(1)
+        default = m.group(2) or ""
+        if name in seen or name in ("end", "else", "endif"):
+            continue
+        seen.add(name)
+        inputs.append({
+            "name": name,
+            "type": "text",
+            "label": name.replace("_", " ").title(),
+            "required": not bool(default),
+            "placeholder": default or f"Enter {name}",
+            "default": default,
+        })
+
+    return inputs
+
+
+def _normalize_input_list(raw: Any) -> list[dict[str, Any]]:
+    """Normalize a raw inputs list into the shape the frontend form expects."""
+    if not isinstance(raw, list):
+        return []
+    inputs = []
+    for item in raw:
+        if not isinstance(item, dict) or not item.get("name"):
+            continue
+        inputs.append({
+            "name": item.get("name", ""),
+            "type": item.get("type", "text"),
+            "label": item.get("label", item.get("name", "")),
+            "required": bool(item.get("required", False)),
+            "placeholder": item.get("placeholder", ""),
+            "default": item.get("default", ""),
+            "options": item.get("options", []),
+        })
+    return inputs
+
+
+def _parse_inputs_from_frontmatter(fm: dict) -> list[dict[str, Any]]:
+    """Parse inputs from the top-level frontmatter 'inputs' key if present."""
+    return _normalize_input_list(fm.get("inputs"))
+
+
+def _tool_block(fm: dict) -> dict:
+    """Return the explicit `tool:` spec block, or {} if absent/malformed."""
+    t = fm.get("tool")
+    return t if isinstance(t, dict) else {}
+
+
+def _resolve_inputs(fm: dict, body: str) -> list[dict[str, Any]]:
+    """Authoritative input schema, in precedence order:
+    explicit tool.inputs → top-level inputs → {{var}} scraped from the body.
+    Reading the explicit spec first is what kills the old "form silently
+    degrades to no-params" failure mode."""
+    tool = _tool_block(fm)
+    from_spec = _normalize_input_list(tool.get("inputs"))
+    if from_spec:
+        return from_spec
+    from_fm = _parse_inputs_from_frontmatter(fm)
+    if from_fm:
+        return from_fm
+    return _parse_inputs_from_body(body)
+
+
+def _build_meta(detail, pinned: bool) -> "SkillToolMeta":
+    """Build a SkillToolMeta from a SkillDetail, reading the Tool Spec block."""
+    fm = detail.frontmatter
+    tool = _tool_block(fm)
+    inputs = _resolve_inputs(fm, detail.content_body)
+
+    kind = tool.get("kind") or None
+    runtime = tool.get("runtime") or None
+    output = tool.get("output") if isinstance(tool.get("output"), dict) else {}
+    output_format = str(output.get("format") or "markdown")
+    exportable = bool(output.get("exportable", False))
+    sample = tool.get("sample_params") if isinstance(tool.get("sample_params"), dict) else {}
+
+    has_execution = bool(
+        kind
+        or fm.get("inputs")
+        or re.search(r'\{\{\w+', detail.content_body)
+        or "step" in detail.content_body.lower()[:500]
+    )
+
+    return SkillToolMeta(
+        name=detail.name,
+        category=detail.category,
+        description=detail.description,
+        description_zh=detail.description_zh,
+        icon=_detect_icon(fm, detail.category),
+        inputs=inputs,
+        has_execution=has_execution,
+        pinned=pinned,
+        kind=kind,
+        runtime=runtime,
+        output_format=output_format,
+        exportable=exportable,
+        sample_params=sample,
+    )
+
+
+def _detect_icon(fm: dict, category: str | None) -> str:
+    """Pick an icon based on category or frontmatter."""
+    if fm.get("icon"):
+        return str(fm["icon"])
+    cat = (category or "").lower()
+    if "amazon" in cat:
+        return "◈"
+    if "research" in cat:
+        return "◎"
+    if "creative" in cat:
+        return "◇"
+    if "devops" in cat or "software" in cat:
+        return "⚙"
+    if "data" in cat:
+        return "▦"
+    if "media" in cat:
+        return "◉"
+    if "mlops" in cat or "inference" in cat:
+        return "▣"
+    return "⊞"
+
+
+# ── Endpoints ─────────────────────────────────────────────────────────────
+
+@router.get("/list", response_model=SkillToolListResponse)
+def list_tools(
+    category: str | None = None,
+    q: str | None = None,
+) -> SkillToolListResponse:
+    """List all skills as executable tools, with parsed input schemas."""
+    metas = skill_repo.list_skills()
+    tools: list[SkillToolMeta] = []
+
+    for m in metas:
+        # Filter
+        if category and (m.category or "") != category:
+            continue
+        if q:
+            needle = q.lower()
+            if (needle not in m.name.lower()
+                and needle not in (m.description or "").lower()
+                and needle not in (m.description_zh or "").lower()):
+                continue
+
+        # Load full detail to parse the Tool Spec / inputs schema.
+        try:
+            detail = skill_repo.get_skill(m.name)
+        except Exception:
+            continue
+
+        tools.append(_build_meta(detail, bool(getattr(m, "pinned", False))))
+
+    # Build category counts
+    cats: dict[str, int] = {}
+    for t in tools:
+        key = t.category or "(uncategorized)"
+        cats[key] = cats.get(key, 0) + 1
+
+    return SkillToolListResponse(
+        tools=tools,
+        categories=dict(sorted(cats.items(), key=lambda kv: (-kv[1], kv[0]))),
+    )
+
+
+@router.get("/pinned", response_model=list[SkillToolMeta])
+def list_pinned_tools() -> list[SkillToolMeta]:
+    """Pinned skills only — drives the dynamic sidebar entries. Cheap: no body parse."""
+    out: list[SkillToolMeta] = []
+    for m in skill_repo.list_skills():
+        if not getattr(m, "pinned", False):
+            continue
+        try:
+            out.append(_build_meta(skill_repo.get_skill(m.name), True))
+        except Exception:
+            out.append(SkillToolMeta(
+                name=m.name, category=m.category, description=m.description,
+                description_zh=m.description_zh, icon="⊞", inputs=[],
+                has_execution=True, pinned=True,
+            ))
+    return out
+
+
+class PinBody(BaseModel):
+    skill_name: str
+    pinned: bool
+
+
+@router.post("/pin", response_model=SkillToolMeta)
+def pin_tool(body: PinBody) -> SkillToolMeta:
+    """Pin/unpin a skill so it shows (or hides) as a dedicated sidebar tool."""
+    try:
+        skill_repo.set_pinned(body.skill_name, body.pinned)
+        detail = skill_repo.get_skill(body.skill_name)
+    except Exception as exc:
+        raise HTTPException(404, f"Skill not found: {exc}")
+    return _build_meta(detail, bool(body.pinned))
+
+
+_ANSI_RE = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
+
+
+async def _run_skill_agent(skill_basename: str, params: dict, skill_body: str):
+    """Execute a skill through a real hermes agent (`hermes -z --skills <name>`).
+
+    Unlike the old path (which fed the SKILL.md as a plain prompt to the
+    market-research synthesizer), this preloads the actual skill so hermes can
+    follow its steps and use its tools. Streams stdout token-by-token.
+    """
+    import asyncio
+    from app.services.runners import _find_bin, build_child_env
+
+    binary = _find_bin("hermes")
+    if not binary:
+        yield ("error", "hermes CLI 不可用")
+        return
+
+    params_section = "\n".join(f"- {k}: {v}" for k, v in params.items() if v)
+    prompt = (
+        f"请执行 skill「{skill_basename}」。\n\n"
+        f"## 用户提供的参数\n{params_section or '（无额外参数）'}\n\n"
+        "按该 skill 定义的步骤执行并输出结果。"
+    )
+
+    env = build_child_env(binary)
+    env.setdefault("TERM", "dumb")
+    env.setdefault("NO_COLOR", "1")
+    env["HERMES_ACCEPT_HOOKS"] = "1"
+
+    # -z one-shot, --skills preloads the skill, --yolo auto-approves tool use
+    # so an interactive prompt never blocks the web request.
+    argv = [binary, "-z", prompt, "--skills", skill_basename, "--yolo"]
+    proc = await asyncio.create_subprocess_exec(
+        *argv, stdin=asyncio.subprocess.DEVNULL,
+        stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.DEVNULL,
+        cwd="/root", env=env,
+    )
+
+    loop = asyncio.get_running_loop()
+    deadline = loop.time() + 600
+    read_task = asyncio.create_task(proc.stdout.read(4096))
+    got = False
+    try:
+        while True:
+            remaining = deadline - loop.time()
+            if remaining <= 0:
+                yield ("error", "执行超时（>600s）")
+                break
+            done, _ = await asyncio.wait([read_task], timeout=min(remaining, 30))
+            if not done:
+                if proc.returncode is not None:
+                    read_task.cancel()
+                    break
+                continue
+            chunk = read_task.result()
+            if not chunk:
+                break
+            text = _ANSI_RE.sub("", chunk.decode("utf-8", errors="replace"))
+            if text:
+                got = True
+                yield ("hermes", text)
+            read_task = asyncio.create_task(proc.stdout.read(4096))
+    finally:
+        if not read_task.done():
+            read_task.cancel()
+        if proc.returncode is None:
+            proc.kill()
+            try:
+                await asyncio.wait_for(proc.communicate(), timeout=5)
+            except Exception:
+                pass
+    if not got:
+        yield ("error", "skill 执行无输出（可能 skill 名不匹配或 hermes 配置异常）")
+
+
+def _fill_params(body: str, params: dict) -> str:
+    """Substitute {{name}} placeholders in the body with provided param values."""
+    out = body
+    for k, v in (params or {}).items():
+        out = out.replace("{{" + str(k) + "}}", str(v))
+    return out
+
+
+async def _run_llm_only(detail, params: dict):
+    """Execute a runtime=llm-only skill.
+
+    If any param value is a base64 data-URI image, routes to Claude Vision via
+    Apimart. Otherwise uses the standard text chain (DeepSeek→Apimart).
+    """
+    from app.services import ai_synthesis_service
+
+    # Separate image params from text params.
+    images_b64 = [v for v in (params or {}).values()
+                  if isinstance(v, str) and v.startswith("data:image/")]
+    text_params = {k: v for k, v in (params or {}).items()
+                   if not (isinstance(v, str) and v.startswith("data:"))}
+
+    filled = _fill_params(detail.content_body, text_params)
+    params_section = "\n".join(
+        f"- {k}: {'[图片已附]' if isinstance(v, str) and v.startswith('data:') else v}"
+        for k, v in (params or {}).items() if v
+    )
+    prompt = (
+        "你是一个严格按说明书执行任务的助手。请按下面这份 Skill 说明完成任务，"
+        "直接输出最终结果（Markdown），不要解释你在做什么。\n\n"
+        f"## 用户提供的参数\n{params_section or '（无额外参数）'}\n\n"
+        f"## Skill 说明\n{filled}\n"
+    )
+
+    if images_b64:
+        async for prov, chunk in ai_synthesis_service.stream_vision(prompt, images_b64):
+            yield prov, chunk
+    else:
+        async for prov, chunk in ai_synthesis_service.stream_text(prompt):
+            yield prov, chunk
+
+
+@router.post("/run")
+async def run_tool(
+    body: RunToolBody,
+    user: str = Depends(require_user),
+) -> StreamingResponse:
+    """Execute a skill with user-provided parameters.
+
+    Runtime routing (from the Tool Spec `tool.runtime`):
+      · llm-only → stable HTTP text chain (DeepSeek→Apimart), no hermes
+      · mcp / unset → real hermes agent (`hermes --skills`)
+    Every run is recorded to the lightweight history store.
+    """
+    from app.services import skill_runs
+
+    try:
+        detail = skill_repo.get_skill(body.skill_name)
+    except Exception as exc:
+        raise HTTPException(404, f"Skill not found: {exc}")
+
+    tool = _tool_block(detail.frontmatter)
+    runtime = str(tool.get("runtime") or "").lower()
+    # hermes --skills expects the skill's basename (last path segment).
+    skill_basename = detail.name.rsplit("/", 1)[-1]
+
+    async def generator():
+        start = time.time()
+        chunks: list[str] = []
+        provider_used = ""
+        err: str | None = None
+        yield f'data: {json.dumps({"type": "phase", "phase": "executing"}, ensure_ascii=False)}\n\n'
+        try:
+            if runtime == "llm-only":
+                gen = _run_llm_only(detail, body.params)
+            else:
+                gen = _run_skill_agent(skill_basename, body.params, detail.content_body)
+
+            async for prov, chunk in gen:
+                if prov == "error":
+                    err = chunk
+                    yield f'data: {json.dumps({"type": "error", "detail": chunk}, ensure_ascii=False)}\n\n'
+                    break
+                provider_used = prov
+                chunks.append(chunk)
+                yield f'data: {json.dumps({"type": "token", "text": chunk, "provider": prov}, ensure_ascii=False)}\n\n'
+
+            elapsed = round(time.time() - start, 1)
+            output = "".join(chunks)
+            status = "error" if err else ("done" if output.strip() else "empty")
+
+            run_id = None
+            try:
+                rec = skill_runs.record_run(
+                    skill_name=detail.name, user=user, params=body.params,
+                    output=output, provider=provider_used or (runtime or "hermes"),
+                    runtime=runtime or "mcp", status=status,
+                    started_at=start, elapsed_s=elapsed, error=err,
+                )
+                run_id = rec["id"]
+            except Exception:
+                pass
+
+            if not err:
+                yield f'data: {json.dumps({"type": "done", "provider": provider_used or "hermes", "elapsed_s": elapsed, "run_id": run_id}, ensure_ascii=False)}\n\n'
+        except Exception as exc:
+            yield f'data: {json.dumps({"type": "error", "detail": str(exc)}, ensure_ascii=False)}\n\n'
+            try:
+                skill_runs.record_run(
+                    skill_name=detail.name, user=user, params=body.params,
+                    output="".join(chunks), provider=provider_used or (runtime or "hermes"),
+                    runtime=runtime or "mcp", status="error",
+                    started_at=start, elapsed_s=round(time.time() - start, 1),
+                    error=str(exc),
+                )
+            except Exception:
+                pass
+
+    return StreamingResponse(
+        generator(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+# ── Execution history ───────────────────────────────────────────────────────
+
+@router.get("/runs")
+def list_runs(skill_name: str, limit: int = 50) -> list[dict]:
+    """List recent runs for a skill (newest first). skill_name in query because
+    skill names contain forward slashes."""
+    from app.services import skill_runs
+    return skill_runs.list_runs(skill_name, limit=max(1, min(limit, 200)))
+
+
+@router.get("/runs/{run_id}")
+def get_run(run_id: str, skill_name: str) -> dict:
+    from app.services import skill_runs
+    rec = skill_runs.get_run(skill_name, run_id)
+    if rec is None:
+        raise HTTPException(404, "run not found")
+    return rec
+
+
+@router.delete("/runs/{run_id}")
+def delete_run(run_id: str, skill_name: str) -> dict:
+    from app.services import skill_runs
+    return {"ok": skill_runs.delete_run(skill_name, run_id)}
+
+
+# ── One-click AI repair (propose, review-first — does NOT auto-write) ────────
+
+class RepairBody(BaseModel):
+    skill_name: str
+    error: str = Field("", description="execution error to feed the repair model")
+
+
+@router.post("/repair")
+async def repair_tool(body: RepairBody) -> dict:
+    """Propose a fixed SKILL.md for a tool that failed to run. Returns a preview
+    for the user to review; it does NOT write — the frontend applies it via the
+    skill update endpoint after the user confirms (审核制)."""
+    from app.services import skill_architect
+
+    try:
+        detail = skill_repo.get_skill(body.skill_name)
+    except Exception as exc:
+        raise HTTPException(404, f"Skill not found: {exc}")
+
+    fm0 = dict(detail.frontmatter or {})
+    md = skill_repo._serialize_skill_md(fm0, detail.content_body)
+    errors = [body.error] if body.error.strip() else ["执行报错，请修复该 Skill 使其能正常执行"]
+
+    try:
+        fixed = await skill_architect._repair(md, errors)
+    except Exception as exc:
+        raise HTTPException(502, f"AI 修复失败: {exc}")
+
+    fm, bd = skill_repo._parse_skill_md(fixed)
+    # Preserve identity: never let repair rename the skill.
+    fm["name"] = fm0.get("name") or detail.name.rsplit("/", 1)[-1]
+    verrs, vwarn = skill_architect.validate_skill_md(fm, bd)
+    preview = skill_repo._serialize_skill_md(fm, bd)
+    return {
+        "name": detail.name,
+        "frontmatter": fm,
+        "body": bd,
+        "preview": preview,
+        "validation": {"ok": not verrs, "errors": verrs, "warnings": vwarn},
+    }

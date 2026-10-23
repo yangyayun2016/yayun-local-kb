@@ -1,0 +1,588 @@
+{
+  "rows": [
+    {
+      "source": "private_vault_001.tar.gz",
+      "parts": [
+        "private_vault_001__part01of03.tar.gz",
+        "private_vault_001__part02of03.tar.gz",
+        "private_vault_001__part03of03.tar.gz"
+      ],
+      "source_mb": 47.46,
+      "kind": "repack"
+    },
+    {
+      "source": "private_vault_002.tar.gz",
+      "parts": [
+        "private_vault_002.tar.gz"
+      ],
+      "source_mb": 17.47,
+      "kind": "as-is"
+    },
+    {
+      "source": "private_vault_003.tar.gz",
+      "parts": [
+        "private_vault_003__hugesplit_p01of03.tar.gz",
+        "private_vault_003__hugesplit_p02of03.tar.gz",
+        "private_vault_003__hugesplit_p03of03.tar.gz",
+        "private_vault_003__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 56.09,
+      "kind": "huge-split"
+    },
+    {
+      "source": "private_vault_004.tar.gz",
+      "parts": [
+        "private_vault_004.tar.gz"
+      ],
+      "source_mb": 18.1,
+      "kind": "as-is"
+    },
+    {
+      "source": "private_vault_005.tar.gz",
+      "parts": [
+        "private_vault_005__part01of03.tar.gz",
+        "private_vault_005__part02of03.tar.gz",
+        "private_vault_005__part03of03.tar.gz"
+      ],
+      "source_mb": 53.57,
+      "kind": "repack"
+    },
+    {
+      "source": "private_vault_006.tar.gz",
+      "parts": [
+        "private_vault_006__hugesplit_p01of03.tar.gz",
+        "private_vault_006__hugesplit_p02of03.tar.gz",
+        "private_vault_006__hugesplit_p03of03.tar.gz",
+        "private_vault_006__hugesplit_REASSEMBLE.tar.gz",
+        "private_vault_006__part01of01.tar.gz"
+      ],
+      "source_mb": 48.79,
+      "kind": "mixed"
+    },
+    {
+      "source": "private_vault_007.tar.gz",
+      "parts": [
+        "private_vault_007__hugesplit_p01of03.tar.gz",
+        "private_vault_007__hugesplit_p02of03.tar.gz",
+        "private_vault_007__hugesplit_p03of03.tar.gz",
+        "private_vault_007__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 45.87,
+      "kind": "huge-split"
+    },
+    {
+      "source": "private_vault_008.tar.gz",
+      "parts": [
+        "private_vault_008__hugesplit_p01of03.tar.gz",
+        "private_vault_008__hugesplit_p02of03.tar.gz",
+        "private_vault_008__hugesplit_p03of03.tar.gz",
+        "private_vault_008__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 45.59,
+      "kind": "huge-split"
+    },
+    {
+      "source": "private_vault_009.tar.gz",
+      "parts": [
+        "private_vault_009__hugesplit_p01of03.tar.gz",
+        "private_vault_009__hugesplit_p02of03.tar.gz",
+        "private_vault_009__hugesplit_p03of03.tar.gz",
+        "private_vault_009__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 45.68,
+      "kind": "huge-split"
+    },
+    {
+      "source": "private_vault_010.tar.gz",
+      "parts": [
+        "private_vault_010__hugesplit_p01of03.tar.gz",
+        "private_vault_010__hugesplit_p02of03.tar.gz",
+        "private_vault_010__hugesplit_p03of03.tar.gz",
+        "private_vault_010__hugesplit_REASSEMBLE.tar.gz",
+        "private_vault_010__part01of01.tar.gz"
+      ],
+      "source_mb": 54.1,
+      "kind": "mixed"
+    },
+    {
+      "source": "private_vault_011.tar.gz",
+      "parts": [
+        "private_vault_011.tar.gz"
+      ],
+      "source_mb": 13.8,
+      "kind": "as-is"
+    },
+    {
+      "source": "private_vault_012.tar.gz",
+      "parts": [
+        "private_vault_012__hugesplit_p01of02.tar.gz",
+        "private_vault_012__hugesplit_p02of02.tar.gz",
+        "private_vault_012__hugesplit_REASSEMBLE.tar.gz",
+        "private_vault_012__part01of02.tar.gz",
+        "private_vault_012__part02of02.tar.gz"
+      ],
+      "source_mb": 24.94,
+      "kind": "mixed"
+    },
+    {
+      "source": "private_vault_013.tar.gz",
+      "parts": [
+        "private_vault_013__hugesplit_p01of05.tar.gz",
+        "private_vault_013__hugesplit_p02of05.tar.gz",
+        "private_vault_013__hugesplit_p03of05.tar.gz",
+        "private_vault_013__hugesplit_p04of05.tar.gz",
+        "private_vault_013__hugesplit_p05of05.tar.gz",
+        "private_vault_013__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 88.69,
+      "kind": "huge-split"
+    },
+    {
+      "source": "private_vault_014.tar.gz",
+      "parts": [
+        "private_vault_014__part01of03.tar.gz",
+        "private_vault_014__part02of03.tar.gz",
+        "private_vault_014__part03of03.tar.gz"
+      ],
+      "source_mb": 48.98,
+      "kind": "repack"
+    },
+    {
+      "source": "private_vault_015.tar.gz",
+      "parts": [
+        "private_vault_015__part01of04.tar.gz",
+        "private_vault_015__part02of04.tar.gz",
+        "private_vault_015__part03of04.tar.gz",
+        "private_vault_015__part04of04.tar.gz"
+      ],
+      "source_mb": 47.7,
+      "kind": "repack"
+    },
+    {
+      "source": "private_vault_016.tar.gz",
+      "parts": [
+        "private_vault_016.tar.gz"
+      ],
+      "source_mb": 14.7,
+      "kind": "as-is"
+    },
+    {
+      "source": "private_vault_017.tar.gz",
+      "parts": [
+        "private_vault_017__hugesplit_p01of05.tar.gz",
+        "private_vault_017__hugesplit_p02of05.tar.gz",
+        "private_vault_017__hugesplit_p03of05.tar.gz",
+        "private_vault_017__hugesplit_p04of05.tar.gz",
+        "private_vault_017__hugesplit_p05of05.tar.gz",
+        "private_vault_017__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 94.49,
+      "kind": "huge-split"
+    },
+    {
+      "source": "private_vault_018.tar.gz",
+      "parts": [
+        "private_vault_018.tar.gz"
+      ],
+      "source_mb": 22.01,
+      "kind": "as-is"
+    },
+    {
+      "source": "private_vault_019.tar.gz",
+      "parts": [
+        "private_vault_019__hugesplit_p01of05.tar.gz",
+        "private_vault_019__hugesplit_p02of05.tar.gz",
+        "private_vault_019__hugesplit_p03of05.tar.gz",
+        "private_vault_019__hugesplit_p04of05.tar.gz",
+        "private_vault_019__hugesplit_p05of05.tar.gz",
+        "private_vault_019__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 86.23,
+      "kind": "huge-split"
+    },
+    {
+      "source": "private_vault_020.tar.gz",
+      "parts": [
+        "private_vault_020__hugesplit_p01of04.tar.gz",
+        "private_vault_020__hugesplit_p02of04.tar.gz",
+        "private_vault_020__hugesplit_p03of04.tar.gz",
+        "private_vault_020__hugesplit_p04of04.tar.gz",
+        "private_vault_020__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 60.61,
+      "kind": "huge-split"
+    },
+    {
+      "source": "private_vault_021.tar.gz",
+      "parts": [
+        "private_vault_021__hugesplit_p01of03.tar.gz",
+        "private_vault_021__hugesplit_p02of03.tar.gz",
+        "private_vault_021__hugesplit_p03of03.tar.gz",
+        "private_vault_021__hugesplit_REASSEMBLE.tar.gz",
+        "private_vault_021__part01of01.tar.gz"
+      ],
+      "source_mb": 49.77,
+      "kind": "mixed"
+    },
+    {
+      "source": "private_vault_022.tar.gz",
+      "parts": [
+        "private_vault_022__hugesplit_p01of02.tar.gz",
+        "private_vault_022__hugesplit_p02of02.tar.gz",
+        "private_vault_022__hugesplit_REASSEMBLE.tar.gz",
+        "private_vault_022__part01of01.tar.gz"
+      ],
+      "source_mb": 40.33,
+      "kind": "mixed"
+    },
+    {
+      "source": "private_vault_023.tar.gz",
+      "parts": [
+        "private_vault_023__hugesplit_p01of02.tar.gz",
+        "private_vault_023__hugesplit_p02of02.tar.gz",
+        "private_vault_023__hugesplit_REASSEMBLE.tar.gz",
+        "private_vault_023__part01of01.tar.gz"
+      ],
+      "source_mb": 28.13,
+      "kind": "mixed"
+    },
+    {
+      "source": "private_vault_024.tar.gz",
+      "parts": [
+        "private_vault_024__hugesplit_p01of02.tar.gz",
+        "private_vault_024__hugesplit_p02of02.tar.gz",
+        "private_vault_024__hugesplit_REASSEMBLE.tar.gz",
+        "private_vault_024__part01of01.tar.gz"
+      ],
+      "source_mb": 27.75,
+      "kind": "mixed"
+    },
+    {
+      "source": "public_localkb_001.tar.gz",
+      "parts": [
+        "public_localkb_001__part01of03.tar.gz",
+        "public_localkb_001__part02of03.tar.gz",
+        "public_localkb_001__part03of03.tar.gz"
+      ],
+      "source_mb": 42.77,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_002.tar.gz",
+      "parts": [
+        "public_localkb_002__part01of03.tar.gz",
+        "public_localkb_002__part02of03.tar.gz",
+        "public_localkb_002__part03of03.tar.gz"
+      ],
+      "source_mb": 45.28,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_003.tar.gz",
+      "parts": [
+        "public_localkb_003__hugesplit_p01of02.tar.gz",
+        "public_localkb_003__hugesplit_p02of02.tar.gz",
+        "public_localkb_003__hugesplit_REASSEMBLE.tar.gz",
+        "public_localkb_003__part01of01.tar.gz"
+      ],
+      "source_mb": 41.93,
+      "kind": "mixed"
+    },
+    {
+      "source": "public_localkb_004.tar.gz",
+      "parts": [
+        "public_localkb_004__part01of03.tar.gz",
+        "public_localkb_004__part02of03.tar.gz",
+        "public_localkb_004__part03of03.tar.gz"
+      ],
+      "source_mb": 40.95,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_005.tar.gz",
+      "parts": [
+        "public_localkb_005__hugesplit_p01of02.tar.gz",
+        "public_localkb_005__hugesplit_p02of02.tar.gz",
+        "public_localkb_005__hugesplit_REASSEMBLE.tar.gz",
+        "public_localkb_005__part01of01.tar.gz"
+      ],
+      "source_mb": 42.19,
+      "kind": "mixed"
+    },
+    {
+      "source": "public_localkb_006.tar.gz",
+      "parts": [
+        "public_localkb_006__hugesplit_p01of02.tar.gz",
+        "public_localkb_006__hugesplit_p02of02.tar.gz",
+        "public_localkb_006__hugesplit_REASSEMBLE.tar.gz",
+        "public_localkb_006__part01of02.tar.gz",
+        "public_localkb_006__part02of02.tar.gz"
+      ],
+      "source_mb": 53.89,
+      "kind": "mixed"
+    },
+    {
+      "source": "public_localkb_007.tar.gz",
+      "parts": [
+        "public_localkb_007__part01of03.tar.gz",
+        "public_localkb_007__part02of03.tar.gz",
+        "public_localkb_007__part03of03.tar.gz"
+      ],
+      "source_mb": 46.0,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_008.tar.gz",
+      "parts": [
+        "public_localkb_008__part01of03.tar.gz",
+        "public_localkb_008__part02of03.tar.gz",
+        "public_localkb_008__part03of03.tar.gz"
+      ],
+      "source_mb": 45.98,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_009.tar.gz",
+      "parts": [
+        "public_localkb_009__part01of04.tar.gz",
+        "public_localkb_009__part02of04.tar.gz",
+        "public_localkb_009__part03of04.tar.gz",
+        "public_localkb_009__part04of04.tar.gz"
+      ],
+      "source_mb": 40.56,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_010.tar.gz",
+      "parts": [
+        "public_localkb_010__part01of04.tar.gz",
+        "public_localkb_010__part02of04.tar.gz",
+        "public_localkb_010__part03of04.tar.gz",
+        "public_localkb_010__part04of04.tar.gz"
+      ],
+      "source_mb": 52.63,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_011.tar.gz",
+      "parts": [
+        "public_localkb_011__part01of03.tar.gz",
+        "public_localkb_011__part02of03.tar.gz",
+        "public_localkb_011__part03of03.tar.gz"
+      ],
+      "source_mb": 40.55,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_012.tar.gz",
+      "parts": [
+        "public_localkb_012__hugesplit_p01of02.tar.gz",
+        "public_localkb_012__hugesplit_p02of02.tar.gz",
+        "public_localkb_012__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 38.3,
+      "kind": "huge-split"
+    },
+    {
+      "source": "public_localkb_013.tar.gz",
+      "parts": [
+        "public_localkb_013__hugesplit_p01of03.tar.gz",
+        "public_localkb_013__hugesplit_p02of03.tar.gz",
+        "public_localkb_013__hugesplit_p03of03.tar.gz",
+        "public_localkb_013__hugesplit_REASSEMBLE.tar.gz"
+      ],
+      "source_mb": 57.72,
+      "kind": "huge-split"
+    },
+    {
+      "source": "public_localkb_014.tar.gz",
+      "parts": [
+        "public_localkb_014__part01of03.tar.gz",
+        "public_localkb_014__part02of03.tar.gz",
+        "public_localkb_014__part03of03.tar.gz"
+      ],
+      "source_mb": 40.76,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_015.tar.gz",
+      "parts": [
+        "public_localkb_015__part01of03.tar.gz",
+        "public_localkb_015__part02of03.tar.gz",
+        "public_localkb_015__part03of03.tar.gz"
+      ],
+      "source_mb": 50.55,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_016.tar.gz",
+      "parts": [
+        "public_localkb_016__part01of03.tar.gz",
+        "public_localkb_016__part02of03.tar.gz",
+        "public_localkb_016__part03of03.tar.gz"
+      ],
+      "source_mb": 45.96,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_017.tar.gz",
+      "parts": [
+        "public_localkb_017__part01of03.tar.gz",
+        "public_localkb_017__part02of03.tar.gz",
+        "public_localkb_017__part03of03.tar.gz"
+      ],
+      "source_mb": 49.81,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_018.tar.gz",
+      "parts": [
+        "public_localkb_018__part01of03.tar.gz",
+        "public_localkb_018__part02of03.tar.gz",
+        "public_localkb_018__part03of03.tar.gz"
+      ],
+      "source_mb": 50.82,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_019.tar.gz",
+      "parts": [
+        "public_localkb_019__part01of03.tar.gz",
+        "public_localkb_019__part02of03.tar.gz",
+        "public_localkb_019__part03of03.tar.gz"
+      ],
+      "source_mb": 42.77,
+      "kind": "repack"
+    },
+    {
+      "source": "public_localkb_fri_001.tar.gz",
+      "parts": [
+        "public_localkb_fri_001.tar.gz"
+      ],
+      "source_mb": 0.18,
+      "kind": "as-is"
+    }
+  ],
+  "huge_members": [
+    {
+      "pack": "private_vault_003.tar.gz",
+      "member": "local-imports/d-cpan-program-files/C桌面下载/Manual  B0F1F535PC.pdf",
+      "size_mb": 56.17,
+      "parts": 3
+    },
+    {
+      "pack": "private_vault_006.tar.gz",
+      "member": "local-imports/d-cpan-program-files/C桌面下载/亚马逊XLN-HYCHIKA-布艺清洗机视频/亚马逊XLN-HYCHIKA-布艺清洗机视频（德语）.mp4",
+      "size_mb": 46.36,
+      "parts": 3
+    },
+    {
+      "pack": "private_vault_007.tar.gz",
+      "member": "local-imports/d-cpan-program-files/C桌面下载/亚马逊XLN-HYCHIKA-布艺清洗机视频/亚马逊XLN-HYCHIKA-布艺清洗机视频（意大利语）.mp4",
+      "size_mb": 46.27,
+      "parts": 3
+    },
+    {
+      "pack": "private_vault_008.tar.gz",
+      "member": "local-imports/d-cpan-program-files/C桌面下载/亚马逊XLN-HYCHIKA-布艺清洗机视频/亚马逊XLN-HYCHIKA-布艺清洗机视频（法语）.mp4",
+      "size_mb": 46.06,
+      "parts": 3
+    },
+    {
+      "pack": "private_vault_009.tar.gz",
+      "member": "local-imports/d-cpan-program-files/C桌面下载/亚马逊XLN-HYCHIKA-布艺清洗机视频/亚马逊XLN-HYCHIKA-布艺清洗机视频（英语）.mp4",
+      "size_mb": 46.15,
+      "parts": 3
+    },
+    {
+      "pack": "private_vault_010.tar.gz",
+      "member": "local-imports/d-cpan-program-files/C桌面下载/亚马逊XLN-HYCHIKA-布艺清洗机视频/亚马逊XLN-HYCHIKA-布艺清洗机视频（西班牙语）.mp4",
+      "size_mb": 46.25,
+      "parts": 3
+    },
+    {
+      "pack": "private_vault_012.tar.gz",
+      "member": "local-imports/d-cpan-program-files/C桌面下载/广告分析模型.xlsx",
+      "size_mb": 32.52,
+      "parts": 2
+    },
+    {
+      "pack": "private_vault_013.tar.gz",
+      "member": "local-imports/d-cpan-program-files/图片/SC店铺要看哪/图片测试/amazon-drop-test-evaluation-external-blank-260710-eu-rigid (DE)OK.pdf",
+      "size_mb": 89.03,
+      "parts": 5
+    },
+    {
+      "pack": "private_vault_017.tar.gz",
+      "member": "local-imports/d-cpan-program-files/广告分析0525/SIF 学习/遐想/全屋净水过滤芯系统.rar",
+      "size_mb": 94.47,
+      "parts": 5
+    },
+    {
+      "pack": "private_vault_019.tar.gz",
+      "member": "local-imports/d-cpan-program-files/桌面/bandicam 2026-06-12 19-02-36-535.mp4",
+      "size_mb": 88.82,
+      "parts": 5
+    },
+    {
+      "pack": "private_vault_020.tar.gz",
+      "member": "local-imports/d-cpan-program-files/桌面/bandicam 2026-06-12 CDQ.mp4",
+      "size_mb": 62.43,
+      "parts": 4
+    },
+    {
+      "pack": "private_vault_021.tar.gz",
+      "member": "local-imports/d-cpan-program-files/桌面/bandicam 2026-06-17cdqCDQ V3.mp4",
+      "size_mb": 53.41,
+      "parts": 3
+    },
+    {
+      "pack": "private_vault_022.tar.gz",
+      "member": "local-imports/d-cpan-program-files/桌面/除螨仪 -设计需求表唐总更新.xlsx",
+      "size_mb": 26.84,
+      "parts": 2
+    },
+    {
+      "pack": "private_vault_023.tar.gz",
+      "member": "local-imports/d-cpan-program-files/桌面/除螨仪 -设计需求表唐总更新0908).xlsx",
+      "size_mb": 28.34,
+      "parts": 2
+    },
+    {
+      "pack": "private_vault_024.tar.gz",
+      "member": "local-imports/d-cpan-program-files/桌面/除螨仪CM211 -设计需求表唐总更新(1).xlsx",
+      "size_mb": 27.95,
+      "parts": 2
+    },
+    {
+      "pack": "public_localkb_003.tar.gz",
+      "member": "local-kb/d-cpan-program-files/C桌面下载/天哥复刻第二版 优化的.zip",
+      "size_mb": 32.51,
+      "parts": 2
+    },
+    {
+      "pack": "public_localkb_005.tar.gz",
+      "member": "local-kb/d-cpan-program-files/C桌面下载/维正选品技能包skill①/新的 可乐加冰/XIND 0703/天哥第二版.zip",
+      "size_mb": 32.51,
+      "parts": 2
+    },
+    {
+      "pack": "public_localkb_006.tar.gz",
+      "member": "local-kb/d-cpan-program-files/C桌面下载/维正选品技能包skill①/新的 可乐加冰/天哥复刻-交付版1.zip",
+      "size_mb": 29.96,
+      "parts": 2
+    },
+    {
+      "pack": "public_localkb_012.tar.gz",
+      "member": "local-kb/d-cpan-program-files/广告分析0525/整理关键词词库词库整理/广告分析1.rar",
+      "size_mb": 38.55,
+      "parts": 2
+    },
+    {
+      "pack": "public_localkb_013.tar.gz",
+      "member": "local-kb/d-cpan-program-files/广告分析0525/整理关键词词库词库整理/段总标品选品 冷门.rar",
+      "size_mb": 57.72,
+      "parts": 3
+    }
+  ]
+}

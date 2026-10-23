@@ -1,0 +1,18 @@
+services:
+  tianji-os:
+    build: .
+    ports: ["8000:8000"]
+    env_file: .env
+    volumes:
+      - tianji-data:/app/backend
+  # 生产环境取消注释：
+  # postgres:
+  #   image: postgres:16
+  #   environment:
+  #     POSTGRES_DB: tianji
+  #     POSTGRES_USER: tianji
+  #     POSTGRES_PASSWORD: change-me
+  #   volumes: [pg-data:/var/lib/postgresql/data]
+volumes:
+  tianji-data:
+  # pg-data:

@@ -1,0 +1,4 @@
+interface:
+  display_name: "亚马逊选品机会地图"
+  short_description: "基于单品生成机会地图并筛选可验证亚马逊选品方向"
+  default_prompt: "Use $amazon-product-selection-cn to 从一个亚马逊单品生成产品机会地图，并筛选可验证的选品候选。"

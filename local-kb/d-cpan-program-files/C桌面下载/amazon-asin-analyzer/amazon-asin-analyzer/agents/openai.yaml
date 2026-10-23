@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon Asin Analyzer"
+  short_description: "Help with Amazon Asin Analyzer tasks"
+  default_prompt: "Use $amazon-asin-analyzer when you need help with Amazon Asin Analyzer workflows."

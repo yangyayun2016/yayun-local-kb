@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天机智能决策OS</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+:root{
+  --bg:#eef3fb; --panel:#ffffff; --line:#e6edf7;
+  --blue:#2b7bff; --blue-soft:#eaf2ff; --blue-deep:#0b3a8c;
+  --green:#22c08a; --orange:#ff9a3d; --red:#f25555; --purple:#8b6cf0;
+  --ink:#1b2a4a; --ink-2:#5b6b8c; --ink-3:#93a3c0;
+  --radius:14px; --shadow:0 2px 10px rgba(27,58,140,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
+.app{display:flex;min-height:100vh}
+
+/* ===== 左侧导航 ===== */
+.sidebar{width:200px;background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;color:var(--blue-deep);padding:6px 8px 18px}
+.logo .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#2b7bff,#6aa6ff);display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.nav-label{font-size:11px;color:var(--ink-3);padding:6px 10px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;color:var(--ink-2);cursor:pointer;margin-bottom:2px;transition:.15s}
+.nav-item .ic{width:18px;text-align:center}
+.nav-item:hover{background:var(--blue-soft);color:var(--blue)}
+.nav-item.active{background:var(--blue-soft);color:var(--blue);font-weight:600}
+.nav-spacer{flex:1}
+
+/* ===== 顶栏 ===== */
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{height:54px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:10}
+.topbar .brand{font-weight:700;color:var(--blue-deep)}
+.topbar .right{display:flex;align-items:center;gap:14px;color:var(--ink-2);font-size:13px}
+.badge-data{background:var(--blue-soft);color:var(--blue);padding:4px 10px;border-radius:999px;font-size:12px}
+.avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#6aa6ff,#8b6cf0);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px}
+
+.content{padding:20px 22px;display:flex;flex-direction:column;gap:16px}
+.page-title{font-size:19px;font-weight:700}
+.page-sub{color:var(--ink-3);font-size:12px;margin-top:3px}
+
+/* ===== 日期筛选 ===== */
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{padding:6px 14px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink-2);cursor:pointer;font-size:13px}
+.chip.active{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+
+/* ===== KPI 卡 ===== */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);position:relative}
+.kpi .label{color:var(--ink-2);font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.kpi .icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.kpi .val{font-size:26px;font-weight:800;margin:10px 0 8px;letter-spacing:-.5px}
+.kpi .delta{font-size:12px}
+.delta.up{color:var(--green)} .delta.down{color:var(--red)} .delta.muted{color:var(--ink-3)}
+
+/* ===== 面板 ===== */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.panel-title{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.panel-title::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--blue)}
+.grid-2{display:grid;grid-template-columns:2.2fr 1fr;gap:16px}
+#trendChart{width:100%;height:340px}
+
+/* ===== 提醒卡片流 ===== */
+.alert-card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fbfdff}
+.alert-card .t{font-weight:600;font-size:13px;display:flex;gap:8px;align-items:flex-start}
+.alert-card .d{color:var(--ink-2);font-size:12px;margin:6px 0}
+.alert-card .a{color:var(--blue);font-size:12px}
+.dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.dot.danger{background:var(--red)} .dot.warning{background:var(--orange)} .dot.info{background:var(--blue)}
+.alert-meta{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--ink-3)}
+.btn{padding:5px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink-2);cursor:pointer;font-size:12px}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.danger{background:#fff0f0;border-color:#ffd6d6;color:var(--red)}
+.btn:disabled{opacity:.5;cursor:default}
+
+/* ===== 表格 ===== */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;color:var(--ink-3);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--line);font-size:12px}
+td{padding:10px;border-bottom:1px solid #f1f5fc}
+tr:hover td{background:#f8fbff}
+.tag{padding:2px 9px;border-radius:999px;font-size:11px;display:inline-block}
+.tag.danger{background:#ffefef;color:var(--red)}
+.tag.warning{background:#fff4e8;color:var(--orange)}
+.tag.normal{background:#e9f9f2;color:var(--green)}
+.tag.blue{background:var(--blue-soft);color:var(--blue)}
+.tag.muted{background:#f0f3f9;color:var(--ink-3)}
+.num{font-variant-numeric:tabular-nums}
+
+.page{display:none}
+.page.active{display:flex;flex-direction:column;gap:16px}
+.wf-steps{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.wf-step{background:var(--blue-soft);color:var(--blue);border-radius:7px;padding:3px 9px;font-size:11px}
+.wf-step::after{content:"→";margin-left:6px;color:var(--ink-3)}
+.wf-step:last-child::after{content:""}
+.skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.skill-card{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fbfdff}
+.skill-card .n{font-weight:700;margin-bottom:6px}
+.skill-card .d{color:var(--ink-2);font-size:12px;line-height:1.6}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;opacity:0;transition:.3s;z-index:99}
+.toast.show{opacity:1}
+@media(max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}.grid-2{grid-template-columns:1fr}.skill-grid{grid-template-columns:1fr}.sidebar{width:64px}.sidebar .txt,.nav-label,.logo span{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- 左侧导航 -->
+  <aside class="sidebar">
+    <div class="logo"><div class="mark">天</div><span>天机决策OS</span></div>
+    <div class="nav-label">主菜单</div>
+    <div class="nav-item" data-page="dashboard"><span class="ic">📊</span><span class="txt">工作台</span></div>
+    <div class="nav-item active" data-page="sales"><span class="ic">📈</span><span class="txt">销售中心</span></div>
+    <div class="nav-item" data-page="ads"><span class="ic">📣</span><span class="txt">广告中心</span></div>
+    <div class="nav-item" data-page="inventory"><span class="ic">📦</span><span class="txt">库存预警</span></div>
+    <div class="nav-item" data-page="tasks"><span class="ic">🤝</span><span class="txt">人机协同</span></div>
+    <div class="nav-item" data-page="skills"><span class="ic">🧠</span><span class="txt">Skill中心</span></div>
+    <div class="nav-item" data-page="workflows"><span class="ic">⚙️</span><span class="txt">自动任务</span></div>
+    <div class="nav-spacer"></div>
+    <div class="nav-item" onclick="genReport()"><span class="ic">📝</span><span class="txt">生成日报</span></div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="brand">天机智能决策OS</div>
+      <div class="right">
+        <span class="badge-data" id="dataBadge">● 数据至 --</span>
+        <span>admin</span>
+        <div class="avatar">A</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ============ 销售中心（默认页，对齐截图） ============ -->
+      <div class="page active" id="page-sales">
+        <div>
+          <div class="page-title">销售中心</div>
+          <div class="page-sub" id="rangeSub">近30天数据</div>
+        </div>
+        <div class="filters" id="dateFilters">
+          <div class="chip" data-days="1">今天</div>
+          <div class="chip" data-days="7">近7天</div>
+          <div class="chip active" data-days="30">近30天</div>
+          <div class="chip" data-days="90">近90天</div>
+        </div>
+        <div class="kpis" id="kpis"></div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">近期销售趋势</div>
+              <span class="tag blue">销售额 / 毛利润</span>
+            </div>
+            <div id="trendChart"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">主动提醒</div></div>
+            <div id="alertList" style="max-height:340px;overflow:auto"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">商品表现</div></div>
+          <table>
+            <thead><tr><th>ASIN / SKU</th><th>商品</th><th class="num">销量</th><th class="num">销售额</th><th class="num">毛利</th><th class="num">转化率</th></tr></thead>
+            <tbody id="productRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============ 工作台 ============ -->
+      <div class="page" id="page-dashboard">
+        <div><div class="page-title">工作台</div><div class="page-sub">老板驾驶舱 · 信息主动找人</div></div>
+        <div class="kpis" id="kpis2"></div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">老板日报</div>
+              <button class="btn primary" onclick="genReport()">立即生成</button></div>
+            <pre id="reportBox" style="white-space:pre-wrap;font-family:inherit;color:var(--ink-2);line-height:1.9;font-size:13px">点击「立即生成」，AI 将汇总销售 / 毛利 / 广告 / 库存数据并生成日报（可推送飞书）。</pre>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div class="panel-title">待人工确认</div></div>
+            <div id="pendingMini"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 广告中心 ============ -->
+      <div class="page" id="page-ads">
+        <div><div class="page-title">广告中心</div><div class="page-sub">近7天活动表现 · 止损规则自动诊断</div></div>
+        <div class="panel">
+          <div class="panel-head"><div class="panel-title">广告活动</div>
+            <button class="btn primary" onclick="diagnose()">⚡ 一键诊断异常</button></div>
+          <table>
+            <thead><tr><th>活动</th><th class="num">曝光</th><th class="num">点击</th><th class="num">花费</th><th class="num">销售额</th><th class="num">订单</th><th class="num">ACOS</th><th>状态</th></tr></thead>
+            <tbody id="adsRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============ 库存预警 ============ -->
+      <div class="page" id="page-inventory">
+        <div><div class="page-title">库存预警</div><div class="page-sub">可售天数 · 断货风险 · 补货建议</div></div>
+        <div class="panel">
+          <table>
+            <thead><tr><th>SKU</th><th>ASIN</th><th class="num">可用库存</th><th class="num">在途</th><th class="num">日均销量</th><th class="num">可售天数</th><th>风险</th></tr></thead>
+            <tbody id="invRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============ 人机协同 ============ -->
+      <div class="page" id="page-tasks">
+        <div><div class="page-title">人机协同中心</div><div class="page-sub">AI发现 → AI建议 → 人确认 → RPA执行 → 沉淀经验</div></div>
+        <div class="panel"><div id="taskList"></div></div>
+      </div>
+
+      <!-- ============ Skill 中心 ============ -->
+      <div class="page" id="page-skills">
+        <div><div class="page-title">Skill 中心</div><div class="page-sub">公司经验资产 · 防止模型自由发挥</div></div>
+        <div class="skill-grid" id="skillGrid"></div>
+      </div>
+
+      <!-- ============ 自动任务 / Workflow ============ -->
+      <div class="page" id="page-workflows">
+        <div><div class="page-title">自动任务</div><div class="page-sub">6大自动化闭环 · 定时触发</div></div>
+        <div id="wfList" style="display:flex;flex-direction:column;gap:14px"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+let DAYS = 30, chart = null;
+const fmt$ = n => '$' + Number(n).toLocaleString('en-US', {maximumFractionDigits: 0});
+const api = (p, opt) => fetch('/api' + p, opt).then(r => r.json());
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2600); }
+
+/* 导航 */
+document.querySelectorAll('.nav-item[data-page]').forEach(el => el.onclick = () => {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  $('#page-' + el.dataset.page).classList.add('active');
+  if (el.dataset.page === 'sales' && chart) chart.resize();
+});
+
+/* 日期筛选 */
+document.querySelectorAll('#dateFilters .chip').forEach(c => c.onclick = () => {
+  document.querySelectorAll('#dateFilters .chip').forEach(x => x.classList.remove('active'));
+  c.classList.add('active');
+  DAYS = +c.dataset.days;
+  $('#rangeSub').textContent = '近' + DAYS + '天数据';
+  loadSummary(); loadTrend(); loadProducts();
+});
+
+/* KPI 卡 */
+async function loadSummary(){
+  const d = await api('/dashboard/summary?days=' + DAYS);
+  $('#dataBadge').textContent = '● 数据至 ' + d.range.end;
+  const cards = [
+    ['销售额', fmt$(d.sales_amount), d.sales_amount_pct, '💵', '#e9f9f2'],
+    ['订单数', d.orders.toLocaleString(), d.orders_pct, '🛒', '#eaf2ff'],
+    ['日均销售额', fmt$(d.daily_avg_sales), null, '📅', '#f3efff'],
+    ['周期销量', d.period_units.toLocaleString() + ' 件', null, '📦', '#fff4e8'],
+    ['毛利润', fmt$(d.gross_profit), d.gross_profit_pct, '💎', '#e8f7ff'],
+  ];
+  const html = cards.map(([l, v, p, ic, bg]) => `
+    <div class="kpi">
+      <div class="label"><span>${l}</span><span class="icon" style="background:${bg}">${ic}</span></div>
+      <div class="val">${v}</div>
+      <div class="delta ${p == null ? 'muted' : p >= 0 ? 'up' : 'down'}">
+        ${p == null ? d.range.start + ' ~ ' + d.range.end : (p >= 0 ? '↑ ' : '↓ ') + Math.abs(p) + '% 环比'}
+      </div>
+    </div>`).join('');
+  $('#kpis').innerHTML = html; $('#kpis2').innerHTML = html;
+}
+
+/* 趋势图 */
+async function loadTrend(){
+  const d = await api('/dashboard/trend?days=' + DAYS);
+  if(!chart) chart = echarts.init($('#trendChart'));
+  chart.setOption({
+    tooltip:{trigger:'axis'},
+    legend:{data:['销售额','毛利润'],top:0,textStyle:{color:'#5b6b8c'}},
+    grid:{left:50,right:50,top:36,bottom:28},
+    xAxis:{type:'category',data:d.dates,axisLine:{lineStyle:{color:'#dbe5f5'}},axisLabel:{color:'#93a3c0',fontSize:11}},
+    yAxis:[
+      {type:'value',axisLabel:{color:'#93a3c0',formatter:'${value}'},splitLine:{lineStyle:{color:'#f0f4fb'}}},
+      {type:'value',axisLabel:{color:'#93a3c0',formatter:'${value}'},splitLine:{show:false}}
+    ],
+    series:[
+      {name:'销售额',type:'line',smooth:true,data:d.sales,symbol:'circle',symbolSize:6,
+       lineStyle:{color:'#2b7bff',width:2.5},itemStyle:{color:'#2b7bff'},
+       areaStyle:{color:{type:'linear',x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:'rgba(43,123,255,.18)'},{offset:1,color:'rgba(43,123,255,0)'}]}}},
+      {name:'毛利润',type:'line',smooth:true,yAxisIndex:1,data:d.profit,symbol:'circle',symbolSize:5,
+       lineStyle:{color:'#22c08a',width:2,type:'dashed'},itemStyle:{color:'#22c08a'}}
+    ]
+  });
+}
+window.addEventListener('resize', () => chart && chart.resize());
+
+/* 提醒 */
+async function loadAlerts(){
+  const list = await api('/alerts');
+  $('#alertList').innerHTML = list.map(a => `
+    <div class="alert-card">
+      <div class="t"><span class="dot ${a.level}"></span><span>${a.title}</span></div>
+      <div class="d">${a.description || ''}</div>
+      <div class="a">💡 ${a.action || ''}</div>
+      <div class="alert-meta"><span>负责人：${a.owner || '-'}</span>
+        <button class="btn" onclick="ackAlert(${a.id})">知道了</button></div>
+    </div>`).join('') || '<div style="color:var(--ink-3)">暂无异常 🎉</div>';
+}
+async function ackAlert(id){ await api('/alerts/' + id + '/ack', {method:'POST'}); toast('已确认'); loadAlerts(); }
+
+/* 商品表现 */
+async function loadProducts(){
+  const rows = await api('/sales/products?days=' + DAYS);
+  $('#productRows').innerHTML = rows.map(r => `
+    <tr><td><b>${r.asin}</b><br><span style="color:var(--ink-3);font-size:11px">${r.sku}</span></td>
+    <td style="max-width:260px">${r.title}</td>
+    <td class="num">${r.units}</td><td class="num">${fmt$(r.sales)}</td>
+    <td class="num" style="color:${r.profit >= 0 ? 'var(--green)' : 'var(--red)'}">${fmt$(r.profit)}</td>
+    <td class="num">${r.cvr}%</td></tr>`).join('');
+}
+
+/* 广告 */
+async function loadAds(){
+  const rows = await api('/ads/campaigns?days=7');
+  $('#adsRows').innerHTML = rows.map(r => {
+    const bad = r.acos === null || r.acos > 35;
+    return `<tr><td><b>${r.campaign}</b><br><span style="color:var(--ink-3);font-size:11px">${r.campaign_id}</span></td>
+    <td class="num">${r.impressions.toLocaleString()}</td><td class="num">${r.clicks}</td>
+    <td class="num">${fmt$(r.spend)}</td><td class="num">${fmt$(r.sales)}</td><td class="num">${r.orders}</td>
+    <td class="num">${r.acos === null ? '∞' : r.acos + '%'}</td>
+    <td><span class="tag ${bad ? 'danger' : 'normal'}">${bad ? '异常' : '健康'}</span></td></tr>`;
+  }).join('');
+}
+async function diagnose(){
+  const r = await api('/ads/diagnose', {method:'POST'});
+  toast(`诊断完成：发现 ${r.findings.length} 个异常，新建 ${r.tasks_created} 个待确认任务`);
+  loadTasks();
+}
+
+/* 库存 */
+async function loadInventory(){
+  const rows = await api('/inventory');
+  $('#invRows').innerHTML = rows.map(r => `
+    <tr><td><b>${r.sku}</b></td><td>${r.asin}</td>
+    <td class="num">${r.available}</td><td class="num">${r.inbound}</td>
+    <td class="num">${r.daily_avg}</td><td class="num">${r.sellable_days} 天</td>
+    <td><span class="tag ${r.risk}">${{danger:'断货风险',warning:'低库存',normal:'正常'}[r.risk]}</span></td></tr>`).join('');
+}
+
+/* 人机协同 */
+async function loadTasks(){
+  const rows = await api('/tasks');
+  const card = t => `
+    <div class="alert-card">
+      <div class="t"><span class="dot ${t.decision === 'pending' ? 'warning' : 'info'}"></span>
+        <span>${t.title} <span class="tag muted">${t.type}</span></span></div>
+      <div class="d">${t.result || ''}</div>
+      <div class="alert-meta">
+        <span>状态：${t.decision} / ${t.status} · ${t.owner || ''}</span>
+        <span>
+          ${t.decision === 'pending' ? `
+            <button class="btn primary" onclick="decide(${t.id},'approved')">✓ 确认执行</button>
+            <button class="btn danger" onclick="decide(${t.id},'rejected')">✗ 驳回</button>` : ''}
+        </span>
+      </div>
+    </div>`;
+  $('#taskList').innerHTML = rows.map(card).join('') || '暂无任务';
+  $('#pendingMini').innerHTML = rows.filter(t => t.decision === 'pending').slice(0, 4).map(card).join('') || '<div style="color:var(--ink-3)">没有待确认事项 🎉</div>';
+}
+async function decide(id, decision){
+  const r = await api(`/tasks/${id}/decide`, {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({decision, approver:'admin'})});
+  toast(decision === 'approved'
+    ? ('已确认 → RPA ' + (r.rpa ? r.rpa.mode + '：' + (r.rpa.plan ? r.rpa.plan.join(' → ') : r.rpa.action) : '无需执行'))
+    : '已驳回，记录已沉淀');
+  loadTasks();
+}
+
+/* 日报 */
+async function genReport(){
+  toast('AI 正在生成日报…');
+  const r = await api('/report/daily', {method:'POST'});
+  $('#reportBox').textContent = r.report;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelector('[data-page="dashboard"]').classList.add('active');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  $('#page-dashboard').classList.add('active');
+  toast('日报已生成');
+}
+
+/* Skill / Workflow */
+async function loadSkills(){
+  const rows = await api('/skills');
+  $('#skillGrid').innerHTML = rows.map(s => `
+    <div class="skill-card"><div class="n">🧠 ${s.name}</div>
+    <div class="d">${s.description}</div>
+    <div style="margin-top:10px"><span class="tag blue">${s.type}</span> <span class="tag normal">${s.status}</span></div></div>`).join('');
+}
+async function loadWorkflows(){
+  const rows = await api('/workflows');
+  $('#wfList').innerHTML = rows.map(w => `
+    <div class="panel"><div class="panel-head"><div class="panel-title">${w.name}</div>
+      <span class="tag blue">${w.trigger} · ${(w.config && w.config.cron) || ''}</span></div>
+      <div class="wf-steps">${w.steps.map(s => `<span class="wf-step">${s}</span>`).join('')}</div></div>`).join('');
+}
+
+/* 初始化 */
+loadSummary(); loadTrend(); loadAlerts(); loadProducts();
+loadAds(); loadInventory(); loadTasks(); loadSkills(); loadWorkflows();
+</script>
+</body>
+</html>

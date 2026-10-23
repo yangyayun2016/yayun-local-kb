@@ -1,0 +1,7 @@
+{
+  "name": "inventory-monitor",
+  "description": "库存监控器 - 实时监控库存状态、预警补货、分析库存周转、减少滞销风险",
+  "instructions": "这是一个用于库存管理的技能。\n\n1. 核心功能：\n   - 实时库存查询\n   - 售罄日期预测\n   - 补货建议计算\n   - 库存预警通知\n   - 滞销品识别\n   - FBA库存分析\n\n2. 库存指标：\n   - 可售库存（Available）\n   - 在途库存（Inbound）\n   - 预留库存（Reserved）\n   - 不可售库存（Unfulfillable）\n   - 日均销量（Avg Daily Sales）\n   - 售罄天数（Days of Stock）\n\n3. 预警规则：\n   - 🔴 紧急预警：<3天可售\n   - 🟡 警告预警：3-7天可售\n   - 🟢 正常预警：7-14天可售\n   - ⚪ 充足库存：>14天可售\n\n4. 补货计算：\n   - 预期销量 = 日均销量 × (物流周期 + 安全天数)\n   - 建议补货 = 预期销量 - 当前库存 - 在途库存\n   - 物流周期：头程 + 入库 + 销售准备\n\n5. 分析报告：\n   - 库存周转率\n   - 滞销品清单\n   - FBA费用分析\n   - 库存健康度评分\n\n6. 通知方式：\n   - Slack消息\n   - 邮件通知\n   - 定时报告\n\n7. 适用场景：\n   - 每日库存巡检\n   - 大促前备货\n   - 滞销品处理\n   - 新品补货计划\n\n注意事项：\n- 区分FBA和FBM库存\n- 考虑促销对销量的影响\n- 预留安全库存缓冲\n- 关注IPI分数",
+  "category": "inventory-monitor",
+  "tags": ["inventory", "amazon", "fba", "replenishment", "alert"]
+}

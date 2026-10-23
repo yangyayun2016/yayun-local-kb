@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill 完全指南</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* === ROOT VARIABLES === */
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e1b4b;
+  --bg-card: rgba(30, 27, 75, 0.6);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.5);
+  --text-muted: rgba(255, 255, 255, 0.3);
+  --accent-1: #818cf8;
+  --accent-2: #c084fc;
+  --accent-3: #a5b4fc;
+  --accent-glow: rgba(99, 102, 241, 0.15);
+  --border: rgba(165, 180, 252, 0.15);
+  --font-heading: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --slide-transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* === RESET & BASE === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-snap-type: y mandatory; overflow-x: hidden; }
+body { font-family: var(--font-heading); background: var(--bg-primary); color: var(--text-primary); }
+
+/* === VIEWPORT FITTING (MANDATORY) === */
+.slide {
+  height: 100vh; height: 100dvh;
+  overflow: hidden;
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+}
+
+/* === GRID PATTERN OVERLAY === */
+.slide::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* === GLOW ORB === */
+.slide::after {
+  content: '';
+  position: absolute;
+  bottom: -30%; left: 50%;
+  transform: translateX(-50%);
+  width: 80vw; height: 40vh;
+  background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* === CONTENT CONTAINERS === */
+.slide-content {
+  position: relative; z-index: 1;
+  width: 100%;
+  max-width: min(90vw, 1200px);
+  padding: clamp(1.5rem, 4vw, 4rem);
+  max-height: 90vh;
+}
+
+.slide-content.centered {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* === TYPOGRAPHY === */
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: clamp(0.55rem, 0.9vw, 0.8rem);
+  color: var(--accent-3);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 0.4em 1.2em;
+  margin-bottom: clamp(1rem, 2.5vh, 2.5rem);
+  letter-spacing: 0.05em;
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  line-height: 1.05;
+  margin-bottom: clamp(0.8rem, 2vh, 2rem);
+}
+
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+  line-height: 1.15;
+  margin-bottom: clamp(0.8rem, 2vh, 1.5rem);
+}
+
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  line-height: 1.3;
+  margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.section-number {
+  font-family: var(--font-mono);
+  font-size: clamp(0.65rem, 1vw, 0.85rem);
+  color: var(--accent-1);
+  letter-spacing: 0.1em;
+  margin-bottom: clamp(0.5rem, 1vh, 1rem);
+}
+
+/* === CARDS & GRIDS === */
+.card-grid {
+  display: grid;
+  gap: clamp(0.8rem, 1.5vw, 1.5rem);
+  margin-top: clamp(1rem, 2.5vh, 2rem);
+  width: 100%;
+}
+
+.card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.card-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: clamp(8px, 1vw, 16px);
+  padding: clamp(1rem, 2vw, 2rem);
+  backdrop-filter: blur(10px);
+  transition: border-color 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--accent-1);
+}
+
+.card-icon {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: clamp(0.5rem, 1vh, 1rem);
+}
+
+.card h3 {
+  font-weight: 600;
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  margin-bottom: clamp(0.3rem, 0.8vh, 0.6rem);
+}
+
+.card p {
+  font-weight: 300;
+  font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* === BULLET LIST === */
+.bullet-list {
+  list-style: none;
+  margin-top: clamp(1rem, 2vh, 2rem);
+}
+
+.bullet-list li {
+  position: relative;
+  padding-left: clamp(1.5rem, 2.5vw, 2.5rem);
+  margin-bottom: clamp(0.6rem, 1.2vh, 1rem);
+  font-weight: 400;
+  font-size: clamp(0.85rem, 1.4vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+.bullet-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: clamp(6px, 0.8vw, 10px);
+  height: clamp(6px, 0.8vw, 10px);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+}
+
+.bullet-list li strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* === STEP FLOW === */
+.step-flow {
+  display: flex;
+  gap: clamp(0.5rem, 1vw, 1rem);
+  margin-top: clamp(1.5rem, 3vh, 3rem);
+  width: 100%;
+}
+
+.step-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(2rem, 3.5vw, 3rem);
+  height: clamp(2rem, 3.5vw, 3rem);
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(0.7rem, 1.2vw, 1rem);
+  color: white;
+  margin-bottom: clamp(0.5rem, 1vh, 1rem);
+}
+
+.step-item h4 {
+  font-weight: 600;
+  font-size: clamp(0.75rem, 1.2vw, 1rem);
+  margin-bottom: clamp(0.3rem, 0.5vh, 0.5rem);
+}
+
+.step-item p {
+  font-weight: 300;
+  font-size: clamp(0.65rem, 1vw, 0.85rem);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* connector between steps */
+.step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: clamp(1rem, 1.75vw, 1.5rem);
+  right: calc(-1 * clamp(0.25rem, 0.5vw, 0.5rem));
+  width: clamp(0.5rem, 1vw, 1rem);
+  height: 2px;
+  background: var(--border);
+}
+
+/* === SECTION DIVIDER === */
+.slide.section-divider {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, #312e81 50%, var(--bg-secondary) 100%);
+}
+
+.section-divider .big-number {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(6rem, 20vw, 16rem);
+  line-height: 1;
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.15), rgba(192, 132, 252, 0.15));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: absolute;
+  right: clamp(2rem, 8vw, 8rem);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* === HIGHLIGHT BOX === */
+.highlight-box {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.1), rgba(192, 132, 252, 0.05));
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-1);
+  border-radius: 0 clamp(6px, 0.8vw, 12px) clamp(6px, 0.8vw, 12px) 0;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(1rem, 2vh, 1.5rem);
+}
+
+.highlight-box p {
+  font-weight: 400;
+  font-size: clamp(0.85rem, 1.3vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+/* === ANIMATIONS === */
+.reveal {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.7s ease, transform 0.7s var(--slide-transition);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal.delay-1 { transition-delay: 0.1s; }
+.reveal.delay-2 { transition-delay: 0.2s; }
+.reveal.delay-3 { transition-delay: 0.3s; }
+.reveal.delay-4 { transition-delay: 0.4s; }
+.reveal.delay-5 { transition-delay: 0.5s; }
+.reveal.delay-6 { transition-delay: 0.6s; }
+
+/* Scale variant */
+.reveal.scale {
+  transform: scale(0.9);
+}
+.reveal.scale.visible {
+  transform: scale(1);
+}
+
+/* === NAVIGATION === */
+.nav-dots {
+  position: fixed;
+  right: clamp(1rem, 2vw, 2rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 0.8vh, 10px);
+  z-index: 100;
+}
+
+.nav-dot {
+  width: clamp(8px, 0.6vw, 10px);
+  height: clamp(8px, 0.6vw, 10px);
+  border-radius: 50%;
+  border: 1.5px solid var(--accent-3);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.nav-dot.active {
+  background: var(--accent-1);
+  border-color: var(--accent-1);
+  transform: scale(1.3);
+}
+
+/* === SLIDE COUNTER === */
+.slide-counter {
+  position: fixed;
+  bottom: clamp(1rem, 2vh, 2rem);
+  right: clamp(1rem, 2vw, 2rem);
+  font-family: var(--font-mono);
+  font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+  color: var(--text-muted);
+  z-index: 100;
+}
+
+/* === EDIT MODE === */
+.edit-toggle {
+  position: fixed;
+  top: 0; left: 0;
+  width: 50px; height: 50px;
+  z-index: 200;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.edit-toggle:hover { opacity: 1; }
+
+.edit-badge {
+  position: fixed;
+  top: clamp(0.5rem, 1vh, 1rem);
+  left: clamp(0.5rem, 1vw, 1rem);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 4px;
+  padding: 0.2em 0.6em;
+  z-index: 200;
+  display: none;
+}
+
+body.editing .edit-badge { display: block; }
+body.editing [contenteditable="true"] {
+  outline: 1px dashed rgba(165, 180, 252, 0.3);
+  outline-offset: 4px;
+  cursor: text;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .card-grid.cols-3 { grid-template-columns: 1fr; }
+  .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .step-flow { flex-direction: column; }
+  .step-item:not(:last-child)::after { display: none; }
+  .section-divider .big-number { display: none; }
+}
+
+@media (max-height: 700px) {
+  h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+  h2 { font-size: clamp(1.5rem, 3.5vw, 2.5rem); }
+  .card { padding: clamp(0.6rem, 1.5vw, 1rem); }
+}
+
+@media (max-height: 500px) {
+  h1 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+  .subtitle { font-size: clamp(0.8rem, 1.5vw, 1rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- === NAVIGATION DOTS === -->
+<nav class="nav-dots" id="navDots"></nav>
+<div class="slide-counter" id="slideCounter">01 / 23</div>
+<div class="edit-toggle" id="editToggle" title="Press E to toggle edit mode"></div>
+<div class="edit-badge" id="editBadge">EDIT MODE (Ctrl+S to save)</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 1: TITLE -->
+<!-- ============================================ -->
+<section class="slide" data-slide="1">
+  <div class="slide-content centered">
+    <div class="badge reveal">SKILL COMPLETE GUIDE</div>
+    <h1 class="reveal delay-1">Skill <span class="gradient-text">完全指南</span></h1>
+    <p class="subtitle reveal delay-2">从理解到构建到工程化的完整路径</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 2: AGENDA -->
+<!-- ============================================ -->
+<section class="slide" data-slide="2">
+  <div class="slide-content centered">
+    <div class="badge reveal">OVERVIEW</div>
+    <h2 class="reveal delay-1">五个部分</h2>
+    <div class="card-grid cols-3 reveal delay-2" style="max-width: 900px;">
+      <div class="card">
+        <div class="card-icon">01</div>
+        <h3>什么是 Skill</h3>
+        <p>理解本质</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">02</div>
+        <h3>Skill 的价值</h3>
+        <p>为什么值得投入</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">03</div>
+        <h3>编写方法论</h3>
+        <p>三步构建</p>
+      </div>
+    </div>
+    <div class="card-grid cols-2 reveal delay-3" style="max-width: 600px;">
+      <div class="card">
+        <div class="card-icon">04</div>
+        <h3>实操技巧</h3>
+        <p>四个关键习惯</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">05</div>
+        <h3>Skill 工程化</h3>
+        <p>专业级结构</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 3: SECTION DIVIDER - 什么是 Skill -->
+<!-- ============================================ -->
+<section class="slide section-divider" data-slide="3">
+  <div class="slide-content">
+    <div class="section-number reveal">PART 01</div>
+    <h1 class="reveal delay-1">什么是<br><span class="gradient-text">Skill</span></h1>
+    <p class="subtitle reveal delay-2">Agent 模式下的「提示词」</p>
+  </div>
+  <div class="big-number">01</div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 4: Chat 时代 vs Agent 时代 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="4">
+  <div class="slide-content centered">
+    <div class="badge reveal">TWO ERAS</div>
+    <h2 class="reveal delay-1">Chat 时代 vs Agent 时代</h2>
+    <div class="card-grid cols-2 reveal delay-2" style="max-width: 900px;">
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <h3>Chat 时代</h3>
+        <p style="text-align: left; margin-top: 0.5rem;"><strong style="color: var(--text-primary);">交互方式：</strong>对话框输入提示词</p>
+        <p style="text-align: left; margin-top: 0.4rem;"><strong style="color: var(--text-primary);">AI 的角色：</strong>回答问题的助手</p>
+        <p style="text-align: left; margin-top: 0.4rem;"><strong style="color: var(--text-primary);">产出形式：</strong>文字回复，需要手动复制</p>
+        <p style="text-align: left; margin-top: 0.4rem;"><strong style="color: var(--text-primary);">质量取决于：</strong>你的提示词写得好不好</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <h3>Agent 时代</h3>
+        <p style="text-align: left; margin-top: 0.5rem;"><strong style="color: var(--text-primary);">交互方式：</strong>划定工作区，分配任务</p>
+        <p style="text-align: left; margin-top: 0.4rem;"><strong style="color: var(--text-primary);">AI 的角色：</strong>在工作区内独立工作的执行者</p>
+        <p style="text-align: left; margin-top: 0.4rem;"><strong style="color: var(--text-primary);">产出形式：</strong>直接修改文件、调用 API、输出文档</p>
+        <p style="text-align: left; margin-top: 0.4rem;"><strong style="color: var(--text-primary);">质量取决于：</strong>你给它的工作规范（Skill）写得好不好</p>
+      </div>
+    </div>
+    <div class="highlight-box reveal delay-3" style="max-width: 900px; text-align: left;">
+      <p>Skill 就是你写给 Agent 的「工作手册」——不是一句话指令，而是一套完整的工作规范。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 5: Skill 的底层机制 — 渐进式加载 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="5">
+  <div class="slide-content centered">
+    <div class="badge reveal">MECHANISM</div>
+    <h2 class="reveal delay-1">Skill 的底层机制 — <span class="gradient-text">渐进式加载</span></h2>
+    <div class="step-flow reveal delay-2">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <h4>元数据层</h4>
+        <p>~100 词<br>name + description<br>始终在上下文中<br>决定是否触发</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <h4>指令层</h4>
+        <p>&lt;500 行<br>SKILL.md 主体<br>触发后加载<br>定义工作流程</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <h4>资源层</h4>
+        <p>无限<br>references/ scripts/ assets/<br>按需加载<br>不占常驻内存</p>
+      </div>
+    </div>
+    <div class="highlight-box reveal delay-3" style="max-width: 900px; text-align: left;">
+      <p>渐进式加载 = 用最小的上下文成本，换最大的能力扩展。元数据像目录，指令像手册，资源像工具箱。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 6: SECTION DIVIDER - Skill 的价值 -->
+<!-- ============================================ -->
+<section class="slide section-divider" data-slide="6">
+  <div class="slide-content">
+    <div class="section-number reveal">PART 02</div>
+    <h1 class="reveal delay-1">Skill 的<br><span class="gradient-text">价值</span></h1>
+    <p class="subtitle reveal delay-2">为什么值得投入时间去写</p>
+  </div>
+  <div class="big-number">02</div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 7: AI 时代下的电商 SOP -->
+<!-- ============================================ -->
+<section class="slide" data-slide="7">
+  <div class="slide-content">
+    <div class="section-number reveal">PART 02 / 01</div>
+    <h2 class="reveal delay-1">AI 时代下的<span class="gradient-text">电商 SOP</span></h2>
+    <ul class="bullet-list reveal delay-2">
+      <li><strong>传统 SOP 的问题</strong>：写了没人看，看了记不住，记住了执行走样</li>
+      <li><strong>Skill = 可执行的 SOP</strong>：不是给人读的文档，是给 AI 执行的程序</li>
+      <li><strong>一次编写，反复执行</strong>：同一套方法论，每次产出质量一致</li>
+      <li><strong>持续进化</strong>：用的过程中不断优化，越用越好</li>
+    </ul>
+    <div class="highlight-box reveal delay-3">
+      <p>过去：SOP 写在文档里，靠人执行。现在：SOP 写成 Skill，靠 AI 执行。执行质量从「看人状态」变成「看 Skill 质量」。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 8: 可迁移到 OpenClaw -->
+<!-- ============================================ -->
+<section class="slide" data-slide="8">
+  <div class="slide-content">
+    <div class="section-number reveal">PART 02 / 02</div>
+    <h2 class="reveal delay-1">可迁移到 <span class="gradient-text">OpenClaw</span></h2>
+    <ul class="bullet-list reveal delay-2">
+      <li><strong>Skill 不绑定平台</strong>：写好的 Skill 可以在 Claude Code、OpenClaw 等多个 Agent 环境中运行</li>
+      <li><strong>本地 → 远程</strong>：在本地验证好的 Skill，可以直接部署到 Mac Mini 上的 OpenClaw</li>
+      <li><strong>人工 → 自动</strong>：从「你触发 Skill」到「定时自动执行 Skill」</li>
+      <li><strong>个人 → 团队</strong>：好的 Skill 可以分享给团队，统一工作标准</li>
+    </ul>
+    <div class="highlight-box reveal delay-3">
+      <p>Skill 是可迁移的能力资产。你投入的每一分钟，都在积累可复用的生产力。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 9: SECTION DIVIDER - 编写方法论 -->
+<!-- ============================================ -->
+<section class="slide section-divider" data-slide="9">
+  <div class="slide-content">
+    <div class="section-number reveal">PART 03</div>
+    <h1 class="reveal delay-1">编写<br><span class="gradient-text">方法论</span></h1>
+    <p class="subtitle reveal delay-2">先想清楚，再动手写</p>
+  </div>
+  <div class="big-number">03</div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 10: 方法论概览 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="10">
+  <div class="slide-content centered">
+    <div class="badge reveal">THREE STEPS</div>
+    <h2 class="reveal delay-1">三步构建 Skill</h2>
+    <div class="step-flow reveal delay-2">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <h4>梳理业务目标</h4>
+        <p>你到底要解决什么问题？</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <h4>明确方法论</h4>
+        <p>你自己怎么做这件事？</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <h4>定义输出物</h4>
+        <p>要输出给你什么？</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 11: 梳理业务目标 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="11">
+  <div class="slide-content">
+    <div class="section-number reveal">STEP 01</div>
+    <h2 class="reveal delay-1">梳理自己的<span class="gradient-text">业务目标</span></h2>
+    <ul class="bullet-list reveal delay-2">
+      <li><strong>问自己</strong>：我到底要用 Skill 解决什么业务问题？</li>
+      <li><strong>要具体</strong>：不是"提高效率"，而是"每天节省 2 小时的竞品分析时间"</li>
+      <li><strong>要可衡量</strong>：写完 Skill 后，怎么判断它好不好用？</li>
+      <li><strong>要聚焦</strong>：一个 Skill 解决一个问题，别贪多</li>
+    </ul>
+    <div class="highlight-box reveal delay-3">
+      <p>没有清晰业务目标的 Skill，写出来只是"能跑"，不是"好用"。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 12: 明确方法论 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="12">
+  <div class="slide-content">
+    <div class="section-number reveal">STEP 02</div>
+    <h2 class="reveal delay-1">我自己的<span class="gradient-text">方法论</span>是什么？</h2>
+    <ul class="bullet-list reveal delay-2">
+      <li><strong>先手动做一遍</strong>：你自己做这件事的完整流程是什么？</li>
+      <li><strong>提炼关键步骤</strong>：哪些步骤是必须的？哪些可以省略？</li>
+      <li><strong>固化判断标准</strong>：你做决策时依据什么？把它写进 Skill</li>
+      <li><strong>注入领域知识</strong>：你知道但 AI 不知道的"行业常识"</li>
+    </ul>
+    <div class="highlight-box reveal delay-3">
+      <p>Skill 本质是你的方法论的编码。你不清楚，AI 也不会清楚。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 13: 定义输出物 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="13">
+  <div class="slide-content">
+    <div class="section-number reveal">STEP 03</div>
+    <h2 class="reveal delay-1">要输出给我<span class="gradient-text">什么？</span></h2>
+    <ul class="bullet-list reveal delay-2">
+      <li><strong>格式要明确</strong>：Markdown 报告？Excel 表格？HTML 页面？</li>
+      <li><strong>结构要固定</strong>：每次产出的框架一致，方便对比和积累</li>
+      <li><strong>质量有标准</strong>：什么样的产出算"合格"？什么算"优秀"？</li>
+      <li><strong>落盘要自动</strong>：产出自动保存到指定位置，别丢在终端里</li>
+    </ul>
+    <div class="highlight-box reveal delay-3">
+      <p>输出定义越精确，Skill 的一致性和可复用性越高。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 14: SECTION DIVIDER - 实操技巧 -->
+<!-- ============================================ -->
+<section class="slide section-divider" data-slide="14">
+  <div class="slide-content">
+    <div class="section-number reveal">PART 04</div>
+    <h1 class="reveal delay-1"><span class="gradient-text">实操技巧</span></h1>
+    <p class="subtitle reveal delay-2">四个让产出质量翻倍的关键习惯</p>
+  </div>
+  <div class="big-number">04</div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 15: 技巧1 - 用最好的模型 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="15">
+  <div class="slide-content">
+    <div class="section-number reveal">TIP 01</div>
+    <h2 class="reveal delay-1">用<span class="gradient-text">最好的模型</span>写</h2>
+    <ul class="bullet-list reveal delay-2">
+      <li><strong>Skill 是一次性投入</strong>：写 Skill 的时候用最强模型，运行时可以降级</li>
+      <li><strong>理解力决定上限</strong>：强模型能更好地理解你的方法论和意图</li>
+      <li><strong>细节处理</strong>：边界情况、异常处理，强模型考虑得更周全</li>
+    </ul>
+    <div class="highlight-box reveal delay-3">
+      <p>写 Skill 是投资行为，不要在投资阶段省成本。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 16: 技巧2 - Plan 模式 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="16">
+  <div class="slide-content">
+    <div class="section-number reveal">TIP 02</div>
+    <h2 class="reveal delay-1">用 Claude Code 的<br><span class="gradient-text">Plan 模式</span></h2>
+    <ul class="bullet-list reveal delay-2">
+      <li><strong>先规划再执行</strong>：让 AI 先出方案，你审批后再动手</li>
+      <li><strong>降低返工率</strong>：在方向上达成一致，避免写完不满意推倒重来</li>
+      <li><strong>保留决策权</strong>：你是 reviewer，AI 是 executor</li>
+    </ul>
+    <div class="highlight-box reveal delay-3">
+      <p>Plan 模式 = 在动手前先对齐预期，是质量保障的第一道关。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 17: 技巧3 - 实习生思维 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="17">
+  <div class="slide-content centered">
+    <div class="section-number reveal">TIP 03</div>
+    <h2 class="reveal delay-1">用<span class="gradient-text">实习生的思维</span></h2>
+    <p class="subtitle reveal delay-2">像带实习生一样管理 AI 的产出</p>
+    <div class="card-grid cols-4 reveal delay-3" style="margin-top: clamp(1.5rem, 3vh, 3rem);">
+      <div class="card" style="text-align: center;">
+        <div class="card-icon" style="font-size: clamp(1.8rem, 3vw, 2.5rem);">&#128065;</div>
+        <h3>看执行过程</h3>
+        <p>观察 AI 的思考路径和工具调用</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div class="card-icon" style="font-size: clamp(1.8rem, 3vw, 2.5rem);">&#128196;</div>
+        <h3>看产出结果</h3>
+        <p>评估输出质量，标记好坏</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div class="card-icon" style="font-size: clamp(1.8rem, 3vw, 2.5rem);">&#128194;</div>
+        <h3>沉淀好的</h3>
+        <p>结果 → references<br>脚本 → scripts</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div class="card-icon" style="font-size: clamp(1.8rem, 3vw, 2.5rem);">&#128260;</div>
+        <h3>多次迭代</h3>
+        <p>不断优化，逼近理想产出</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 18: 技巧4 - 学习 OpenClaw -->
+<!-- ============================================ -->
+<section class="slide" data-slide="18">
+  <div class="slide-content">
+    <div class="section-number reveal">TIP 04</div>
+    <h2 class="reveal delay-1">本地 AI 工作区<br>学习 <span class="gradient-text">OpenClaw</span> 架构</h2>
+    <ul class="bullet-list reveal delay-2">
+      <li><strong>参考成熟架构</strong>：OpenClaw 的目录结构和协作模式值得借鉴</li>
+      <li><strong>本地化适配</strong>：不是照搬，而是理解设计思路后融入自己的工作流</li>
+      <li><strong>持续演进</strong>：工作区架构不是一次性的，随着 Skill 增多要持续优化</li>
+    </ul>
+    <div class="highlight-box reveal delay-3">
+      <p>好的架构让 Skill 之间可以协作，而不是孤立运行。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 19: SECTION DIVIDER - Skill 的工程化 -->
+<!-- ============================================ -->
+<section class="slide section-divider" data-slide="19">
+  <div class="slide-content">
+    <div class="section-number reveal">PART 05</div>
+    <h1 class="reveal delay-1">Skill 的<br><span class="gradient-text">工程化</span></h1>
+    <p class="subtitle reveal delay-2">从单文件到专业级工程结构</p>
+  </div>
+  <div class="big-number">05</div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 20: 工程化目录结构 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="20">
+  <div class="slide-content">
+    <div class="section-number reveal">PART 05 / 01</div>
+    <h2 class="reveal delay-1"><span class="gradient-text">工程化</span>目录结构</h2>
+    <div class="card reveal delay-2" style="margin-top: clamp(1rem, 2vh, 1.5rem);">
+      <pre style="font-family: var(--font-mono); font-size: clamp(0.7rem, 1.1vw, 0.95rem); line-height: 1.7; color: rgba(255,255,255,0.85);">skill-name/
+├── SKILL.md          ← 核心指令（必须）
+├── references/       ← 参考资料（按需加载）
+│   ├── guidelines.md
+│   └── examples.md
+├── scripts/          ← 可执行脚本
+│   └── analyze.py
+└── assets/           ← 模板和资源文件
+    └── template.html</pre>
+    </div>
+    <div class="card-grid cols-2 reveal delay-3" style="margin-top: clamp(0.8rem, 1.5vh, 1rem);">
+      <div class="card">
+        <h3 style="color: var(--accent-3);">SKILL.md：核心</h3>
+        <p>工作流程、判断标准、输出规范</p>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--accent-3);">references/：知识</h3>
+        <p>行业数据、评估标准、最佳实践</p>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--accent-3);">scripts/：执行</h3>
+        <p>数据处理、文件转换、API 调用</p>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--accent-3);">assets/：资源</h3>
+        <p>输出模板、配置文件、素材</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 21: 工程化的好处 -->
+<!-- ============================================ -->
+<section class="slide" data-slide="21">
+  <div class="slide-content">
+    <div class="section-number reveal">PART 05 / 02</div>
+    <h2 class="reveal delay-1">工程化的<span class="gradient-text">好处</span></h2>
+    <ul class="bullet-list reveal delay-2">
+      <li><strong>关注点分离</strong>：指令归指令，数据归数据，脚本归脚本</li>
+      <li><strong>按需加载</strong>：大型参考资料不会撑爆上下文窗口</li>
+      <li><strong>独立迭代</strong>：改参考资料不用动核心逻辑，改脚本不用改指令</li>
+      <li><strong>可测试</strong>：脚本可以独立运行和调试，不依赖 AI</li>
+    </ul>
+    <div class="highlight-box reveal delay-3">
+      <p>单文件 Skill 是笔记本，工程化 Skill 是生产线。当你的 Skill 超过 200 行，就该考虑拆分了。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 22: SUMMARY -->
+<!-- ============================================ -->
+<section class="slide" data-slide="22">
+  <div class="slide-content centered">
+    <div class="badge reveal">RECAP</div>
+    <h2 class="reveal delay-1">核心要点</h2>
+    <div style="width: 100%; max-width: 800px; margin-top: clamp(1rem, 2vh, 1.5rem);" class="reveal delay-2">
+      <div style="display: flex; flex-direction: column; gap: clamp(0.5rem, 1vh, 0.8rem);">
+        <div class="card" style="display: flex; align-items: center; gap: clamp(0.8rem, 1.5vw, 1.2rem); text-align: left;">
+          <div style="font-family: var(--font-mono); font-size: clamp(1rem, 1.8vw, 1.4rem); color: var(--accent-1); font-weight: 700; min-width: 2rem;">01</div>
+          <div>
+            <h3 style="font-size: clamp(0.85rem, 1.3vw, 1.05rem); margin-bottom: 0.2rem;">什么是 Skill</h3>
+            <p style="font-size: clamp(0.75rem, 1.1vw, 0.9rem);">Agent 的工作手册，不是提示词</p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; align-items: center; gap: clamp(0.8rem, 1.5vw, 1.2rem); text-align: left;">
+          <div style="font-family: var(--font-mono); font-size: clamp(1rem, 1.8vw, 1.4rem); color: var(--accent-1); font-weight: 700; min-width: 2rem;">02</div>
+          <div>
+            <h3 style="font-size: clamp(0.85rem, 1.3vw, 1.05rem); margin-bottom: 0.2rem;">为什么写</h3>
+            <p style="font-size: clamp(0.75rem, 1.1vw, 0.9rem);">可执行的 SOP + 可迁移的资产</p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; align-items: center; gap: clamp(0.8rem, 1.5vw, 1.2rem); text-align: left;">
+          <div style="font-family: var(--font-mono); font-size: clamp(1rem, 1.8vw, 1.4rem); color: var(--accent-1); font-weight: 700; min-width: 2rem;">03</div>
+          <div>
+            <h3 style="font-size: clamp(0.85rem, 1.3vw, 1.05rem); margin-bottom: 0.2rem;">怎么写</h3>
+            <p style="font-size: clamp(0.75rem, 1.1vw, 0.9rem);">业务目标 → 方法论 → 输出定义</p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; align-items: center; gap: clamp(0.8rem, 1.5vw, 1.2rem); text-align: left;">
+          <div style="font-family: var(--font-mono); font-size: clamp(1rem, 1.8vw, 1.4rem); color: var(--accent-1); font-weight: 700; min-width: 2rem;">04</div>
+          <div>
+            <h3 style="font-size: clamp(0.85rem, 1.3vw, 1.05rem); margin-bottom: 0.2rem;">怎么用好</h3>
+            <p style="font-size: clamp(0.75rem, 1.1vw, 0.9rem);">最好模型 · Plan 模式 · 实习生思维 · 学架构</p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; align-items: center; gap: clamp(0.8rem, 1.5vw, 1.2rem); text-align: left;">
+          <div style="font-family: var(--font-mono); font-size: clamp(1rem, 1.8vw, 1.4rem); color: var(--accent-1); font-weight: 700; min-width: 2rem;">05</div>
+          <div>
+            <h3 style="font-size: clamp(0.85rem, 1.3vw, 1.05rem); margin-bottom: 0.2rem;">怎么工程化</h3>
+            <p style="font-size: clamp(0.75rem, 1.1vw, 0.9rem);">SKILL.md + references + scripts + assets</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box reveal delay-3" style="max-width: 800px; text-align: center; margin-top: clamp(0.8rem, 1.5vh, 1rem);">
+      <p style="text-align: center; font-size: clamp(0.9rem, 1.4vw, 1.1rem);">Skill 的质量上限 = 你的方法论深度 × 你的管理能力 × 工程化程度</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 23: FOLLOW ME -->
+<!-- ============================================ -->
+<section class="slide" data-slide="23">
+  <div class="slide-content centered">
+    <div class="badge reveal">FOLLOW ME</div>
+    <h2 class="reveal delay-1" style="font-size: clamp(1.8rem, 4vw, 3rem);">感谢观看</h2>
+    <div class="reveal delay-2" style="margin-top: clamp(2rem, 4vh, 4rem); padding: clamp(1.5rem, 3vw, 3rem); background: var(--bg-card); border: 1px solid var(--border); border-radius: clamp(12px, 1.5vw, 20px); backdrop-filter: blur(10px); max-width: 500px;">
+      <p style="font-family: var(--font-mono); font-size: clamp(0.65rem, 0.9vw, 0.8rem); color: var(--accent-3); letter-spacing: 0.1em; margin-bottom: clamp(0.8rem, 1.5vh, 1.2rem);">WECHAT OFFICIAL ACCOUNT</p>
+      <h3 style="font-size: clamp(1.5rem, 3vw, 2.2rem); margin-bottom: clamp(0.5rem, 1vh, 1rem);"><span class="gradient-text">Zach的进化笔记</span></h3>
+      <p style="font-weight: 300; font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-secondary); line-height: 1.6;">关注公众号，获取更多 AI 工具与效率提升的实战经验</p>
+    </div>
+  </div>
+</section>
+
+<!-- === JAVASCRIPT === -->
+<script>
+(function() {
+  'use strict';
+
+  /* === SLIDE MANAGEMENT === */
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+
+  // Build nav dots
+  const navDots = document.getElementById('navDots');
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+    dot.addEventListener('click', () => goToSlide(i));
+    navDots.appendChild(dot);
+  });
+
+  function updateCounter() {
+    const counter = document.getElementById('slideCounter');
+    const num = String(currentSlide + 1).padStart(2, '0');
+    const total = String(totalSlides).padStart(2, '0');
+    counter.textContent = `${num} / ${total}`;
+  }
+
+  function updateDots() {
+    document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
+    });
+  }
+
+  function goToSlide(index) {
+    if (index < 0 || index >= totalSlides) return;
+    currentSlide = index;
+    slides[index].scrollIntoView({ behavior: 'smooth' });
+    updateCounter();
+    updateDots();
+  }
+
+  /* === SCROLL-BASED SLIDE DETECTION === */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const index = parseInt(entry.target.dataset.slide) - 1;
+        currentSlide = index;
+        updateCounter();
+        updateDots();
+        // Trigger reveal animations
+        entry.target.querySelectorAll('.reveal').forEach(el => {
+          el.classList.add('visible');
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(slide => observer.observe(slide));
+
+  /* === KEYBOARD NAVIGATION === */
+  document.addEventListener('keydown', (e) => {
+    if (document.querySelector('body.editing') && e.key !== 'Escape' && e.key !== 'e') return;
+
+    switch(e.key) {
+      case 'ArrowDown':
+      case 'ArrowRight':
+      case ' ':
+        e.preventDefault();
+        goToSlide(currentSlide + 1);
+        break;
+      case 'ArrowUp':
+      case 'ArrowLeft':
+        e.preventDefault();
+        goToSlide(currentSlide - 1);
+        break;
+      case 'Home':
+        e.preventDefault();
+        goToSlide(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        goToSlide(totalSlides - 1);
+        break;
+      case 'e':
+      case 'E':
+        toggleEditMode();
+        break;
+    }
+  });
+
+  /* === INLINE EDITING === */
+  let editMode = false;
+  const editableSelectors = 'h1, h2, h3, h4, p, li, .badge, .section-number';
+
+  function toggleEditMode() {
+    editMode = !editMode;
+    document.body.classList.toggle('editing', editMode);
+
+    document.querySelectorAll(editableSelectors).forEach(el => {
+      el.contentEditable = editMode ? 'true' : 'false';
+    });
+  }
+
+  // Ctrl+S to save to localStorage
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      if (editMode) {
+        localStorage.setItem('slide-edits', document.body.innerHTML);
+        showSaveNotification();
+      }
+    }
+  });
+
+  function showSaveNotification() {
+    const badge = document.getElementById('editBadge');
+    badge.textContent = 'SAVED!';
+    badge.style.color = '#22c55e';
+    setTimeout(() => {
+      badge.textContent = 'EDIT MODE (Ctrl+S to save)';
+      badge.style.color = '';
+    }, 1500);
+  }
+
+  // Restore edits from localStorage
+  const savedEdits = localStorage.getItem('slide-edits');
+  if (savedEdits) {
+    // Only restore if user confirms
+    // (auto-restore can be enabled by uncommenting below)
+    // document.body.innerHTML = savedEdits;
+  }
+
+  // Edit toggle hover zone
+  document.getElementById('editToggle').addEventListener('click', toggleEditMode);
+
+  /* === INITIAL STATE === */
+  // Trigger animations on first visible slide
+  slides[0].querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  updateCounter();
+
+})();
+</script>
+
+</body>
+</html>

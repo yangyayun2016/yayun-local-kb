@@ -1,0 +1,129 @@
+Search Terms / Hintergrund-Keywords（ST，backend；每行≈短语，不重复，不标点堆叠）
+Polsterreiniger
+Teppichreiniger tragbar
+Fleckenreiniger Teppich
+Polster Waschgerät
+Sprühextraktor
+Bezugsreiniger
+Autopolsterreiniger
+Haustier Fleckenreiniger
+Sofa reinigen maschine
+Auto innenraum reiniger extraktor
+Waschsauger Polster
+Nasssauger klein Polster
+Spot Cleaner
+carpet upholstery spot cleaner
+pet stain spot remover machine
+Bissell Little Green Alternative
+Klein teppichwaschmaschine
+Treppe reinigen flecken
+Matratze Oberfläche reinigen (kein Tiefenwasch)
+Schmutzwassertank abnehmbar
+Selbstreinigung Schlauch
+Heißwasser Polsterreiniger
+Dampfmodus Fleckenreiniger
+
+
+
+
+Search Terms / Backend Keywords（ST，法语，每行≈短语，不重复，不标点堆砌）
+shampouineuse canapé
+nettoyeur canapé tissu
+injecteur extracteur portable
+nettoyeur tapis taches
+extracteur canapé
+nettoyeur sièges auto
+shampouineuse textile
+machine à laver canapé
+détacheur canapé vapeur
+nettoyeur animaux domestiques taches
+aspirateur eau canapé
+nettoyeur vapeur canapé (attention: pas synonyme, mais mot-clé longue traîne)
+alternative Bissell Little Green
+shampouineuse voiture intérieur
+nettoyeur matelas surface
+réservoir amovible auto-nettoyage
+eau chaude vapeur canapé
+
+
+
+Tabella ST / Search Terms（backend IT – frasi intere, no punteggiatura inutile, no claim falsi）
+lavatappeti
+lavatappetti
+pulitore divani
+lavatappeti per tappeti
+lavatappeti divani portatile
+lavatappeti e divani lava e asciuga
+pulitore tappezzeria divano
+macchinetta lava divani
+lavatrice divani portatile
+pulitore per tappeti macchie
+rimuovi macchie tappeto
+pulitore sedili auto
+lava sedili auto
+shampoo per divani
+lavatappeti animale domestico macchie
+lavatappeti small area rug
+iniezione estrazione portatile
+serbatoio amovibile autopulizia
+lava e asciuga divani
+alternativa Bissell Little Green
+pulitore materasso superficiale
+acqua calda vapore divani
+
+
+
+
+
+Search Terms (back-end ES – frases completas, sin puntuación, sin duplicados)
+limpiador tapicerias
+limpiador tapicería
+limpiador sofás
+inyector extractor portátil
+limpiador alfombras portátil
+quitamanchas sofá
+limpiador telas sofá
+limpiador asientos coche
+lavado tapicería coche
+limpiador manchas mascotas
+limpiador textil portátil
+máquina limpiar sofás
+lavadora sofás portátil
+limpiador inyección extracción
+depósito extraíble autolimpieza
+agua caliente vapor sofá
+alternativa Bissell Little Green
+limpiador colchones superficie
+quitamanchas alfombra
+limpiador tapetes
+
+
+
+
+
+
+
+Search Terms / Backend ST（phrase-based, no repetition, no punctuation stuffing）GB
+carpet spot cleaner
+portable upholstery cleaner
+spot cleaner for pet stains
+sofa cleaner machine
+rug cleaner portable
+car interior cleaner
+car seat cleaner machine
+stair carpet cleaner
+pet accident stain remover
+extractor shampooer
+spray extraction cleaner portable
+removable tanks self clean hose
+hot water steam upholstery cleaner
+alternative to Bissell Little Green
+small area rug spot cleaning
+mattress surface refresh
+upholstery cleaning machine
+
+
+
+
+
+

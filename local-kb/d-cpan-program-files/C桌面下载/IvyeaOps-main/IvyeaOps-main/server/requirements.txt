@@ -1,0 +1,22 @@
+fastapi==0.128.8
+uvicorn[standard]==0.39.0
+httpx==0.28.1
+python-dotenv>=1.0.0
+itsdangerous>=2.2.0
+bcrypt>=4.1.0
+pydantic>=2.9.0
+psutil>=5.9.0
+feedparser>=6.0.10
+markdown>=3.6
+openpyxl>=3.1.0
+pypdf>=4.0.0
+psd-tools==1.10.2
+Pillow>=11.0.0
+python-multipart>=0.0.9
+pyte>=0.8.2
+# AES for 领星 OpenAPI signing (app/services/lingxing_openapi.py).
+cryptography>=42.0.0
+# Lets pydantic evaluate `X | None` annotations on Python 3.9 (the default on
+# RHEL9/CentOS9/Rocky/Debian 11/Ubuntu 20.04). Without it a fresh venv crashes
+# at startup with "Unable to evaluate type annotation 'str | None'".
+eval_type_backport>=0.2.0; python_version < "3.10"

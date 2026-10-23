@@ -1,0 +1,4 @@
+interface:
+  display_name: "亚马逊精细化广告诊断"
+  short_description: "店铺与ASIN/SKU维度广告诊断、ACOS止损和运营动作清单"
+  default_prompt: "使用$amazon-ads-fine-ops-zh诊断店铺或ASIN广告异常并输出处理清单。"
