@@ -1,0 +1,3276 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://demo.lynx-ai.cn/MarketingInsight.html -->
+<html lang="zh" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>市场洞察报告</title>
+    <script src="./市场洞察报告_files/echarts.min.js.下载"></script>
+    <script>
+        window.chartConfigs = {};
+    </script>
+    <style>
+        /* Base CSS Template */
+        :root {
+            --prm: #054a8f;
+            --prm-lt: #dfeaf1;
+            --acc-1: #0369a1;
+            --acc-2: #ff8961;
+            --acc-3: #38b8a2;
+            --t1: #18181b;
+            --t2: #52525b;
+            --t3: #a1a1aa;
+            --bg-1: #fff;
+            --bg-2: #fafafa;
+            --bg-3: #f5f5f5;
+            --bd: #e4e4e7;
+            --font: -apple-system, BlinkMacSystemFont, sans-serif;
+            --ease: all .25s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font: 16px/1.6 var(--font);
+            background: var(--bg-3);
+            color: var(--t1);
+            margin: 0;
+        }
+
+        .t-h1,
+        .t-h2,
+        .tag {
+            font-weight: 600;
+        }
+
+        .t-meta,
+        .tbl th,
+        .quote-source {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .t-hero,
+        .t-h1,
+        .t-h2,
+        .t-num-L,
+        .t-num-M {
+            color: var(--t1);
+            line-height: 1.2;
+        }
+
+        .t-body,
+        .tbl td,
+        .quote-sub,
+        .tag {
+            color: var(--t2);
+        }
+
+        .t-meta,
+        .tbl th {
+            color: var(--t3);
+            font-weight: 700;
+        }
+
+        .t-hero {
+            font-size: 36px;
+            letter-spacing: -0.5px;
+        }
+
+        .t-h1 {
+            font-size: 24px;
+        }
+
+        .t-h2 {
+            font-size: 18px;
+        }
+
+        .t-num-L {
+            font-size: 40px;
+            font-weight: 300;
+        }
+
+        .t-num-M {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-1);
+            min-height: 100vh;
+        }
+
+        .pg-head,
+        .sect {
+            border-bottom: 1px solid var(--bd);
+        }
+
+        .pg-head {
+            padding: 64px;
+        }
+
+        .sect {
+            padding: 48px 64px;
+            background: var(--bg-1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(var(--cols, 3), 1fr);
+            gap: 0;
+        }
+
+        .bd-l {
+            border-left: 4px solid var(--prm);
+            padding-left: 12px;
+        }
+
+        .card,
+        .c-data {
+            border: 1px solid var(--bd);
+            height: auto;
+        }
+
+        .card {
+            background: var(--bg-1);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--ease);
+        }
+
+        .card:hover {
+            border-color: var(--t3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .04);
+            transform: translateY(-2px);
+            z-index: 1;
+        }
+
+        .card .t-meta,
+        .card .t-h1,
+        .tag-g {
+            margin-bottom: 16px;
+        }
+
+        .card .t-body {
+            margin-bottom: 24px;
+            flex: 1;
+        }
+
+        .c-data {
+            background: var(--bg-2);
+            padding: 28px;
+        }
+
+        .c-data .t-meta,
+        .c-data .val {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .tbl {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .tbl th {
+            padding: 16px;
+            border-bottom: 2px solid var(--bd);
+        }
+
+        .tbl td {
+            padding: 16px;
+            border-bottom: 1px solid var(--bd);
+        }
+
+        .prog-w {
+            margin-top: auto;
+        }
+
+        .prog-t {
+            height: 4px;
+            background: #f0f0f0;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .prog-b {
+            height: 100%;
+        }
+
+        .tag-g {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 4px 8px;
+            background: var(--bg-3);
+        }
+
+        .mini-chart {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            -webkit-mask: radial-gradient(#0000 60%, #000 61%);
+            mask: radial-gradient(#0000 60%, #000 61%);
+        }
+
+        .c-bad {
+            color: var(--acc-2);
+        }
+
+        .c-mid {
+            color: #fbbf24;
+        }
+
+        .c-good {
+            color: var(--acc-3);
+        }
+
+        .chart-box {
+            width: 100%;
+            height: 400px;
+            margin-top: 24px;
+        }
+
+        .quote-box {
+            border-left: 4px solid var(--prm);
+            padding-left: 12px;
+            margin-bottom: 16px;
+        }
+
+        .quote-sub {
+            font-size: 13px;
+        }
+
+        .quote-source {
+            font-style: italic;
+            font-weight: 300;
+            color: var(--prm);
+            margin-bottom: 4px;
+        }
+
+        /* 固定的样式（不喂给大模型） */
+        .tab-style-2 {
+            background: var(--bg-1);
+            border: 1px solid var(--bd);
+            margin-bottom: 40px;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .tab-style-2 .tab-nav {
+            display: flex;
+            background: var(--bg-3);
+            border-bottom: 1px solid var(--bd);
+            padding: 0;
+        }
+
+        .tab-style-2 .tab-btn {
+            flex: 1;
+            padding: 16px 24px;
+            background: transparent;
+            border: none;
+            border-right: 1px solid var(--bd);
+            color: var(--t3);
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .tab-style-2 .tab-btn:last-child {
+            border-right: none;
+        }
+
+        .tab-style-2 .tab-btn:hover:not(.active) {
+            background: rgba(0, 0, 0, 0.02);
+            color: var(--t1);
+        }
+
+        .tab-style-2 .tab-btn.active {
+            background: var(--bg-1);
+            color: var(--prm);
+            box-shadow: inset 0 4px 0 0 var(--prm);
+            margin-bottom: -1px;
+            border-bottom: 1px solid var(--bg-1);
+            z-index: 1;
+        }
+
+        .tab-content {
+            padding: 0;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .card-plan {
+            background: linear-gradient(90deg, var(--bg-1) 0%, var(--prm-lt) 100%)
+        }
+
+        .card-plan .t-h1 {
+            color: var(--prm);
+            margin: 0;
+        }
+
+        .img-grid {
+            display: grid;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .img-grid-1 {
+            grid-template-columns: 1fr;
+        }
+
+        .img-grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .img-grid-3,
+        .img-grid-4,
+        .img-grid-5,
+        .img-grid-6,
+        .img-grid-7,
+        .img-grid-8,
+        .img-grid-9 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .img-grid-item {
+            width: 100%;
+            border: 1px solid var(--bd);
+            transition: border-color 0.2s ease;
+        }
+
+        .img-grid-item:hover {
+            border-color: var(--prm);
+        }
+
+        .img-grid-1 .img-grid-item {
+            height: auto;
+            max-width: 100%;
+        }
+
+        .img-grid-2 .img-grid-item {
+            height: auto;
+        }
+
+        .img-grid-3 .img-grid-item,
+        .img-grid-4 .img-grid-item,
+        .img-grid-5 .img-grid-item,
+        .img-grid-6 .img-grid-item,
+        .img-grid-7 .img-grid-item,
+        .img-grid-8 .img-grid-item,
+        .img-grid-9 .img-grid-item {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .img-grid-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .img-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .img-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .img-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 10000;
+        }
+
+        .img-modal-close:hover {
+            color: #bbb;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 1024px) {
+
+            .pg-head,
+            .sect {
+                padding: 32px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tbl {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .s-nav {
+                display: none;
+            }
+
+            .img-grid-2,
+            .img-grid-3,
+            .img-grid-4,
+            .img-grid-5,
+            .img-grid-6,
+            .img-grid-7,
+            .img-grid-8,
+            .img-grid-9 {
+                grid-template-columns: 1fr;
+            }
+
+            .img-grid-3 .img-grid-item,
+            .img-grid-4 .img-grid-item,
+            .img-grid-5 .img-grid-item,
+            .img-grid-6 .img-grid-item,
+            .img-grid-7 .img-grid-item,
+            .img-grid-8 .img-grid-item,
+            .img-grid-9 .img-grid-item {
+                height: auto;
+            }
+        }
+
+        .term-tip {
+            position: relative;
+            cursor: help;
+            text-decoration: underline;
+            text-decoration-style: dashed;
+            text-decoration-color: var(--acc-1);
+            text-underline-offset: 2px;
+            display: inline;
+        }
+
+        /* 原始 tooltip 样式 */
+        .term-tip .term-tooltip {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: #1a1a2e;
+            color: #fff;
+            border-radius: 6px;
+            min-width: 180px;
+            max-width: 320px;
+            width: max-content;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            pointer-events: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .term-tip .term-tooltip::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: -12px;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-bottom-color: #1a1a2e;
+        }
+
+        .term-tip:hover .term-tooltip {
+            display: block;
+        }
+
+        .term-tip .term-name {
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .term-tip .term-desc {
+            display: block;
+            font-size: 12px;
+            color: #DBDBDB;
+            line-height: 1.5;
+        }
+
+        /* JS 增强后隐藏原始 tooltip */
+        .term-tip.js-enhanced .term-tooltip {
+            display: none !important;
+        }
+
+        /* Fixed 定位的 tooltip（由 JS 创建，挂载到 body） */
+        .term-tooltip-fixed {
+            position: fixed;
+            display: none;
+            padding: 10px 14px;
+            background: #1a1a2e;
+            color: #fff;
+            border-radius: 6px;
+            min-width: 180px;
+            max-width: 320px;
+            width: max-content;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 99999;
+            pointer-events: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .term-tooltip-fixed.visible {
+            display: block;
+        }
+
+        .term-tooltip-fixed .term-name {
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .term-tooltip-fixed .term-desc {
+            display: block;
+            font-size: 12px;
+            color: #DBDBDB;
+            line-height: 1.5;
+        }
+
+        .term-tooltip-fixed::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+        }
+
+        .term-tooltip-fixed.arrow-top::before {
+            top: -12px;
+            border-bottom-color: #1a1a2e;
+        }
+
+        .term-tooltip-fixed.arrow-bottom::before {
+            bottom: -12px;
+            border-top-color: #1a1a2e;
+        }
+
+        .sect-Xy {
+            padding: 48px 64px;
+            background: var(--bg-1);
+        }
+
+        .grid-inner-Xy {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+        }
+
+        .span-full-Xy {
+            grid-column: 1 / -1;
+        }
+
+        .strat-list-Xy {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #10b981;
+            padding-bottom: 40px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            padding: 28px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+        }
+
+        .strat-item-Xy {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            line-height: 1.9;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 6px;
+            border-left: 4px solid #10b981;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .strat-item-Xy:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+        }
+
+        .strat-label-Xy {
+            font-weight: 700;
+            color: #065f46;
+            min-width: 140px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .img-box-Xy {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border: 3px solid var(--bd);
+            background: #fff;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .img-box-Xy:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .price-chart-Xy {
+            width: 100%;
+            height: 140px;
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .bench-item-Xy {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .bench-item-Xy:hover {
+            transform: translateY(-4px);
+        }
+
+        .bench-info-Xy {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-inner-Xy {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sect {
+            padding: 48px 64px;
+            background: var(--bg-1);
+            border-bottom: 1px solid var(--bd);
+        }
+
+        .grid-quad {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            margin-bottom: 48px;
+        }
+
+        .card-quad {
+            background: var(--bg-1);
+            padding: 32px;
+            border: 2px solid var(--bd);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-quad::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            transition: height 0.3s ease;
+        }
+
+        .card-quad:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+            border-color: transparent;
+        }
+
+        .card-quad:hover::before {
+            height: 100%;
+            opacity: 0.05;
+        }
+
+        .q-tag {
+            display: inline-block;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .q-tag.q-1 {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #fff;
+        }
+
+        .card-quad:nth-child(1)::before {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .q-tag.q-2 {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #fff;
+        }
+
+        .card-quad:nth-child(2)::before {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .q-tag.q-3 {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #fff;
+        }
+
+        .card-quad:nth-child(3)::before {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .q-tag.q-4 {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: #fff;
+        }
+
+        .card-quad:nth-child(4)::before {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+        }
+
+        .chart-container-Br {
+            margin-bottom: 48px;
+        }
+
+        .chart-legend-text {
+            font-size: 12px;
+            color: var(--t2);
+            margin-top: 24px;
+            line-height: 1.6;
+            background: var(--bg-2);
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .chart-legend-text strong {
+            color: var(--t1);
+            font-weight: 600;
+        }
+
+        .val-high {
+            color: var(--prm);
+            font-weight: 700;
+        }
+
+        .tag-pos {
+            background: var(--acc-3);
+            color: #fff;
+        }
+
+        .tag-neu {
+            background: var(--bg-3);
+            color: var(--t2);
+            border: 1px solid var(--bd);
+        }
+
+        .mini-chart-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--t2);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* 新增样式，后缀 _Xy 以避免冲突 */
+        .grid-metrics_Xy {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card-metric_Xy {
+            background: var(--bg-2);
+            padding: 24px;
+            border: 1px solid var(--bd);
+            border-radius: 4px;
+            height: 100%;
+        }
+
+        .metric-head_Xy {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .metric-val_Xy {
+            font-size: 32px;
+            font-weight: 300;
+            color: var(--prm);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .list-check_Xy {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-check_Xy li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 4px;
+            color: var(--t2);
+            font-size: 13px;
+        }
+
+        .list-check_Xy li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--acc-1);
+        }
+
+        .chart-radar-container_Xy {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: center;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .chart-radar-container_Xy {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tag-lc_Xy {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tag-lc-core_Xy {
+            background: var(--prm-lt);
+            color: var(--prm);
+        }
+
+        .tag-lc-niche_Xy {
+            background: #fee2e2;
+            color: var(--acc-2);
+        }
+
+        .opp-result-grid_Xy {
+            display: grid;
+            gap: 16px;
+        }
+
+        .opp-card_Xy {
+            border: 1px solid var(--bd);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-1);
+        }
+
+        .opp-card_Xy.is-opp_Xy {
+            border-left: 4px solid var(--acc-3);
+        }
+
+        .opp-card_Xy.no-opp_Xy {
+            border-left: 4px solid var(--t3);
+            opacity: 0.8;
+        }
+
+        .tbl-wrapper_Xy {
+            overflow-x: auto;
+            margin-bottom: 24px;
+        }
+
+        /* 覆盖层：确保基础样式优先级（放在最后加载） */
+        .sect {
+            padding: 48px 64px;
+            background: var(--bg-1);
+        }
+
+        .card,
+        .c-data {
+            border: 1px solid var(--bd);
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="pg-head" style="background: linear-gradient(135deg, #0c4a6e 0%, #075985 50%, #0369a1 100%); color: white; padding: 80px 64px; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.03) 35px, rgba(255,255,255,.03) 70px); opacity: 0.5;"></div>
+            <div style="position: relative; z-index: 1;">
+                <div style="display: inline-block; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); padding: 8px 20px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 2px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.3);">📊 MARKET INTELLIGENCE REPORT</div>
+                <h1 style="font-size: 48px; font-weight: 700; margin: 0; letter-spacing: -1px; text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">市场洞察报告</h1>
+                <div style="font-size: 18px; margin-top: 20px; opacity: 0.95; font-weight: 500;">
+                    <span style="background: rgba(255, 255, 255, 0.15); padding: 6px 16px; border-radius: 6px; display: inline-block; margin-right: 12px;">🧺 Towel Warmer Bucket</span>
+                    <span style="background: rgba(255, 255, 255, 0.15); padding: 6px 16px; border-radius: 6px; display: inline-block; margin-right: 12px;">🇺🇸 Market: US</span>
+                    <span style="background: rgba(255, 255, 255, 0.15); padding: 6px 16px; border-radius: 6px; display: inline-block;">📅 2026-02-02</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="sect sect-Xy" style="background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);">
+            <!-- Card 1 -->
+            <div class="card" style="border: 3px solid #10b981; border-radius: 12px; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15); background: linear-gradient(to bottom right, #ffffff 0%, #f0fdf4 100%); position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%); pointer-events: none;"></div>
+                <div style="position: relative; z-index: 1;">
+                    <div style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 12px 24px; border-radius: 8px; font-size: 28px; font-weight: 700; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">🎯 第1张牌： 乱世争霸赛</div>
+                    <h2 style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 6px solid #3b82f6; padding: 20px 24px; font-size: 24px; font-weight: 700; color: #1e40af; margin: 0 0 32px 0; border-radius: 8px; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);">款式：Standard Bucket Warmer (Bucket Towel Warmer)</h2>
+
+                <!-- Paragraph 1: Strategy (Top) -->
+                <div class="strat-list-Xy">
+                    <div class="strat-item-Xy">
+                        <span class="strat-label-Xy">🎯 定位心智款式:</span>
+                        <span class="t-body" style="font-weight: 600; color: var(--t1); font-size: 16px;">Standard Bucket Warmer (Bucket Towel Warmer)</span>
+                    </div>
+                    <div class="strat-item-Xy">
+                        <span class="strat-label-Xy">📊 状态诊断:</span>
+                        <span class="t-body" style="font-size: 16px;">动能 <strong style="color: #dc2626; font-size: 18px; background: #fee2e2; padding: 2px 8px; border-radius: 4px;">[高]</strong> × 份额 <strong style="color: #dc2626; font-size: 18px; background: #fee2e2; padding: 2px 8px; border-radius: 4px;">[高]</strong> × 竞争 <strong style="color: #dc2626; font-size: 18px; background: #fee2e2; padding: 2px 8px; border-radius: 4px;">[高]</strong>
+                            → <strong style="color: #b91c1c; font-size: 20px; background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); padding: 4px 12px; border-radius: 6px; border: 2px solid #dc2626;">⚔️ 乱世争霸赛</strong></span>
+                    </div>
+                    <div class="strat-item-Xy">
+                        <span class="strat-label-Xy">💎 核心组合:</span>
+                        <span class="t-body" style="font-size: 15px; line-height: 2;">
+                            <strong style="color: #0369a1;">防烫翻盖</strong> (<span class="term-tip js-enhanced">SI (特异性指数)<span class="term-tooltip"><span class="term-name">特异性指数</span><span class="term-desc">某卖点在特定款式中的渗透率相对于该卖点在全市场渗透率的倍数，反映该卖点对该款式的差异化贡献度。</span></span></span>:
+                            <strong style="color: #059669; font-size: 17px;">1.18</strong>) <br>
+                            <strong style="color: #0369a1;">360°均匀加热</strong> (<span class="term-tip js-enhanced">SI (特异性指数)<span class="term-tooltip"><span class="term-name">特异性指数</span><span class="term-desc">某卖点在特定款式中的渗透率相对于该卖点在全市场渗透率的倍数，反映该卖点对该款式的差异化贡献度。</span></span></span>:
+                            <strong style="color: #059669; font-size: 17px;">1.18</strong>) <br>
+                            <strong style="color: #0369a1;">静音运行</strong> (<span class="term-tip js-enhanced">SI (特异性指数)<span class="term-tooltip"><span class="term-name">特异性指数</span><span class="term-desc">某卖点在特定款式中的渗透率相对于该卖点在全市场渗透率的倍数，反映该卖点对该款式的差异化贡献度。</span></span></span>:
+                            <strong style="color: #059669; font-size: 17px;">1.18</strong>)
+                        </span>
+                    </div>
+                    <div class="strat-item-Xy">
+                        <span class="strat-label-Xy">🏭 供应链标签:</span>
+                        <span class="t-body" style="font-size: 15px;">环形加热元件设计、热场分布仿真、高功率加热元件、电源管理模块、可折叠桶体结构设计、折叠机构耐久性</span>
+                    </div>
+                </div>
+
+                <!-- Paragraph 2: Tactics (Grid) -->
+                <div class="grid-inner-Xy">
+                    <!-- A. Diagnosis -->
+                    <div class="c-data span-full-Xy" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 3px solid #f59e0b; border-radius: 8px; padding: 32px; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2);">
+                        <div style="display: inline-block; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px;">A. 款式定性 (DIAGNOSIS)</div>
+                        <h3 style="font-size: 28px; font-weight: 700; color: #92400e; margin: 8px 0 20px; text-shadow: 0 2px 4px rgba(146, 64, 14, 0.1);">🏆 核心主流 (Core Mainstream)</h3>
+                        <div style="font-size: 16px; color: #78350f; line-height: 1.9; background: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: 6px; border-left: 4px solid #d97706;">
+                            基于<strong style="color: #b91c1c; font-size: 18px;">乱世争霸赛</strong>策略，核心战术在于<strong style="color: #0369a1; font-size: 18px;">极致差异 (Extreme
+                                Differentiation)</strong>，该款式正处在<strong style="color: #059669; font-size: 18px;">核心主流 (Core
+                                Mainstream)</strong>生命周期阶段。数据表明，这片战场汇集了市场绝对主力的需求（<strong style="background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 4px;">趋势动能6578.5</strong>）和销量（<strong style="background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 4px;">市场份额71.3%</strong>），是兵家必争之地。高竞争指数（<strong style="background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 4px;">CI
+                            27.0</strong>）意味着简单的模仿和价格战无法胜出，必须通过建立极具辨识度的产品ID或强情绪价值，才能在这场高烈度的市场份额争夺战中脱颖而出，立起自己的品牌旗帜。
+                        </div>
+                    </div>
+
+                    <!-- B. Features -->
+                    <div class="c-data" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2px solid #3b82f6; border-radius: 8px; padding: 28px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);">
+                        <div style="display: inline-block; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px;">B. 卖点SI阐释</div>
+                        <table class="tbl" style="margin-top:16px; margin-bottom:0; background: white; border-radius: 6px; overflow: hidden;">
+                            <thead style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);">
+                                <tr>
+                                    <th style="color: white; font-weight: 700; padding: 14px 16px;">卖点名称</th>
+                                    <th style="color: white; font-weight: 700; padding: 14px 16px;"><span class="term-tip js-enhanced" style="color: white;">SI (特异性指数)<span class="term-tooltip"><span class="term-name">特异性指数</span><span class="term-desc">某卖点在特定款式中的渗透率相对于该卖点在全市场渗透率的倍数，反映该卖点对该款式的差异化贡献度。</span></span></span>
+                                    </th>
+                                    <th style="color: white; font-weight: 700; padding: 14px 16px;">卖点角色</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background: #f0f9ff;">
+                                    <td style="font-weight: 600; color: var(--t1); padding: 14px 16px;">防烫翻盖</td>
+                                    <td style="font-size: 18px; font-weight: 700; color: #0369a1; padding: 14px 16px;">1.18</td>
+                                    <td style="padding: 14px 16px;"><span style="background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%); color: #064e3b; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 12px;">💰 溢价支撑</span></td>
+                                </tr>
+                                <tr style="background: white;">
+                                    <td style="font-weight: 600; color: var(--t1); padding: 14px 16px;">360°均匀加热</td>
+                                    <td style="font-size: 18px; font-weight: 700; color: #0369a1; padding: 14px 16px;">1.18</td>
+                                    <td style="padding: 14px 16px;"><span style="background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%); color: #1e3a8a; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 12px;">🎯 核心成交</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- C. Price Band -->
+                    <div class="c-data" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid #10b981; border-radius: 8px; padding: 28px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);">
+                        <div style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px;">C. 价格带 (PRICE BAND)</div>
+                        <div id="chart_price_Xy" class="price-chart-Xy" _echarts_instance_="ec_1780130667334" style="position: relative;"><div style="position: relative; overflow: hidden; width: 496px; height: 116px;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="496" height="116" style="position: absolute; left: 0px; top: 0px; user-select: none;"><rect width="496" height="116" x="0" y="0" fill="none"></rect><g><path d="M20.5 20L20.5 72" fill="none" stroke="#e4e4e7" stroke-dasharray="4,2"></path><path d="M78.5 20L78.5 72" fill="none" stroke="#e4e4e7" stroke-dasharray="4,2"></path><path d="M173.5 20L173.5 72" fill="none" stroke="#e4e4e7" stroke-dasharray="4,2"></path><path d="M267.5 20L267.5 72" fill="none" stroke="#e4e4e7" stroke-dasharray="4,2"></path><path d="M361.5 20L361.5 72" fill="none" stroke="#e4e4e7" stroke-dasharray="4,2"></path><path d="M456.5 20L456.5 72" fill="none" stroke="#e4e4e7" stroke-dasharray="4,2"></path><text dominant-baseline="central" text-anchor="middle" y="5.5" transform="translate(20 80)" fill="#a1a1aa" style="font-size: 11px; font-family: &quot;Microsoft YaHei&quot;;">$18.99</text><text dominant-baseline="central" text-anchor="middle" y="5.5" transform="translate(78.5272 80)" fill="#a1a1aa" style="font-size: 11px; font-family: &quot;Microsoft YaHei&quot;;">$50</text><text dominant-baseline="central" text-anchor="middle" y="5.5" transform="translate(172.8954 80)" fill="#a1a1aa" style="font-size: 11px; font-family: &quot;Microsoft YaHei&quot;;">$100</text><text dominant-baseline="central" text-anchor="middle" y="5.5" transform="translate(267.2636 80)" fill="#a1a1aa" style="font-size: 11px; font-family: &quot;Microsoft YaHei&quot;;">$150</text><text dominant-baseline="central" text-anchor="middle" y="5.5" transform="translate(361.6318 80)" fill="#a1a1aa" style="font-size: 11px; font-family: &quot;Microsoft YaHei&quot;;">$200</text><text dominant-baseline="central" text-anchor="middle" y="5.5" transform="translate(456 80)" fill="#a1a1aa" style="font-size: 11px; font-family: &quot;Microsoft YaHei&quot;;">$250</text><path d="M24 28.06L397.2664 28.06A4 4 0 0 1 401.2664 32.06L401.2664 59.94A4 4 0 0 1 397.2664 63.94L24 63.94A4 4 0 0 1 20 59.94L20 32.06A4 4 0 0 1 24 28.06" fill="#054a8f"></path><text dominant-baseline="central" text-anchor="start" xml:space="preserve" transform="translate(406.2664 46)" fill="#054a8f" style="font-size: 12px; font-family: &quot;Microsoft YaHei&quot;; font-weight: 600;">$18.99 - $239.99</text></g></svg></div><div class=""></div></div>
+                    </div>
+
+                    <!-- D. Benchmarking -->
+                    <div class="c-data" style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border: 2px solid #dc2626; border-radius: 8px; padding: 28px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);">
+                        <div style="display: inline-block; background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: white; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px;">D. 头号竞争ASIN (BENCHMARKING)</div>
+                        <div class="bench-item-Xy" style="margin-top:16px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+                            <img src="./市场洞察报告_files/41Sf3nkKMUL._AC_US200_.jpg" alt="Competitor" class="img-box-Xy" style="border: 3px solid #dc2626; border-radius: 8px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);">
+                            <div class="bench-info-Xy">
+                                <div style="font-size: 20px; font-weight: 700; color: var(--t1); margin-bottom: 8px;">B08ZMXQRPZ</div>
+                                <div style="font-size: 32px; font-weight: 700; color: #dc2626; margin: 8px 0;">$106.99</div>
+                                <div style="background: #fee2e2; color: #b91c1c; padding: 6px 16px; border-radius: 6px; font-weight: 700; display: inline-block; margin-bottom: 12px;">📊 月销 10,000</div>
+                                <div class="tag-g" style="margin-top:12px;">
+                                    <span style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px;">防烫翻盖</span>
+                                    <span style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 13px;">360°均匀加热</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- E. Gap Analysis -->
+                    <div class="c-data" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; border-radius: 8px; padding: 28px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);">
+                        <div style="display: inline-block; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-bottom: 20px;">E. 头号竞对缝隙寻找 (GAP IDENTIFICATION)</div>
+                        <div style="margin-top:16px;">
+                            <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 16px; border-left: 6px solid #3b82f6; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
+                                <p style="margin: 0; font-size: 16px; line-height: 1.9; color: var(--t1);"><strong style="color: #1e40af; font-size: 18px;">1. 🎯 【意图拦截缝隙】</strong> <span style="background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 4px; font-size: 13px; font-weight: 600;">(SI Mismatch)</span><br><br>
+                                市场高增长关键词（High <span class="term-tip js-enhanced">SI
+                                    (特异性指数)<span class="term-tooltip"><span class="term-name">特异性指数</span><span class="term-desc">某卖点在特定款式中的渗透率相对于该卖点在全市场渗透率的倍数，反映该卖点对该款式的差异化贡献度。</span></span></span>）已向<strong style="color: #dc2626;">"Timer（多档定时）"</strong>和<strong style="color: #dc2626;">"Temperature
+                                Control（精准控温）"</strong>偏移。Keenray 仍锁死在"单键盲操"与"固定 60 分钟关机"的低智感逻辑，无法交付用户对加热时长的自主掌控。
+                            </p>
+                            </div>
+                            <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 16px; border-left: 6px solid #10b981; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
+                                <p style="margin: 0; font-size: 16px; line-height: 1.9; color: var(--t1);"><strong style="color: #059669; font-size: 18px;">2. 🔧 【物理体验缝隙】</strong> <span style="background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 4px; font-size: 13px; font-weight: 600;">(Experience Redundancy)</span><br><br>
+                                竞对强推的<strong style="color: #dc2626;">"Large
+                                Capacity（20L大容量）"</strong>导致桶身过高且臃肿。这直接引发了两个负向卖点：一是<strong style="background: #fee2e2; color: #b91c1c; padding: 2px 8px; border-radius: 4px;">受热不均</strong>（桶底滚烫而顶部温凉），二是<strong style="background: #fee2e2; color: #b91c1c; padding: 2px 8px; border-radius: 4px;">空间入侵</strong>（对现代小型浴室极不友好）。
+                            </p>
+                            </div>
+                            <div style="background: white; padding: 20px; border-radius: 8px; border-left: 6px solid #f59e0b; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
+                                <p style="margin: 0; font-size: 16px; line-height: 1.9; color: var(--t1);"><strong style="color: #d97706; font-size: 18px;">3. 💎 【情绪溢价缝隙】</strong> <span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 13px; font-weight: 600;">(Emotional ID Redlining)</span><br><br>
+                                在价格过百 <strong style="color: #dc2626; font-size: 18px;">($106.99)</strong> 的区间，Keenray
+                                依然采用全塑料圆桶、工业白底图的<strong style="background: #fee2e2; color: #b91c1c; padding: 2px 8px; border-radius: 4px;">"白牌美学"</strong>。面对乱世战场中追求生活品质和礼赠价值的用户，其产品缺乏身份认同感和居家装饰价值。
+                            </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="c-data span-full-Xy" style="background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border: 4px solid #10b981; border-radius: 12px; padding: 40px; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25); position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%); pointer-events: none;"></div>
+                        <div style="position: relative; z-index: 1;">
+                            <div style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);">🚀 F. 乱世争霸赛 落地策略 (EXECUTION)</div>
+                            <h3 style="font-size: 26px; font-weight: 700; color: #065f46; margin: 0 0 28px 0; text-shadow: 0 2px 4px rgba(6, 95, 70, 0.1); background: rgba(255, 255, 255, 0.7); padding: 16px 20px; border-radius: 8px; border-left: 6px solid #059669;">⚡ 战术公式：强 ID + 语义拦截 + 体验纯净化</h3>
+
+                            <div style="background: white; padding: 24px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border: 2px solid #3b82f6;">
+                                <p style="margin: 0; font-size: 17px; line-height: 2; color: var(--t1);"><strong style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 8px 16px; border-radius: 6px; font-size: 16px; display: inline-block; margin-bottom: 12px;">1. 👁️ 【视觉拦截】</strong><br><br>
+                                放弃竞对的老旧塑料感，引入<strong style="color: #0369a1; background: #dbeafe; padding: 3px 10px; border-radius: 4px; font-size: 18px;">"莫兰迪色系"或"仿木质纹理顶盖"</strong>。在主图上极致放大<strong style="color: #dc2626; background: #fee2e2; padding: 3px 10px; border-radius: 4px; font-size: 18px;">"LED
+                                    触控数显屏"</strong>，通过视觉 ID 直接定性为<strong style="color: #059669; font-size: 18px;">"第二代智能加热器"</strong>，拦截对老款式审美疲劳的流量。
+                            </p>
+                            </div>
+
+                            <div style="background: white; padding: 24px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border: 2px solid #10b981;">
+                                <p style="margin: 0; font-size: 17px; line-height: 2; color: var(--t1);"><strong style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 8px 16px; border-radius: 6px; font-size: 16px; display: inline-block; margin-bottom: 12px;">2. 🔧 【功能重构】（精简与升级）</strong><br><br>
+                                砍掉无谓的"巨无霸"容量噱头，推出<strong style="color: #0369a1; background: #dbeafe; padding: 3px 10px; border-radius: 4px; font-size: 18px;">"Slim-Fit 纤薄款"（适配 1-2
+                                    人）</strong>。利用节省的空间升级为<strong style="color: #dc2626; background: #fee2e2; padding: 3px 10px; border-radius: 4px; font-size: 18px;">"底部+侧壁"双区环绕加热</strong>，主打<strong style="color: #059669; font-size: 18px;">"每一寸都热得均匀"</strong>，精准回击竞对加热不均的差评。
+                            </p>
+                            </div>
+
+                            <div style="background: white; padding: 24px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border: 2px solid #f59e0b;">
+                                <p style="margin: 0; font-size: 17px; line-height: 2; color: var(--t1);"><strong style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 8px 16px; border-radius: 6px; font-size: 16px; display: inline-block; margin-bottom: 12px;">3. 🎁 【场景心智占领】</strong><br><br>
+                                针对竞对"礼品属性"较强但交付简单的现状，包装上升级为<strong style="color: #0369a1; background: #dbeafe; padding: 3px 10px; border-radius: 4px; font-size: 18px;">"高定礼盒感"</strong>，文案定位于<strong style="color: #dc2626; font-size: 18px;">"给家人的首份冬日温暖"</strong>。通过 <strong style="color: #059669; background: #d1fae5; padding: 3px 10px; border-radius: 4px; font-size: 18px;">15/30/45/60min
+                                的四档定时功能</strong>，将使用权交还给用户，建立比竞对更高端的<strong style="color: #059669; font-size: 18px;">"智能居家"</strong>心智。
+                            </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div></section>
+        <div class="sect" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left: 6px solid var(--acc-1); padding: 56px 64px;">
+            <div style="display: inline-block; background: var(--acc-1); color: white; padding: 8px 20px; border-radius: 4px; font-size: 12px; font-weight: 700; letter-spacing: 2px; margin-bottom: 20px;">📊 STRATEGIC ANALYSIS</div>
+            <h2 style="font-size: 32px; font-weight: 700; color: var(--prm); margin-bottom: 16px; line-height: 1.3; text-shadow: 0 2px 4px rgba(5, 74, 143, 0.1);">波士顿战略矩阵 | 北美 towel warmer bucket 品类</h2>
+            <div style="height: 4px; width: 120px; background: linear-gradient(90deg, var(--acc-1), var(--acc-3)); border-radius: 2px; margin-bottom: 40px;"></div>
+
+
+
+            <div class="grid-quad">
+                <!-- Quadrant I: Emerging Stars (High M, Low P) -->
+                <div class="card-quad">
+                    <div><span class="q-tag q-1">⭐ 象限 I：新星爆发 (Emerging Stars)</span></div>
+                    <div style="font-size: 16px; font-weight: 700; color: var(--t1); margin-bottom: 12px; line-height: 1.4;">定义：高动能 + 低份额</div>
+                    <p style="font-size: 15px; color: var(--t2); line-height: 1.7;">这是品类的<strong style="color: #3b82f6;">"进化前沿"</strong>。卖点/款式正处于从少数先锋向大众普及的临界点。适合作为下一季度的<strong>创新爆款</strong>或<strong>差异化配置</strong>。</p>
+                </div>
+
+                <!-- Quadrant II: Core Growth (High M, High P) -->
+                <div class="card-quad">
+                    <div><span class="q-tag q-2">🎯 象限 II：核心主流 (Core Growth)</span></div>
+                    <div style="font-size: 16px; font-weight: 700; color: var(--t1); margin-bottom: 12px; line-height: 1.4;">定义：高动能 + 高份额</div>
+                    <p style="font-size: 15px; color: var(--t2); line-height: 1.7;">市场公认的<strong style="color: #10b981;">成交主力</strong>。用户搜索量大，转化稳健。适合<strong>规模化量产</strong>，通过供应链优势和品牌溢价获取收益。</p>
+                </div>
+
+                <!-- Quadrant IV: Niche/Static (Low M, Low P) - Visually placing Bottom-Left -->
+                <div class="card-quad">
+                    <div><span class="q-tag q-4">⚠️ 象限 IV：利基/衰退 (Niche / Static)</span></div>
+                    <div style="font-size: 16px; font-weight: 700; color: var(--t1); margin-bottom: 12px; line-height: 1.4;">定义：低动能 + 低份额</div>
+                    <p style="font-size: 15px; color: var(--t2); line-height: 1.7;">特定垂直场景的<strong>利基点</strong>，或正在被市场淘汰的特征。进入该区域需<strong style="color: #6b7280;">谨慎</strong>，除非拥有极强的专业壁垒。</p>
+                </div>
+
+                <!-- Quadrant III: Legacy/Cash Cow (Low M, High P) - Visually placing Bottom-Right -->
+                <div class="card-quad">
+                    <div><span class="q-tag q-3">💰 象限 III：成熟存量 (Legacy / Cash Cow)</span></div>
+                    <div style="font-size: 16px; font-weight: 700; color: var(--t1); margin-bottom: 12px; line-height: 1.4;">定义：低动能 + 高份额</div>
+                    <p style="font-size: 15px; color: var(--t2); line-height: 1.7;">属于<strong style="color: #f59e0b;">"公有基因"</strong>。这些特征已经不再增长，但用户默认必须拥有。适合做<strong>成本极致优化</strong>，而非研发重点。</p>
+                </div>
+            </div>
+
+            <div class="chart-container-Br" style="background: var(--bg-1); padding: 32px; border-radius: 8px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); margin-top: 40px;">
+                <h3 style="font-size: 22px; font-weight: 700; color: var(--t1); margin-bottom: 12px;">📈 towel warmer bucket 款式心智/趋势矩阵</h3>
+                <div style="font-size: 14px; color: var(--t2); margin-bottom: 28px; padding-left: 4px;">基于趋势动能 (Momentum) 与市场份额 (Market Share) 分布</div>
+
+                <div id="chart_matrix_Az" class="chart-box" style="height: 500px; background: var(--bg-2); border-radius: 6px; padding: 16px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1780130667335"><div style="position: relative; width: 1170px; height: 468px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="1462" height="585" style="position: absolute; left: 0px; top: 0px; width: 1170px; height: 468px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div>
+
+                <div style="font-size: 13px; color: var(--t2); margin-top: 28px; line-height: 1.8; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 24px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                    <div style="margin-bottom:16px">
+                        <strong style="color: var(--t1); font-size: 14px;">💡 1. 计算模型 (Algorithm)</strong><br>
+                        <span style="color: var(--t1);">Y轴：趋势动能 (Trend Momentum)</span> = 该综合反映市场对该款式的需求增长速度和未来增长潜力的复合指标，衡量市场机会的时间窗口特征。<br>
+                        • <strong>High (≥ 平均数)</strong>：处于增长期，市场需求快速扩张<br>
+                        • <strong>Low (&lt; 平均数)</strong>：增长乏力或进入成熟/衰退期
+                    </div>
+                    <div style="margin-bottom:16px">
+                        <strong style="color: var(--t1); font-size: 14px;">📊 2. 坐标含义 (Coordinate)</strong><br>
+                        <span style="color: var(--t1);">X轴：市场份额 (Market Share/Presence)</span> = 该款式或卖点的销售量占整个市场总销售量的比例，反映其在市场中的相对地位和渗透深度。<br>
+                        • <strong>High (≥ 平均数)</strong>：主流款式，已建立规模化市场地位<br>
+                        • <strong>Low (&lt; 平均数)</strong>：小众款式，市场渗透率有限
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.7); padding: 16px; border-radius: 6px; border: 2px solid #f59e0b;">
+                        <strong style="color: #d97706; font-size: 14px;">🎯 3. 策略指引 (Guidance)</strong><br>
+                        <span style="color: var(--t1); font-weight: 600;">高动能、低份额（左上象限）是选品的"黄金区"。在此寻找卖点并配置到高动能款式是爆品最短路径。</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="font-size: 22px; font-weight: 700; color: var(--t1); margin: 48px 0 24px 0;">📋 TABLE A：款式趋势动能基准 (Style Momentum Baseline)</h3>
+            <table class="tbl" style="background: var(--bg-1); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06); border-radius: 8px; overflow: hidden;">
+                <thead style="background: linear-gradient(135deg, var(--prm) 0%, var(--acc-1) 100%);">
+                    <tr>
+                        <th style="color: white; font-size: 12px; padding: 18px;">心智款式 (Style Label)</th>
+                        <th style="color: white; font-size: 12px; padding: 18px;">趋势动能 (Momentum)</th>
+                        <th style="color: white; font-size: 12px; padding: 18px;">波士顿战略矩阵</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: var(--bg-1);">
+                        <td style="font-weight: 600; color: var(--t1);">Standard Bucket Warmer</td>
+                        <td style="font-size: 20px; font-weight: 700; color: #10b981;">6578</td>
+                        <td><span style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 12px; display: inline-block;">✓ 核心主流 (Core Mainstream)</span></td>
+                    </tr>
+                    <tr style="background: var(--bg-2);">
+                        <td style="font-weight: 600; color: var(--t1);">Foldable Warmer</td>
+                        <td style="font-size: 18px; font-weight: 600; color: var(--t2);">2227</td>
+                        <td><span style="background: var(--bg-3); color: var(--t2); padding: 6px 14px; border-radius: 6px; font-weight: 600; font-size: 12px; display: inline-block; border: 1px solid var(--bd);">利基衰退 (Niche/Decline)</span></td>
+                    </tr>
+                    <tr style="background: var(--bg-1);">
+                        <td style="font-weight: 600; color: var(--t1);">Large Capacity Warmer</td>
+                        <td style="font-size: 18px; font-weight: 600; color: var(--t2);">1030</td>
+                        <td><span style="background: var(--bg-3); color: var(--t2); padding: 6px 14px; border-radius: 6px; font-weight: 600; font-size: 12px; display: inline-block; border: 1px solid var(--bd);">利基衰退 (Niche/Decline)</span></td>
+                    </tr>
+                    <tr style="background: var(--bg-2);">
+                        <td style="font-weight: 600; color: var(--t1);">Smart Feature Warmer</td>
+                        <td style="font-size: 18px; font-weight: 600; color: var(--t2);">712</td>
+                        <td><span style="background: var(--bg-3); color: var(--t2); padding: 6px 14px; border-radius: 6px; font-weight: 600; font-size: 12px; display: inline-block; border: 1px solid var(--bd);">利基衰退 (Niche/Decline)</span></td>
+                    </tr>
+                </tbody>
+                    </table>
+
+                    <h3 style="font-size: 22px; font-weight: 700; color: var(--t1); margin: 48px 0 16px 0;">🎯 卖点战略角色矩阵 (Strategic Feature Mapping)</h3>
+                    <p style="font-size: 14px; margin-bottom: 24px; color: var(--t2); padding: 16px; background: var(--bg-2); border-left: 4px solid var(--acc-3); border-radius: 4px;">
+                        <strong style="color: var(--t1);">渗透率：</strong>某卖点或款式在市场中的普及程度，反映该功能或特性的市场接受度和标准化程度。</p>
+
+                    <style>
+                        /* ========== Table B 专用样式 ========== */
+                        .table-b-container {
+                            width: 100%;
+                            max-height: 1000px;
+                            overflow-x: auto;
+                            overflow-y: auto;
+                            border: 2px solid var(--bd);
+                            background: var(--bg-1);
+                            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+                            font-family: var(--font);
+                            margin: 20px 0;
+                            border-radius: 8px;
+                        }
+
+                        .table-b {
+                            min-width: 100%;
+                            border-collapse: collapse;
+                            border-spacing: 0;
+                        }
+
+                        .table-b th,
+                        .table-b td {
+                            padding: 14px 18px;
+                            border-bottom: 1px solid var(--bd);
+                            border-right: 1px solid var(--bd);
+                            font-size: 14px;
+                            color: var(--t2);
+                        }
+
+                        /* 粘性表头 */
+                        .table-b th {
+                            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+                            color: var(--t1);
+                            font-weight: 700;
+                            text-align: left;
+                            white-space: nowrap;
+                            position: sticky;
+                            top: 0;
+                            z-index: 30;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+                            font-size: 12px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                        }
+
+                        .table-b thead tr:nth-child(2) th {
+                            top: 44px;
+                            z-index: 30;
+                        }
+
+                        /* 固定首列 */
+                        .table-b .col-main {
+                            min-width: 280px;
+                            max-width: 350px;
+                            position: sticky;
+                            left: 0;
+                            background: var(--bg-1);
+                            z-index: 10;
+                            border-right: 3px solid var(--bd);
+                            font-weight: 600;
+                            color: var(--t1);
+                        }
+
+                        .table-b th.col-main {
+                            background: linear-gradient(135deg, var(--prm) 0%, var(--acc-1) 100%);
+                            color: white;
+                            z-index: 50;
+                            border-bottom: 2px solid var(--bd);
+                            left: 0;
+                        }
+
+                        .table-b td {
+                            background-color: var(--bg-1);
+                            vertical-align: top;
+                        }
+
+                        .table-b tbody tr:nth-child(even) {
+                            background-color: var(--bg-2);
+                        }
+
+                        .table-b tbody tr:nth-child(even) .col-main {
+                            background-color: var(--bg-2);
+                        }
+
+                        .table-b tbody tr:hover {
+                            background-color: #f0f9ff;
+                        }
+
+                        .table-b tbody tr:hover .col-main {
+                            background-color: #f0f9ff;
+                        }
+
+                        /* 列宽设置 */
+                        .table-b .col-num {
+                            min-width: 70px;
+                            text-align: right;
+                            font-weight: 600;
+                            color: var(--t1);
+                        }
+
+                        .table-b .col-tag {
+                            min-width: 110px;
+                            text-align: center;
+                        }
+
+                        .table-b .col-text {
+                            min-width: 180px;
+                            max-width: 250px;
+                            white-space: normal;
+                        }
+
+                        /* 角色标签 */
+                        .table-b .tag-role {
+                            display: inline-block;
+                            padding: 6px 12px;
+                            border-radius: 6px;
+                            font-size: 11px;
+                            font-weight: 700;
+                            white-space: nowrap;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        }
+
+                        .table-b .role-basic {
+                            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+                            color: #374151;
+                            border: none;
+                        }
+
+                        .table-b .role-pain {
+                            background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+                            color: #9a3412;
+                            border: none;
+                        }
+
+                        .table-b .role-core {
+                            background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
+                            color: #1e3a8a;
+                            border: none;
+                        }
+
+                        .table-b .role-prem {
+                            background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%);
+                            color: #064e3b;
+                            border: none;
+                        }
+
+                        .table-b .role-neg {
+                            background: linear-gradient(135deg, #fca5a5 0%, #f87171 100%);
+                            color: #7f1d1d;
+                            border: none;
+                        }
+
+                        /* 文本排版 */
+                        .table-b .sp-name {
+                            font-weight: 700;
+                            color: var(--t1);
+                            font-size: 14px;
+                            display: block;
+                            margin-bottom: 4px;
+                        }
+
+                        .table-b .sp-desc {
+                            font-size: 12px;
+                            color: var(--t3);
+                            line-height: 1.4;
+                        }
+
+                        .table-b .sp-tags {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 6px;
+                            margin-top: 8px;
+                        }
+
+                        /* 原子标签（带Tooltip） */
+                        .table-b .atom-tag {
+                            position: relative;
+                            display: inline-block;
+                            cursor: help;
+                            font-size: 11px;
+                            line-height: 1.4;
+                            padding: 2px 8px;
+                            background-color: var(--bg-3);
+                            border: 1px solid var(--bd);
+                            color: var(--t2);
+                            border-radius: 4px;
+                        }
+
+                        .table-b .atom-tag:hover {
+                            background-color: var(--prm-lt);
+                            border-color: var(--prm);
+                            color: var(--prm);
+                            z-index: 100;
+                        }
+
+                        /* Tooltip样式（支持换行） */
+                        .table-b .atom-tag .atom-tooltip {
+                            display: none;
+                            position: absolute;
+                            left: 100%;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            margin-left: 10px;
+                            background: #1a1a2e;
+                            color: #fff;
+                            font-size: 12px;
+                            line-height: 1.5;
+                            padding: 8px 12px;
+                            border-radius: 6px;
+                            width: max-content;
+                            min-width: 150px;
+                            max-width: 280px;
+                            text-align: left;
+                            z-index: 9999;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                        }
+
+                        .table-b .atom-tag .atom-tooltip::before {
+                            content: '';
+                            position: absolute;
+                            left: -6px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            border: 6px solid transparent;
+                            border-right-color: #1a1a2e;
+                        }
+
+                        .table-b .atom-tag:hover .atom-tooltip {
+                            display: block;
+                        }
+
+                        .table-b .atom-tooltip .tip-label {
+                            display: block;
+                            font-weight: 500;
+                            margin-bottom: 4px;
+                        }
+
+                        .table-b .atom-tooltip .tip-value {
+                            display: block;
+                            color: #DBDBDB;
+                        }
+
+                        /* Table B 表头内的 term-tip tooltip 向上显示，避免被 overflow 容器裁剪 */
+                        .table-b th .term-tip .term-tooltip {
+                            top: auto;
+                            bottom: 100%;
+                            margin-top: 0;
+                            margin-bottom: 8px;
+                        }
+
+                        .table-b th .term-tip .term-tooltip::before {
+                            top: auto;
+                            bottom: -12px;
+                            border-bottom-color: transparent;
+                            border-top-color: #1a1a2e;
+                        }
+                    </style>
+
+                    <div class="table-b-container">
+                        <table class="table-b">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="col-main">卖点 (Selling Point)</th>
+                                    <th colspan="2" style="text-align: center;">大盘全量指标</th>
+                                    <th colspan="4" style="text-align: center;">Standard Bucket Warmer</th>
+                                    <th colspan="4" style="text-align: center;">Foldable Warmer</th>
+                                    <th colspan="4" style="text-align: center;">Large Capacity Warmer</th>
+                                    <th colspan="4" style="text-align: center;">Smart Feature Warmer</th>
+                                    <th rowspan="2" class="col-text">壁垒备注 (Barrier Tech)</th>
+                                </tr>
+                                <tr>
+                                    <th class="col-num">动能</th>
+                                    <th class="col-num">总渗透</th>
+                                    <th class="col-num">渗透率</th>
+                                    <th class="col-num"><span class="term-tip js-enhanced">SI (特异性指数)<span class="term-tooltip"><span class="term-name">特异性指数</span><span class="term-desc">某卖点在特定款式中的渗透率相对于该卖点在全市场渗透率的倍数，反映该卖点对该款式的差异化贡献度。</span></span></span>
+                                    </th>
+                                    <th class="col-tag">角色</th>
+                                    <th class="col-text">商业洞察</th>
+                                    <th class="col-num">渗透率</th>
+                                    <th class="col-num"><span class="term-tip js-enhanced">SI (特异性指数)<span class="term-tooltip"><span class="term-name">特异性指数</span><span class="term-desc">某卖点在特定款式中的渗透率相对于该卖点在全市场渗透率的倍数，反映该卖点对该款式的差异化贡献度。</span></span></span>
+                                    </th>
+                                    <th class="col-tag">角色</th>
+                                    <th class="col-text">商业洞察</th>
+                                    <th class="col-num">渗透率</th>
+                                    <th class="col-num"><span class="term-tip js-enhanced">SI (特异性指数)<span class="term-tooltip"><span class="term-name">特异性指数</span><span class="term-desc">某卖点在特定款式中的渗透率相对于该卖点在全市场渗透率的倍数，反映该卖点对该款式的差异化贡献度。</span></span></span>
+                                    </th>
+                                    <th class="col-tag">角色</th>
+                                    <th class="col-text">商业洞察</th>
+                                    <th class="col-num">渗透率</th>
+                                    <th class="col-num"><span class="term-tip js-enhanced">SI (特异性指数)<span class="term-tooltip"><span class="term-name">特异性指数</span><span class="term-desc">某卖点在特定款式中的渗透率相对于该卖点在全市场渗透率的倍数，反映该卖点对该款式的差异化贡献度。</span></span></span>
+                                    </th>
+                                    <th class="col-tag">角色</th>
+                                    <th class="col-text">商业洞察</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">智能定时</span>
+                                        <span class="sp-desc">支持预设加热时长或延迟启动，实现按需供热，兼顾节能与便利。</span>
+                                        <div class="sp-tags"><span class="atom-tag">数字定时<span class="atom-tooltip"><span class="tip-label">【维度】timer_setting</span><span class="tip-value">【类型】软件/组装</span></span></span><span class="atom-tag">可调定时15/30/45/60分钟<span class="atom-tooltip"><span class="tip-label">【维度】timer_setting</span><span class="tip-value">【类型】软件/组装</span></span></span><span class="atom-tag">20/40/60/90分钟定时<span class="atom-tooltip"><span class="tip-label">【维度】timer_setting</span><span class="tip-value">【类型】软件/组装</span></span></span><span class="atom-tag">15-60分钟定时<span class="atom-tooltip"><span class="tip-label">【维度】timer_setting</span><span class="tip-value">【类型】软件/组装</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">8,387</td>
+                                    <td class="col-num">81.3%</td>
+                                    <td class="col-num">81.6%</td>
+                                    <td class="col-num">1.00</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">65.1%</td>
+                                    <td class="col-num">0.80</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">91.7%</td>
+                                    <td class="col-num">1.13</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">家庭多人使用的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-num">98.2%</td>
+                                    <td class="col-num">1.21</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">智能家居场景的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-text">常规组装：数字定时模块、延迟启动程序</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">自动关机保护</span>
+                                        <span class="sp-desc">在设定时间结束后或异常情况下自动断电，避免干烧或能源浪费，保障使用安全。</span>
+                                        <div class="sp-tags"><span class="atom-tag">自动关机<span class="atom-tooltip"><span class="tip-label">【维度】shut_off_function</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">Auto Shut-Off<span class="atom-tooltip"><span class="tip-label">【维度】shut_off_function</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">自动断电<span class="atom-tooltip"><span class="tip-label">【维度】shut_off_function</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">auto shut-off<span class="atom-tooltip"><span class="tip-label">【维度】shut_off_function</span><span class="tip-value">【类型】设计策略</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">7,029</td>
+                                    <td class="col-num">70.5%</td>
+                                    <td class="col-num">73.0%</td>
+                                    <td class="col-num">1.04</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">53.3%</td>
+                                    <td class="col-num">0.76</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">65.1%</td>
+                                    <td class="col-num">0.92</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">87.7%</td>
+                                    <td class="col-num">1.24</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">保障智能设备安全的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-text">设计策略：自动关机电路、过热保护传感器</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">1分钟速热</span>
+                                        <span class="sp-desc">快速达到可用温度，减少等待时间，提升日常使用便利性。</span>
+                                        <div class="sp-tags"><span class="atom-tag">1分钟快速加热<span class="atom-tooltip"><span class="tip-label">【维度】heating_speed</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">1 Min Fast Heating<span class="atom-tooltip"><span class="tip-label">【维度】heating_speed</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">快速加热<span class="atom-tooltip"><span class="tip-label">【维度】heating_speed</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">1分钟速热<span class="atom-tooltip"><span class="tip-label">【维度】heating_speed</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">heat up in just 1 minute<span class="atom-tooltip"><span class="tip-label">【维度】heating_speed</span><span class="tip-value">【类型】硬件壁垒</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">5,132</td>
+                                    <td class="col-num">53.7%</td>
+                                    <td class="col-num">58.5%</td>
+                                    <td class="col-num">1.09</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">日常高频使用的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-num">36.7%</td>
+                                    <td class="col-num">0.68</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">55.7%</td>
+                                    <td class="col-num">1.04</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">满足多人快速使用的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-num">30.1%</td>
+                                    <td class="col-num">0.56</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与智能慢享场景不匹配，投入ROI低</td>
+                                    <td class="col-text" style="background-color: #fef2f2; color:#dc2626; font-weight: 500;">
+                                        壁垒：高功率加热元件、电源管理模块</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">360°均匀加热</span>
+                                        <span class="sp-desc">确保桶内所有区域受热一致，避免局部过热或冷点，提升毛巾整体温暖感。</span>
+                                        <div class="sp-tags"><span class="atom-tag">360°加热<span class="atom-tooltip"><span class="tip-label">【维度】heating_coverage</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">360°环绕加热<span class="atom-tooltip"><span class="tip-label">【维度】heating_coverage</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">均匀加热<span class="atom-tooltip"><span class="tip-label">【维度】heating_coverage</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">Uniform Heating<span class="atom-tooltip"><span class="tip-label">【维度】heating_coverage</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">5-Side 360° Even Heating<span class="atom-tooltip"><span class="tip-label">【维度】heating_coverage</span><span class="tip-value">【类型】硬件壁垒</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">4,168</td>
+                                    <td class="col-num">43.2%</td>
+                                    <td class="col-num">50.8%</td>
+                                    <td class="col-num">1.18</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">保证温暖体验的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-num">23.8%</td>
+                                    <td class="col-num">0.55</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与便携场景不匹配，投入ROI低</td>
+                                    <td class="col-num">25.9%</td>
+                                    <td class="col-num">0.60</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与大容量场景不匹配，投入ROI低</td>
+                                    <td class="col-num">22.2%</td>
+                                    <td class="col-num">0.52</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与智能功能场景不匹配，投入ROI低</td>
+                                    <td class="col-text" style="background-color: #fef2f2; color:#dc2626; font-weight: 500;">
+                                        壁垒：环形加热元件设计、热场分布仿真</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">多档温控</span>
+                                        <span class="sp-desc">根据季节、材质或个人偏好调节温度，适配不同织物（如毛巾、浴袍、内衣）的安全加热需求。</span>
+                                        <div class="sp-tags"><span class="atom-tag">多档温控<span class="atom-tooltip"><span class="tip-label">【维度】temp_levels</span><span class="tip-value">【类型】软件/组装</span></span></span><span class="atom-tag">三档温控<span class="atom-tooltip"><span class="tip-label">【维度】temp_levels</span><span class="tip-value">【类型】软件/组装</span></span></span><span class="atom-tag">3档<span class="atom-tooltip"><span class="tip-label">【维度】temp_levels</span><span class="tip-value">【类型】软件/组装</span></span></span><span class="atom-tag">Temperature Adjustable<span class="atom-tooltip"><span class="tip-label">【维度】temp_levels</span><span class="tip-value">【类型】软件/组装</span></span></span><span class="atom-tag">可调温<span class="atom-tooltip"><span class="tip-label">【维度】temp_levels</span><span class="tip-value">【类型】软件/组装</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">2,801</td>
+                                    <td class="col-num">20.5%</td>
+                                    <td class="col-num">13.8%</td>
+                                    <td class="col-num">0.67</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与标准桶型场景不匹配，投入ROI低</td>
+                                    <td class="col-num">40.8%</td>
+                                    <td class="col-num">2.00</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">精细化温控拉开价差，适合中高端定位</td>
+                                    <td class="col-num">30.7%</td>
+                                    <td class="col-num">1.50</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">适配不同织物拉开价差，适合中高端定位</td>
+                                    <td class="col-num">38.6%</td>
+                                    <td class="col-num">1.89</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">智能温控的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-text">常规组装：多档温控芯片、温度传感器</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">大容量设计</span>
+                                        <span class="sp-desc">可同时加热多条大尺寸毛巾或浴袍毯子，满足家庭多人或SPA场景需求。</span>
+                                        <div class="sp-tags"><span class="atom-tag">超大型(&gt;20L)<span class="atom-tooltip"><span class="tip-label">【维度】volume</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">20L<span class="atom-tooltip"><span class="tip-label">【维度】volume</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">23L<span class="atom-tooltip"><span class="tip-label">【维度】volume</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">25L<span class="atom-tooltip"><span class="tip-label">【维度】volume</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">35L<span class="atom-tooltip"><span class="tip-label">【维度】volume</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">40L<span class="atom-tooltip"><span class="tip-label">【维度】volume</span><span class="tip-value">【类型】设计策略</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">2,676</td>
+                                    <td class="col-num">26.2%</td>
+                                    <td class="col-num">20.8%</td>
+                                    <td class="col-num">0.80</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">29.5%</td>
+                                    <td class="col-num">1.13</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">兼顾便携与容量拉开价差，适合中高端定位</td>
+                                    <td class="col-num">48.8%</td>
+                                    <td class="col-num">1.87</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">大家庭用户的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-num">47.3%</td>
+                                    <td class="col-num">1.81</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">豪华体验场景的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-text">设计策略：内部空间优化、结构强度设计</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">香氛舒缓</span>
+                                        <span class="sp-desc">通过内置香薰盘或片槽释放香气，营造居家SPA氛围，增强放松体验。</span>
+                                        <div class="sp-tags"><span class="atom-tag">内置香薰盒<span class="atom-tooltip"><span class="tip-label">【维度】fragrance_holder</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">香薰盘<span class="atom-tooltip"><span class="tip-label">【维度】fragrance_holder</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">Fragrant Disc Holder<span class="atom-tooltip"><span class="tip-label">【维度】fragrance_holder</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">香薰片槽<span class="atom-tooltip"><span class="tip-label">【维度】fragrance_holder</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">aromatherapy system<span class="atom-tooltip"><span class="tip-label">【维度】fragrance_holder</span><span class="tip-value">【类型】设计策略</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">2,144</td>
+                                    <td class="col-num">20.8%</td>
+                                    <td class="col-num">21.9%</td>
+                                    <td class="col-num">1.06</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">提升感官体验拉开价差，适合中高端定位</td>
+                                    <td class="col-num">16.6%</td>
+                                    <td class="col-num">0.80</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">16.2%</td>
+                                    <td class="col-num">0.78</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">23.5%</td>
+                                    <td class="col-num">1.13</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">营造SPA氛围的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-text">设计策略：香薰槽结构设计、耗材生态</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">儿童安全锁</span>
+                                        <span class="sp-desc">防止儿童误开高温桶盖造成烫伤，提升家庭使用安全性。</span>
+                                        <div class="sp-tags"><span class="atom-tag">儿童安全锁<span class="atom-tooltip"><span class="tip-label">【维度】lid_lock_mechanism</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">童锁<span class="atom-tooltip"><span class="tip-label">【维度】lid_lock_mechanism</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">Child Safety Lock<span class="atom-tooltip"><span class="tip-label">【维度】lid_lock_mechanism</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">儿童锁<span class="atom-tooltip"><span class="tip-label">【维度】lid_lock_mechanism</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">Lid Lock<span class="atom-tooltip"><span class="tip-label">【维度】lid_lock_mechanism</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">安全锁<span class="atom-tooltip"><span class="tip-label">【维度】lid_lock_mechanism</span><span class="tip-value">【类型】设计策略</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">1,753</td>
+                                    <td class="col-num">17.8%</td>
+                                    <td class="col-num">20.7%</td>
+                                    <td class="col-num">1.16</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">提升家庭安全拉开价差，适合中高端定位</td>
+                                    <td class="col-num">13.4%</td>
+                                    <td class="col-num">0.75</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">4.2%</td>
+                                    <td class="col-num">0.23</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与大容量场景不匹配，投入ROI低</td>
+                                    <td class="col-num">14.1%</td>
+                                    <td class="col-num">0.79</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-text">设计策略：锁扣结构设计、用户交互设计</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">折叠省空间</span>
+                                        <span class="sp-desc">可折叠收纳，便于在小户型、公寓或旅行中存放，提升空间利用率。</span>
+                                        <div class="sp-tags"><span class="atom-tag">Foldable<span class="atom-tooltip"><span class="tip-label">【维度】foldable_design</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">可折叠设计<span class="atom-tooltip"><span class="tip-label">【维度】foldable_design</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">折叠设计<span class="atom-tooltip"><span class="tip-label">【维度】foldable_design</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">免工具折叠设计<span class="atom-tooltip"><span class="tip-label">【维度】foldable_design</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">一体式折叠设计<span class="atom-tooltip"><span class="tip-label">【维度】foldable_design</span><span class="tip-value">【类型】硬件壁垒</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">1,753</td>
+                                    <td class="col-num">10.6%</td>
+                                    <td class="col-num">0.1%</td>
+                                    <td class="col-num">0.01</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与标准桶型场景不匹配，投入ROI低</td>
+                                    <td class="col-num">60.9%</td>
+                                    <td class="col-num">5.73</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">小户型用户的核心需求，是选购该款式的主要理由</td>
+                                    <td class="col-num">18.4%</td>
+                                    <td class="col-num">1.73</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">提供额外收纳便利拉开价差，适合中高端定位</td>
+                                    <td class="col-num">11.2%</td>
+                                    <td class="col-num">1.06</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-text" style="background-color: #fef2f2; color:#dc2626; font-weight: 500;">
+                                        壁垒：可折叠桶体结构设计、折叠机构耐久性</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">阻燃外壳</span>
+                                        <span class="sp-desc">采用V0级阻燃材料制造外壳，高温下不易燃烧，提升长期使用安全性。</span>
+                                        <div class="sp-tags"><span class="atom-tag">V0阻燃材料<span class="atom-tooltip"><span class="tip-label">【维度】material_safety</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">V0 flame-retardant materials<span class="atom-tooltip"><span class="tip-label">【维度】material_safety</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">阻燃材料<span class="atom-tooltip"><span class="tip-label">【维度】material_safety</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">V0级阻燃外壳<span class="atom-tooltip"><span class="tip-label">【维度】material_safety</span><span class="tip-value">【类型】设计策略</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">1,527</td>
+                                    <td class="col-num">15.0%</td>
+                                    <td class="col-num">15.9%</td>
+                                    <td class="col-num">1.06</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">19.7%</td>
+                                    <td class="col-num">1.31</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">强化安全保障拉开价差，适合中高端定位</td>
+                                    <td class="col-num">2.9%</td>
+                                    <td class="col-num">0.20</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与大容量场景不匹配，投入ROI低</td>
+                                    <td class="col-num">12.5%</td>
+                                    <td class="col-num">0.83</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-text">设计策略：V0级阻燃材料认证、供应链管理</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">理想送礼之选</span>
+                                        <span class="sp-desc">外观精致、功能实用，适合作为节日、生日或乔迁礼物，传递温暖关怀。</span>
+                                        <div class="sp-tags"><span class="atom-tag">适合送礼<span class="atom-tooltip"><span class="tip-label">【维度】gift_scenarios</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">理想礼物<span class="atom-tooltip"><span class="tip-label">【维度】gift_scenarios</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">节日送礼佳品<span class="atom-tooltip"><span class="tip-label">【维度】gift_scenarios</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">Mother’s Day, Christmas, wedding<span class="atom-tooltip"><span class="tip-label">【维度】gift_scenarios</span><span class="tip-value">【类型】设计策略</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">987</td>
+                                    <td class="col-num">9.5%</td>
+                                    <td class="col-num">8.9%</td>
+                                    <td class="col-num">0.93</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">10.1%</td>
+                                    <td class="col-num">1.06</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">独特设计提升礼品价值，适合中高端定位</td>
+                                    <td class="col-num">10.9%</td>
+                                    <td class="col-num">1.15</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">高端实用提升礼品价值，适合中高端定位</td>
+                                    <td class="col-num">13.5%</td>
+                                    <td class="col-num">1.42</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">科技感礼品的社交需求，是选购该款式的主要理由</td>
+                                    <td class="col-text">设计策略：礼品级外观设计、包装设计</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">便携提手设计</span>
+                                        <span class="sp-desc">配备侧边或顶部提手，方便移动至浴室、卧室或旅行携带。</span>
+                                        <div class="sp-tags"><span class="atom-tag">侧边把手<span class="atom-tooltip"><span class="tip-label">【维度】handle_type</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">皮革提手<span class="atom-tooltip"><span class="tip-label">【维度】handle_type</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">leather handle<span class="atom-tooltip"><span class="tip-label">【维度】handle_type</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">带把手设计<span class="atom-tooltip"><span class="tip-label">【维度】handle_type</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">可拆卸带把手盖子<span class="atom-tooltip"><span class="tip-label">【维度】handle_type</span><span class="tip-value">【类型】设计策略</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">910</td>
+                                    <td class="col-num">7.8%</td>
+                                    <td class="col-num">4.4%</td>
+                                    <td class="col-num">0.57</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与固定使用场景不匹配，投入ROI低</td>
+                                    <td class="col-num">0.9%</td>
+                                    <td class="col-num">0.12</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与折叠收纳场景不匹配，投入ROI低</td>
+                                    <td class="col-num">33.0%</td>
+                                    <td class="col-num">4.26</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">解决大桶体移动不便的痛点，增长势头强劲</td>
+                                    <td class="col-num">23.5%</td>
+                                    <td class="col-num">3.03</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">解决智能设备移动不便的痛点，增长势头强劲</td>
+                                    <td class="col-text">设计策略：人体工学提手设计、材质选择</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">易清洁内胆</span>
+                                        <span class="sp-desc">内壁光滑或采用不锈钢材质，便于擦拭维护，保持卫生。</span>
+                                        <div class="sp-tags"><span class="atom-tag">不锈钢内胆<span class="atom-tooltip"><span class="tip-label">【维度】interior_material</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">易清洁内表面<span class="atom-tooltip"><span class="tip-label">【维度】interior_material</span><span class="tip-value">【类型】硬件壁垒</span></span></span><span class="atom-tag">smooth interior<span class="atom-tooltip"><span class="tip-label">【维度】interior_material</span><span class="tip-value">【类型】硬件壁垒</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">803</td>
+                                    <td class="col-num">7.4%</td>
+                                    <td class="col-num">8.5%</td>
+                                    <td class="col-num">1.14</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">提升卫生便利性拉开价差，适合中高端定位</td>
+                                    <td class="col-num">0.0%</td>
+                                    <td class="col-num">0.00</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与折叠材质场景不匹配，投入ROI低</td>
+                                    <td class="col-num">0.3%</td>
+                                    <td class="col-num">0.05</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与大容量场景不匹配，投入ROI低</td>
+                                    <td class="col-num">22.6%</td>
+                                    <td class="col-num">3.04</td>
+                                    <td style="text-align: center;"><span class="tag-role role-core">核心成交</span></td>
+                                    <td class="col-text">解决高端设备维护痛点，增长势头强劲</td>
+                                    <td class="col-text" style="background-color: #fef2f2; color:#dc2626; font-weight: 500;">
+                                        壁垒：不锈钢内胆材质、涂层工艺</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">防烫翻盖</span>
+                                        <span class="sp-desc">双层隔热盖体在内部高温时仍保持外部低温，避免取物时烫手。</span>
+                                        <div class="sp-tags"><span class="atom-tag">双层隔热桶体<span class="atom-tooltip"><span class="tip-label">【维度】lid_insulation</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">double-walled lid<span class="atom-tooltip"><span class="tip-label">【维度】lid_insulation</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">双层隔热桶体<span class="atom-tooltip"><span class="tip-label">【维度】lid_insulation</span><span class="tip-value">【类型】设计策略</span></span></span><span class="atom-tag">保温内壁<span class="atom-tooltip"><span class="tip-label">【维度】lid_insulation</span><span class="tip-value">【类型】设计策略</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">439</td>
+                                    <td class="col-num">5.5%</td>
+                                    <td class="col-num">6.6%</td>
+                                    <td class="col-num">1.18</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">提升取物安全性拉开价差，适合中高端定位</td>
+                                    <td class="col-num">1.4%</td>
+                                    <td class="col-num">0.25</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与便携场景不匹配，投入ROI低</td>
+                                    <td class="col-num">4.6%</td>
+                                    <td class="col-num">0.83</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">4.1%</td>
+                                    <td class="col-num">0.74</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-text">设计策略：双层隔热结构、空气层设计</td>
+                                </tr>
+                                <tr>
+
+                                    <td class="col-main">
+                                        <span class="sp-name">静音运行</span>
+                                        <span class="sp-desc">解决夜间或安静环境中设备噪音干扰的问题，提供不打扰的温暖体验。</span>
+                                        <div class="sp-tags"><span class="atom-tag">静音(&lt;35dB)<span class="atom-tooltip"><span class="tip-label">【维度】noise_level</span><span class="tip-value">【类型】软件/组装</span></span></span></div>
+                                    </td>
+
+                                    <td class="col-num">253</td>
+                                    <td class="col-num">2.1%</td>
+                                    <td class="col-num">2.5%</td>
+                                    <td class="col-num">1.18</td>
+                                    <td style="text-align: center;"><span class="tag-role role-prem">溢价支撑</span></td>
+                                    <td class="col-text">提升夜间使用体验拉开价差，适合中高端定位</td>
+                                    <td class="col-num">2.0%</td>
+                                    <td class="col-num">0.94</td>
+                                    <td style="text-align: center;"><span class="tag-role role-basic">基础准入</span></td>
+                                    <td class="col-text">品类标配，缺失会导致用户直接排除</td>
+                                    <td class="col-num">0.6%</td>
+                                    <td class="col-num">0.26</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与大容量场景不匹配，投入ROI低</td>
+                                    <td class="col-num">0.4%</td>
+                                    <td class="col-num">0.17</td>
+                                    <td style="text-align: center;"><span class="tag-role role-neg">无差别/反向</span></td>
+                                    <td class="col-text">与智能功能场景不匹配，投入ROI低</td>
+                                    <td class="col-text">常规组装：静音风扇、结构降噪设计</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="sect">
+                    <div class="t-meta" style="margin-bottom:12px; color:var(--acc-1)">SECTION</div>
+                    <h2 class="t-h1" style="margin-bottom:32px">竞争格局发现</h2>
+
+                    <!-- A3.0 市场地图 -->
+                    <div style="margin-bottom: 48px;">
+                        <h3 class="t-h2" style="margin-bottom: 24px;">A3.0 市场地图 (Market Map)</h3>
+                        <div style="background: var(--bg-2); padding: 24px; border: 1px dashed var(--bd); text-align: center; color: var(--t3);">
+                            <style>
+                                * {
+                                    margin: 0;
+                                    padding: 0;
+                                    box-sizing: border-box
+                                }
+
+                                body {
+                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+                                    background: #ffffff;
+                                    padding: 20px
+                                }
+
+                                .market-map-container {
+                                    max-width: 1400px;
+                                    margin: 0 auto;
+                                    background: #fff;
+                                    padding: 30px
+                                }
+
+                                .header {
+                                    text-align: center;
+                                    margin-bottom: 25px
+                                }
+
+                                h1 {
+                                    font-size: 28px;
+                                    font-weight: 700;
+                                    color: #1e293b;
+                                    margin-bottom: 6px
+                                }
+
+                                .subtitle {
+                                    font-size: 14px;
+                                    color: #64748b;
+                                    font-style: italic
+                                }
+
+                                .legend-container {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    align-items: flex-start;
+                                    margin-bottom: 20px;
+                                    padding: 15px 20px;
+                                    background: #fafafa;
+                                    border: 1px solid #e5e7eb;
+                                    border-radius: 8px
+                                }
+
+                                .legend-left {
+                                    display: flex;
+                                    gap: 20px;
+                                    flex-wrap: wrap
+                                }
+
+                                .legend-item {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 8px;
+                                    font-size: 12px;
+                                    color: #374151
+                                }
+
+                                .legend-color {
+                                    width: 45px;
+                                    height: 20px;
+                                    border-radius: 3px;
+                                    border: 1px solid rgba(0, 0, 0, .15)
+                                }
+
+                                .market-grid-wrapper {
+                                    position: relative
+                                }
+
+                                table {
+                                    border-collapse: collapse;
+                                    width: 100%;
+                                    border: 2px solid #cbd5e1
+                                }
+
+                                th,
+                                td {
+                                    border: 1px solid #ffffff;
+                                    padding: 0;
+                                    vertical-align: top
+                                }
+
+                                th {
+                                    background: #f1f5f9;
+                                    position: sticky;
+                                    top: 0;
+                                    font-weight: 600;
+                                    font-size: 13px;
+                                    color: #475569;
+                                    padding: 15px 8px
+                                }
+
+                                td.hoverable {
+                                    position: relative;
+                                    cursor: pointer;
+                                    transition: all .2s ease
+                                }
+
+                                td.hoverable:hover {
+                                    filter: brightness(0.95);
+                                    box-shadow: inset 0 0 0 2px rgba(59, 130, 246, .5)
+                                }
+
+                                .cell {
+                                    min-width: 160px;
+                                    padding: 16px 8px;
+                                    height: 100%;
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    justify-content: center
+                                }
+
+                                .band {
+                                    font-weight: bold
+                                }
+
+                                .range {
+                                    color: #666;
+                                    font-size: 12px
+                                }
+
+                                .metric {
+                                    font-size: 12px;
+                                    color: #333
+                                }
+
+                                .wrap {
+                                    overflow: auto;
+                                    max-height: 80vh
+                                }
+
+                                .tooltip {
+                                    position: fixed;
+                                    background: #fff;
+                                    border: 2px solid #3b82f6;
+                                    border-radius: 10px;
+                                    padding: 16px;
+                                    box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+                                    z-index: 10000;
+                                    min-width: 280px;
+                                    max-width: 360px;
+                                    display: none;
+                                    pointer-events: none
+                                }
+
+                                .tooltip.visible {
+                                    display: block
+                                }
+
+                                .tooltip-header {
+                                    font-size: 14px;
+                                    font-weight: 700;
+                                    color: #1e293b;
+                                    margin-bottom: 10px;
+                                    padding-bottom: 8px;
+                                    border-bottom: 2px solid #e2e8f0
+                                }
+
+                                .tooltip-row {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    padding: 4px 0;
+                                    font-size: 12px
+                                }
+
+                                .tooltip-label {
+                                    color: #64748b;
+                                    font-weight: 500
+                                }
+
+                                .tooltip-value {
+                                    color: #1e293b;
+                                    font-weight: 600
+                                }
+                            </style>
+
+                            <div class="market-map-container">
+                                <div class="header">
+                                    <h1>市场地图</h1>
+                                    <p class="subtitle">等容量划分法</p>
+                                </div>
+                                <div class="legend-container">
+                                    <div class="legend-left">
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #E6B800;"></div><span>低价款 (Low
+                                                End, &lt; P25)</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #FFCC00;"></div><span>中低款
+                                                (Mid-Low, P25-P50)</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #FFE066;"></div><span>中高款
+                                                (Mid-High, P50-P75)</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <div class="legend-color" style="background: #FFF5CC;"></div><span>高价款 (High
+                                                End, &gt; P75)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="market-grid-wrapper">
+                                    <div class="wrap">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>价格带 × 款式</th>
+                                                    <th>Standard Bucket Warmer</th>
+                                                    <th>Large Capacity Warmer</th>
+                                                    <th>Foldable Warmer</th>
+                                                    <th>Smart Feature Warmer</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th class="row-header">
+                                                        <div class="range">[18.99 - 59.9]</div>
+                                                    </th>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 8</div>
+                                                            <div class="metric">近30天销售额: $124.9K</div>
+                                                            <div class="metric">近30天销售量: 2.3K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 6</div>
+                                                            <div class="metric">近30天销售额: $32.8K</div>
+                                                            <div class="metric">近30天销售量: 600</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 16</div>
+                                                            <div class="metric">近30天销售额: $199.9K</div>
+                                                            <div class="metric">近30天销售量: 3.9K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 1</div>
+                                                            <div class="metric">近30天销售额: $12.0K</div>
+                                                            <div class="metric">近30天销售量: 200</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="row-header">
+                                                        <div class="range">[59.99 - 64.99]</div>
+                                                    </th>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 6</div>
+                                                            <div class="metric">近30天销售额: $129.7K</div>
+                                                            <div class="metric">近30天销售量: 2.1K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 6</div>
+                                                            <div class="metric">近30天销售额: $15.5K</div>
+                                                            <div class="metric">近30天销售量: 250</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFCC00">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 15</div>
+                                                            <div class="metric">近30天销售额: $218.6K</div>
+                                                            <div class="metric">近30天销售量: 3.6K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 1</div>
+                                                            <div class="metric">近30天销售额: $6.0K</div>
+                                                            <div class="metric">近30天销售量: 100</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="row-header">
+                                                        <div class="range">[65.33 - 69.99]</div>
+                                                    </th>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 40</div>
+                                                            <div class="metric">近30天销售额: $572.9K</div>
+                                                            <div class="metric">近30天销售量: 8.2K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 12</div>
+                                                            <div class="metric">近30天销售额: $244.8K</div>
+                                                            <div class="metric">近30天销售量: 3.5K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFE066">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 25</div>
+                                                            <div class="metric">近30天销售额: $1.1M</div>
+                                                            <div class="metric">近30天销售量: 16.2K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#E6B800">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 4</div>
+                                                            <div class="metric">近30天销售额: $107.7K</div>
+                                                            <div class="metric">近30天销售量: 1.6K</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="row-header">
+                                                        <div class="range">[70.99 - 79.99]</div>
+                                                    </th>
+                                                    <td class="hoverable" style="background:#FFCC00">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 41</div>
+                                                            <div class="metric">近30天销售额: $672.3K</div>
+                                                            <div class="metric">近30天销售量: 8.7K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFCC00">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 13</div>
+                                                            <div class="metric">近30天销售额: $563.4K</div>
+                                                            <div class="metric">近30天销售量: 7.0K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 11</div>
+                                                            <div class="metric">近30天销售额: $69.4K</div>
+                                                            <div class="metric">近30天销售量: 900</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFCC00">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 5</div>
+                                                            <div class="metric">近30天销售额: $94.6K</div>
+                                                            <div class="metric">近30天销售量: 1.2K</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="row-header">
+                                                        <div class="range">[80.99 - 89.99]</div>
+                                                    </th>
+                                                    <td class="hoverable" style="background:#FFE066">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 35</div>
+                                                            <div class="metric">近30天销售额: $615.1K</div>
+                                                            <div class="metric">近30天销售量: 7.0K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFCC00">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 20</div>
+                                                            <div class="metric">近30天销售额: $953.0K</div>
+                                                            <div class="metric">近30天销售量: 10.6K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 7</div>
+                                                            <div class="metric">近30天销售额: $173.7K</div>
+                                                            <div class="metric">近30天销售量: 2.0K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFCC00">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 3</div>
+                                                            <div class="metric">近30天销售额: $188.8K</div>
+                                                            <div class="metric">近30天销售量: 2.1K</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="row-header">
+                                                        <div class="range">[90.04 - 99.99]</div>
+                                                    </th>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 34</div>
+                                                            <div class="metric">近30天销售额: $2.0M</div>
+                                                            <div class="metric">近30天销售量: 20.8K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFE066">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 16</div>
+                                                            <div class="metric">近30天销售额: $1.8M</div>
+                                                            <div class="metric">近30天销售量: 18.0K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 3</div>
+                                                            <div class="metric">近30天销售额: $5.0K</div>
+                                                            <div class="metric">近30天销售量: 50</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFE066">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 4</div>
+                                                            <div class="metric">近30天销售额: $50.0K</div>
+                                                            <div class="metric">近30天销售量: 500</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="row-header">
+                                                        <div class="range">[102.54 - 119.99]</div>
+                                                    </th>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 12</div>
+                                                            <div class="metric">近30天销售额: $341.6K</div>
+                                                            <div class="metric">近30天销售量: 3.1K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 14</div>
+                                                            <div class="metric">近30天销售额: $1.3M</div>
+                                                            <div class="metric">近30天销售量: 12.3K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 3</div>
+                                                            <div class="metric">近30天销售额: $0</div>
+                                                            <div class="metric">近30天销售量: 0</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFE066">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 6</div>
+                                                            <div class="metric">近30天销售额: $172.5K</div>
+                                                            <div class="metric">近30天销售量: 1.6K</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="row-header">
+                                                        <div class="range">[122.73 - 239.99]</div>
+                                                    </th>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 18</div>
+                                                            <div class="metric">近30天销售额: $416.9K</div>
+                                                            <div class="metric">近30天销售量: 2.6K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 11</div>
+                                                            <div class="metric">近30天销售额: $300.3K</div>
+                                                            <div class="metric">近30天销售量: 2.1K</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 0</div>
+                                                            <div class="metric">近30天销售额: $0</div>
+                                                            <div class="metric">近30天销售量: 0</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hoverable" style="background:#FFF5CC">
+                                                        <div class="cell">
+                                                            <div class="metric">ASIN数量: 4</div>
+                                                            <div class="metric">近30天销售额: $148.0K</div>
+                                                            <div class="metric">近30天销售量: 1.1K</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div><!-- Generated at 2026-01-20 11:41:58 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- A3.1 市场集中度分析 -->
+                    <div style="margin-bottom: 48px;">
+                        <h3 class="t-h2" style="margin-bottom: 24px;">A3.1 市场集中度分析 (Market Concentration Analysis)</h3>
+
+                        <div class="t-h2" style="margin-bottom: 16px; border-left: 4px solid var(--prm); padding-left: 12px;">整体竞争格局
+                        </div>
+
+                        <div class="grid-metrics_Xy">
+                            <!-- HHI -->
+                            <div class="card-metric_Xy">
+                                <div class="t-meta"><span class="term-tip js-enhanced">HHI<span class="term-tooltip"><span class="term-name">赫芬达尔-赫希曼指数</span><span class="term-desc">衡量市场集中度的标准化指标，通过所有企业市场份额平方和反映市场竞争结构的均衡程度。判定标准：&lt;
+                                                    1,000：高度竞争市场，份额分散 <br> 1,000 - 1,800：适度集中，存在突围空间 <br> 1,800 -
+                                                    2,500：寡头主导，需避开正面竞争 <br> &gt; 2,500：极度集中/垄断，进入壁垒极高</span></span></span>
+                                </div>
+                                <div class="metric-val_Xy">636</div>
+                                <div class="t-body" style="font-size: 13px;">
+                                    <strong>解读:</strong> 指数远低于1,500，表明这是一个高度分散且竞争激烈的市场。不存在任何形式的垄断，市场份额被大量参与者瓜分。
+                                </div>
+                            </div>
+
+                            <!-- CRn -->
+                            <div class="card-metric_Xy">
+                                <div class="t-meta">CRn指数</div>
+                                <div class="metric-val_Xy" style="font-size: 24px;">
+                                    CR1: 17.8%<br>
+                                    <span style="color:var(--t2); font-size: 20px;"><span class="term-tip js-enhanced">CR3<span class="term-tooltip"><span class="term-name">销售额Top3 品牌市占率</span><span class="term-desc">Top3 品牌销售额 ÷ 全品类总销售额
+                                                    反映市场集中程度和头部企业的市场控制力</span></span></span>: 34.2%</span>
+                                </div>
+                                <div class="t-body" style="font-size: 13px;">
+                                    <strong>解读:</strong> <span class="term-tip js-enhanced">CR3<span class="term-tooltip"><span class="term-name">销售额Top3 品牌市占率</span><span class="term-desc">Top3 品牌销售额
+                                                ÷ 全品类总销售额
+                                                反映市场集中程度和头部企业的市场控制力</span></span></span>仅为34.2%，属于典型的市场分散格局。市场缺乏绝对的领导者，头部品牌的控制力非常有限。
+                                </div>
+                            </div>
+
+                            <!-- NPRS -->
+                            <div class="card-metric_Xy">
+                                <div class="t-meta"><span class="term-tip js-enhanced">NPRS<span class="term-tooltip"><span class="term-name">新品存活率</span><span class="term-desc">新推出产品在市场中成功存活并获得稳定销量的比例，反映市场对创新的接纳度和新品成功的难易程度。</span></span></span>
+                                </div>
+                                <div class="metric-val_Xy">0.11</div>
+                                <div class="t-body" style="font-size: 13px;">
+                                    <strong>解读:</strong> 创新活力不足，新品对整体格局的冲击力非常有限。竞争主要围绕现有产品形态的微小改进、价格和营销展开。
+                                </div>
+                            </div>
+
+                            <!-- NETI -->
+                            <div class="card-metric_Xy">
+                                <div class="t-meta"><span class="term-tip js-enhanced">NETI<span class="term-tooltip"><span class="term-name">新进入者威胁指数</span><span class="term-desc">新进入市场的品牌或产品对现有格局的冲击强度，反映市场进入壁垒的高低和竞争格局的流动性。</span></span></span>
+                                </div>
+                                <div class="metric-val_Xy">0.12</div>
+                                <div class="t-body" style="font-size: 13px;">
+                                    <strong>解读:</strong> 中等进入难度。市场存在一定的进入门槛，但并非牢不可破。
+                                </div>
+                            </div>
+
+                            <!-- Bd -->
+                            <div class="card-metric_Xy">
+                                <div class="t-meta"><span class="term-tip js-enhanced">Bd (行为偏离度)<span class="term-tooltip"><span class="term-name">行为偏离度</span><span class="term-desc">市场价格行为的混乱程度，综合反映价格波动性和促销频率，衡量价格竞争的无序化程度。</span></span></span>
+                                </div>
+                                <div class="metric-val_Xy">1.07</div>
+                                <div class="t-body" style="font-size: 13px;">
+                                    <strong>解读:</strong> 处于中等水平。表明市场存在一定程度的价格竞争，但尚未陷入毁灭性的全面价格战。
+                                </div>
+                            </div>
+
+                            <!-- CI -->
+                            <div class="card-metric_Xy" style="background: var(--prm-lt); border-color: var(--prm);">
+                                <div class="t-meta" style="color: var(--prm);">竞争强度总分 (CI)</div>
+                                <div class="metric-val_Xy">30.8 <span class="tag c-bad" style="font-size: 14px; vertical-align: middle;">高</span></div>
+                                <div class="t-body" style="font-size: 13px; color: var(--prm);">
+                                    <strong>竞争类型:</strong> 成熟品类的存量市场肉搏战
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quote-box">
+                            <div class="t-meta">格局叙述</div>
+                            <div class="t-body">
+                                当前市场呈现出典型的“成熟期红海”特征。<span class="term-tip js-enhanced">HHI<span class="term-tooltip"><span class="term-name">赫芬达尔-赫希曼指数</span><span class="term-desc">衡量市场集中度的标准化指标，通过所有企业市场份额平方和反映市场竞争结构的均衡程度。判定标准：&lt;
+                                                1,000：高度竞争市场，份额分散 <br> 1,000 - 1,800：适度集中，存在突围空间 <br> 1,800 -
+                                                2,500：寡头主导，需避开正面竞争 <br> &gt;
+                                                2,500：极度集中/垄断，进入壁垒极高</span></span></span>低至636，<span class="term-tip js-enhanced">CR3<span class="term-tooltip"><span class="term-name">销售额Top3
+                                            品牌市占率</span><span class="term-desc">Top3 品牌销售额 ÷ 全品类总销售额
+                                            反映市场集中程度和头部企业的市场控制力</span></span></span>仅为34.2%，揭示了一个高度碎片化、缺乏领导者的竞争环境。然而，低<span class="term-tip js-enhanced">NPRS<span class="term-tooltip"><span class="term-name">新品存活率</span><span class="term-desc">新推出产品在市场中成功存活并获得稳定销量的比例，反映市场对创新的接纳度和新品成功的难易程度。</span></span></span>（0.11）表明这片红海并非由创新驱动，而是陷入了供给固化的存量博弈。这意味着竞争焦点并非技术突破，而是在同质化产品中争夺有限的货架与用户注意力。中等的<span class="term-tip js-enhanced">NETI<span class="term-tooltip"><span class="term-name">新进入者威胁指数</span><span class="term-desc">新进入市场的品牌或产品对现有格局的冲击强度，反映市场进入壁垒的高低和竞争格局的流动性。</span></span></span>（0.12）说明进入虽有可能，但新来者面对的将是大量相似对手的围攻，而非蓝海机遇。
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 32px;">
+                            <div class="t-h2" style="margin-bottom: 16px; border-left: 4px solid var(--prm); padding-left: 12px;">
+                                市场结构判定</div>
+                            <div class="c-data">
+                                <div class="t-body" style="margin-bottom: 12px;">
+                                    <span class="t-meta">结构类型:</span> <span class="t-h2">高度分散的成熟市场竞争</span>
+                                </div>
+                                <div class="t-body">
+                                    <strong>判定逻辑:</strong>
+                                    <ul class="list-check_Xy" style="margin-top: 8px;">
+                                        <li><strong>市场集中度:</strong> <span class="term-tip js-enhanced">HHI<span class="term-tooltip"><span class="term-name">赫芬达尔-赫希曼指数</span><span class="term-desc">衡量市场集中度的标准化指标，通过所有企业市场份额平方和反映市场竞争结构的均衡程度。判定标准：
+                                                        &lt; 1,000：高度竞争市场，份额分散 <br> 1,000 - 1,800：适度集中，存在突围空间 <br> 1,800 -
+                                                            2,500：寡头主导，需避开正面竞争 <br> &gt;
+                                                            2,500：极度集中/垄断，进入壁垒极高
+                                                    </span></span></span>为636，属于高度分散的竞争格局。
+                                        </li>
+                                        <li><strong>头部控制力:</strong> <span class="term-tip js-enhanced">CR3<span class="term-tooltip"><span class="term-name">销售额Top3
+                                                        品牌市占率</span><span class="term-desc">Top3 品牌销售额 ÷ 全品类总销售额
+                                                        反映市场集中程度和头部企业的市场控制力</span></span></span>为34.2%，远低于45%的门槛，证实了市场缺乏主导品牌。
+                                        </li>
+                                        <li><strong>款式竞争分化:</strong> 竞争压力高度集中于主力款式。核心的“Standard Bucket Warmer”（CI
+                                            27.0）市场份额高达71%。</li>
+                                        <li><strong>进入壁垒:</strong> 壁垒主要来自渠道渗透和品牌认知，而非技术专利。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 32px;">
+                            <div class="t-h2" style="margin-bottom: 16px; border-left: 4px solid var(--prm); padding-left: 12px;">
+                                竞争强度评级 (基于CI三维度模型)</div>
+
+                            <div class="chart-radar-container_Xy">
+                                <div>
+                                    <div class="t-h1" style="margin-bottom: 16px;">
+                                        综合评级: <span class="c-bad">⭐⭐⭐ (高)</span> | CI = 30.8
+                                    </div>
+                                    <table class="tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>维度</th>
+                                                <th style="width: 60px;">得分</th>
+                                                <th>解读</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="term-tip js-enhanced">St (结构容忍度)<span class="term-tooltip"><span class="term-name">结构容忍度</span><span class="term-desc">市场结构对竞争行为冲击的缓冲能力，反映现有格局在面临价格战或新进入者时的稳定性。</span></span></span>
+                                                </td>
+                                                <td class="t-num-M" style="font-size: 16px;">0.45</td>
+                                                <td class="t-body" style="font-size: 12px;">
+                                                    得分较低，表明市场结构脆弱且不稳定。高度分散的格局使得任何参与者的竞争行为都可能引发连锁反应。</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="term-tip js-enhanced">Bd (行为偏离度)<span class="term-tooltip"><span class="term-name">行为偏离度</span><span class="term-desc">市场价格行为的混乱程度，综合反映价格波动性和促销频率，衡量价格竞争的无序化程度。</span></span></span>
+                                                </td>
+                                                <td class="t-num-M" style="font-size: 16px;">1.07</td>
+                                                <td class="t-body" style="font-size: 12px;">
+                                                    得分中等，显示价格行为存在一定程度的混乱，但并非失控的价格战。</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="term-tip js-enhanced">Dm (动态乘数)<span class="term-tooltip"><span class="term-name">动态乘数</span><span class="term-desc">新老产品交替速度对市场竞争强度的放大效应，综合反映市场变化的速度和不确定性。</span></span></span>
+                                                </td>
+                                                <td class="t-num-M" style="font-size: 16px;">0.30</td>
+                                                <td class="t-body" style="font-size: 12px;">
+                                                    得分很低，说明由新品或新进入者带来的动态冲击非常小。市场格局相对固化。</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- 雷达图容器 -->
+                                <div id="chart_radar_Ci" class="chart-box" style="height: 350px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;" _echarts_instance_="ec_1780130667336"><div style="position: relative; width: 620px; height: 350px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="775" height="437" style="position: absolute; left: 0px; top: 0px; width: 620px; height: 350px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div>
+                            </div>
+
+                            <div class="quote-box" style="margin-top: 24px;">
+                                <div class="t-meta">战略含义</div>
+                                <div class="t-body">
+                                    当前市场的主要竞争压力源于其<strong>内在结构（<span class="term-tip js-enhanced">St (结构容忍度)<span class="term-tooltip"><span class="term-name">结构容忍度</span><span class="term-desc">市场结构对竞争行为冲击的缓冲能力，反映现有格局在面临价格战或新进入者时的稳定性。</span></span></span>得分仅0.45）</strong>。这是一个典型的因“僧多粥少”而引发的激烈竞争，而非由技术革新（<span class="term-tip js-enhanced">Dm (动态乘数)<span class="term-tooltip"><span class="term-name">动态乘数</span><span class="term-desc">新老产品交替速度对市场竞争强度的放大效应，综合反映市场变化的速度和不确定性。</span></span></span>得分极低）或恶性价格战（<span class="term-tip js-enhanced">Bd (行为偏离度)<span class="term-tooltip"><span class="term-name">行为偏离度</span><span class="term-desc">市场价格行为的混乱程度，综合反映价格波动性和促销频率，衡量价格竞争的无序化程度。</span></span></span>得分中等）主导。市场缺乏动态变化，使得竞争变成了在有限空间内的零和博弈。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div style="margin-bottom: 48px;">
+                        <h3 class="t-h2" style="margin-bottom: 24px;">Step4: 分款式的竞争强度分析</h3>
+                        <div class="t-meta" style="margin-bottom: 16px;">心智款式竞争强度全览</div>
+
+                        <div class="tbl-wrapper_Xy">
+                            <table class="tbl" style="min-width: 1000px;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;">心智款式</th>
+                                        <th>趋势动能</th>
+                                        <th>市场份额</th>
+                                        <th>波士顿战略矩阵</th>
+                                        <th><span class="term-tip js-enhanced">HHI<span class="term-tooltip"><span class="term-name">赫芬达尔-赫希曼指数</span><span class="term-desc">衡量市场集中度的标准化指标，通过所有企业市场份额平方和反映市场竞争结构的均衡程度。判定标准：
+                                                        &lt; 1,000：高度竞争市场，份额分散 <br> 1,000 - 1,800：适度集中，存在突围空间 <br> 1,800 -
+                                                            2,500：寡头主导，需避开正面竞争 <br> &gt;
+                                                            2,500：极度集中/垄断，进入壁垒极高
+                                                    </span></span></span></th>
+                                        <th><span class="term-tip js-enhanced">CR3<span class="term-tooltip"><span class="term-name">销售额Top3 品牌市占率</span><span class="term-desc">Top3 品牌销售额 ÷ 全品类总销售额
+                                                        反映市场集中程度和头部企业的市场控制力</span></span></span></th>
+                                        <th><span class="term-tip js-enhanced">NPRS<span class="term-tooltip"><span class="term-name">新品存活率</span><span class="term-desc">新推出产品在市场中成功存活并获得稳定销量的比例，反映市场对创新的接纳度和新品成功的难易程度。</span></span></span>
+                                        </th>
+                                        <th><span class="term-tip js-enhanced">NETI<span class="term-tooltip"><span class="term-name">新进入者威胁指数</span><span class="term-desc">新进入市场的品牌或产品对现有格局的冲击强度，反映市场进入壁垒的高低和竞争格局的流动性。</span></span></span>
+                                        </th>
+                                        <th><span class="term-tip js-enhanced">St (结构容忍度)<span class="term-tooltip"><span class="term-name">结构容忍度</span><span class="term-desc">市场结构对竞争行为冲击的缓冲能力，反映现有格局在面临价格战或新进入者时的稳定性。</span></span></span>
+                                        </th>
+                                        <th><span class="term-tip js-enhanced">Bd (行为偏离度)<span class="term-tooltip"><span class="term-name">行为偏离度</span><span class="term-desc">市场价格行为的混乱程度，综合反映价格波动性和促销频率，衡量价格竞争的无序化程度。</span></span></span>
+                                        </th>
+                                        <th><span class="term-tip js-enhanced">Dm (动态乘数)<span class="term-tooltip"><span class="term-name">动态乘数</span><span class="term-desc">新老产品交替速度对市场竞争强度的放大效应，综合反映市场变化的速度和不确定性。</span></span></span>
+                                        </th>
+                                        <th>CI</th>
+                                        <th>竞争强度</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="t-body"><strong>Standard Bucket Warmer</strong></td>
+                                        <td class="t-num-M" style="font-size: 14px;">6578.5</td>
+                                        <td class="t-num-M" style="font-size: 14px;">71.3%</td>
+                                        <td><span class="tag-lc_Xy tag-lc-core_Xy">核心主流</span></td>
+                                        <td>1118</td>
+                                        <td>48.8%</td>
+                                        <td>0.09</td>
+                                        <td>0.22</td>
+                                        <td>0.74</td>
+                                        <td>1.24</td>
+                                        <td>0.44</td>
+                                        <td class="t-h2">27.0</td>
+                                        <td class="c-bad t-h2">高</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="t-body"><strong>Foldable Warmer</strong></td>
+                                        <td class="t-num-M" style="font-size: 14px;">2226.6</td>
+                                        <td class="t-num-M" style="font-size: 14px;">13.5%</td>
+                                        <td><span class="tag-lc_Xy tag-lc-niche_Xy">利基衰退</span></td>
+                                        <td>1011</td>
+                                        <td>47.5%</td>
+                                        <td>0.49</td>
+                                        <td>0.69</td>
+                                        <td>0.69</td>
+                                        <td>0.84</td>
+                                        <td>1.87</td>
+                                        <td class="t-h2">33.1</td>
+                                        <td class="c-bad t-h2">高</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="t-body"><strong>Large Capacity Warmer</strong></td>
+                                        <td class="t-num-M" style="font-size: 14px;">1030.2</td>
+                                        <td class="t-num-M" style="font-size: 14px;">9.3%</td>
+                                        <td><span class="tag-lc_Xy tag-lc-niche_Xy">利基衰退</span></td>
+                                        <td>1079</td>
+                                        <td>48.0%</td>
+                                        <td>0.13</td>
+                                        <td>0.44</td>
+                                        <td>0.72</td>
+                                        <td>0.47</td>
+                                        <td>0.86</td>
+                                        <td class="t-h2">17.5</td>
+                                        <td class="c-good t-h2">低</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="t-body"><strong>Smart Feature Warmer</strong></td>
+                                        <td class="t-num-M" style="font-size: 14px;">712.2</td>
+                                        <td class="t-num-M" style="font-size: 14px;">5.9%</td>
+                                        <td><span class="tag-lc_Xy tag-lc-niche_Xy">利基衰退</span></td>
+                                        <td>1212</td>
+                                        <td>49.9%</td>
+                                        <td>0.10</td>
+                                        <td>0.52</td>
+                                        <td>0.78</td>
+                                        <td>0.69</td>
+                                        <td>0.93</td>
+                                        <td class="t-h2">21.9</td>
+                                        <td class="c-good t-h2">低</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div>
+                        <h3 class="t-h2" style="margin-bottom: 24px;">Step5: 机会款式判断</h3>
+
+                        <div class="c-data" style="margin-bottom: 24px;">
+                            <div class="t-meta">判断规则与推理要求</div>
+                            <div class="t-body">
+                                数据提取规则：直接从 opportunity_judgment_table[] 提取信息，无需计算。判定结果必须输出，分析结论必须基于数据。
+                            </div>
+                        </div>
+
+                        <div class="t-h2" style="margin-bottom: 16px; border-left: 4px solid var(--prm); padding-left: 12px;">款式判定结果
+                        </div>
+                        <div class="tbl-wrapper_Xy">
+                            <table class="tbl">
+                                <thead>
+                                    <tr>
+                                        <th>心智款式</th>
+                                        <th>趋势动能</th>
+                                        <th>市场份额</th>
+                                        <th>竞争强度</th>
+                                        <th>战场定性</th>
+                                        <th>机会判定</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="t-h2">Standard Bucket Warmer</td>
+                                        <td>6578.50 [高]</td>
+                                        <td>71.34% [高]</td>
+                                        <td>27.0 [高]</td>
+                                        <td><span class="tag">乱世争霸赛</span></td>
+                                        <td class="c-good t-h2">✅ 机会款式</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="t-body">Foldable Warmer</td>
+                                        <td>2226.57 [低]</td>
+                                        <td>13.47% [低]</td>
+                                        <td>33.1 [高]</td>
+                                        <td><span class="tag">利基衰退</span></td>
+                                        <td class="c-bad t-h2">❌ 非机会款式</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="t-body">Large Capacity Warmer</td>
+                                        <td>1030.24 [低]</td>
+                                        <td>9.29% [低]</td>
+                                        <td>17.5 [低]</td>
+                                        <td><span class="tag">利基衰退</span></td>
+                                        <td class="c-bad t-h2">❌ 非机会款式</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="t-body">Smart Feature Warmer</td>
+                                        <td>712.24 [低]</td>
+                                        <td>5.89% [低]</td>
+                                        <td>21.9 [低]</td>
+                                        <td><span class="tag">利基衰退</span></td>
+                                        <td class="c-bad t-h2">❌ 非机会款式</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="margin-top: 32px;">
+                            <div class="t-h2" style="margin-bottom: 16px; border-left: 4px solid var(--prm); padding-left: 12px;">分析结论
+                            </div>
+                            <div class="t-body" style="margin-bottom: 24px;">
+                                基于上述判定框架，本市场共识别出<strong>1个机会款式</strong>，其他款式则被判定为机会渺茫的衰退市场。
+                            </div>
+
+                            <div class="card" style="margin-bottom: 16px; border-left: 4px solid var(--acc-3);">
+                                <div class="t-h2" style="color: var(--acc-3); margin-bottom: 8px;">第一梯队：Standard Bucket
+                                    Warmer</div>
+                                <div class="t-body">
+                                    这是当前市场唯一且绝对的核心机会，被定性为“乱世争霸赛”。该款式占据71.3%的绝对市场份额，并拥有高达6578.5的趋势动能，表明其不仅是存量市场，更是增量需求的核心承载体。尽管竞争强度（CI
+                                    27.0）被评为“高”，但这恰恰是市场活跃度和利润空间的体现。与衰退的利基市场不同，这里的竞争是围绕真实且庞大的用户需求展开的。对于新进入者而言，回避这个主战场等于放弃整个市场。最佳策略不是寻找无人区，而是在这个最拥挤的赛道中，通过差异化的功能组合或品牌定位，精准切入一个细分人群，从而在乱战中建立自己的根据地。
+                                </div>
+                            </div>
+
+                            <div class="card" style="border-left: 4px solid var(--t3);">
+                                <div class="t-h2" style="color: var(--t2); margin-bottom: 8px;">非机会款式：Foldable Warmer,
+                                    Large Capacity Warmer, Smart Feature Warmer</div>
+                                <div class="t-body">
+                                    这三款产品均呈现“动能低+份额低”的双低特征，被归为“利基衰退”市场，应坚决回避。它们的合计市场份额不足30%，且趋势动能均处于低位，说明这些曾经的细分尝试未能激发持续的市场需求，已进入生命周期的末期。特别值得警惕的是
+                                    <strong>Foldable Warmer</strong>，其CI高达33.1，是所有款式中竞争最激烈的，但在一个萎缩的市场中如此内卷，是典型的价值陷阱。而
+                                    <strong>Large Capacity</strong> 和 <strong>Smart Feature</strong>
+                                    虽然竞争缓和，但极低的动能（1030.2和712.2）表明市场已对这些概念失去兴趣，进入这些领域将面临无需求增长的困境。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Image Modal -->
+            <div id="imgModal" class="img-modal" onclick="closeModal_img()">
+                <span class="img-modal-close" onclick="closeModal_img()">×</span>
+                <img class="img-modal-content" id="modalImg">
+            </div>
+            <script>
+                /* 固定的JS */
+                function openModal_img(imgElement) {
+                    const modal = document.getElementById('imgModal');
+                    const modalImg = document.getElementById('modalImg');
+                    modal.style.display = 'block';
+                    modalImg.src = imgElement.src;
+                    modalImg.alt = imgElement.alt;
+                    event.stopPropagation();
+                }
+                function closeModal_img() {
+                    const modal = document.getElementById('imgModal');
+                    modal.style.display = 'none';
+                }
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        closeModal_img();
+                    }
+                });
+                document.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(() => {
+                        Object.keys(window.chartConfigs).forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) {
+                                try {
+                                    const chart = echarts.init(el);
+                                    chart.setOption(window.chartConfigs[id]);
+                                    window.addEventListener('resize', () => chart.resize());
+                                    console.log('✓ 图表 #' + id + ' 初始化成功');
+                                } catch (error) {
+                                    console.error('✗ 图表 #' + id + ' 初始化失败:', error);
+                                }
+                            } else {
+                                console.warn('⚠ 图表容器 #' + id + ' 不存在');
+                            }
+                        });
+                        console.log('✓ 页面加载完成，共初始化 ' + Object.keys(window.chartConfigs).length + ' 个图表');
+                    }, 200);
+
+                    // 专业术语 Tooltip 增强：使用 fixed 定位避免被 overflow 容器裁剪
+                    (function initTermTips() {
+                        const termTips = document.querySelectorAll('.term-tip');
+                        if (termTips.length === 0) return;
+
+                        // 创建一个全局的 fixed tooltip 容器
+                        const fixedTooltip = document.createElement('div');
+                        fixedTooltip.className = 'term-tooltip-fixed';
+                        document.body.appendChild(fixedTooltip);
+
+                        let currentTip = null;
+
+                        termTips.forEach(tip => {
+                            const originalTooltip = tip.querySelector('.term-tooltip');
+                            if (!originalTooltip) return;
+
+                            // 标记为 JS 增强，隐藏原始 tooltip
+                            tip.classList.add('js-enhanced');
+
+                            // 鼠标进入
+                            tip.addEventListener('mouseenter', function (e) {
+                                currentTip = tip;
+                                // 复制内容到 fixed tooltip
+                                fixedTooltip.innerHTML = originalTooltip.innerHTML;
+
+                                // 计算位置
+                                const rect = tip.getBoundingClientRect();
+                                const tooltipHeight = 120; // 预估高度
+                                const viewportHeight = window.innerHeight;
+
+                                // 默认在下方显示
+                                let top = rect.bottom + 8;
+                                let arrowClass = 'arrow-top';
+
+                                // 如果下方空间不够，改为上方显示
+                                if (rect.bottom + tooltipHeight > viewportHeight && rect.top > tooltipHeight) {
+                                    top = rect.top - tooltipHeight - 8;
+                                    arrowClass = 'arrow-bottom';
+                                }
+
+                                // 水平居中
+                                let left = rect.left + rect.width / 2;
+
+                                // 防止超出左右边界
+                                const tooltipWidth = 320;
+                                if (left - tooltipWidth / 2 < 10) {
+                                    left = tooltipWidth / 2 + 10;
+                                } else if (left + tooltipWidth / 2 > window.innerWidth - 10) {
+                                    left = window.innerWidth - tooltipWidth / 2 - 10;
+                                }
+
+                                fixedTooltip.style.left = left + 'px';
+                                fixedTooltip.style.top = top + 'px';
+                                fixedTooltip.style.transform = 'translateX(-50%)';
+                                fixedTooltip.className = 'term-tooltip-fixed visible ' + arrowClass;
+                            });
+
+                            // 鼠标离开
+                            tip.addEventListener('mouseleave', function () {
+                                if (currentTip === tip) {
+                                    fixedTooltip.classList.remove('visible');
+                                    currentTip = null;
+                                }
+                            });
+                        });
+
+                        console.log('✓ 专业术语 Tooltip 增强完成，共处理 ' + termTips.length + ' 个术语');
+                    })();
+                });
+
+                /* 合并的章节JS */
+                function init_price_Xy(el) {
+                    const chart = echarts.init(el, null, { renderer: 'svg' });
+
+                    // Data definition
+                    const marketMin = 18.99;
+                    const marketMax = 250;
+                    const modelMin = 18.99;
+                    const modelMax = 239.99;
+
+                    // Calculate offsets for stack bar
+                    // Series 1: Transparent placeholder (from marketMin to modelMin)
+                    // Series 2: Visible bar (from modelMin to modelMax)
+                    const placeholderVal = modelMin - marketMin;
+                    const barVal = modelMax - modelMin;
+
+                    const option = {
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: { type: 'shadow' },
+                            formatter: function (params) {
+                                // Custom tooltip to show the range
+                                return '款式价格带<br/>' +
+                                    '$' + modelMin.toFixed(2) + ' - $' + modelMax.toFixed(2);
+                            }
+                        },
+                        grid: {
+                            top: 20,
+                            bottom: 25,
+                            left: 20,
+                            right: 40,
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'value',
+                            min: marketMin,
+                            max: marketMax,
+                            axisLabel: {
+                                formatter: '${value}',
+                                color: '#a1a1aa',
+                                fontSize: 11
+                            },
+                            splitLine: {
+                                lineStyle: { type: 'dashed', color: '#e4e4e7' }
+                            }
+                        },
+                        yAxis: {
+                            type: 'category',
+                            data: ['价格带'],
+                            axisLine: { show: false },
+                            axisTick: { show: false },
+                            axisLabel: { show: false }
+                        },
+                        series: [
+                            {
+                                name: 'Placeholder',
+                                type: 'bar',
+                                stack: 'total',
+                                itemStyle: {
+                                    barBorderColor: 'rgba(0,0,0,0)',
+                                    color: 'rgba(0,0,0,0)'
+                                },
+                                emphasis: {
+                                    itemStyle: {
+                                        barBorderColor: 'rgba(0,0,0,0)',
+                                        color: 'rgba(0,0,0,0)'
+                                    }
+                                },
+                                data: [placeholderVal]
+                            },
+                            {
+                                name: 'Range',
+                                type: 'bar',
+                                stack: 'total',
+                                label: {
+                                    show: true,
+                                    position: 'right',
+                                    formatter: function () {
+                                        return '$' + modelMin + ' - $' + modelMax;
+                                    },
+                                    color: '#054a8f',
+                                    fontWeight: 600
+                                },
+                                itemStyle: {
+                                    color: '#054a8f',
+                                    borderRadius: 4
+                                },
+                                data: [barVal > 0 ? barVal : 0.5] // Ensure at least a thin line if min==max
+                            }
+                        ]
+                    };
+
+                    chart.setOption(option);
+
+                    const resizeObserver = new ResizeObserver(() => {
+                        chart.resize();
+                    });
+                    resizeObserver.observe(el);
+                }
+
+                // Auto-init logic placeholder
+                (function () {
+                    const el = document.getElementById('chart_price_Xy');
+                    if (el) init_price_Xy(el);
+                })();
+                window.chartConfigs = window.chartConfigs || {};
+                window.chartConfigs['chart_matrix_Az'] = {
+                    tooltip: {
+                        trigger: 'item',
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        borderColor: '#e4e4e7',
+                        borderWidth: 1,
+                        textStyle: { color: '#18181b', fontSize: 12 },
+                        formatter: function (params) {
+                            const data = params.data.value || params.data;
+                            return `<div style="margin-bottom:4px;font-weight:600;color:#054a8f">${data[2]}</div>` +
+                                `市场份额: ${(data[0] * 100).toFixed(1)}%<br/>` +
+                                `趋势动能: ${data[1].toFixed(0)}`;
+                        }
+                    },
+                    grid: { left: 60, right: 60, top: 40, bottom: 60, containLabel: true },
+                    xAxis: {
+                        type: 'value',
+                        name: '市场份额 (Share)',
+                        nameLocation: 'center',
+                        nameGap: 35,
+                        min: 0,
+                        axisLabel: {
+                            formatter: function (v) { return (v * 100).toFixed(0) + '%'; },
+                            color: '#a1a1aa'
+                        },
+                        splitLine: { show: false },
+                        axisLine: { lineStyle: { color: '#e4e4e7' } }
+                    },
+                    yAxis: {
+                        type: 'value',
+                        name: '趋势动能 (Momentum)',
+                        nameLocation: 'center',
+                        nameGap: 50,
+                        axisLabel: { color: '#a1a1aa' },
+                        splitLine: { lineStyle: { type: 'dashed', color: '#f5f5f5' } },
+                        axisLine: { lineStyle: { color: '#e4e4e7' } }
+                    },
+                    series: [{
+                        type: 'scatter',
+                        symbolSize: 24,
+                        itemStyle: {
+                            color: function (params) {
+                                // Dynamic coloring based on quadrants (approximate logic for visual)
+                                const x = params.data[0];
+                                const y = params.data[1];
+                                if (y > 2000 && x < 0.3) return '#3b82f6'; // Emerging Stars (蓝色)
+                                if (y > 2000 && x >= 0.3) return '#10b981'; // Core Growth (绿色)
+                                if (y <= 2000 && x < 0.3) return '#94a3b8'; // Niche/Decline (灰色)
+                                return '#f59e0b'; // Legacy/Cash Cow (橙色)
+                            },
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0,0,0,0.1)'
+                        },
+                        data: [
+                            {
+                                value: [0.7134325230511316, 6578.4965034965035, "Standard Bucket Warmer"],
+                                itemStyle: { color: '#10b981' }  // 绿色 - 核心主流
+                            },
+                            {
+                                value: [0.13474434199497065, 2226.573426573427, "Foldable Warmer"],
+                                itemStyle: { color: '#94a3b8' }  // 灰色 - 利基衰退
+                            },
+                            {
+                                value: [0.09293797150041912, 1030.2447552447552, "Large Capacity Warmer"],
+                                itemStyle: { color: '#94a3b8' }  // 灰色 - 利基衰退
+                            },
+                            {
+                                value: [0.05888516345347863, 712.2377622377622, "Smart Feature Warmer"],
+                                itemStyle: { color: '#94a3b8' }  // 灰色 - 利基衰退
+                            }
+                        ],
+                        label: {
+                            show: true,
+                            position: 'top',
+                            formatter: function (p) { return p.data.value ? p.data.value[2] : p.data[2]; },
+                            color: '#52525b',
+                            fontSize: 11,
+                            distance: 10,
+                            backgroundColor: 'rgba(255,255,255,0.8)',
+                            padding: [2, 4],
+                            borderRadius: 2
+                        },
+                        markLine: {
+                            silent: true,
+                            symbol: 'none',
+                            label: { show: false },
+                            lineStyle: { type: 'solid', color: '#e4e4e7', width: 2 },
+                            data: [
+                                { xAxis: 0.25 }, // Visual X median approximation
+                                { yAxis: 2500 }  // Visual Y median approximation
+                            ]
+                        },
+                        markArea: {
+                            silent: true,
+                            itemStyle: { color: 'transparent' },
+                            label: { color: '#d4d4d8', fontSize: 48, fontWeight: 'bold', position: 'inside' },
+                            data: [
+                                [{ name: 'I', xAxis: 0, yAxis: 2500 }, { xAxis: 0.25, yAxis: 7000 }],
+                                [{ name: 'II', xAxis: 0.25, yAxis: 2500 }, { xAxis: 1, yAxis: 7000 }],
+                                [{ name: 'IV', xAxis: 0, yAxis: 0 }, { xAxis: 0.25, yAxis: 2500 }],
+                                [{ name: 'III', xAxis: 0.25, yAxis: 0 }, { xAxis: 1, yAxis: 2500 }]
+                            ]
+                        }
+                    }]
+                };
+
+                if (typeof echarts !== 'undefined') {
+                    const el_Az = document.getElementById('chart_matrix_Az');
+                    if (el_Az) {
+                        const chart_Az = echarts.init(el_Az);
+                        chart_Az.setOption(window.chartConfigs['chart_matrix_Az']);
+                        new ResizeObserver(() => chart_Az.resize()).observe(el_Az);
+                    }
+                }
+                function init_radar_Ci() {
+                    const el = document.getElementById('chart_radar_Ci');
+                    if (!el) return;
+
+                    const chart = echarts.init(el);
+                    const option = {
+                        tooltip: {
+                            trigger: 'item',
+                            confine: true
+                        },
+                        radar: {
+                            indicator: [
+                                { name: 'St (结构容忍度)', max: 1.5 },
+                                { name: 'Bd (行为偏离度)', max: 3 },
+                                { name: 'Dm (动态乘数)', max: 1.5 }
+                            ],
+                            radius: '65%',
+                            splitNumber: 4,
+                            axisName: {
+                                color: '#52525b',
+                                fontWeight: 'bold'
+                            },
+                            splitArea: {
+                                areaStyle: {
+                                    color: ['#f5f5f5', '#fff']
+                                }
+                            }
+                        },
+                        series: [{
+                            name: '竞争强度维度',
+                            type: 'radar',
+                            data: [
+                                {
+                                    value: [0.45, 1.07, 0.30],
+                                    name: '当前市场评分',
+                                    itemStyle: { color: '#0369a1' },
+                                    areaStyle: { color: 'rgba(3, 105, 161, 0.2)' }
+                                }
+                            ]
+                        }]
+                    };
+
+                    chart.setOption(option);
+
+                    const ro = new ResizeObserver(() => {
+                        chart.resize();
+                    });
+                    ro.observe(el);
+                }
+
+                // 立即初始化
+                if (typeof echarts !== 'undefined') {
+                    init_radar_Ci();
+                }
+
+                // 兼容标签切换
+                window.switchTab = (tabId) => {
+                    const el = document.getElementById('chart_radar_Ci');
+                    if (el) {
+                        const instance = echarts.getInstanceByDom(el);
+                        if (instance) instance.resize();
+                    }
+                };
+            </script>
+
+
+<div class="term-tooltip-fixed"></div></body></html>

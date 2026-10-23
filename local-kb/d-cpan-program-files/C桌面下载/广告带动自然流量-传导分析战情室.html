@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天机OS · 广告→自然 传导分析战情室</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0A1120; --panel:#101A2E; --panel2:#0D1526; --line:#1D2B47; --line2:#25355a;
+  --ink:#E8EEF9; --ink2:#8FA3C4; --ink3:#5A6C8F;
+  --us:#FFB454; --us-dim:rgba(255,180,84,.14);
+  --comp:#41D6C3; --comp-dim:rgba(65,214,195,.13);
+  --danger:#FF5D6C; --ok:#3FDE8C; --warn:#F5C542; --violet:#8B7CF6;
+  --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --sans:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;
+  background-image:radial-gradient(1200px 500px at 70% -10%,rgba(65,214,195,.06),transparent),
+                   radial-gradient(900px 420px at 10% 0%,rgba(255,180,84,.05),transparent)}
+.wrap{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
+.mono{font-family:var(--mono)}
+
+/* ===== header ===== */
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+.brand{font-family:var(--mono);font-size:11px;letter-spacing:.35em;color:var(--ink3);text-transform:uppercase}
+h1{font-size:26px;font-weight:800;letter-spacing:.04em;margin-top:6px}
+h1 .arrow{color:var(--violet);font-family:var(--mono);font-weight:600}
+.meta{font-family:var(--mono);font-size:11px;color:var(--ink3);text-align:right;line-height:1.9}
+.meta b{color:var(--ink2)}
+
+/* ===== verdict strip ===== */
+.verdict{display:grid;grid-template-columns:220px 220px 1fr;gap:14px;margin-bottom:26px}
+.gauge{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden}
+.gauge .who{font-family:var(--mono);font-size:11px;letter-spacing:.2em}
+.gauge .score{font-family:var(--mono);font-size:44px;font-weight:700;line-height:1.1;margin:4px 0 2px}
+.gauge .grade{font-size:12px;font-weight:700;letter-spacing:.1em}
+.gauge .bar{height:5px;background:var(--line);border-radius:3px;margin-top:10px;overflow:hidden}
+.gauge .bar i{display:block;height:100%;border-radius:3px}
+.g-us .who,.g-us .score{color:var(--us)} .g-us .bar i{background:var(--us)}
+.g-comp .who,.g-comp .score{color:var(--comp)} .g-comp .bar i{background:var(--comp)}
+.verdict-text{background:linear-gradient(135deg,var(--panel),#131F38);border:1px solid var(--line);border-radius:12px;padding:16px 20px}
+.verdict-text .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--danger);border:1px solid rgba(255,93,108,.4);border-radius:4px;padding:2px 8px;margin-bottom:8px}
+.verdict-text p{font-size:14.5px;color:var(--ink)}
+.verdict-text p b{color:var(--us)} .verdict-text p em{color:var(--comp);font-style:normal;font-weight:700}
+.verdict-text .sub{font-size:12px;color:var(--ink2);margin-top:6px}
+
+/* ===== section ===== */
+section{margin-bottom:34px}
+.sec-h{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.sec-h .no{font-family:var(--mono);font-size:11px;color:var(--violet);letter-spacing:.2em}
+.sec-h h2{font-size:18px;font-weight:800;letter-spacing:.03em}
+.sec-h .hint{font-size:12px;color:var(--ink3);margin-left:auto;font-family:var(--mono)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+
+/* ===== waterfall ===== */
+.wf-toggle{display:flex;gap:8px;margin-bottom:14px}
+.wf-toggle button{font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:6px 16px;border-radius:6px;border:1px solid var(--line2);background:var(--panel2);color:var(--ink2);cursor:pointer}
+.wf-toggle button.on-us{border-color:var(--us);color:var(--us);background:var(--us-dim)}
+.wf-toggle button.on-comp{border-color:var(--comp);color:var(--comp);background:var(--comp-dim)}
+.wf-svg-box{overflow-x:auto}
+.wf-note{font-size:12px;color:var(--ink3);margin-top:10px;font-family:var(--mono)}
+.flowdash{stroke-dasharray:6 5;animation:flow 1.2s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-11}}
+@media(prefers-reduced-motion:reduce){.flowdash{animation:none}}
+
+/* ===== chain L1-L5 ===== */
+.chain{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.chain .node{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 14px 12px;margin:0 8px;position:relative}
+.chain .node .lv{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--violet)}
+.chain .node h3{font-size:14px;font-weight:800;margin:3px 0 6px}
+.chain .node p{font-size:11.5px;color:var(--ink2);line-height:1.55}
+.chain .node .kpis{margin-top:8px;border-top:1px dashed var(--line);padding-top:7px;font-family:var(--mono);font-size:11px;line-height:1.8}
+.chain .node .kpis .u{color:var(--us)} .chain .node .kpis .c{color:var(--comp)}
+.chain .node.break{border-color:var(--danger);box-shadow:0 0 0 1px rgba(255,93,108,.35),0 0 24px rgba(255,93,108,.12)}
+.chain .node.break::after{content:"⛓ 断链";position:absolute;top:-11px;right:10px;font-size:10px;font-family:var(--mono);color:#fff;background:var(--danger);border-radius:4px;padding:1px 7px;letter-spacing:.15em}
+.chain .conn{position:absolute;top:50%;right:-9px;width:18px;height:2px;background:var(--line2);z-index:2}
+.chain .conn::after{content:"";position:absolute;right:-1px;top:-3px;border:4px solid transparent;border-left-color:var(--line2)}
+.chain .node:last-child .conn{display:none}
+.chain-legend{font-size:12px;color:var(--ink3);margin-top:12px}
+.chain-legend .u{color:var(--us)} .chain-legend .c{color:var(--comp)}
+
+/* ===== charts grid ===== */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px 10px}
+.chart-card h3{font-size:13px;font-weight:700;color:var(--ink2);letter-spacing:.05em;margin-bottom:4px}
+.chart-card .cbox{height:230px;position:relative}
+.evt{font-family:var(--mono);font-size:11px;color:var(--danger);margin-top:2px}
+
+/* ===== algo cards ===== */
+.algos{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.algo{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+.algo .id{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--violet)}
+.algo h3{font-size:14px;font-weight:800;margin:2px 0 6px}
+.algo .formula{font-family:var(--mono);font-size:10.5px;color:var(--ink2);background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:7px 8px;line-height:1.6;min-height:64px}
+.algo .vals{margin-top:9px;font-family:var(--mono);font-size:12px;line-height:1.9}
+.algo .vals .u{color:var(--us)} .algo .vals .c{color:var(--comp)}
+.algo .vals small{color:var(--ink3);font-size:10px}
+
+/* ===== diagnosis / actions ===== */
+.diag{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.diag .panel h3{font-size:14px;font-weight:800;margin-bottom:10px;letter-spacing:.04em}
+.cause{border-left:3px solid var(--danger);background:var(--panel2);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:10px}
+.cause b{color:var(--danger);font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+.cause p{font-size:12.5px;color:var(--ink2);margin-top:2px}
+.cause p i{color:var(--ink);font-style:normal;font-family:var(--mono)}
+.act{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line)}
+.act:last-child{border-bottom:none}
+.act .d{flex:0 0 52px;font-family:var(--mono);font-size:10px;color:#0A1120;background:var(--ok);border-radius:4px;text-align:center;padding:2px 0;font-weight:700;letter-spacing:.05em}
+.act .d.mid{background:var(--warn)} .act .d.long{background:var(--violet);color:#fff}
+.act p{font-size:12.5px;color:var(--ink)} .act p span{color:var(--ink3);font-size:11.5px}
+
+footer{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;font-family:var(--mono);font-size:11px;color:var(--ink3);display:flex;justify-content:space-between}
+@media(max-width:960px){.verdict{grid-template-columns:1fr 1fr}.verdict-text{grid-column:1/-1}.charts{grid-template-columns:1fr}.algos{grid-template-columns:repeat(2,1fr)}.chain{grid-template-columns:1fr;gap:10px}.chain .conn{display:none}.diag{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="brand">TIANJI OS · AD-TO-ORGANIC TRANSMISSION</div>
+    <h1>广告 <span class="arrow">⇢</span> 自然流量 传导分析战情室</h1>
+  </div>
+  <div class="meta">
+    数据源 <b>SIF 关键词流量得分（周度）</b><br>
+    窗口 <b>2026-01-04 → 2026-06-21 · 25周</b><br>
+    对象 <b class="mono" style="color:var(--us)">■ 我方</b> vs <b class="mono" style="color:var(--comp)">■ 竞品</b>
+  </div>
+</header>
+
+<!-- ═══════ 判决条 ═══════ -->
+<div class="verdict">
+  <div class="gauge g-us">
+    <div class="who">我方 · FHI 飞轮健康指数</div>
+    <div class="score">6.9</div>
+    <div class="grade" style="color:var(--danger)">✕ 断链 · 广告未带动自然</div>
+    <div class="bar"><i style="width:6.9%"></i></div>
+  </div>
+  <div class="gauge g-comp">
+    <div class="who">竞品 · FHI 飞轮健康指数</div>
+    <div class="score">78.6</div>
+    <div class="grade" style="color:var(--ok)">✓ 强飞轮 · 已进入自增强</div>
+    <div class="bar"><i style="width:78.6%"></i></div>
+  </div>
+  <div class="verdict-text">
+    <span class="tag">核心判决</span>
+    <p>25周内我方投入广告流量得分 <b>253,797</b>，仅沉淀自然流量 <b>15,254</b>（转化比 <b>0.06</b>）；竞品广告投入 <em>209,301</em>，沉淀自然 <em>144,870</em>（转化比 <em>0.69</em>）——<b>同量级广告，竞品的自然收获是我方的 11.5 倍</b>。</p>
+    <p class="sub">断点定位：L3 权重层（广告成交未沉淀为关键词自然权重，SP 排名常年第 1 而自然排名始终 100+），且 05-17 ~ 06-14 出现连续 5 周<span style="color:var(--danger)">自然流量归零 / 自然收录中断</span>的红色事件。</p>
+  </div>
+</div>
+
+<!-- ═══════ 01 流量瀑布 ═══════ -->
+<section>
+  <div class="sec-h"><span class="no">01</span><h2>流量瀑布 · 三层拆解</h2><span class="hint">全部流量 = ①广告 + ②自然 + ③站外 · 累计25周</span></div>
+  <div class="panel">
+    <div class="wf-toggle">
+      <button id="btn-us" class="on-us" onclick="renderWF('us')">我方</button>
+      <button id="btn-comp" onclick="renderWF('comp')">竞品</button>
+    </div>
+    <div class="wf-svg-box"><svg id="wf" width="1220" height="470" viewBox="0 0 1220 470" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div class="wf-note">※ SIF 仅测站内流量得分：①②为实测；②自然的子渠道结构与③站外为体系占位，需接入 类目/关联/榜单明细 与 Amazon Attribution 后填充实值。灰色节点 = 数据待接入。</div>
+  </div>
+</section>
+
+<!-- ═══════ 02 五层传导链 ═══════ -->
+<section>
+  <div class="sec-h"><span class="no">02</span><h2>广告→自然 五层传导链模型（AOT）</h2><span class="hint">A9飞轮的因果链 · 逐层验证 · 定位断点</span></div>
+  <div class="chain">
+    <div class="node">
+      <div class="lv">L1 曝光注入层</div><h3>广告流量注入</h3>
+      <p>SP/SB/SBV 买位获取曝光，把 Listing 推入关键词搜索结果与关联位。</p>
+      <div class="kpis"><span class="u">我方 253.8k ✓ 充足</span><br><span class="c">竞品 209.3k ✓</span></div>
+      <div class="conn"></div>
+    </div>
+    <div class="node">
+      <div class="lv">L2 点击转化层</div><h3>广告点击 → 成交</h3>
+      <p>CTR×CVR 决定广告单量与该关键词下的成交密度（A9 权重的原料）。</p>
+      <div class="kpis"><span class="u">我方 SP排名常年 #1</span><br><span class="c">竞品 SP #1~#10 轮动</span></div>
+      <div class="conn"></div>
+    </div>
+    <div class="node break">
+      <div class="lv">L3 权重沉淀层</div><h3>成交 → 关键词权重</h3>
+      <p>关键词下的成交速度+转化率超过市场均值，才被 A9 计入自然权重。</p>
+      <div class="kpis"><span class="u">我方 TE = -2.1 ✕ 未沉淀</span><br><span class="c">竞品 TE = +62.3 ✓</span></div>
+      <div class="conn"></div>
+    </div>
+    <div class="node break">
+      <div class="lv">L4 排名爬升层</div><h3>自然排名突破</h3>
+      <p>自然排名进入前3页→首页是流量阈值；排名 100+ 基本无自然曝光。</p>
+      <div class="kpis"><span class="u">我方 102 → 144 ✕ 恶化</span><br><span class="c">竞品 78 → 15 ✓ 破首页</span></div>
+      <div class="conn"></div>
+    </div>
+    <div class="node">
+      <div class="lv">L5 自然收获层</div><h3>自然流量自增强</h3>
+      <p>自然单反哺权重，广告可逐步收缩，飞轮进入自转。</p>
+      <div class="kpis"><span class="u">我方 自然占比 6% 徘徊</span><br><span class="c">竞品 6% → 63% 峰值</span></div>
+    </div>
+  </div>
+  <p class="chain-legend">竞品的关键跃迁：<span class="c">04-19 自然排名破 #8 → 04-26 破 #2 → 05-03 自然流量单周 24,679 爆发</span>（排名过阈值后 1~2 周自然流量兑现）。我方 <span class="u">L1/L2 完全达标（钱花够了、位置买到了），断在 L3：广告成交没有转换成关键词自然权重</span>。</p>
+</section>
+
+<!-- ═══════ 03 双轨时序 ═══════ -->
+<section>
+  <div class="sec-h"><span class="no">03</span><h2>双轨时序证据</h2><span class="hint">四张图看清"带动/未带动"</span></div>
+  <div class="charts">
+    <div class="chart-card"><h3>自然流量得分 · 我方 vs 竞品（实线）｜广告流量（虚线）</h3><div class="cbox"><canvas id="c1"></canvas></div><div class="evt">▲ 我方 05-17~06-14 自然归零：收录中断事件</div></div>
+    <div class="chart-card"><h3>自然排名（逆轴，越高越好）· 破首页阈值 = 飞轮点火线</h3><div class="cbox"><canvas id="c2"></canvas></div></div>
+    <div class="chart-card"><h3>自然流量占比 · 飞轮进度条</h3><div class="cbox"><canvas id="c3"></canvas></div></div>
+    <div class="chart-card"><h3>TE 滚动传导效率（4周窗）· 每千分广告沉淀的自然增量</h3><div class="cbox"><canvas id="c4"></canvas></div></div>
+  </div>
+</section>
+
+<!-- ═══════ 04 算法引擎 ═══════ -->
+<section>
+  <div class="sec-h"><span class="no">04</span><h2>分析算法引擎 · 五指标体系</h2><span class="hint">JS实现内嵌本页，换数据即可复算</span></div>
+  <div class="algos">
+    <div class="algo"><div class="id">A1</div><h3>OLC 滞后带动系数</h3>
+      <div class="formula">OLC(k)=corr(Ad<sub>t</sub>, Org<sub>t+k</sub>)<br>k=0..4周，取最优滞后 k*<br>判定广告↔自然是否同频共振</div>
+      <div class="vals"><span class="u">我方 max +0.06 @k=4</span> <small>最强信号 -0.38@k2 反噬</small><br><span class="c">竞品 +0.45 @k=0</span> <small>同步带动</small></div></div>
+    <div class="algo"><div class="id">A2</div><h3>TE 传导效率</h3>
+      <div class="formula">TE=1000×ΔOrg(4周)/ΣAd(4周)<br>每千分广告流量沉淀的<br>自然流量净增量</div>
+      <div class="vals"><span class="u">我方 -2.1 分/千</span><br><span class="c">竞品 +62.3 分/千</span> <small>末期146</small></div></div>
+    <div class="algo"><div class="id">A3</div><h3>RE 排名传导</h3>
+      <div class="formula">RE=(R̄<sub>首4周</sub>-R̄<sub>末6周</sub>)/R̄<sub>首4周</sub><br>广告期内自然排名的<br>相对改善幅度</div>
+      <div class="vals"><span class="u">我方 -40%（102→144）</span><br><span class="c">竞品 +81%（78→15）</span></div></div>
+    <div class="algo"><div class="id">A4</div><h3>OSM 占比动量</h3>
+      <div class="formula">OSM=OLS斜率(Org/Total)<br>自然占比的周度爬升速度<br>单位：pp/周</div>
+      <div class="vals"><span class="u">我方 +0.39 pp/周</span> <small>末周失真</small><br><span class="c">竞品 +1.75 pp/周</span></div></div>
+    <div class="algo"><div class="id">A5</div><h3>FHI 飞轮健康指数</h3>
+      <div class="formula">FHI=30·OLC⁺+25·TE̅+25·RE⁺+20·OSM̅<br>0-100 分级：<br>≥70强飞轮｜40-70弱｜&lt;40断链</div>
+      <div class="vals"><span class="u">我方 6.9 → 断链</span><br><span class="c">竞品 78.6 → 强飞轮</span></div></div>
+  </div>
+</section>
+
+<!-- ═══════ 05 断链诊断 + 行动 ═══════ -->
+<section>
+  <div class="sec-h"><span class="no">05</span><h2>断链归因 × 行动清单</h2></div>
+  <div class="diag">
+    <div class="panel">
+      <h3 style="color:var(--danger)">⛓ L3/L4 断链归因（按证据强度排序）</h3>
+      <div class="cause"><b>C1 · 品牌流量占比过高，不产生新增权重</b><p>我方广告中品牌流量长期占 <i>40%~80%</i>（如 05-17 品牌 24,965 / 广告 50,645）。品牌词成交是存量客户，A9 不会因此提升非品牌大词的自然排名——钱花在了"自己搜自己"上。</p></div>
+      <div class="cause"><b>C2 · SP 抢 #1 位但转化率低于该词市场均值</b><p>SP 排名常年 #1（曝光成本最高的位置）而自然排名 100+ 恶化，典型特征是<i>大词首位曝光 → CTR/CVR 不达标 → A9 反向降权</i>，OLC 出现 -0.38 的负相关即"反噬"信号。</p></div>
+      <div class="cause"><b>C3 · 05-17~06-14 自然收录中断（红色事件）</b><p>连续 5 周自然流量=0、自然排名消失，同期广告峰值 50,645。指向 <i>Listing 变更/类目节点变动/关键词全部掉出前3页/被压制</i>，需回查该周的 Listing 修改记录与类目归属。</p></div>
+      <div class="cause"><b>C4 · 广告词与收录词错配</b><p>SIF 收录词数量与广告投放词的交集待核。若烧的词不是 Listing 已收录、可承接自然位的词，成交无法沉淀（结合 amazon-listing-quality-score 的 CDQ 收录维度交叉验证）。</p></div>
+    </div>
+    <div class="panel">
+      <h3 style="color:var(--ok)">▶ 行动清单</h3>
+      <div class="act"><span class="d">7天</span><p>回查 05-17 前后 Listing 修改/类目变动记录，恢复收录基本盘。<span>对应 C3</span></p></div>
+      <div class="act"><span class="d">7天</span><p>品牌词广告预算砍至 ≤15%，释放预算到 3~5 个"已收录+竞品得分高"的中类目词。<span>对应 C1</span></p></div>
+      <div class="act"><span class="d mid">30天</span><p>大词 SP 从 #1 降到 #4~#8（竞品打法），用 CVR 达标换权重而不是硬买首位；周度跑本页 A1/A2 验证 OLC 转正。<span>对应 C2</span></p></div>
+      <div class="act"><span class="d mid">30天</span><p>建立"广告词 × SIF收录词"交集看板，只养交集词，目标自然排名先破前3页（&lt;48）。<span>对应 C4</span></p></div>
+      <div class="act"><span class="d long">机制</span><p>本页算法接入 天机OS 周度巡检：FHI&lt;40 连续 2 周自动触发飞书告警 + PPC止损技能联动。</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>TIANJI OS · AOT v1.0 · FHI = 30·OLC⁺ + 25·TE̅ + 25·RE⁺ + 20·OSM̅</span>
+  <span>算法内嵌本页 window.AOT · 替换 DATA 即可复算</span>
+</footer>
+</div>
+
+<script>
+/* ═══════════════ 数据（SIF 周度流量得分，截图转录）═══════════════ */
+const DATA = {
+  weeks:["01-04","01-11","01-18","01-25","02-01","02-08","02-15","02-22","03-01","03-08","03-15","03-22","03-29","04-05","04-12","04-19","04-26","05-03","05-10","05-17","05-24","05-31","06-07","06-14","06-21"],
+  us:{ total:[3284,5902,8380,6177,6266,7526,6785,12801,9967,5023,9303,16423,8673,1368,3229,2166,3154,1096,23695,50645,32825,18792,3624,12148,9799],
+       org:[96,462,222,177,490,375,370,436,887,804,1048,1199,1903,547,598,334,353,993,1705,0,0,0,0,0,2255],
+       ad:[3188,5440,8158,6001,5776,7151,6415,12365,9079,4219,8255,15224,6770,821,2631,1832,2801,103,21990,50645,32825,18792,3624,12148,7544],
+       rank:[106,91,103,110,81,101,138,132,137,72,95,123,127,117,116,141,126,141,141,null,null,null,null,null,144],
+       spSum:143000, brandSum:110800 },
+  comp:{ total:[954,1228,1584,2094,2879,2444,8506,10730,19862,21637,25265,19138,4577,4972,13075,14702,21563,38856,22495,11760,10528,15338,24954,18333,36695],
+       org:[56,194,250,617,898,1094,2849,3050,4997,2906,2829,4974,854,1458,4824,6366,13673,24679,11714,10150,6516,8233,8218,8839,14632],
+       ad:[898,1035,1334,1476,1981,1351,5657,7680,14865,18731,22436,14163,3722,3514,8251,8336,7890,14178,10781,1611,4012,7106,16736,9494,22063],
+       rank:[102,109,56,45,31,19,16,16,18,49,43,10,34,22,18,8,2,10,9,10,19,11,23,15,12],
+       spSum:171000, brandSum:38300 }
+};
+
+/* ═══════════════ AOT 算法引擎（可复用）═══════════════ */
+const AOT = {
+  corr(a,b){const n=a.length,ma=a.reduce((x,y)=>x+y)/n,mb=b.reduce((x,y)=>x+y)/n;
+    let sa=0,sb=0,sab=0;for(let i=0;i<n;i++){sa+=(a[i]-ma)**2;sb+=(b[i]-mb)**2;sab+=(a[i]-ma)*(b[i]-mb);}
+    return sab/Math.sqrt(sa*sb);},
+  olc(ad,org,maxK=4){const out={};for(let k=0;k<=maxK;k++){out[k]=+this.corr(ad.slice(0,ad.length-k||ad.length),org.slice(k)).toFixed(3);}
+    const ks=+Object.keys(out).reduce((a,b)=>out[a]>=out[b]?a:b);return{series:out,kstar:ks,val:out[ks]};},
+  te(ad,org,w=4){const t=[];for(let i=w;i<ad.length;i++){const cum=ad.slice(i-w+1,i+1).reduce((x,y)=>x+y);
+    t.push(cum>0?1000*(org[i]-org[i-w])/cum:0);}return t;},
+  re(rank){const f=rank.slice(0,4).filter(x=>x!=null),l=rank.slice(-6).filter(x=>x!=null);
+    const m=a=>a.reduce((x,y)=>x+y,0)/a.length;const r0=m(f),r1=l.length?m(l):r0;return{r0,r1,val:(r0-r1)/r0};},
+  osm(org,tot){const s=org.map((o,i)=>o/tot[i]),n=s.length,mx=(n-1)/2,my=s.reduce((a,b)=>a+b)/n;
+    let num=0,den=0;for(let i=0;i<n;i++){num+=(i-mx)*(s[i]-my);den+=(i-mx)**2;}return num/den*100;},
+  fhi(d){const o=this.olc(d.ad,d.org),t=this.te(d.ad,d.org),te=t.reduce((a,b)=>a+b)/t.length,
+    r=this.re(d.rank),m=this.osm(d.org,d.total);
+    const s=30*Math.max(0,o.val)+25*Math.min(Math.max(te,0)/50,1)+25*Math.min(Math.max(r.val,0),1)+20*Math.min(Math.max(m/1.5,0),1);
+    return{fhi:+s.toFixed(1),olc:o,teAvg:+te.toFixed(1),teSeries:t,re:r,osm:+m.toFixed(2)};}
+};
+window.AOT=AOT; window.DATA=DATA;
+console.log("我方",AOT.fhi(DATA.us),"竞品",AOT.fhi(DATA.comp));
+
+/* ═══════════════ 流量瀑布 SVG ═══════════════ */
+function fmt(n){return n>=1000?(n/1000).toFixed(1).replace(/\.0$/,"")+"k":""+n}
+function renderWF(side){
+  document.getElementById("btn-us").className = side==="us"?"on-us":"";
+  document.getElementById("btn-comp").className = side==="comp"?"on-comp":"";
+  const d=DATA[side], main=side==="us"?"#FFB454":"#41D6C3", dim=side==="us"?"rgba(255,180,84,.5)":"rgba(65,214,195,.5)";
+  const adSum=d.ad.reduce((a,b)=>a+b), orgSum=d.org.reduce((a,b)=>a+b), totSum=d.total.reduce((a,b)=>a+b);
+  const adP=(100*adSum/totSum).toFixed(1), orgP=(100*orgSum/totSum).toFixed(1);
+  const sp=d.spSum, brand=d.brandSum, spP=(100*sp/adSum).toFixed(0), brP=(100*brand/adSum).toFixed(0);
+  const G="#3A4A6B", GT="#5A6C8F";
+  const node=(x,y,w,h,label,val,color,ghost)=>`
+    <g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${ghost?'#0D1526':'#131F38'}" stroke="${ghost?G:color}" stroke-width="1.2" ${ghost?'stroke-dasharray="4 3"':''}/>
+    <text x="${x+12}" y="${y+21}" fill="${ghost?GT:'#E8EEF9'}" font-size="12" font-weight="700" font-family="PingFang SC,Microsoft YaHei,sans-serif">${label}</text>
+    <text x="${x+12}" y="${y+h-10}" fill="${ghost?G:color}" font-size="${ghost?'10':'13'}" font-weight="700" font-family="Consolas,monospace">${val}</text></g>`;
+  const link=(x1,y1,x2,y2,color,w)=>`<path d="M ${x1} ${y1} C ${(x1+x2)/2} ${y1}, ${(x1+x2)/2} ${y2}, ${x2} ${y2}" fill="none" stroke="${color}" stroke-width="${w}" class="flowdash" opacity=".75"/>`;
+  const ay=[14,78,142];
+  const oy=[200,252,304,356,408].map(v=>v-6);
+  let s="";
+  s+=node(20,190,180,70,"全部流量 · 25周累计",fmt(totSum)+" 分",main,false);
+  s+=link(200,225,300,80,dim,Math.max(3,adSum/totSum*16));
+  s+=link(200,225,300,235,dim,Math.max(3,Math.max(orgSum/totSum*16,2)));
+  s+=link(200,225,300,390,G,2);
+  s+=node(300,50,200,60,"① 广告流量 (实测)",fmt(adSum)+"  ·  "+adP+"%",main,false);
+  s+=node(300,205,200,60,"② 自然流量 (实测)",fmt(orgSum)+"  ·  "+orgP+"%",main,false);
+  s+=node(300,362,200,56,"③ 站外流量","未采集 · 待接入",G,true);
+  s+=link(500,80,610,ay[0]+24,dim,Math.max(2,sp/adSum*12));
+  s+=link(500,80,610,ay[1]+24,dim,Math.max(2,brand/adSum*12));
+  s+=link(500,80,610,ay[2]+24,G,1.5);
+  s+=node(610,ay[0],185,48,"SP 商品推广",fmt(sp)+" · "+spP+"%",main,false);
+  s+=node(610,ay[1],185,48,"SB/SBV 品牌+视频",fmt(brand)+" · "+brP+"%",side==="us"?"#FF5D6C":main,false);
+  s+=node(610,ay[2],185,44,"SD 展示型","未拆分",G,true);
+  s+=link(500,235,610,oy[0]+22,dim,Math.max(2.5,3));
+  for(let i=1;i<5;i++) s+=link(500,235,610,oy[i]+20,G,1.3);
+  s+=node(610,oy[0],185,44,"关键词自然搜索",fmt(orgSum)+" · 实测",main,false);
+  s+=node(610,oy[1],185,40,"类目节点 Browse","待接入",G,true);
+  s+=node(610,oy[2],185,40,"关联 FBT / 4★+ / Related","待接入",G,true);
+  s+=node(610,oy[3],185,40,"榜单 BS / NR / MS / MWFB","待接入",G,true);
+  s+=node(610,oy[4],185,40,"促销 BD / TD / LD / DOTD","待接入",G,true);
+  // ③ 子渠道 最右列（从③节点引出）
+  const c3=[["Amazon Attribution 站外追踪"],["社媒 / 网红 KOL"],["Deal·Coupon 站 / EDM"]];
+  const y3=[330,378,424];
+  for(let i=0;i<3;i++){ s+=link(500,390,895,y3[i]+18,G,1.2); s+=node(895,y3[i],200,38,c3[i][0],"待接入",G,true); }
+  // 传导注释箭头：广告⇢自然
+  s+=`<path d="M 400 118 C 470 150, 470 175, 400 200" fill="none" stroke="#8B7CF6" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+      <text x="452" y="164" fill="#8B7CF6" font-size="11" font-family="Consolas,monospace">AOT 传导</text>
+      <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6" fill="none" stroke="#8B7CF6" stroke-width="1.5"/></marker></defs>`;
+  document.getElementById("wf").innerHTML=s;
+}
+renderWF("us");
+
+/* ═══════════════ Charts ═══════════════ */
+Chart.defaults.color="#8FA3C4"; Chart.defaults.borderColor="#1D2B47";
+Chart.defaults.font.family="Consolas,monospace"; Chart.defaults.font.size=10;
+const W=DATA.weeks, US="#FFB454", CP="#41D6C3";
+const base={responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+  plugins:{legend:{labels:{boxWidth:10,boxHeight:2}}},elements:{point:{radius:0,hitRadius:8}}};
+
+new Chart(c1,{type:"line",data:{labels:W,datasets:[
+  {label:"我方·自然",data:DATA.us.org,borderColor:US,backgroundColor:"rgba(255,180,84,.12)",fill:true,borderWidth:2,tension:.3},
+  {label:"竞品·自然",data:DATA.comp.org,borderColor:CP,backgroundColor:"rgba(65,214,195,.10)",fill:true,borderWidth:2,tension:.3},
+  {label:"我方·广告",data:DATA.us.ad,borderColor:US,borderDash:[4,4],borderWidth:1,tension:.3},
+  {label:"竞品·广告",data:DATA.comp.ad,borderColor:CP,borderDash:[4,4],borderWidth:1,tension:.3}]},
+  options:base});
+
+new Chart(c2,{type:"line",data:{labels:W,datasets:[
+  {label:"我方·自然排名",data:DATA.us.rank,borderColor:US,borderWidth:2,tension:.25,spanGaps:false},
+  {label:"竞品·自然排名",data:DATA.comp.rank,borderColor:CP,borderWidth:2,tension:.25},
+  {label:"首页阈值≈16",data:W.map(()=>16),borderColor:"#3FDE8C",borderDash:[2,4],borderWidth:1,pointRadius:0}]},
+  options:{...base,scales:{y:{reverse:true,title:{display:true,text:"排名(逆轴)"}}}}});
+
+new Chart(c3,{type:"line",data:{labels:W,datasets:[
+  {label:"我方 自然占比%",data:DATA.us.org.map((o,i)=>+(100*o/DATA.us.total[i]).toFixed(1)),borderColor:US,backgroundColor:"rgba(255,180,84,.15)",fill:true,borderWidth:2,tension:.3},
+  {label:"竞品 自然占比%",data:DATA.comp.org.map((o,i)=>+(100*o/DATA.comp.total[i]).toFixed(1)),borderColor:CP,backgroundColor:"rgba(65,214,195,.12)",fill:true,borderWidth:2,tension:.3}]},
+  options:{...base,scales:{y:{max:70,ticks:{callback:v=>v+"%"}}}}});
+
+const teU=AOT.te(DATA.us.ad,DATA.us.org), teC=AOT.te(DATA.comp.ad,DATA.comp.org);
+new Chart(c4,{type:"bar",data:{labels:W.slice(4),datasets:[
+  {label:"我方 TE",data:teU.map(v=>+v.toFixed(1)),backgroundColor:teU.map(v=>v>=0?"rgba(255,180,84,.75)":"rgba(255,93,108,.75)")},
+  {label:"竞品 TE",data:teC.map(v=>+v.toFixed(1)),backgroundColor:"rgba(65,214,195,.65)"}]},
+  options:{...base,scales:{y:{title:{display:true,text:"分/千分广告"}}}}});
+</script>
+</body>
+</html>

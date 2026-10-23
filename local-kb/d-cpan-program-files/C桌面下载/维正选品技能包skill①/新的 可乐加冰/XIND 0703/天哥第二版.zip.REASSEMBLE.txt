@@ -1,0 +1,5 @@
+Reassemble under extract root:
+  cat 'local-kb/d-cpan-program-files/C桌面下载/维正选品技能包skill①/新的 可乐加冰/XIND 0703/天哥第二版.zip.ca_part'* > 'local-kb/d-cpan-program-files/C桌面下载/维正选品技能包skill①/新的 可乐加冰/XIND 0703/天哥第二版.zip' && rm 'local-kb/d-cpan-program-files/C桌面下载/维正选品技能包skill①/新的 可乐加冰/XIND 0703/天哥第二版.zip.ca_part'*
+Source pack: public_localkb_005.tar.gz
+Parts: 2
+Original size: 34087422 bytes
