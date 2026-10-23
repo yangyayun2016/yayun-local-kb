@@ -1,0 +1,3816 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>生成报告</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+    <script>
+        window.chartConfigs = {};
+    </script>
+    <style>
+        /* Base CSS Template */
+        /* var */
+        :root {
+            --prm: #054a8f;
+            --prm-lt: #dfeaf1;
+            --acc-1: #0369a1;
+            --acc-2: #ff8961;
+            --acc-3: #38b8a2;
+            --t1: #18181b;
+            --t2: #52525b;
+            --t3: #a1a1aa;
+            --bg-1: #fff;
+            --bg-2: #fafafa;
+            --bg-3: #f5f5f5;
+            --bd: #e4e4e7;
+            --font: -apple-system, BlinkMacSystemFont, sans-serif;
+            --ease: all .25s ease;
+        }
+
+        /* Base */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font: 14px/1.5 var(--font);
+            background: var(--bg-3);
+            color: var(--t1);
+            margin: 0;
+        }
+
+        /* Type Shared */
+        .t-h1,
+        .t-h2,
+        .tag {
+            font-weight: 600;
+        }
+
+        .t-meta,
+        .tbl th,
+        .quote-source {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .t-hero,
+        .t-h1,
+        .t-h2,
+        .t-num-L,
+        .t-num-M {
+            color: var(--t1);
+            line-height: 1.2;
+        }
+
+        .t-body,
+        .tbl td,
+        .quote-sub,
+        .tag {
+            color: var(--t2);
+        }
+
+        .t-meta,
+        .tbl th {
+            color: var(--t3);
+            font-weight: 700;
+        }
+
+        /* Type Specific */
+        .t-hero {
+            font-size: 36px;
+            letter-spacing: -0.5px;
+        }
+
+        .t-h1 {
+            font-size: 20px;
+        }
+
+        .t-h2 {
+            font-size: 16px;
+        }
+
+        .t-num-L {
+            font-size: 40px;
+            font-weight: 300;
+        }
+
+        .t-num-M {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-1);
+            min-height: 100vh;
+        }
+
+        .pg-head,
+        .sect {
+            border-bottom: 1px solid var(--bd);
+        }
+
+        .pg-head {
+            padding: 64px;
+        }
+
+        .sect {
+            padding: 48px 64px;
+            background: var(--bg-1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(var(--cols, 3), 1fr);
+            gap: 0;
+        }
+
+        .bd-l {
+            border-left: 4px solid var(--prm);
+            padding-left: 12px;
+        }
+
+        /* Comp: Card */
+        .card,
+        .c-data {
+            border: 1px solid var(--bd);
+            height: auto;
+        }
+
+        .card {
+            background: var(--bg-1);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: var(--ease);
+        }
+
+        .card:hover {
+            border-color: var(--t3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .04);
+            transform: translateY(-2px);
+            z-index: 1;
+        }
+
+        .card .t-meta,
+        .card .t-h1,
+        .tag-g {
+            margin-bottom: 16px;
+        }
+
+        .card .t-body {
+            margin-bottom: 24px;
+            flex: 1;
+        }
+
+        .c-data {
+            background: var(--bg-2);
+            padding: 24px;
+        }
+
+        .c-data .t-meta,
+        .c-data .val {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* Comp: Table */
+        .tbl {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .tbl th {
+            padding: 16px;
+            border-bottom: 2px solid var(--bd);
+        }
+
+        .tbl td {
+            padding: 16px;
+            border-bottom: 1px solid var(--bd);
+        }
+
+        /* Comp: Utils & Charts */
+        .prog-w {
+            margin-top: auto;
+        }
+
+        .prog-t {
+            height: 4px;
+            background: #f0f0f0;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .prog-b {
+            height: 100%;
+        }
+
+        .tag-g {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 4px 8px;
+            background: var(--bg-3);
+        }
+
+        .mini-chart {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            -webkit-mask: radial-gradient(#0000 60%, #000 61%);
+            mask: radial-gradient(#0000 60%, #000 61%);
+        }
+
+        .c-bad {
+            color: var(--acc-2);
+        }
+
+        .c-mid {
+            color: #fbbf24;
+        }
+
+        .c-good {
+            color: var(--acc-3);
+        }
+
+        .chart-box {
+            width: 100%;
+            height: 400px;
+            margin-top: 24px;
+        }
+
+        /* Comp: Quotes */
+        .quote-box {
+            border-left: 4px solid var(--prm);
+            padding-left: 12px;
+            margin-bottom: 16px;
+        }
+
+        .quote-sub {
+            font-size: 13px;
+        }
+
+        .quote-source {
+            font-style: italic;
+            font-weight: 300;
+            color: var(--prm);
+            margin-bottom: 4px;
+        }
+
+        /* Tab Style Swiss */
+        .tab-style-2 {
+            background: var(--bg-1);
+            border: 1px solid var(--bd);
+            margin-bottom: 40px;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .tab-style-2 .tab-nav {
+            display: flex;
+            background: var(--bg-3);
+            border-bottom: 1px solid var(--bd);
+            padding: 0;
+        }
+
+        .tab-style-2 .tab-btn {
+            flex: 1;
+            padding: 16px 24px;
+            background: transparent;
+            border: none;
+            border-right: 1px solid var(--bd);
+            color: var(--t3);
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .tab-style-2 .tab-btn:last-child {
+            border-right: none;
+        }
+
+        .tab-style-2 .tab-btn:hover:not(.active) {
+            background: rgba(0, 0, 0, 0.02);
+            color: var(--t1);
+        }
+
+        .tab-style-2 .tab-btn.active {
+            background: var(--bg-1);
+            color: var(--prm);
+            box-shadow: inset 0 4px 0 0 var(--prm);
+            margin-bottom: -1px;
+            border-bottom: 1px solid var(--bg-1);
+            z-index: 1;
+        }
+
+        .tab-content {
+            padding: 0;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* 目录组件(Table of Contents) */
+        .toc {
+            position: fixed;
+            left: 24px;
+            top: 100px;
+            z-index: 100;
+            width: 240px;
+            background: var(--bg-1);
+            border: 1px solid var(--bd);
+            transition: var(--ease);
+            overflow: hidden;
+            max-height: 600px;
+        }
+
+        .toc:hover {
+            border-color: var(--t1);
+        }
+
+        /* Header */
+        .toc-hd {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid var(--bd);
+            height: 54px;
+            background: var(--bg-2);
+        }
+
+        /* Title: 复用 .t-meta */
+        .toc-tit {
+            margin: 0;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+
+        /* Button */
+        .toc-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            color: var(--t3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: var(--ease);
+        }
+
+        .toc-btn:hover {
+            color: var(--t1);
+            background: var(--bd);
+        }
+
+        /* List */
+        .toc-nav {
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Link */
+        .toc-a {
+            display: block;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-size: 13px;
+            color: var(--t2);
+            border-left: 3px solid transparent;
+            transition: var(--ease);
+        }
+
+        .toc-a:hover {
+            background: var(--bg-2);
+            color: var(--t1);
+        }
+
+        .toc-btn:hover {
+            color: var(--t1);
+            background: var(--bd);
+        }
+
+        .toc-icon {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s;
+        }
+
+        /* List */
+        .toc-nav {
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Link */
+        .toc-a {
+            display: block;
+            text-decoration: none;
+            padding: 8px 16px;
+            font-size: 13px;
+            color: var(--t2);
+            border-left: 3px solid transparent;
+            transition: var(--ease);
+        }
+
+        .toc-a:hover {
+            background: var(--bg-2);
+            color: var(--t1);
+        }
+
+        /* Active*/
+        .toc-a.active {
+            background: var(--prm-lt);
+            color: var(--prm);
+            border-left-color: var(--prm);
+            font-weight: 500;
+        }
+
+        /* Collapsed State */
+        .toc.is-min {
+            width: 54px;
+            height: 54px;
+            border-color: var(--bd);
+            cursor: pointer;
+        }
+
+        .toc.is-min:hover {
+            border-color: var(--prm);
+        }
+
+        .toc.is-min .toc-hd {
+            border-bottom: none;
+            padding: 0;
+            justify-content: center;
+            height: 100%;
+            background: var(--bg-1);
+        }
+
+        .toc.is-min .toc-tit,
+        .toc.is-min .toc-nav {
+            opacity: 0;
+            pointer-events: none;
+            display: none;
+        }
+
+        .toc.is-min .toc-icon {
+            transform: rotate(180deg);
+        }
+
+
+
+
+        .Persona-card {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            margin-bottom: 48px;
+            background: var(--bg-1);
+            border: 1px solid var(--bd);
+            padding: 32px;
+        }
+
+        .Persona-header {
+            border-bottom: 1px solid var(--bd);
+            padding-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .term-tip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dashed var(--acc-1);
+        }
+
+        /* 统一的浮层样式（挂在 body 上） */
+        .tooltip-layer {
+            position: fixed;
+            /* 或 absolute + body 为定位上下文 */
+            padding: 10px 16px;
+            background: #1a1a2e;
+            color: #fff;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            min-width: 200px;
+            max-width: 320px;
+            border-radius: 6px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            z-index: 99999;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .15s ease, transform .15s ease;
+        }
+
+        /* Image Grid - 统一样式 */
+        .img-grid {
+            display: grid;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .img-grid {
+            display: grid;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        /* 单张图片：全宽 */
+        .img-grid-1 {
+            grid-template-columns: 1fr;
+        }
+
+        /* 两张图片：双列 */
+        .img-grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        /* 三张及以上：自适应网格 */
+        .img-grid-3,
+        .img-grid-4,
+        .img-grid-5,
+        .img-grid-6,
+        .img-grid-7,
+        .img-grid-8,
+        .img-grid-9 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .img-grid-item {
+            width: 100%;
+            border: 1px solid var(--bd);
+            transition: border-color 0.2s ease;
+        }
+
+        .img-grid-item:hover {
+            border-color: var(--prm);
+        }
+
+        /* 单张图片：保持原始比例 */
+        .img-grid-1 .img-grid-item {
+            height: auto;
+            max-width: 100%;
+        }
+
+        /* 两张图片：保持原始比例 */
+        .img-grid-2 .img-grid-item {
+            height: auto;
+        }
+
+        /* 多张图片：固定高度避免过大 */
+        .img-grid-3 .img-grid-item,
+        .img-grid-4 .img-grid-item,
+        .img-grid-5 .img-grid-item,
+        .img-grid-6 .img-grid-item,
+        .img-grid-7 .img-grid-item,
+        .img-grid-8 .img-grid-item,
+        .img-grid-9 .img-grid-item {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .img-grid-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Image Modal */
+        .img-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .img-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .img-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 10000;
+        }
+
+        .img-modal-close:hover {
+            color: #bbb;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Tablet / Small Desktop */
+        @media (max-width: 1024px) {
+
+            .pg-head,
+            .sect {
+                padding: 32px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Mobile (All 768px logic combined here) */
+        @media (max-width: 768px) {
+
+            /* General Layout */
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tbl {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .s-nav {
+                display: none;
+            }
+
+            /* Image Grid Adjustments */
+            .img-grid-2,
+            .img-grid-3,
+            .img-grid-4,
+            .img-grid-5,
+            .img-grid-6,
+            .img-grid-7,
+            .img-grid-8,
+            .img-grid-9 {
+                grid-template-columns: 1fr;
+            }
+
+            .img-grid-3 .img-grid-item,
+            .img-grid-4 .img-grid-item,
+            .img-grid-5 .img-grid-item,
+            .img-grid-6 .img-grid-item,
+            .img-grid-7 .img-grid-item,
+            .img-grid-8 .img-grid-item,
+            .img-grid-9 .img-grid-item {
+                height: auto;
+            }
+        }
+
+        /* LLM Generated CSS */
+        /* Custom Styles - rK */
+        .meta-label-rK {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--t3);
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .list-rK {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-rK li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 8px;
+            color: var(--t2);
+        }
+
+        .list-rK li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: var(--prm);
+            border-radius: 50%;
+        }
+
+        .list-rK strong {
+            color: var(--t1);
+            font-weight: 600;
+        }
+
+        .stat-grid-rK {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .stat-item-rK {
+            background: var(--bg-2);
+            padding: 16px;
+            border-radius: 4px;
+            border-left: 3px solid var(--acc-1);
+        }
+
+        .stat-val-rK {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--t1);
+        }
+
+        .stat-desc-rK {
+            font-size: 12px;
+            color: var(--t3);
+            margin-top: 4px;
+        }
+
+        .eco-card-rK {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border-top: 4px solid var(--bd);
+        }
+
+        .eco-layer-01-rK {
+            border-color: var(--prm);
+        }
+
+        .eco-layer-02-rK {
+            border-color: var(--acc-1);
+        }
+
+        .eco-layer-03-rK {
+            border-color: var(--acc-3);
+        }
+
+        .hl-box-rK {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 16px;
+            border-radius: 4px;
+            margin-top: 16px;
+        }
+
+        .hl-title-rK {
+            color: var(--acc-1);
+            font-weight: 700;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .source-tag-rK {
+            display: inline-block;
+            font-size: 10px;
+            background: var(--bg-3);
+            padding: 2px 6px;
+            border-radius: 2px;
+            color: var(--t3);
+            margin-top: auto;
+        }
+
+        .chart-wrapper-rK {
+            width: 100%;
+            height: 220px;
+        }
+
+        /* New Styles specific to this section */
+        .grid-2-vX {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .grid-3-vX {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .stat-card-vX {
+            background: var(--bg-2);
+            padding: 24px;
+            border-radius: 4px;
+            height: 100%;
+        }
+
+        .chart-h-vX {
+            height: 280px;
+            width: 100%;
+        }
+
+        .chart-l-vX {
+            height: 450px;
+            width: 100%;
+        }
+
+        /* Depth Bars */
+        .depth-row-vX {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .depth-lbl-vX {
+            width: 80px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--t2);
+        }
+
+        .depth-bar-bg-vX {
+            flex: 1;
+            height: 24px;
+            background: var(--bd);
+            border-radius: 2px;
+            position: relative;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+
+        .depth-bar-fill-vX {
+            height: 100%;
+            background: var(--acc-1);
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            font-size: 11px;
+            color: #fff;
+            white-space: nowrap;
+            transition: width 1s ease;
+        }
+
+        .depth-desc-vX {
+            font-size: 12px;
+            color: var(--t2);
+            width: 40%;
+            line-height: 1.3;
+        }
+
+        /* Scenario Cards */
+        .scen-card-vX {
+            border: 1px solid var(--bd);
+            padding: 20px;
+            background: var(--bg-1);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: var(--ease);
+        }
+
+        .scen-card-vX:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-color: var(--prm);
+        }
+
+        .scen-head-vX {
+            border-bottom: 1px solid var(--bd);
+            padding-bottom: 12px;
+            margin-bottom: 4px;
+        }
+
+        .scen-item-vX {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .scen-tag-vX {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .bg-pos-vX {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .bg-neg-vX {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .bg-neu-vX {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        /* Insight Box */
+        .insight-box-vX {
+            background: linear-gradient(135deg, var(--bg-2) 0%, #edf2f7 100%);
+            border-left: 4px solid var(--prm);
+            padding: 32px;
+            margin-top: 48px;
+            position: relative;
+        }
+
+        .insight-icon-vX {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            font-size: 24px;
+            opacity: 0.2;
+        }
+
+        /* Priority Tags */
+        .p-tag-vX {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .p0-vX {
+            background: var(--acc-2);
+        }
+
+        .p1-vX {
+            background: var(--acc-3);
+        }
+
+        .p2-vX {
+            background: #fbbf24;
+        }
+
+        @media (max-width: 900px) {
+
+            .grid-2-vX,
+            .grid-3-vX {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* New specific styles for this section with random suffix _jK9 */
+        .stat-grid-jK9 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .stat-list-jK9 {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            height: 100%;
+            justify-content: center;
+        }
+
+        .stat-item-jK9 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg-2);
+            border-radius: 4px;
+            border-left: 3px solid var(--prm);
+        }
+
+        .season-card-jK9 {
+            background: var(--bg-2);
+            padding: 20px;
+            border: 1px solid var(--bd);
+            border-top: 3px solid var(--acc-1);
+            height: 100%;
+        }
+
+        .season-card-jK9:nth-child(2) {
+            border-top-color: var(--acc-2);
+        }
+
+        .season-card-jK9:nth-child(3) {
+            border-top-color: var(--acc-3);
+        }
+
+        .persona-card-jK9 {
+            display: flex;
+            gap: 16px;
+            padding: 24px;
+            background: var(--bg-1);
+            border: 1px solid var(--bd);
+        }
+
+        .persona-icon-jK9 {
+            width: 48px;
+            height: 48px;
+            background: var(--prm-lt);
+            color: var(--prm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .narrative-card-jK9 {
+            position: relative;
+            padding: 24px;
+            background: var(--bg-2);
+            border: 1px solid var(--bd);
+            overflow: hidden;
+        }
+
+        .narrative-num-jK9 {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 80px;
+            font-weight: 800;
+            color: var(--bd);
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .narrative-content-jK9 {
+            position: relative;
+            z-index: 1;
+        }
+
+        .highlight-box-jK9 {
+            background: linear-gradient(to right, var(--bg-2), var(--bg-1));
+            border-left: 4px solid var(--acc-3);
+            padding: 20px;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .stat-grid-jK9 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                --cols: 1 !important;
+            }
+        }
+
+        /* Persona Specific Styles - Suffix _rK */
+        .Persona-card {
+            background: var(--bg-1);
+            border: 1px solid var(--bd);
+            border-radius: 4px;
+            margin-bottom: 48px;
+            overflow: hidden;
+            transition: var(--ease);
+        }
+
+        .Persona-card:hover {
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+            border-color: var(--prm-lt);
+        }
+
+        .Persona-header {
+            background: var(--bg-2);
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--bd);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .p-body-rK {
+            padding: 32px;
+        }
+
+        .p-def-row-rK {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 32px;
+            align-items: center;
+            background: var(--bg-2);
+            padding: 24px;
+            border-radius: 4px;
+            margin-bottom: 24px;
+        }
+
+        .p-stat-box-rK {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+            text-align: center;
+            padding-left: 32px;
+            border-left: 1px solid var(--bd);
+        }
+
+        .p-grid-rK {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .hl-box-rK {
+            border-left: 4px solid var(--acc-1);
+            background: var(--bg-3);
+            padding: 16px 20px;
+            height: 100%;
+        }
+
+        .hl-box-rK .t-meta {
+            margin-bottom: 8px;
+            color: var(--acc-1);
+        }
+
+        .sub-sect-title-rK {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--t1);
+            margin: 24px 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--bd);
+            display: flex;
+            align-items: center;
+        }
+
+        .sub-sect-title-rK::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--acc-2);
+            margin-right: 8px;
+            border-radius: 50%;
+        }
+
+        .list-clean-rK {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-clean-rK li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 8px;
+            color: var(--t2);
+        }
+
+        .list-clean-rK li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--prm);
+            font-weight: bold;
+        }
+
+        .criteria-list-rK li {
+            margin-bottom: 12px;
+            background: var(--bg-2);
+            padding: 12px;
+            border-radius: 4px;
+        }
+
+        /* Persona Specific Styles */
+        .Persona-card_Xj {
+            border: 1px solid var(--bd);
+            border-radius: 12px;
+            background: var(--bg-1);
+            margin-bottom: 64px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: var(--ease);
+        }
+
+        .Persona-card_Xj:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border-color: var(--t3);
+        }
+
+        .Persona-header_Xj {
+            padding: 32px;
+            background: var(--bg-2);
+            border-bottom: 1px solid var(--bd);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .Persona-body_Xj {
+            padding: 32px;
+        }
+
+        .p-block_Xj {
+            margin-bottom: 40px;
+        }
+
+        .p-block_Xj:last-child {
+            margin-bottom: 0;
+        }
+
+        .p-title_Xj {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--t1);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .p-title_Xj::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 14px;
+            background: var(--acc-1);
+            border-radius: 2px;
+        }
+
+        .def-layout_Xj {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .chart-box_Xj {
+            background: var(--bg-1);
+            border: 1px solid var(--bd);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 140px;
+            flex-shrink: 0;
+        }
+
+        .grid-2_Xj {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .insight-card_Xj {
+            background: var(--bg-2);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--bd);
+        }
+
+        .insight-card_Xj h4 {
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            color: var(--prm);
+            font-weight: 600;
+        }
+
+        .ul-styled_Xj {
+            padding-left: 18px;
+            margin: 8px 0;
+        }
+
+        .ul-styled_Xj li {
+            margin-bottom: 8px;
+            color: var(--t2);
+        }
+
+        .table-wrap_Xj {
+            overflow-x: auto;
+            border: 1px solid var(--bd);
+            border-radius: 8px;
+        }
+
+        .table-wrap_Xj .tbl {
+            margin-bottom: 0;
+            min-width: 800px;
+        }
+
+        .table-wrap_Xj .tbl th {
+            background: var(--bg-2);
+            font-size: 12px;
+        }
+
+        .table-wrap_Xj .tbl td {
+            vertical-align: top;
+            font-size: 13px;
+        }
+
+        .tag-solid_Xj {
+            background: var(--prm);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .profile-num_Xj {
+            font-family: monospace;
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 768px) {
+
+            .def-layout_Xj,
+            .grid-2_Xj {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-box_Xj {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 16px;
+            }
+        }
+
+        /* 新增样式：Persona卡片与布局优化 */
+        .pc_wrap_X9 {
+            background: var(--bg-1);
+            border: 1px solid var(--bd);
+            border-top: 4px solid var(--acc-2);
+            /* 情绪类使用暖色强调 */
+            padding: 0;
+            margin-bottom: 48px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        .pc_head_X9 {
+            padding: 32px;
+            background: linear-gradient(to right, var(--bg-2), var(--bg-1));
+            border-bottom: 1px solid var(--bd);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .pc_body_X9 {
+            padding: 32px;
+        }
+
+        .pc_sect_title_X9 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--t3);
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            margin-top: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .pc_sect_title_X9::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--bd);
+            margin-left: 12px;
+        }
+
+        .pc_sect_title_X9:first-child {
+            margin-top: 0;
+        }
+
+        .def_grid_X9 {
+            display: grid;
+            grid-template-columns: 1fr 180px;
+            gap: 32px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .def_grid_X9 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .bound_grid_X9 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .drv_grid_X9 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .compare_grid_X9 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            background: var(--bg-2);
+            padding: 24px;
+            border-radius: 4px;
+        }
+
+        /* 洞察发现部分的样式 */
+        .find_grid_B2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .find_card_B2 {
+            background: var(--bg-2);
+            padding: 24px;
+            border: 1px solid var(--bd);
+            transition: var(--ease);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .find_card_B2:hover {
+            background: var(--bg-1);
+            border-color: var(--acc-1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .quote_B2 {
+            border-left: 3px solid var(--acc-2);
+            padding-left: 12px;
+            margin: 16px 0;
+            font-style: italic;
+            color: var(--t2);
+            background: var(--bg-3);
+            padding: 12px;
+        }
+
+        /* Persona Specific Styles */
+        .p-card-XY {
+            background: var(--bg-1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .p-header-XY {
+            background: var(--bg-2);
+            padding: 32px;
+            border-bottom: 1px solid var(--bd);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .p-body-XY {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .p-section-XY {
+            display: grid;
+            gap: 16px;
+        }
+
+        .p-label-XY {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--t3);
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .highlight-box-XY {
+            background: var(--prm-lt);
+            color: var(--prm);
+            padding: 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .def-row-XY {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+        }
+
+        .chart-wrapper-XY {
+            width: 120px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .chart-pop-XY {
+            width: 100%;
+            height: 100px;
+        }
+
+        .split-grid-XY {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card-drive-XY {
+            border: 1px solid var(--bd);
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .list-check-XY {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-check-XY li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: var(--t2);
+        }
+
+        .list-check-XY li::before {
+            content: "•";
+            color: var(--acc-1);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Findings Grid Styles */
+        .find-grid-XY {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+        .find-card-XY {
+            background: var(--bg-2);
+            border: 1px solid var(--bd);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            height: 100%;
+            transition: var(--ease);
+        }
+
+        .find-card-XY:hover {
+            background: var(--bg-1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .one-liner-XY {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--prm);
+            background: rgba(5, 74, 143, 0.05);
+            padding: 12px;
+            border-left: 3px solid var(--prm);
+            margin-bottom: 8px;
+        }
+
+        .voc-box-XY {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px dashed var(--bd);
+            font-size: 12px;
+            color: var(--t2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <header class="pg-head">
+            <div class="t-meta">[REPORT]</div>
+            <h1 class="t-hero">Eletric golf car 消费者洞察</h1>
+            <div class="t-body" style="margin-top:16px">2026-02-03</div>
+        </header>
+
+        <section class="sect">
+            <!-- 1. 数据支撑与研究口径 -->
+            <div class="t-h1" style="margin-bottom: 24px;">1.数据支撑与研究口径：我们用的是什么数据，能支撑什么结论</div>
+
+            <div class="grid" style="--cols: 3; margin-bottom: 24px;">
+                <!-- 1.1 数据范围 -->
+                <div class="card">
+                    <div class="meta-label-rK">1.1 数据范围（口径、边界、可追溯）</div>
+                    <ul class="list-rK">
+                        <li><strong>品类</strong>：Electric Golf Caddy（此处指 <em>电动高尔夫球包推车</em>，非载人高尔夫车）</li>
+                        <li><strong>时间范围</strong>：2025.08 – 2026.01</li>
+                        <li><strong>地理范围</strong>：美国（US）</li>
+                        <li><strong>语言范围</strong>：英语（EN）</li>
+                    </ul>
+                </div>
+
+                <!-- 1.2 数据来源 -->
+                <div class="card">
+                    <div class="meta-label-rK">1.2 数据来源与样本构成</div>
+                    <div class="t-body" style="margin-bottom: 12px;">本章节基于全渠道样本进行结构化分析，数据由两类构成：</div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                        <div class="c-data">
+                            <div class="t-meta" style="color:var(--acc-1)">A. 电商平台评论 (VOC)</div>
+                            <div class="t-h2" style="margin-bottom:4px">85+ 核心体验片段</div>
+                            <div class="t-body" style="font-size:12px; margin-bottom:0;">代表“真实使用后体验”<br>来源：Amazon US 等
+                            </div>
+                        </div>
+                        <div class="c-data">
+                            <div class="t-meta" style="color:var(--acc-2)">B. 社媒与社区讨论 (Social)</div>
+                            <div class="t-h2" style="margin-bottom:4px">6,088 条讨论</div>
+                            <div class="t-body" style="font-size:12px; margin-bottom:0;">代表“决策过程 + 社会化证据”</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart for Social Platform Structure -->
+                    <div class="meta-label-rK">平台结构（按发帖占比）</div>
+                    <div id="chart_platforms_rK" class="chart-wrapper-rK"></div>
+                </div>
+
+
+                <!-- 1.3 触达量 -->
+                <div class="card" style="margin-bottom: 48px;height:100%">
+                    <div class="meta-label-rK">1.3 “触达量（Reach Proxy）”的解读方式</div>
+
+                    <div>
+                        <div class="t-num-L" style="color:var(--prm)">~9.19 亿</div>
+                        <div class="t-body">全网总触达量（Reach Proxy）</div>
+                        <div class="tag" style="margin-top:8px;margin-bottom: 30px;">用于衡量内容扩散与平台传播势能，并非销量</div>
+                    </div>
+                    <div class="stat-grid-rK" style="margin-top:0;">
+                        <div class="stat-item-rK">
+                            <div class="stat-val-rK">~3.97 亿 (43%)</div>
+                            <div class="stat-desc-rK">YouTube (性能实证)</div>
+                        </div>
+                        <div class="stat-item-rK" style="border-left-color: var(--t1);">
+                            <div class="stat-val-rK">~3.31 亿 (36%)</div>
+                            <div class="stat-desc-rK">TikTok (视觉传播)</div>
+                        </div>
+                        <div class="stat-item-rK" style="border-left-color: var(--acc-2);">
+                            <div class="stat-val-rK">~36 万</div>
+                            <div class="stat-desc-rK">Reddit (高粘性决策社群)</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 2. 三圈层信息生态模型 -->
+            <div class="bd-l" style="margin-bottom: 24px;">
+                <h2 class="t-h1">2. 三圈层信息生态模型 (Information Ecosystem Model)</h2>
+                <div class="t-body" style="margin-top:8px;">
+                    为了全面解码美国消费者在 <strong>Electric Golf Caddy (电动高尔夫球包推车)</strong>
+                    品类的认知、决策与体验，我们构建了“三圈层信息生态”分析框架。该框架将消费者的信息环境划分为三个相互关联的层次：
+                </div>
+            </div>
+
+            <div class="grid" style="--cols: 3; gap: 16px; margin-bottom: 24px;">
+                <!-- Core Layer -->
+                <div class="card eco-card-rK eco-layer-01-rK">
+                    <div class="t-meta" style="color:var(--prm)">01 / CORE LAYER</div>
+                    <div class="t-h2" style="margin-bottom: 12px;">核心圈：个人体验层</div>
+                    <div class="t-body" style="font-size: 13px;">
+                        这是最直接、最真实的用户体验反馈层。我们通过分析 85+
+                        核心体验片段（VOC），深度挖掘消费者在<strong>操控电动球包推车应对复杂地形</strong>、日常维护及硬件可靠性中的具体痛点。
+                    </div>
+                    <div class="hl-box-rK" style="background:var(--bg-2); border:1px solid var(--bd);">
+                        <div class="t-meta" style="margin-bottom:4px;">核心逻辑</div>
+                        <div class="t-body" style="font-size:12px; margin:0;">
+                            这一圈层是检验产品<strong>“全地形通过性 (All-Terrain Cap)”与“硬件耐用性 (Durability)”的物理试炼场</strong>。数据显示
+                            <strong>57.6% 的正面评价高度集中在“轻松应对陡坡”与“保持稳定性”</strong>的动力表现上；而 <strong>27.1%
+                                的负面反馈则精准指向“断轴/轮毂磨损”与“昂贵的配件集成”</strong>，揭示了用户对产品结构强度及后续持有成本的极度敏感。
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <div class="source-tag-rK">Source: E-commerce VOC / User Reviews</div>
+                        <div class="source-tag-rK" style="margin-top:4px; font-weight:600; color:var(--t2);">Focus:
+                            Performance Reliability & Structural Integrity (性能可靠性与结构完整性)</div>
+                    </div>
+                </div>
+
+                <!-- Middle Layer -->
+                <div class="card eco-card-rK eco-layer-02-rK">
+                    <div class="t-meta" style="color:var(--acc-1)">02 / MIDDLE LAYER</div>
+                    <div class="t-h2" style="margin-bottom: 12px;">中间圈：社区传播层</div>
+                    <div class="t-body" style="font-size: 13px;">
+                        这是口碑发酵和社交影响的关键中转层。我们通过分析 <strong>6,088 条社媒讨论</strong>，特别是 <strong>YouTube 巨大的流量触达（~3.97 亿）与
+                            Reddit 极高的讨论密度（占比 40.8%）</strong>，理解该品类如何通过技术实证建立信任。
+                    </div>
+                    <div class="hl-box-rK" style="background:var(--bg-2); border:1px solid var(--bd);">
+                        <div class="t-meta" style="margin-bottom:4px;">核心逻辑</div>
+                        <div class="t-body" style="font-size:12px; margin:0;">
+                            这一层揭示了 <strong>YouTube 如何作为“性能验证官”</strong>，通过专业的爬坡对比测试消解用户对动力的疑虑；而 <strong>Reddit
+                                充当了“民间技术仲裁站”</strong>，专注于讨论“电机微调 (Trimming)”以修正<strong>跟随路径偏移，以及“锂电更换 (Battery
+                                Swap)”</strong>等硬核排障课题；同时，<strong>TikTok 通过“自动跟随
+                                (Auto-Follow)”功能展示</strong>，将其塑造成反抗传统负重打球的“智能装备”。
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <div class="source-tag-rK">Source: Social Media (YouTube/TikTok) & Tech Forums (Reddit)</div>
+                        <div class="source-tag-rK" style="margin-top:4px; font-weight:600; color:var(--t2);">Focus:
+                            Visual Validation & Tech Troubleshooting (视觉验证与技术排障)</div>
+                    </div>
+                </div>
+
+                <!-- Outer Layer -->
+                <div class="card eco-card-rK eco-layer-03-rK">
+                    <div class="t-meta" style="color:var(--acc-3)">03 / OUTER LAYER</div>
+                    <div class="t-h2" style="margin-bottom: 12px;">外围圈：文化叙事层</div>
+                    <div class="t-body" style="font-size: 13px;">
+                        这是塑造消费者长期价值观和行为模式的宏观背景层。我们解读了驱动美国中产阶级购买电动高尔夫球包推车的深层动机，特别是从“<strong>体力负担的转移</strong>”向“自我效能感与生活方式表达”的转变。
+                    </div>
+                    <div class="hl-box-rK" style="background:var(--bg-2); border:1px solid var(--bd);">
+                        <div class="t-meta" style="margin-bottom:4px;">核心逻辑</div>
+                        <div class="t-body" style="font-size:12px; margin:0;">
+                            分析涵盖了消费者对<strong>“环保与可持续性 (Lithium Tech)”的价值认同，以及通过操控先进设备（如远程遥控、自动跟随）来满足“自主性
+                                (Autonomy)”与“能力感
+                                (Competence)”的心理动机</strong>。电动高尔夫球包推车正逐渐演变为一种<strong>“无需牺牲锻炼价值、但彻底消除负重痛苦”</strong>的健康生活叙事，成为展现个人科技审美与社区归属感的符号。
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <div class="source-tag-rK">Source: Cultural Narrative & Lifestyle Studies</div>
+                        <div class="source-tag-rK" style="margin-top:4px; font-weight:600; color:var(--t2);">Focus:
+                            Autonomy & Healthy Lifestyle Identity (自主性与健康生活方式身份)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cross Layer Insight -->
+            <div class="card c-data" style="border: 1px solid var(--acc-1); background: #f0f9ff;">
+                <div class="hl-title-rK" style="font-size:14px; margin-bottom: 8px;">
+                    <span style="font-size:16px;">💡</span> 跨圈层启示
+                </div>
+                <div class="t-body" style="color: var(--prm); font-weight: 500;">
+                    当前生态显示，<strong>“动力”已在各圈层达成共识，但“耐用性”在核心圈留下的裂痕正通过中间圈的技术讨论进行修补。</strong> 品牌若能通过硬件加固（解决断轴）并利用 YouTube
+                    强化“结构可靠性”视觉实证，将能有效加速外围圈大众用户的转化。
+                </div>
+            </div>
+        </section>
+        <div class="sect">
+            <div class="t-meta" style="margin-bottom:12px; color:var(--acc-1)">SECTION</div>
+            <h2 class="t-h1" style="margin-bottom:32px">2.1 核心圈：个人体验层分析 (The Core Layer - VOC)</h2>
+
+            <p class="t-body" style="max-width: 800px; margin-bottom: 48px;">
+                为了全面解码美国消费者在 <strong>Electric Golf Caddy (电动高尔夫球包推车)</strong> 品类的真实物理反馈，我们深度分析了 <strong>85+ 核心体验片段
+                    (VOC)</strong>。
+            </p>
+
+            <!-- 2.1.1 Portrait -->
+            <div style="margin-bottom: 64px;">
+                <h3 class="t-h2" style="margin-bottom: 24px;">2.1.1 体验数据基础画像 (Experience Data Portrait)</h3>
+                <p class="t-body" style="margin-bottom: 24px;">基于全旅程触点与 VOC 四象限数据的综合统计，用户反馈呈现出“高性能、高损耗”的特征。</p>
+
+                <div class="grid-2-vX">
+                    <!-- Left: Sentiment -->
+                    <div class="stat-card-vX">
+                        <div class="t-meta">SENTIMENT DISTRIBUTION</div>
+                        <div class="t-num-M" style="margin: 8px 0 24px;">Total Samples: 85+</div>
+                        <div id="chart_sent_vX" class="chart-h-vX"></div>
+                    </div>
+
+                    <!-- Right: Depth -->
+                    <div class="stat-card-vX">
+                        <div class="t-meta" style="margin-bottom: 24px;">EXPERIENCE DEPTH LAYERS</div>
+
+                        <div class="depth-row-vX">
+                            <div class="depth-lbl-vX">🌊 浅层</div>
+                            <div class="depth-bar-bg-vX">
+                                <div class="depth-bar-fill-vX"
+                                    style="width: 30%; background-color: var(--prm-lt); color: var(--prm);">30%</div>
+                            </div>
+                            <div class="depth-desc-vX">纯情绪表达 (如“酷”、“改变体验”)</div>
+                        </div>
+
+                        <div class="depth-row-vX">
+                            <div class="depth-lbl-vX">🏊 中层</div>
+                            <div class="depth-bar-bg-vX">
+                                <div class="depth-bar-fill-vX" style="width: 50%; background-color: var(--acc-1);">50%
+                                </div>
+                            </div>
+                            <div class="depth-desc-vX">场景化功能反馈 (复杂地形表现)</div>
+                        </div>
+
+                        <div class="depth-row-vX">
+                            <div class="depth-lbl-vX">🤿 深层</div>
+                            <div class="depth-bar-bg-vX">
+                                <div class="depth-bar-fill-vX" style="width: 20%; background-color: var(--prm);">20%
+                                </div>
+                            </div>
+                            <div class="depth-desc-vX">技术归因与维护 (电机Trimming、磨损)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.1.2 Scenario Matrix -->
+            <div style="margin-bottom: 64px;">
+                <h3 class="t-h2" style="margin-bottom: 24px;">2.1.2 核心使用场景体验矩阵 (Usage Scenario Matrix)</h3>
+                <div class="grid-3-vX">
+                    <!-- Card 1 -->
+                    <div class="scen-card-vX">
+                        <div class="scen-head-vX">
+                            <div class="t-meta">SCENARIO 01</div>
+                            <div class="t-h2">全地形驾驶 (Terrain)</div>
+                        </div>
+                        <div class="scen-item-vX">
+                            <span class="scen-tag-vX bg-pos-vX">正面体感</span><br>
+                            <strong>Uphill Power:</strong> 电机扭矩强劲，能应对陡坡路堤且保持稳定，不翻车。
+                        </div>
+                        <div class="scen-item-vX">
+                            <span class="scen-tag-vX bg-neg-vX">痛点/风险</span><br>
+                            <strong>Alignment Drift:</strong> 动力输出不平衡导致跑偏，需通过“微调(trimming)”修正轨迹。
+                        </div>
+                        <div class="scen-item-vX t-body"
+                            style="font-style: italic; font-size: 12px; margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--bd);">
+                            体验逻辑: 动力是“爽点”核心，操控精准度是核心隐患。
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="scen-card-vX">
+                        <div class="scen-head-vX">
+                            <div class="t-meta">SCENARIO 02</div>
+                            <div class="t-h2">长期持有 (Ownership)</div>
+                        </div>
+                        <div class="scen-item-vX">
+                            <span class="scen-tag-vX bg-pos-vX">正面体感</span><br>
+                            <strong>Single Charge:</strong> 单次充电续航足以支撑全天球赛，性能可靠。
+                        </div>
+                        <div class="scen-item-vX">
+                            <span class="scen-tag-vX bg-neg-vX">痛点/风险</span><br>
+                            <strong>Structural Failure:</strong> “后轴销剪断”、“轮毂磨损”是致命伤。
+                        </div>
+                        <div class="scen-item-vX t-body"
+                            style="font-style: italic; font-size: 12px; margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--bd);">
+                            体验逻辑: 硬件疲劳强度与用户的高频率使用需求存在断层。
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="scen-card-vX">
+                        <div class="scen-head-vX">
+                            <div class="t-meta">SCENARIO 03</div>
+                            <div class="t-h2">扩展与配件 (Modding)</div>
+                        </div>
+                        <div class="scen-item-vX">
+                            <span class="scen-tag-vX bg-pos-vX">正面体感</span><br>
+                            <strong>Integrated Convenience:</strong> 集成度高，折叠后便携，易于放入 SUV 后备箱。
+                        </div>
+                        <div class="scen-item-vX">
+                            <span class="scen-tag-vX bg-neg-vX">痛点/风险</span><br>
+                            <strong>Costly Add-ons:</strong> 原装配件（雨罩、升级支架）价格极高，被视为“最大的抱怨点”。
+                        </div>
+                        <div class="scen-item-vX t-body"
+                            style="font-style: italic; font-size: 12px; margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--bd);">
+                            体验逻辑: 高昂的后续持有成本（TCO）正在削弱性价比心智。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.1.3 Priority Matrix -->
+            <div style="margin-bottom: 64px;">
+                <h3 class="t-h2" style="margin-bottom: 12px;">2.1.3 功能体验优先级排序 (Priority Matrix)</h3>
+                <p class="t-body" style="margin-bottom: 24px;">该矩阵揭示了消费者在关注度与实际满意度之间的错位。 <span class="p-tag-vX p0-vX"
+                        style="margin-left:12px"></span>P0 急需改进 <span class="p-tag-vX p1-vX"
+                        style="margin-left:8px"></span>P1 核心优势 <span class="p-tag-vX p2-vX"
+                        style="margin-left:8px"></span>P2 主要痛点</p>
+                <div id="chart_prio_vX" class="chart-l-vX"></div>
+            </div>
+
+            <!-- 2.1.4 Sample VOC -->
+            <div style="margin-bottom: 48px;">
+                <h3 class="t-h2" style="margin-bottom: 24px;">2.1.4 Sample VOC 样本展示</h3>
+                <div class="grid-2-vX">
+                    <div class="quote-box">
+                        <div class="tag-g" style="margin-bottom:8px">
+                            <span class="tag c-good">⭐⭐⭐⭐⭐</span>
+                            <span class="t-meta">总体评价</span>
+                        </div>
+                        <div class="t-body" style="font-style:italic; margin-bottom:8px">"Clearly the BEST electric golf
+                            caddy out there. Tried others but nothing compares."</div>
+                        <div class="quote-sub">“显然是市面上最好的电动高尔夫球车。试过其他的，但没法比。”</div>
+                    </div>
+
+                    <div class="quote-box">
+                        <div class="tag-g" style="margin-bottom:8px">
+                            <span class="tag c-good">⭐⭐⭐⭐⭐</span>
+                            <span class="t-meta">动力性能</span>
+                        </div>
+                        <div class="t-body" style="font-style:italic; margin-bottom:8px">"Handles steep embankments like
+                            a champ and maintains stability without tipping."</div>
+                        <div class="quote-sub">“像冠军一样应对陡坡，并且保持稳定，不会翻车。”</div>
+                    </div>
+
+                    <div class="quote-box" style="border-color: #fbbf24;">
+                        <div class="tag-g" style="margin-bottom:8px">
+                            <span class="tag c-mid">⭐⭐</span>
+                            <span class="t-meta">操控缺陷</span>
+                        </div>
+                        <div class="t-body" style="font-style:italic; margin-bottom:8px">"Needs motors 'trimmed' to fix
+                            control issues. It drifts to the right constantly."</div>
+                        <div class="quote-sub">“需要微调电机来修正控制问题，它总是不断向右漂移。”</div>
+                    </div>
+
+                    <div class="quote-box" style="border-color: var(--acc-2);">
+                        <div class="tag-g" style="margin-bottom:8px">
+                            <span class="tag c-bad">⭐</span>
+                            <span class="t-meta">结构断裂</span>
+                        </div>
+                        <div class="t-body" style="font-style:italic; margin-bottom:8px">"Wheel hubs worn out twice...
+                            badly designed. The rear axle pin sheared off."</div>
+                        <div class="quote-sub">“轮毂磨损了两次……设计非常糟糕。后轴销钉直接断了。”</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.1.5 Insight -->
+            <div class="insight-box-vX">
+                <div class="insight-icon-vX">💡</div>
+                <div class="t-meta" style="color:var(--prm); margin-bottom:12px;">2.1.5 核心圈终极洞察</div>
+                <div class="t-h2" style="line-height:1.6;">
+                    <strong>电动高尔夫球包推车（Electric Golf
+                        Caddy）</strong>目前正处于“性能过剩、底盘欠账”的阶段。用户对电机在山地地形的表现给出了满分，这决定了产品的初始销量；然而，“断轴”和“跟随跑偏校准”这两个结构性与控制层面的硬伤，如果不能通过硬件加强或电子补偿来解决，将极大地限制产品从中产阶级“酷玩具”向主流社区<strong>“随行减负装备”</strong>的跨越。
+                </div>
+            </div>
+        </div>
+        <div class="sect">
+            <!-- 2.2 Section Header -->
+            <div class="t-meta" style="margin-bottom:12px; color:var(--acc-1)">SECTION</div>
+            <h2 class="t-h1" style="margin-bottom:32px">2.2中间圈：社区传播层分析 (Middle Layer - Social Proof)</h2>
+
+            <div class="card" style="margin-bottom: 32px; border-left: 4px solid var(--t3);">
+                <p class="t-body" style="margin:0;">如果说“核心圈”是产品真实质量的照妖镜，那么“中间圈”则是口碑的放大器与风险的缓冲带。</p>
+            </div>
+
+            <!-- Content Type & Engagement -->
+            <h3 class="t-h2" style="margin-bottom: 24px;">内容类型分布与互动表现 (Content & Engagement)</h3>
+            <div class="stat-grid-jK9" style="margin-bottom: 48px;">
+                <div>
+                    <p class="t-body" style="margin-bottom: 16px;">数据表明，该品类在美市场的传播呈现出<strong>“Reddit 深度决策，YouTube
+                            视觉轰炸”</strong>的二元结构。</p>
+                    <div class="stat-list-jK9">
+                        <div class="stat-item-jK9">
+                            <span class="t-meta">社媒/论坛讨论样本量</span>
+                            <span class="t-num-M">6,088</span>
+                        </div>
+                        <div class="stat-item-jK9">
+                            <span class="t-meta">全网总触达量 (Reach Proxy)</span>
+                            <span class="t-num-M">~9.19 亿</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="height: 320px; padding:0;">
+                    <!-- ECharts Container -->
+                    <div id="chart_platform_jK9" style="width: 100%; height: 100%;"></div>
+                </div>
+            </div>
+
+            <!-- Signal Samples Table -->
+            <h3 class="t-h2" style="margin-bottom: 16px;">Sample 社媒信号强度展示 (Signal Samples)</h3>
+            <div style="overflow-x: auto;">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>信号类型</th>
+                            <th>代表平台</th>
+                            <th>内容简介</th>
+                            <th>信号强度 (Reach)</th>
+                            <th>核心传播点</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-body">Professional/Deep Dive</td>
+                            <td class="t-body"><span class="tag">YouTube</span></td>
+                            <td class="t-body">电机性能与坡度挑战实测</td>
+                            <td class="t-body"><span class="c-good">极强 (~3.97亿)</span></td>
+                            <td class="t-body">验证产品在复杂地形的真实通过性。</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">Entertainment/Viral</td>
+                            <td class="t-body"><span class="tag">TikTok</span></td>
+                            <td class="t-body">电动球车“智能跟随”功能挑战</td>
+                            <td class="t-body"><span class="c-good">强 (~3.31亿)</span></td>
+                            <td class="t-body">趣味性展示科技感，激发潜在用户兴趣。</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">Technical/Advice</td>
+                            <td class="t-body"><span class="tag">Reddit</span></td>
+                            <td class="t-body">电机偏航微调 (Trimming) 教程</td>
+                            <td class="t-body"><span class="c-mid">极高互动</span></td>
+                            <td class="t-body">解决核心圈反馈的操控痛点，降低退货率。</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">Visual/Lifestyle</td>
+                            <td class="t-body"><span class="tag">Instagram</span></td>
+                            <td class="t-body">球场社交与美学生活展示</td>
+                            <td class="t-body">中</td>
+                            <td class="t-body">建立“无需负重、优雅打球”的身份认同。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Signal Insights -->
+            <h3 class="t-h2" style="margin-bottom: 16px;">信号分析结论 (Signal Insights)</h3>
+            <div class="grid" style="--cols: 3; gap: 24px; margin-bottom: 48px;">
+                <div class="c-data">
+                    <span class="t-meta c-bad">Video Testimony</span>
+                    <div class="t-h2" style="margin-bottom: 8px;">“视频证言”是转化的临界点</div>
+                    <p class="t-body quote-sub">由于核心圈存在对“断轴”的担忧，YouTube 上的长效评测视频（Long-term Review）起到了至关重要的信用背书作用。</p>
+                </div>
+                <div class="c-data">
+                    <span class="t-meta c-mid">Tech Support</span>
+                    <div class="t-h2" style="margin-bottom: 8px;">Reddit 充当“民间技术支持”</div>
+                    <p class="t-body quote-sub">约 <strong>2,360 条 Reddit 帖子</strong>
+                        侧重于“信息搜寻”。用户通过互助解决“Trimming”和“电池升级”问题，这种共创内容弥补了官方售后手册的不足。</p>
+                </div>
+                <div class="c-data">
+                    <span class="t-meta c-good">Visual Hook</span>
+                    <div class="t-h2" style="margin-bottom: 8px;">TikTok 算法的“视觉钩子”</div>
+                    <p class="t-body quote-sub">带有 #electricgolftrolley 标签的内容通过极简的视觉反馈（球包推车在步行过程中稳定跟随）快速抓取中产阶级流量。</p>
+                </div>
+            </div>
+
+            <!-- Topic Propagation Matrix -->
+            <h3 class="t-h2" style="margin-bottom: 16px;">社区话题传播矩阵 (Topic Propagation Matrix)</h3>
+            <div style="overflow-x: auto; margin-bottom: 48px;">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>话题类别 (主标题)</th>
+                            <th>子话题 (副标题)</th>
+                            <th>参与度</th>
+                            <th>传播特征</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-body">使用体验</td>
+                            <td class="t-body">摆脱肩部负重、减轻体能消耗</td>
+                            <td class="t-body"><span class="tag">高</span></td>
+                            <td class="t-body">引起步行的中老年球手高度共鸣。</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">技术维护</td>
+                            <td class="t-body">电机微调 (Trimming)、锂电更换</td>
+                            <td class="t-body"><span class="tag">中</span></td>
+                            <td class="t-body">发生在 Reddit/论坛，侧重于延长设备寿命。</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">决策购买</td>
+                            <td class="t-body">可靠性判断、雇佣 vs 购买</td>
+                            <td class="t-body"><span class="tag">高</span></td>
+                            <td class="t-body">YouTube 评论区是此类选购决策的密集地。</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">未来感生活</td>
+                            <td class="t-body">展示自动驾驶/跟随技术</td>
+                            <td class="t-body"><span class="tag c-good">极高</span></td>
+                            <td class="t-body">TikTok/Instagram 上的炫耀性内容。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Influencer Persona -->
+            <h3 class="t-h2" style="margin-bottom: 16px;">关键社区传播者形象 (Influencer Persona)</h3>
+            <div class="grid" style="--cols: 2; gap: 24px; margin-bottom: 48px;">
+                <div class="persona-card-jK9">
+                    <div class="persona-icon-jK9">TR</div>
+                    <div>
+                        <div class="t-h2" style="margin-bottom: 4px;">"The Tech Reviewer" (技术测评官)</div>
+                        <div class="t-meta" style="margin-bottom: 8px;">渠道: YouTube</div>
+                        <p class="t-body quote-sub"><strong>形象:</strong>
+                            专业、硬核。对每一个转弯半径、坡度百分比进行精密测量。<br><strong>价值:</strong> 决定了产品“专业级”装备的门槛。</p>
+                    </div>
+                </div>
+                <div class="persona-card-jK9">
+                    <div class="persona-icon-jK9" style="background: var(--acc-3); color: white;">LG</div>
+                    <div>
+                        <div class="t-h2" style="margin-bottom: 4px;">"The Lifestyle Golfer" (生活球手)</div>
+                        <div class="t-meta" style="margin-bottom: 8px;">渠道: TikTok / Instagram</div>
+                        <p class="t-body quote-sub"><strong>形象:</strong> 优雅、从容。重点展示产品如何让 18
+                            洞打得更轻松。<br><strong>价值:</strong> 将产品从“工具”转译为“品味符号”。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seasonality -->
+            <h3 class="t-h2" style="margin-bottom: 16px;">时间演进与季节性趋势 (Seasonality)</h3>
+            <div class="grid" style="--cols: 3; gap: 24px; margin-bottom: 32px;">
+                <div class="season-card-jK9">
+                    <div class="t-meta c-good">秋季 (Peak)</div>
+                    <div class="t-h2" style="margin-bottom: 8px;">“节日礼赠季”</div>
+                    <p class="t-body quote-sub">用户追求高效、舒适且具有炫耀性的移动体验，作为高端礼物的讨论度达到顶峰。</p>
+                </div>
+                <div class="season-card-jK9">
+                    <div class="t-meta c-mid">春季 (Rising)</div>
+                    <div class="t-h2" style="margin-bottom: 8px;">“赛季筹备季”</div>
+                    <p class="t-body quote-sub">重点在于“维持挥杆稳定性”和“减轻体能损耗”，用户开始搜寻可靠的入季装备。</p>
+                </div>
+                <div class="season-card-jK9">
+                    <div class="t-meta">夏季 (Stable)</div>
+                    <div class="t-h2" style="margin-bottom: 8px;">“奇遇分享季”</div>
+                    <p class="t-body quote-sub">更多是分享球场上的智能科技体验，属于典型的口碑扩散期。</p>
+                </div>
+            </div>
+
+            <div class="highlight-box-jK9">
+                <div class="t-h2" style="margin-bottom: 8px;">💡 总结洞察</div>
+                <p class="t-body">电动高尔夫球车的中间圈是一个<strong>“高度理性且重技术”</strong>的社区。<strong>品牌如果能在 Reddit
+                        上通过技术贴解决“行驶偏移”的负面认知，并配合 YouTube 的“坡度挑战”视频，将能极大地打消外围圈用户的质量顾虑。</strong></p>
+            </div>
+
+            <!-- DIVIDER FOR SECTION 2.3 -->
+            <div style="height: 64px; border-bottom: 1px dashed var(--bd); margin-bottom: 64px;"></div>
+
+            <!-- 2.3 Section Header -->
+            <div class="t-meta" style="margin-bottom:12px; color:var(--acc-1)">SECTION</div>
+            <h2 class="t-h1" style="margin-bottom:32px">2.3外围圈：文化叙事层分析 (The Outer Layer - Cultural Narrative)</h2>
+
+            <p class="t-body" style="margin-bottom: 48px; max-width: 800px;">
+                这一层揭示了电动高尔夫球包推车如何从球场随行装备，演变为美国中产阶级社区中的“社交货币”与“环保声明”。</p>
+
+            <!-- Core Narrative Lines -->
+            <h3 class="t-h2" style="margin-bottom: 24px;">核心叙事线解析 (Top 3 Narrative Lines)</h3>
+            <div class="grid" style="--cols: 3; gap: 24px; margin-bottom: 48px;">
+                <!-- Line 1 -->
+                <div class="narrative-card-jK9">
+                    <div class="narrative-num-jK9">01</div>
+                    <div class="narrative-content-jK9">
+                        <div class="t-meta">效能感补偿</div>
+                        <div class="t-h2" style="margin-bottom: 12px;">掌控复杂的“智能机械”</div>
+                        <ul class="t-body quote-sub" style="padding-left: 16px; margin: 0;">
+                            <li><strong>文化价值:</strong> 自我效能感 (Competence & Autonomy)</li>
+                            <li><strong>价值路径:</strong> 获得环境“掌控权”。通过 Motor Trimming 等技术手段解决挑战。</li>
+                            <li><strong>典型语境:</strong> 修复“行驶偏航”被视为专业资本的展示。</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Line 2 -->
+                <div class="narrative-card-jK9">
+                    <div class="narrative-num-jK9">02</div>
+                    <div class="narrative-content-jK9">
+                        <div class="t-meta">环保主义</div>
+                        <div class="t-h2" style="margin-bottom: 12px;">“静谧升级”</div>
+                        <ul class="t-body quote-sub" style="padding-left: 16px; margin: 0;">
+                            <li><strong>文化价值:</strong> 可持续性 (Sustainability)</li>
+                            <li><strong>价值路径:</strong> 锂电技术 (Lithium Tech) 代表道德与效率的双重升级，以及静谧的礼仪。</li>
+                            <li><strong>典型语境:</strong> 电池改装 (Battery Swap) 追求科技与责任感的统一。</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Line 3 -->
+                <div class="narrative-card-jK9">
+                    <div class="narrative-num-jK9">03</div>
+                    <div class="narrative-content-jK9">
+                        <div class="t-meta">健康博弈</div>
+                        <div class="t-h2" style="margin-bottom: 12px;">消除负重的“纯粹步行”</div>
+                        <ul class="t-body quote-sub" style="padding-left: 16px; margin: 0;">
+                            <li><strong>文化价值:</strong> 健康与平衡 (Health & Balance)</li>
+                            <li><strong>价值路径:</strong> 将产品重塑为“运动生涯的延长器”。不牺牲锻炼，拒绝磨损。</li>
+                            <li><strong>典型语境:</strong> #WalkingGolfer 强调轻松、优雅的“漫步”本质。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cross-Layer Consistency -->
+            <h3 class="t-h2" style="margin-bottom: 16px;">跨圈层验证与一致性分析 (Cross-Layer Consistency)</h3>
+            <p class="t-body" style="margin-bottom: 24px;">通过对三个层级的信号进行交叉比对，验证了该品类“<strong>重动力性能、轻原厂配件</strong>”的市场逻辑。
+            </p>
+            <div style="overflow-x: auto; margin-bottom: 48px;">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>分析维度</th>
+                            <th>核心圈 (VOC)</th>
+                            <th>中间圈 (社媒/论坛)</th>
+                            <th>外围圈 (文化叙事)</th>
+                            <th>一致性结论</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-body">功能预期</td>
+                            <td class="t-body">爬坡能力、稳定性</td>
+                            <td class="t-body">性能测评、电池改装</td>
+                            <td class="t-body">全地形通过性</td>
+                            <td class="t-body">高度一致：动力表现是第一购买驱动力。</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">场景应用</td>
+                            <td class="t-body">球场地形、陡坡行驶</td>
+                            <td class="t-body">社区巡游、短途通勤</td>
+                            <td class="t-body">社区出行文化</td>
+                            <td class="t-body">高度一致：从纯运动向生活方式跨越。</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">痛点映射</td>
+                            <td class="t-body c-bad">断轴/轮毂磨损</td>
+                            <td class="t-body">维修建议、配件太贵</td>
+                            <td class="t-body">维护成本与安全性关注</td>
+                            <td class="t-body">一致：高昂的维护成本正侵蚀用户信心。</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">心理动机</td>
+                            <td class="t-body">“终于能爬上那个坡了”</td>
+                            <td class="t-body">“看我的改装成果”</td>
+                            <td class="t-body">自我效能与社交归属</td>
+                            <td class="t-body">高度一致：通过改装获得社区认可。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Data Overview -->
+            <h3 class="t-h2" style="margin-bottom: 16px;">消费者信息生态圈数据总览 (Data Overview)</h3>
+            <p class="t-body" style="margin-bottom: 24px;">我们通过对 <strong>3,488</strong>
+                个有效样本的跨圈层穿透，构建了从“物理体感”到“文化心理”的完整图谱。</p>
+            <div style="overflow-x: auto; margin-bottom: 32px;">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>数据维度</th>
+                            <th>核心圈 (Core Layer)</th>
+                            <th>中间圈 (Mid Layer)</th>
+                            <th>外围圈 (Outer Layer)</th>
+                            <th>全局概览 (Overview)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="t-body">样本量/来源</td>
+                            <td class="t-body">85+ (VOC 观点)</td>
+                            <td class="t-body">6,088 (社媒)</td>
+                            <td class="t-body">叙事线 Top=10</td>
+                            <td class="t-body">6,170+ 总样本</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">规模统计</td>
+                            <td class="t-body">电商/垂直平台反馈</td>
+                            <td class="t-body">覆盖平台=5；讨论密度高</td>
+                            <td class="t-body">叙事线 Top=10</td>
+                            <td class="t-body">规模口径均可回溯</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">核心指标</td>
+                            <td class="t-body">正面率 57.6%</td>
+                            <td class="t-body">总触达量 9.19 亿</td>
+                            <td class="t-body">叙事频次显著集中</td>
+                            <td class="t-body">呈现“重技术社群”特征</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">关键角色</td>
+                            <td class="t-body">实际驾驶者/球友</td>
+                            <td class="t-body">DIY 导师、改装极客</td>
+                            <td class="t-body">社区中产、环保先锋</td>
+                            <td class="t-body">Reddit 是口碑灵魂</td>
+                        </tr>
+                        <tr>
+                            <td class="t-body">数据角色</td>
+                            <td class="t-body">揭示结构性耐久缺陷</td>
+                            <td class="t-body">展现改装文化的统治力</td>
+                            <td class="t-body">挖掘邻里社交深层动机</td>
+                            <td class="t-body">构建“动力-改装-归属”闭环</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box-jK9">
+                <div class="t-h2" style="margin-bottom: 8px;">✨ 全圈层终极洞察</div>
+                <p class="t-body">电动高尔夫球车在美国正经历从“小众体育器材”向<strong>“中产阶级智能大玩具”</strong>的身份跃迁。</p>
+            </div>
+        </div>
+        <div class="sect">
+            <div class="t-meta" style="margin-bottom:12px; color:var(--acc-1)">SECTION</div>
+            <h2 class="t-h1" style="margin-bottom:32px">3.关键人群发现 (Key Personas)</h2>
+
+            <!-- Persona 1 -->
+            <div class="Persona-card">
+                <div class="Persona-header">
+                    <div>
+                        <div class="t-meta c-bad">Profile 01</div>
+                        <h3 class="t-h1">坡地球场步行派 · 风险控制型 🛡️</h3>
+                        <div class="t-body" style="margin-top:4px; font-style:italic; color:var(--t3)">The Safety-First
+                            Guardians</div>
+                    </div>
+                    <div class="tag">关注: 失控风险不可接受</div>
+                </div>
+
+                <div class="p-body-rK">
+                    <!-- 3.1.1 Naming -->
+                    <div style="margin-bottom: 24px;">
+                        <div class="t-meta" style="color:var(--prm)">3.1.1 Persona 命名</div>
+                        <p class="t-body"><strong>角色 + 场景 +
+                                约束</strong>：坡地/复杂地形球场的<strong>步行派</strong>高尔夫玩家，核心约束是“<strong>失控风险不可接受</strong>”。</p>
+                    </div>
+
+                    <!-- 3.1.2 Definition & Chart -->
+                    <div class="p-def-row-rK">
+                        <div>
+                            <div class="t-meta" style="color:var(--prm)">3.1.2 一句话定义</div>
+                            <p class="t-body">这类用户通常为 45–68 岁的中高收入高尔夫爱好者，以男性为主，多居住在北美郊区或球场资源丰富的区域，习惯自驾到起伏较大的球场并坚持步行打完 18
+                                洞。他们往往处在人生与身体的“过渡期”：事业与收入已稳定，但膝盖、腰背或肩部已有旧伤或明显体能下滑，对“失控、翻车、受伤”高度敏感。对他们而言，电动 caddy
+                                不是“玩具”或“科技尝鲜”，而是一种帮助自己继续安全步行、延长运动寿命的风险控制工具，任何未经验证的功能都会被视为潜在威胁。</p>
+                        </div>
+                        <div class="p-stat-box-rK">
+                            <div class="mini-chart" style="background: conic-gradient(var(--acc-3) 20%, var(--bd) 0);">
+                            </div>
+                            <div class="t-num-M c-good">20%</div>
+                            <div class="t-meta">人群占比</div>
+                        </div>
+                    </div>
+
+                    <!-- 3.1.3 Boundaries -->
+                    <div class="sub-sect-title-rK">3.1.3 人群边界</div>
+                    <ul class="list-clean-rK">
+                        <li><strong>场景</strong>：常打坡地或路线复杂球场；对“下坡/转弯/跟随偏移”高度敏感。</li>
+                        <li><strong>使用方式</strong>：倾向步行而非乘坐球车；caddy = “负重剥离”，不是代步。</li>
+                        <li><strong>信息偏好</strong>：不吃营销话术，只信“操作边界 + 异常处理 + 可复现测试/案例”。</li>
+                        <li><strong>典型信号</strong>：强关注说明书、折叠收纳、维护步骤；对二手/旧型号资料缺失特别焦虑。</li>
+                        <li><strong>验证渠道</strong>：会去社区求证真实体验（尤其是 Reddit）。</li>
+                    </ul>
+
+                    <!-- 3.1.4 Drivers -->
+                    <div class="sub-sect-title-rK">3.1.4 决策驱动</div>
+                    <div class="p-grid-rK">
+                        <div class="hl-box-rK">
+                            <div class="t-meta">主驱动</div>
+                            <div class="t-h2" style="margin-bottom:8px;">从“省力工具”到“健康义肢”</div>
+                            <p class="t-body">他们买的是“继续走完 18 洞的资格”，而不是偷懒；需要用“延续运动寿命/对抗伤病与衰老”的叙事来跨过心理门槛。</p>
+                        </div>
+                        <div class="hl-box-rK" style="border-color: var(--acc-2);">
+                            <div class="t-meta" style="color:var(--acc-2)">次驱动</div>
+                            <div class="t-h2" style="margin-bottom:8px;">风险对冲（失控/尴尬/受伤）</div>
+                            <p class="t-body">对最坏情况特别敏感，会主动寻找差评和故障场景；“当众翻车”既是安全问题也是社交尴尬风险。</p>
+                        </div>
+                    </div>
+
+                    <!-- 3.1.5 JTBD -->
+                    <div class="sub-sect-title-rK">3.1.5 核心 JTBD</div>
+                    <p class="t-body" style="margin-bottom: 16px;">
+                        <strong>主任务</strong>：在坡地与转弯场景下，稳定、安全、可预测地运送球包，让自己能专注于击球并保持健康步行。
+                    </p>
+                    <div class="tag-g">
+                        <span class="tag">辅助: 购买前验证安全极限 (proof-first)</span>
+                        <span class="tag">辅助: 折叠搬运不伤腰背</span>
+                        <span class="tag">辅助: 兜底模式 (fail-safe)</span>
+                    </div>
+
+                    <!-- 3.1.6 Objections & Done Criteria -->
+                    <div class="sub-sect-title-rK">3.1.6 关键反对点 & 成交条件</div>
+                    <div class="p-grid-rK">
+                        <div>
+                            <div class="t-meta" style="margin-bottom:8px;">他们会直接问你的 3 个问题：</div>
+                            <ul class="list-clean-rK">
+                                <li>1. “下坡会不会失控/撞人/偏移？”</li>
+                                <li>2. “我买二手/旧型号，出了问题谁兜底？”</li>
+                                <li>3. “我有伤病但坚持步行，它会不会反而把体验变糟？”</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="t-meta" style="margin-bottom:8px;">成交条件 Done Criteria：</div>
+                            <ul class="list-clean-rK criteria-list-rK">
+                                <li><strong>边界规则清单</strong>：最大坡度/满载坡地表现/转弯策略/跟随模式限制，用“规则+数值”而不是“稳定、强劲”。</li>
+                                <li><strong>异常处理路径</strong>：电池没电、刹车故障、跟随偏移时“怎么做”的步骤化说明（最好视频化）。</li>
+                                <li><strong>资料与售后可得性</strong>：旧机型说明书、配件兼容、故障排查入口（这本身就是品牌可靠性的证据）。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 3.1.7 Table -->
+                    <div class="sub-sect-title-rK">3.1.7 洞察-需求-功能映射表</div>
+                    <div style="overflow-x:auto;">
+                        <table class="tbl">
+                            <thead>
+                                <tr>
+                                    <th style="width:20%">核心洞察 (Insight)</th>
+                                    <th style="width:20%">核心需求 (Need)</th>
+                                    <th style="width:20%">功能映射 (Function Mapping)</th>
+                                    <th style="width:25%">实现方式 (Implementation)</th>
+                                    <th style="width:15%">KANO 模型需求类别</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1. 恐惧电子故障导致的“失控”风险</strong></td>
+                                    <td><strong>可视化/可感知的安全反馈</strong><br><span class="t-meta">(Tangible Safety
+                                            Feedback)</span></td>
+                                    <td><strong>多重制动反馈系统</strong><br><span class="t-meta">(Parking Brake Indicator &
+                                            Mechanical Click)</span></td>
+                                    <td>1. 屏幕常驻显示“刹车已锁”图标。<br>2. 电子刹车启动时伴有明显的物理锁定声。<br>3. 遥控器震动反馈（当连接断开时）。</td>
+                                    <td>⭐⭐⭐⭐⭐<br>(必备/期望需求)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. 假设车辆在陡坡必翻的物理焦虑</strong></td>
+                                    <td><strong>物理防翻滚系统</strong><br><span class="t-meta">(Physical Anti-Tip
+                                            System)</span></td>
+                                    <td><strong>第四轮防翻组件</strong><br><span class="t-meta">(Rear Anti-Tip Wheel)</span>
+                                    </td>
+                                    <td>1. 标配可伸缩/可拆卸的后部防翻轮。<br>2. 陀螺仪辅助直线修正 (Gyroscope)<br>3. 宣传视频中专门展示 20 度侧坡测试不翻车。
+                                    </td>
+                                    <td>⭐⭐⭐⭐⭐<br>(必备需求)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. 阅读说明书是为了应对“最坏情况”</strong></td>
+                                    <td><strong>兜底机制与透明文档</strong><br><span class="t-meta">(Fail-Safe &
+                                            Transparency)</span></td>
+                                    <td><strong>空档/飞轮模式</strong><br><span class="t-meta">(Free-Wheel Mode)</span></td>
+                                    <td>1. 一键切换“手推模式”，确保没电也能推走。<br>2. <strong>"Medical-Grade" Manual</strong>:
+                                        官网提供包含爆炸图、维修代码的极客级手册下载。</td>
+                                    <td>⭐⭐⭐⭐<br>(期望需求)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4. 担心折叠操作复杂伤手或伤腰</strong></td>
+                                    <td><strong>人体工学无痛交互</strong><br><span class="t-meta">(Pain-Free Ergonomics)</span>
+                                    </td>
+                                    <td><strong>零夹点折叠结构</strong><br><span class="t-meta">(Pinch-Free Folding)</span>
+                                    </td>
+                                    <td>1. 关键折叠关节采用红色/绿色视觉标记（红=未锁，绿=安全）。<br>2. 接触点包裹软胶，增加抓握力。<br>3. 包装箱内侧印制简易大图操作指南。
+                                    </td>
+                                    <td>⭐⭐⭐⭐<br>(魅力需求)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 3.1.8 Proof -->
+                    <div class="sub-sect-title-rK">3.1.8 证据偏好</div>
+                    <div class="quote-box">
+                        <p class="t-h2 quote-source">他们信的不是“广告”，是 proof。</p>
+                        <div class="t-body">建议把 Proof Kit 明确做成“页面模块 + 内容模块”两套：</div>
+                    </div>
+                    <ul class="list-clean-rK">
+                        <li><strong>PDP（页面）必须外显：硬指标 + 合规/安全证书</strong>（而不是藏在 PDF）。</li>
+                        <li><strong>“医疗级说明书”体系</strong>：开箱-组装-折叠-装车分步骤 4K 视频 + 大二维码直达播放列表；并做 <strong>Legacy
+                                Support</strong>（过去 5 年机型说明书下载）。</li>
+                        <li><strong>极限场景实测</strong>：坡度/下坡制动/满载续航的“可复现测试”（最好第三方/长视频）。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Persona 2 -->
+            <div class="Persona-card">
+                <div class="Persona-header">
+                    <div>
+                        <div class="t-meta c-mid">Profile 02</div>
+                        <h3 class="t-h1">参数对比型 · 预算敏感的性能评测派 📊</h3>
+                        <div class="t-body" style="margin-top:4px; font-style:italic; color:var(--t3)">The
+                            Information-Prudent Explorers</div>
+                    </div>
+                    <div class="tag">关注: 预算上限明确，但性能底线更硬</div>
+                </div>
+
+                <div class="p-body-rK">
+                    <!-- 3.2.1 Naming -->
+                    <div style="margin-bottom: 24px;">
+                        <div class="t-meta" style="color:var(--prm)">3.2.1 Persona 命名</div>
+                        <p class="t-body"><strong>角色 + 场景 + 约束</strong>：参数对比型买家；主战场在 YouTube
+                            评测；核心约束是“<strong>预算上限明确，但性能底线更硬</strong>”。</p>
+                    </div>
+
+                    <!-- 3.2.2 Definition & Chart -->
+                    <div class="p-def-row-rK">
+                        <div>
+                            <div class="t-meta" style="color:var(--prm)">3.2.2 一句话定义</div>
+                            <p class="t-body">这类用户通常为 <strong>30–55
+                                    岁的中等偏上收入高尔夫爱好者</strong>，以男性为主，居住在北美郊区或次级城市，<strong>预算上限明确，但对“性能是否够用”高度不安</strong>。他们往往不是资深球具玩家，也未进入“为信仰或品牌溢价买单”的阶段，而是处在一个<strong>理性但焦虑的中间带</strong>：既不想买最便宜的“踩坑款”，又负担不起或不愿意为顶配型号支付显著溢价。
+                                在工作与家庭压力并存的现实下，他们将大量决策精力投入到<strong>评测视频、参数表和横向对比</strong>中，试图用“数据与测试条件”把一次主观消费，转化为<strong>可被证明的理性选择</strong>。对他们来说，参数不清晰
+                                ≠ 信息不足，而是<strong>风险无法评估</strong>。</p>
+                        </div>
+                        <div class="p-stat-box-rK">
+                            <div class="mini-chart" style="background: conic-gradient(var(--acc-3) 25%, var(--bd) 0);">
+                            </div>
+                            <div class="t-num-M c-good">25%</div>
+                            <div class="t-meta">人群占比</div>
+                        </div>
+                    </div>
+
+                    <!-- 3.2.3 Boundaries -->
+                    <div class="sub-sect-title-rK">3.2.3 人群边界</div>
+                    <ul class="list-clean-rK">
+                        <li><strong>信息触点</strong>：优先看评测/实拍视频；视频里必须能看到重量、载重、坡度、续航等“硬信息”，否则直接跳出。</li>
+                        <li><strong>语言敏感</strong>：对“强劲动力/大概/可能”这类模糊描述极不耐受；要求“数字 + 条件 + 结论”。</li>
+                        <li><strong>预算约束</strong>：不是追顶配，而是“同价位里找最不翻车的性能确定性”。</li>
+                        <li><strong>地形要求</strong>：球场有坡/起伏时，把“满载爬坡稳定 + 续航”视为刚需；会用类似“15°坡满载续航”这种场景去对标。</li>
+                        <li><strong>内容偏好</strong>：反感纯剪辑种草；更信“像说明书/评测一样讲清楚”的硬核内容。</li>
+                    </ul>
+
+                    <!-- 3.2.4 Drivers -->
+                    <div class="sub-sect-title-rK">3.2.4 决策驱动</div>
+                    <div class="p-grid-rK">
+                        <div class="hl-box-rK">
+                            <div class="t-meta">主驱动</div>
+                            <div class="t-h2" style="margin-bottom:8px;">参数 = 信任（把风险从主观感受变成可核验）</div>
+                            <p class="t-body">他们购买的本质不是“功能”，而是“<strong>确定性</strong>”：在我的场景下够不够用，有没有证据、证据能不能复现。</p>
+                        </div>
+                        <div class="hl-box-rK" style="border-color: var(--acc-2);">
+                            <div class="t-meta" style="color:var(--acc-2)">次驱动</div>
+                            <div class="t-h2" style="margin-bottom:8px;">中端价位的信任/性价比悖论</div>
+                            <p class="t-body">
+                                当价格进入某个区间（“不算便宜但也非顶配”），他们会更怀疑“是不是两头不靠”：既怕性能不稳，也怕品牌/售后不足，因此更依赖公开评测与参数透明来消除不确定性。</p>
+                        </div>
+                    </div>
+
+                    <!-- 3.2.5 JTBD -->
+                    <div class="sub-sect-title-rK">3.2.5 核心 JTBD</div>
+                    <p class="t-body" style="margin-bottom: 16px;">
+                        <strong>主任务</strong>：在预算可控前提下，把“电动球包推车是否够用”从“看起来很强”变成“在我的球场条件下可被确认的结论”。
+                    </p>
+                    <div class="tag-g">
+                        <span class="tag">辅助: 低试错决策</span>
+                        <span class="tag">辅助: 同价位筛选 (表格化决策)</span>
+                        <span class="tag">辅助: 验证极限场景 (满载+坡度+续航)</span>
+                    </div>
+
+                    <!-- 3.2.6 Objections & Done Criteria -->
+                    <div class="sub-sect-title-rK">3.2.6 关键反对点 & 成交条件</div>
+                    <div class="p-grid-rK">
+                        <div>
+                            <div class="t-meta" style="margin-bottom:8px;">他们会直接卡你的 3 个问题：</div>
+                            <ul class="list-clean-rK">
+                                <li>1. “关键参数到底是多少？<strong>是在什么条件下测的</strong>？”</li>
+                                <li>2. “在我球场的坡道场景里，会不会不够用/不稳定/续航崩？”</li>
+                                <li>3. “你这个视频到底是评测还是剪辑种草？<strong>信息密度够不够</strong>？”</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="t-meta" style="margin-bottom:8px;">成交条件 Done Criteria：</div>
+                            <ul class="list-clean-rK criteria-list-rK">
+                                <li><strong>参数表外显 + 条件说明</strong>：重量/载重/续航/坡度能力必须给数字，并说明测试条件（负载、坡度、速度、温度/电量策略等）。</li>
+                                <li><strong>场景结论清晰</strong>：针对典型场景给一句“可执行结论”，例如：<br> - “15°坡、满载 X kg、速度档位 Y，可连续行走 Z 洞/约
+                                    Z km”（示例结构，不是你必须承诺的数值）</li>
+                                <li><strong>可复现证据</strong>：最好有长视频或分段实测（不是 15 秒剪辑）。</li>
+                                <li><strong>对比口径统一</strong>：同价位竞品对照必须用同一套维度，不玩“挑指标”。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 3.2.7 Table -->
+                    <div class="sub-sect-title-rK">3.2.7 洞察-需求-功能映射表</div>
+                    <div style="overflow-x:auto;">
+                        <table class="tbl">
+                            <thead>
+                                <tr>
+                                    <th style="width:20%">核心洞察 (Insight)</th>
+                                    <th style="width:20%">核心需求 (Need)</th>
+                                    <th style="width:20%">功能映射 (Function Mapping)</th>
+                                    <th style="width:25%">实现方式 (Implementation)</th>
+                                    <th style="width:15%">KANO 模型需求类别</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1. 恐惧形容词营销掩盖真实性能</strong></td>
+                                    <td><strong>工业级参数透明化</strong><br><span class="t-meta">(Industrial Spec
+                                            Transparency)</span></td>
+                                    <td><strong>硬核参数仪表盘</strong><br><span class="t-meta">(Hard-Core Spec Sheet)</span>
+                                    </td>
+                                    <td>1. PDP页首屏展示：电机扭矩(N.m)、最大爬坡度(°)、电池电芯品牌(e.g., Samsung/LG)。<br>2. 移除 "Long
+                                        Lasting"，改为 "XX Wh Battery"。</td>
+                                    <td>⭐⭐⭐⭐⭐<br>(必备需求)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. 担心低价导致的隐形减配</strong></td>
+                                    <td><strong>结构置信度证明</strong><br><span class="t-meta">(Structural Confidence
+                                            Proof)</span></td>
+                                    <td><strong>透明底盘/拆解展示</strong><br><span class="t-meta">(Chassis/Component
+                                            Breakdown)</span></td>
+                                    <td>1. 官网提供 "Under the Hood" 视图，展示金属齿轮箱、全密封控制器。<br>2. 标注关键连接件材质（如 "Aircraft Grade
+                                        Aluminum"）。</td>
+                                    <td>⭐⭐⭐⭐<br>(期望需求)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. 实验室数据与真实球场脱节</strong></td>
+                                    <td><strong>场景化性能承诺</strong><br><span class="t-meta">(Scenario-Based
+                                            Benchmarks)</span></td>
+                                    <td><strong>多地形续航计算器</strong><br><span class="t-meta">(Terrain-Based Range
+                                            Calculator)</span></td>
+                                    <td>1. 提供数据表：平地=36洞，多坡=27洞，极端山地=18洞。<br>2. 明确定义测试载重条件 (e.g., "Tested with 40lb
+                                        Bag").</td>
+                                    <td>⭐⭐⭐⭐<br>(期望需求)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4. "眼见为实"的物理证据需求</strong></td>
+                                    <td><strong>"破坏性"实测视频</strong><br><span class="t-meta">(Destructive Testing
+                                            Content)</span></td>
+                                    <td><strong>极限挑战内容库</strong><br><span class="t-meta">(Torture Test Library)</span>
+                                    </td>
+                                    <td>1. 官方发布“翻车临界点测试”视频。<br>2. 发布“泥地陷车脱困”未经剪辑的完整片段。<br>3. 赞助第三方博主进行横评（不限制其说缺点）。</td>
+                                    <td>⭐⭐⭐⭐⭐<br>(魅力需求)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 3.2.8 Proof -->
+                    <div class="sub-sect-title-rK">3.2.8 证据偏好</div>
+                    <div class="quote-box">
+                        <p class="t-h2 quote-source">他们信的是“可复现证据链”，不是“品牌自述”。</p>
+                        <div class="t-body">建议把 Proof Kit 做成“页面模块 + 视频模块”两套，并且互相引用：</div>
+                    </div>
+                    <ul class="list-clean-rK">
+                        <li><strong>PDP 首屏参数卡（必须外显）</strong>
+                            <ul class="list-clean-rK" style="padding-left:16px; margin-top:8px;">
+                                <li>参数表（含条件）</li>
+                                <li>“典型场景结论”3 条（最常见的坡度/负载组合）</li>
+                                <li>“测试方法/口径说明”入口（短，但要存在）</li>
+                            </ul>
+                        </li>
+                        <li><strong>评测长视频（可复用为站内视频/FAQ 引用）</strong>
+                            <ul class="list-clean-rK" style="padding-left:16px; margin-top:8px;">
+                                <li>结构像评测：开箱→称重→载重→坡道实测→续航实测→总结“适合谁/不适合谁”</li>
+                                <li>所有关键结论都要有“条件标签”（屏幕角落持续显示）</li>
+                            </ul>
+                        </li>
+                        <li><strong>横向对照资产（强转化）</strong>
+                            <ul class="list-clean-rK" style="padding-left:16px; margin-top:8px;">
+                                <li>同价位 3 款统一维度对照：重量/载重/续航/坡度/折叠体积/售后政策等</li>
+                                <li>用“同口径”避免被认为在耍聪明</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="sect">
+
+            <!-- Persona 3.3 -->
+            <div class="Persona-card_Xj">
+                <div class="Persona-header_Xj">
+                    <div>
+                        <div class="t-meta c-bad">Profile 03</div>
+                        <h3 class="t-h1">球场新手科技党 (The Tech-Curious Novices) 🤖</h3>
+                        <div class="t-body" style="margin-top:4px; font-style:italic; color:var(--t3)">Hands-Free 跟随向 ·
+                            需要被“安全与价值”教育</div>
+                    </div>
+                    <div class="tag">关注: 智能体验与安全边界</div>
+                </div>
+
+                <div class="Persona-body_Xj">
+                    <!-- 3.3.1 & 3.3.2 Definition -->
+                    <div class="p-block_Xj">
+                        <div class="def-layout_Xj">
+                            <div>
+                                <div class="t-meta" style="margin-bottom:8px;">3.3.1 Persona 命名</div>
+                                <div class="t-body" style="margin-bottom:24px;">
+                                    <strong>角色 + 场景 + 约束</strong>：新手/轻度玩家 + 被“自动跟随/解放双手”吸引 + 核心约束是“<strong>不懂技术但害怕失控，且对
+                                        $1500+ 价格缺乏价值锚点</strong>”。
+                                </div>
+
+                                <div class="t-meta" style="margin-bottom:8px;">3.3.2 一句话定义</div>
+                                <div class="t-body">
+                                    这类用户通常为 <strong>25–40
+                                        岁的年轻或轻度高尔夫玩家</strong>，男女比例更均衡，多集中在北美一二线城市或近郊，<strong>并非传统高尔夫圈层原生人群</strong>。他们往往是从短视频平台（如
+                                    TikTok / Instagram Reels）被“自动跟随、解放双手”的画面吸引入场，把 electric golf caddy
+                                    视为一种<strong>能显著降低入门门槛、提升体面感与科技感的智能装备</strong>。<br><br>
+                                    但由于高尔夫经验有限、对球场风险缺乏直觉判断，这类人对“失控、误跟随、下坡危险”等潜在问题高度不安；同时，<strong>$1500+
+                                        的价格在其消费结构中仍属大额决策</strong>。一旦品牌无法清晰解释“技术如何工作、边界在哪里、为什么值得这个价格”，他们的决策路径就会迅速从“兴奋尝鲜”转向“犹豫、观望甚至放弃”。
+                                </div>
+                            </div>
+                            <div class="chart-box_Xj">
+                                <div class="mini-chart"
+                                    style="background: conic-gradient(var(--acc-1) 14%, var(--bd) 0); margin-bottom:8px;">
+                                </div>
+                                <div style="text-align:center;">
+                                    <div class="t-num-M c-good">14%</div>
+                                    <div class="t-meta">人群占比</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.3.3 & 3.3.4 Grid -->
+                    <div class="p-block_Xj grid-2_Xj">
+                        <div class="insight-card_Xj">
+                            <div class="t-meta" style="margin-bottom:12px;">3.3.3 人群边界</div>
+                            <ul class="ul-styled_Xj">
+                                <li><strong>触点</strong>：被短视频的“Hands-Free 自动跟随”画面种草；不是传统硬核高尔夫玩家。</li>
+                                <li><strong>动机</strong>：追求“科技加持的轻松与体面”（想体验顺滑、想在球场显摆）。</li>
+                                <li><strong>风险敏感</strong>：对“技术会不会失控”缺乏安全感：下坡撞人、跟丢、误跟随、乱跑。</li>
+                                <li><strong>价格门槛</strong>：对 $1500+ 价格敏感；若无法理解“贵在哪里/钱花在哪”，转化率骤降。</li>
+                                <li><strong>证据偏好</strong>：比起参数，更吃“把黑科技讲清楚”的信任教育：机制、边界、异常处理、长期真实反馈。</li>
+                            </ul>
+                        </div>
+                        <div class="insight-card_Xj">
+                            <div class="t-meta" style="margin-bottom:12px;">3.3.4 决策驱动 (Key Findings)</div>
+                            <div style="margin-bottom:16px;">
+                                <h4>主驱动：酷炫“智能伙伴”带来的身份与体验升级</h4>
+                                <div class="t-body" style="font-size:13px;">
+                                    他们被“跟随/解放双手”的画面驱动，购买动机是“体验先进、显得专业、轻松不狼狈”。（这是拉新的燃料）</div>
+                            </div>
+                            <div style="margin-bottom:16px;">
+                                <h4>次驱动：一旦信息不充分，兴奋会快速转成恐惧与质疑</h4>
+                                <div class="t-body" style="font-size:13px;">
+                                    短视频能制造冲动，但缺少“安全边界/异常处理/长期可靠性”的硬信息承接，就会触发“看起来越智能越可怕”的反应。</div>
+                            </div>
+                            <div>
+                                <h4>价格悖论：$1500+ 对新手来说像“交智商税”</h4>
+                                <div class="t-body" style="font-size:13px;">除非你把“贵”解释为“为确定性付费”（传感器+控制策略+安全冗余），否则他们无法自洽。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.3.5 & 3.3.6 -->
+                    <div class="p-block_Xj">
+                        <div class="t-meta" style="margin-bottom:8px;">3.3.5 核心 JTBD (Jobs to be Done)</div>
+                        <div class="t-body" style="margin-bottom:12px;">
+                            <strong>主任务</strong>：在球场获得一种“科技加持的轻松与体面”——不想背负、不想手忙脚乱，希望设备像跟随助理一样自然协作。
+                        </div>
+                        <div class="t-body">
+                            <strong>辅助任务</strong>：
+                            <ul class="ul-styled_Xj" style="margin-top:4px;">
+                                <li><strong>把酷炫变成可放心使用</strong>：我敢开跟随、不会出事、出了事知道怎么办（需要被教育“可控/可解释”）。</li>
+                                <li><strong>把价格变成价值</strong>：理解为什么贵、贵带来的确定性是什么、跟便宜款差在哪。</li>
+                                <li><strong>第一次就用顺（新手上手）</strong>：开箱设置、第一次下场不翻车，不然信任直接崩盘。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="p-block_Xj" style="background:var(--bg-3); padding:20px; border-radius:8px;">
+                        <div class="t-meta" style="margin-bottom:12px; color:var(--acc-2);">3.3.6 关键反对点 & 成交条件</div>
+                        <div class="grid-2_Xj">
+                            <div>
+                                <div class="t-h2" style="font-size:14px; margin-bottom:8px;">他们会在评论区追问的 3 个问题：</div>
+                                <ul class="ul-styled_Xj">
+                                    <li>“下坡会不会撞到我/撞到别人？失控怎么办？”</li>
+                                    <li>“自动跟随会不会跟丢？复杂场景会不会乱跑/误跟随？”</li>
+                                    <li>“凭什么值 $1500+？贵在哪里？”</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="t-h2" style="font-size:14px; margin-bottom:8px;">成交条件 (Done Criteria)：</div>
+                                <ul class="ul-styled_Xj">
+                                    <li><strong>安全边界清单</strong>：明确哪些场景能用、哪些场景不建议用，不要只说“安全”。</li>
+                                    <li><strong>异常处理流程</strong>：失联/误跟随/刹车触发/下坡场景的应对步骤，最好“30 秒短片 + 详细版 FAQ”。</li>
+                                    <li><strong>可复现演示 + 长期反馈</strong>：不仅是酷炫镜头，还要有“实测 + 规则解释”。</li>
+                                    <li><strong>价值拆解</strong>：把 $1500+ 拆成“传感器 → 控制策略 → 安全冗余 → 可靠性”，让贵变得合理。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.3.7 Table -->
+                    <div class="p-block_Xj">
+                        <div class="t-meta" style="margin-bottom:12px;">3.3.7 洞察-需求-功能映射表</div>
+                        <div class="table-wrap_Xj">
+                            <table class="tbl">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%">核心洞察 (Insight)</th>
+                                        <th style="width:20%">核心需求 (Need)</th>
+                                        <th style="width:20%">功能映射 (Function)</th>
+                                        <th style="width:25%">实现方式 (Implementation)</th>
+                                        <th style="width:15%">KANO 模型</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>1. 担心机器人“瞎了”乱撞导致社死</strong></td>
+                                        <td><strong>主动环境感知与避障</strong><br>(Active Obstacle Avoidance)</td>
+                                        <td><strong>360度安全护盾</strong><br>(Safety Shield)</td>
+                                        <td>1. 标配超声波/激光雷达避障传感器。<br>2. 遇到障碍物自动急停并发出语音/灯光提示。<br>3. 宣传视频展示“假人冲撞测试”自动刹停。
+                                        </td>
+                                        <td>⭐⭐⭐⭐⭐<br>(必备/期望需求)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2. 看不见技术就觉得是智商税</strong></td>
+                                        <td><strong>传感器技术可视化</strong><br>(Sensor Tech Visualization)</td>
+                                        <td><strong>科技透视营销</strong><br>(Tech Transparency)</td>
+                                        <td>1. 详情页使用 CGI 爆炸图展示 UWB 芯片布局和电机内部结构。<br>2. 对比“普通跟随”vs“智能其跟随”的算法差异图解。</td>
+                                        <td>⭐⭐⭐⭐<br>(魅力需求)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>3. 害怕设备失控跑丢</strong></td>
+                                        <td><strong>虚拟隐形牵引绳</strong><br>(Virtual Invisible Leash)</td>
+                                        <td><strong>断连急停与一键召回</strong><br>(Auto-Brake & Recall)</td>
+                                        <td>1. 信号丢失（超过3米）毫秒级自动锁死轮毂。<br>2. 遥控器设置物理“Kill Switch”（一键切断/急停按钮）。</td>
+                                        <td>⭐⭐⭐⭐⭐<br>(必备需求)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>4. 不想分心操作复杂的遥控器</strong></td>
+                                        <td><strong>零意图交互</strong><br>(Zero-Intent Interaction)</td>
+                                        <td><strong>侧向跟随/无感模式</strong><br>(Side-Follow Mode)</td>
+                                        <td>1. 无需手持遥控器，设备自动保持在身体右后方 1 米处。<br>2. 自动适应用户的步速变化（快走、慢跑、急停）。</td>
+                                        <td>⭐⭐⭐⭐⭐<br>(魅力需求)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 3.3.8 Evidence -->
+                    <div class="p-block_Xj">
+                        <div class="t-meta" style="margin-bottom:8px;">3.3.8 证据偏好 (Proof Kit)</div>
+                        <div class="t-body">这类人不想看一堆参数，但极吃“<strong>机制 + 边界 + 演示</strong>”三件套。</div>
+                        <div class="grid-2_Xj" style="margin-top:16px;">
+                            <div class="bd-l">
+                                <div class="t-h2" style="font-size:14px; margin-bottom:4px;">短视频承接 (TikTok / Reels)
+                                </div>
+                                <div class="t-body" style="font-size:13px;">“酷炫跟随”之后必须立刻给“安全解释短片”（15–30
+                                    秒）：下坡如何刹车？误跟随如何处理？哪些场景不建议开启？</div>
+                            </div>
+                            <div class="bd-l">
+                                <div class="t-h2" style="font-size:14px; margin-bottom:4px;">PDP (页面) 承接</div>
+                                <div class="t-body" style="font-size:13px;">把‘智能’写成模块：防撞机制、智能刹车、失联处理、适用边界。每个模块都配“1 张图 +
+                                    1 段演示视频 + 1 条规则”。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Persona 3.4 -->
+            <div class="Persona-card_Xj">
+                <div class="Persona-header_Xj">
+                    <div>
+                        <div class="t-meta c-good">Profile 04</div>
+                        <h3 class="t-h1">健康步行派 (The Cautious Pragmatists) 🚶</h3>
+                        <div class="t-body" style="margin-top:4px; font-style:italic; color:var(--t3)">低复杂度可靠向 ·
+                            拒绝“偷懒叙事”</div>
+                    </div>
+                    <div class="tag">关注: 健康延续与长期可靠</div>
+                </div>
+
+                <div class="Persona-body_Xj">
+                    <!-- 3.4.1 & 3.4.2 -->
+                    <div class="p-block_Xj">
+                        <div class="def-layout_Xj">
+                            <div>
+                                <div class="t-meta" style="margin-bottom:8px;">3.4.1 Persona 命名</div>
+                                <div class="t-body" style="margin-bottom:24px;">
+                                    <strong>角色 + 场景 + 约束</strong>：长期主义步行派 + 健康触发后入坑 +
+                                    核心约束是“<strong>我要继续步行，但必须减负；我要简单可靠，但又背着‘会不会被说偷懒’的心理压力</strong>”。
+                                </div>
+
+                                <div class="t-meta" style="margin-bottom:8px;">3.4.2 一句话定义</div>
+                                <div class="t-body">
+                                    这类用户通常为 <strong>40–70
+                                        岁的长期高尔夫步行者</strong>，男女比例相对更均衡，居住在北美郊区或中小城市，<strong>高尔夫已是其稳定的长期生活方式而非阶段性兴趣</strong>。他们大多并非科技尝鲜者，而是经历过身体负担（下背、肩颈、手腕）后，开始认真思考如何<strong>在不放弃步行、不改变自我认同的前提下延续运动习惯</strong>。<br><br>
+                                    在他们的价值体系中，“努力、克制、自律”是高尔夫精神的一部分，因此对“省力、自动、解放双手”的叙事天然警惕；同时，过多电子功能在他们看来意味着<strong>更高的故障概率与长期折腾成本</strong>。他们选择
+                                    electric golf caddy 的核心目的并非更轻松，而是<strong>更可持续、更少伤害、更长久地走下去</strong>。
+                                </div>
+                            </div>
+                            <div class="chart-box_Xj">
+                                <div class="mini-chart"
+                                    style="background: conic-gradient(var(--acc-3) 21%, var(--bd) 0); margin-bottom:8px;">
+                                </div>
+                                <div style="text-align:center;">
+                                    <div class="t-num-M c-good">21%</div>
+                                    <div class="t-meta">人群占比</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.4.3 & 3.4.4 Grid -->
+                    <div class="p-block_Xj grid-2_Xj">
+                        <div class="insight-card_Xj">
+                            <div class="t-meta" style="margin-bottom:12px;">3.4.3 人群边界</div>
+                            <ul class="ul-styled_Xj">
+                                <li><strong>健康触发</strong>：通常在下背/肩背出现负担后，才认真考虑上电动推车，用它维持运动习惯。</li>
+                                <li><strong>步行偏好</strong>：仍享受行走，只是不想长期负重；他们要的是“负重剥离”，不是“全自动代步”。</li>
+                                <li><strong>功能取舍</strong>：偏好简单、可靠、少故障；抗拒遥控/全自动/复杂电子功能带来的不确定性。</li>
+                                <li><strong>价格策略</strong>：面对新机价格压力，会主动搜翻新机/性价比路线来平衡预算。</li>
+                                <li><strong>舆论敏感</strong>：会在 Reddit 等社区讨论“电动是不是偷懒/占用资源”，需要被“正当化”。</li>
+                            </ul>
+                        </div>
+                        <div class="insight-card_Xj">
+                            <div class="t-meta" style="margin-bottom:12px;">3.4.4 决策驱动 (Key Findings)</div>
+                            <div style="margin-bottom:16px;">
+                                <h4>主驱动：从工具到“健康义肢”（不是偷懒，是续命）</h4>
+                                <div class="t-body" style="font-size:13px;">这类人天然排斥“effortless /
+                                    easy”的偷懒叙事，真正有效的增长叙事是“protect your back / play longer”。这与报告的关键洞察“电动 caddy
+                                    从工具升级为健康义肢”一致。</div>
+                            </div>
+                            <div>
+                                <h4>次驱动：中端价格信任悖论（买得起 ≠ 买得放心）</h4>
+                                <div class="t-body" style="font-size:13px;">
+                                    当他们把它视为长期投资，就会对“可靠性、售后、零件可得性”更苛刻；如果品牌无法证明“长期可用”，他们会更倾向翻新或更保守的方案。</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.4.5 & 3.4.6 -->
+                    <div class="p-block_Xj">
+                        <div class="t-meta" style="margin-bottom:8px;">3.4.5 核心 JTBD (Jobs to be Done)</div>
+                        <div class="t-body" style="margin-bottom:12px;">
+                            <strong>主任务</strong>：在身体出现负担后，仍能继续保持“步行打球”的节奏与习惯——减负但不放弃行走体验。
+                        </div>
+                        <div class="t-body">
+                            <strong>辅助任务</strong>：
+                            <ul class="ul-styled_Xj" style="margin-top:4px;">
+                                <li><strong>把使用变成理直气壮</strong>：不仅要好用，还要能解释“我用它是健康管理/长期主义”，不是偷懒。</li>
+                                <li><strong>降低长期折腾成本</strong>：希望设备少故障、易维护、配件可得；不想被电子问题反复折腾。</li>
+                                <li><strong>预算可控地长期拥有</strong>：通过翻新机/保修/可替换部件等机制降低一次性支出与长期风险。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="p-block_Xj" style="background:var(--bg-3); padding:20px; border-radius:8px;">
+                        <div class="t-meta" style="margin-bottom:12px; color:var(--acc-2);">3.4.6 关键反对点 & 成交条件</div>
+                        <div class="grid-2_Xj">
+                            <div>
+                                <div class="t-h2" style="font-size:14px; margin-bottom:8px;">他们会卡你的 3 个问题：</div>
+                                <ul class="ul-styled_Xj">
+                                    <li>“我用电动会不会显得在偷懒？”（需要健康定位与价值观背书）</li>
+                                    <li>“复杂电子功能会不会增加故障和折腾？”（要简单可靠，而不是花哨智能）</li>
+                                    <li>“新机太贵，翻新/性价比路线靠谱吗？”（要翻新标准、保修、零部件支持）</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <div class="t-h2" style="font-size:14px; margin-bottom:8px;">成交条件 (Done Criteria)：</div>
+                                <ul class="ul-styled_Xj">
+                                    <li><strong>健康定位清晰</strong>：明确声明使用场景是“减负、保护身体、打得更久”，避免“省力偷懒”措辞。</li>
+                                    <li><strong>可靠性证据</strong>：核心部件寿命/耐用设计、可维护性、常见故障与解决路径（让他们觉得“可控”）。</li>
+                                    <li><strong>低复杂度主线</strong>：把遥控/全自动作为可选项，而不是默认主叙事；强调“能坏的越少越好”。</li>
+                                    <li><strong>翻新/保修机制透明</strong>：翻新等级标准、检测项清单、保修时长、关键部件可替换与供应承诺。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.4.7 Table -->
+                    <div class="p-block_Xj">
+                        <div class="t-meta" style="margin-bottom:12px;">3.4.7 洞察-需求-功能映射表</div>
+                        <div class="table-wrap_Xj">
+                            <table class="tbl">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%">核心洞察 (Insight)</th>
+                                        <th style="width:20%">核心需求 (Need)</th>
+                                        <th style="width:20%">功能映射 (Function)</th>
+                                        <th style="width:25%">实现方式 (Implementation)</th>
+                                        <th style="width:15%">KANO 模型</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>1. 目的是为了健康走路，而非偷懒</strong></td>
+                                        <td><strong>人体工学与健康背书</strong><br>(Health-Centric Ergonomics)</td>
+                                        <td><strong>可调节脊柱保护手柄</strong><br>(Spine-Saver Handle)</td>
+                                        <td>1. 手柄高度支持大范围调节，确保推行不弯腰。<br>2. 营销文案引用理疗师证言："Reduces lumbar strain by 90%".
+                                        </td>
+                                        <td>⭐⭐⭐⭐⭐<br>(必备/期望需求)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2. 极度恐惧电池半路与耗尽</strong></td>
+                                        <td><strong>冗余续航与状态透明</strong><br>(Redundant Range)</td>
+                                        <td><strong>36洞标配电池 & 真实电量显示</strong><br>(Extended Battery & TrueSOC)</td>
+                                        <td>1. 标配大容量锂电（宣传“打两场充一次”）。<br>2. 遥控器/手柄提供电压读数或百分比显示，而非模糊的“三格电”。</td>
+                                        <td>⭐⭐⭐⭐⭐<br>(必备需求)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>3. 讨厌光污染和复杂屏幕</strong></td>
+                                        <td><strong>触觉化物理交互</strong><br>(Tactile Controls)</td>
+                                        <td><strong>盲操旋钮与实体键</strong><br>(Knob & Buttons)</td>
+                                        <td>1. 使用电位器旋钮调节速度（无极变速）。<br>2. 提供独立的“10/20/30码”自动前进实体按钮。<br>3. 强光下可见的简单黑白段码屏。
+                                        </td>
+                                        <td>⭐⭐⭐⭐<br>(期望需求)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>4. 希望像修自行车一样修球车</strong></td>
+                                        <td><strong>模块化维修权</strong><br>(Right to Repair)</td>
+                                        <td><strong>通用接口与配件商城</strong><br>(Universal Parts Ecosystem)</td>
+                                        <td>1. 电池采用通用接口（如 Anderson插头）。<br>2. 官网直接售卖轮子、控制器、车轴销钉。<br>3. 提供 "DIY Repair"
+                                            视频专区。</td>
+                                        <td>⭐⭐⭐⭐⭐<br>(魅力需求)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 3.4.8 Evidence -->
+                    <div class="p-block_Xj">
+                        <div class="t-meta" style="margin-bottom:8px;">3.4.8 证据偏好 (Proof Kit)</div>
+                        <div class="t-body">他们不需要“炫酷黑科技”，需要“长期可控”的证据包。</div>
+                        <div class="grid-2_Xj" style="margin-top:16px;">
+                            <div class="bd-l">
+                                <div class="t-h2" style="font-size:14px; margin-bottom:4px;">PDP (页面) 必须外显的三块</div>
+                                <div class="t-body" style="font-size:13px;">
+                                    <ul class="ul-styled_Xj" style="margin:0;">
+                                        <li><strong>健康投资解释卡</strong>：为什么这不是偷懒（可复制的 3 句话，用于回应质疑）</li>
+                                        <li><strong>可靠性与维护卡</strong>：核心部件耐用、维护周期、常见问题与处理</li>
+                                        <li><strong>翻新与保修标准卡</strong>：翻新等级/检测项/保修/关键部件更换与供应承诺</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="bd-l">
+                                <div class="t-h2" style="font-size:14px; margin-bottom:4px;">内容资产 (用于社交与口碑)</div>
+                                <div class="t-body" style="font-size:13px;">
+                                    <ul class="ul-styled_Xj" style="margin:0;">
+                                        <li>“Back pain 之后仍能步行打完 18 洞”的真实故事</li>
+                                        <li>“我拒绝遥控/全自动”的理由讲清楚：可控、少故障、少焦虑</li>
+                                        <li>翻新机科普：怎么选不踩坑</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3.5 Persona -->
+        <div class="sect">
+            <!-- Persona Card Wrapper -->
+            <div class="Persona-card p-card-XY">
+                <!-- Header -->
+                <div class="Persona-header p-header-XY">
+                    <div>
+                        <div class="t-meta c-mid">Profile 05</div>
+                        <h3 class="t-h1">偶像生活方式投射派 · 情绪认同购买者 ✨</h3>
+                        <div class="t-body" style="margin-top:4px; font-style:italic; color:var(--t3)">The Emotional
+                            Resonance Followers</div>
+                    </div>
+                    <div class="tag-g">
+                        <div class="tag">关注: 情绪认同</div>
+                        <div class="tag">社交符号</div>
+                        <div class="tag">惊喜感</div>
+                    </div>
+                </div>
+
+                <!-- Body Content -->
+                <div class="p-body-XY">
+
+                    <!-- 3.5.1 & 3.5.2 Definition & Chart -->
+                    <div class="p-section-XY">
+                        <span class="p-label-XY">3.5.1 & 3.5.2 定义与画像 (Definition)</span>
+
+                        <!-- Role/Scene Block -->
+                        <div class="highlight-box-XY">
+                            <strong>角色 + 场景 + 约束：</strong>偶像/圈层生活方式追随者 + 情绪认同驱动 +
+                            核心约束是“<strong>我不想研究参数，但我怕被广告骗；我想要身份符号，但必须‘晒得出来、像得起来’</strong>”。
+                        </div>
+
+                        <div class="def-row-XY">
+                            <div style="flex:1;">
+                                <p class="t-body">这类用户通常为 <strong>28–50
+                                        岁的中等及以上收入人群</strong>，男女比例相对均衡，集中在北美城市或生活方式高度外显的区域，高尔夫并非他们最核心、最专业的运动身份，而是<strong>其整体生活方式的一部分</strong>。他们更常通过社交媒体接触高尔夫文化——关注的是<strong>某个人、某种气质、某种“理想周末图景”</strong>，而不是技术或竞技本身。
+                                </p>
+                            </div>
+                            <div class="p-stat-box-rK">
+                                <div class="mini-chart"
+                                    style="background: conic-gradient(var(--acc-3) 20%, var(--bd) 0);">
+                                </div>
+                                <div class="t-num-M c-good">20%</div>
+                                <div class="t-meta">人群占比</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid var(--bd); width:100%;">
+
+                    <!-- 3.5.3 Boundaries -->
+                    <div class="p-section-XY">
+                        <span class="p-label-XY">3.5.3 人群边界 (Boundaries)</span>
+                        <div class="grid" style="--cols: 2; gap: 24px;">
+                            <div class="c-data">
+                                <span class="t-meta">核心触点 & 决策依据</span>
+                                <ul class="list-check-XY" style="margin-top:8px;">
+                                    <li><strong>核心触点：</strong>常在 X 通过点赞/互动表达支持；决策更像“站队/认同”而非参数推演。</li>
+                                    <li><strong>决策依据：</strong>缺少详细参数也能下单；“偶像背书 / KOL 推荐 / 榜单”经常是主要甚至唯一理由。</li>
+                                </ul>
+                            </div>
+                            <div class="c-data">
+                                <span class="t-meta">信息偏好 & 风险点</span>
+                                <ul class="list-check-XY" style="margin-top:8px;">
+                                    <li><strong>信息偏好：</strong>对“功能怎么实现”不敏感；对“代表什么生活方式/气质/圈层”更敏感（情感连接 > 功能参数）。</li>
+                                    <li><strong>典型信号：</strong>会快速寻找“Top list / 年度推荐 / 最值得信赖”这种权威清单完成决策闭环（即使滞后也愿意信）。</li>
+                                    <li><strong>风险点：</strong>对“广告/带货”高度警惕，一旦社证不可追溯，会反噬品牌（尤其在评论区/社区扩散）。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.5.4 Decision Drive -->
+                    <div class="p-section-XY">
+                        <span class="p-label-XY">3.5.4 决策驱动 (Decision Drive)</span>
+                        <div class="split-grid-XY">
+                            <div class="card-drive-XY bd-l">
+                                <div class="t-h2 c-good" style="margin-bottom:8px;">主驱动：生活方式“门票效应”</div>
+                                <p class="t-body">他们购买是为了获得一种可被他人识别的“圈层符号”：同款、同风格、同气质——把“我想成为那样的人”具体化为可展示的物件。</p>
+                            </div>
+                            <div class="card-drive-XY bd-l" style="border-left-color: var(--acc-2);">
+                                <div class="t-h2 c-bad" style="margin-bottom:8px;">次驱动：惊喜感/仪式感</div>
+                                <p class="t-body">这类人天然吃“情绪爆点 + 画面惊喜 +
+                                    仪式感”，非常契合“惊喜感是低成本流量密码”。但同时，社交内容如果只提供情绪不提供可信社证，就会落入“社交内容强、转化弱”的断层。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.5.5 JTBD -->
+                    <div class="p-section-XY">
+                        <span class="p-label-XY">3.5.5 核心 JTBD</span>
+                        <div class="card" style="padding:24px; background:var(--bg-2); border:none;">
+                            <div style="margin-bottom:16px;">
+                                <span class="tag" style="background:var(--prm); color:#fff; margin-right:8px;">Main
+                                    Job</span>
+                                <span class="t-h2">通过“同款/同风格”完成象征性介入</span>
+                                <p class="t-body" style="margin-top:8px;">心理上与偶像/圈层“共乘”，获得身份归属与情绪价值。</p>
+                            </div>
+                            <div style="display:flex; gap:16px; flex-wrap:wrap;">
+                                <span class="tag">低成本获得生活方式</span>
+                                <span class="tag">快速决策闭环</span>
+                                <span class="tag">可展示与可分享</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.5.6 Objections & Done Criteria -->
+                    <div class="p-section-XY">
+                        <div class="grid" style="--cols: 2; gap: 32px;">
+                            <div>
+                                <span class="p-label-XY" style="color:var(--acc-2);">关键反对点 (Objections)</span>
+                                <ul class="list-check-XY">
+                                    <li>“这个推荐靠谱吗？是不是广告？”</li>
+                                    <li>“有没有权威榜单/过往推荐可以直接抄作业？”</li>
+                                    <li>“买了能不能体现那个圈层的气质？会不会‘同款但不像’？”</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <span class="p-label-XY" style="color:var(--acc-3);">成交条件 (Done Criteria)</span>
+                                <ul class="list-check-XY">
+                                    <li><strong>推荐来源可追溯：</strong>清楚标注“谁推荐/何时推荐/在什么场景使用”，能一键跳到原出处。</li>
+                                    <li><strong>“社证前置”结构：</strong>首屏就能看到 As seen on / Top pick / Creator recommended
+                                        等信任信号。</li>
+                                    <li><strong>生活方式叙事自洽：</strong>视觉、文案、场景一致，不要“牛仔生活方式”配“硬核工程风页面”。</li>
+                                    <li><strong>底线事实补齐：</strong>不需要深参数，但要有“关键参数完整性”（重量/续航/载重/坡度等）。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3.5.7 Insight Map -->
+                    <div class="p-section-XY">
+                        <span class="p-label-XY">3.5.7 洞察-需求-功能映射表</span>
+                        <div style="overflow-x:auto;">
+                            <table class="tbl">
+                                <thead>
+                                    <tr>
+                                        <th>核心洞察 (Insight)</th>
+                                        <th>核心需求 (Need)</th>
+                                        <th>功能映射 (Function)</th>
+                                        <th>实现方式 (Implementation)</th>
+                                        <th>KANO 模型</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="t-h2">1. 视机器为有灵性的伙伴</td>
+                                        <td><strong>拟人化交互设计</strong><br>(Anthropomorphic UI)</td>
+                                        <td><strong>"打招呼"与情感反馈</strong><br>(Emotional Feedback)</td>
+                                        <td class="t-body">1. 启动时显示笑脸图标或播放愉悦的和弦音。<br>2. 跟随成功时车头灯“眨眼”确认。<br>3. 并在 App
+                                            中允许用户给车命名 (Name Your Caddy)。</td>
+                                        <td>⭐⭐⭐⭐⭐<br>(魅力需求)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="t-h2">2. 渴望偶像同款的松弛感</td>
+                                        <td><strong>明星/KOL 联名叙事</strong><br>(Co-branded Narrative)</td>
+                                        <td><strong>生活方式限定版</strong><br>(Lifestyle Editions)</td>
+                                        <td class="t-body">1. 推出 "Sunday Morning Edition"（复古配色、真皮手柄）。<br>2.
+                                            包装箱内附赠“生活方式指南”图册。<br>3. 营销素材只展示人与自然，不展示电机参数。</td>
+                                        <td>⭐⭐⭐⭐<br>(期望需求)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="t-h2">3. 拒绝工业感，追求高颜值</td>
+                                        <td><strong>高辨识度美学</strong><br>(Signature Aesthetics)</td>
+                                        <td><strong>一体化流线型设计</strong><br>(Unibody Design)</td>
+                                        <td class="t-body">1. 隐藏所有裸露线束和焊点 (Clean Look)。<br>2. 提供莫兰迪色系或哑光金属漆面选项。<br>3.
+                                            轮毂造型跑车化。</td>
+                                        <td>⭐⭐⭐⭐⭐<br>(必备/期望需求)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="t-h2">4. 希望球车能参与家庭互动</td>
+                                        <td><strong>宠物/家庭友好模式</strong><br>(Pet/Family Mode)</td>
+                                        <td><strong>"Paw-Patrol" 附件生态</strong><br>(Pet Accessories)</td>
+                                        <td class="t-body">1. 标配或选配磁吸式宠物碗/水杯架。<br>2. 开发“低速遛狗模式”（稳定在 3mph）。<br>3.
+                                            “防夹手”升级为“防夹尾巴”安全逻辑。</td>
+                                        <td>⭐⭐⭐⭐⭐<br>(魅力需求)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 3.5.8 Proof Kit -->
+                    <div class="p-section-XY">
+                        <span class="p-label-XY">3.5.8 证据偏好 (Proof Kit)</span>
+                        <div class="c-data" style="background:var(--bg-3);">
+                            <div class="tag-g" style="margin-bottom:16px;">
+                                <div class="tag">社证证据包 (首屏)</div>
+                                <div class="tag">生活方式叙事 (中段)</div>
+                                <div class="tag">事实底线包 (末段)</div>
+                            </div>
+                            <p class="t-body">
+                                他们不需要“证明你最强”，需要“证明你属于那个世界且推荐是真的”。需要：推荐人/榜单/媒体/创作者的<strong>可追溯引用</strong>；用户故事（真实人设 +
+                                场景）；场景片（产品是门票）；关键参数完整但轻量。</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4 Findings -->
+        <div class="sect">
+            <div class="t-meta" style="margin-bottom:12px; color:var(--acc-1)">SECTION 4</div>
+            <h2 class="t-h1" style="margin-bottom:32px">关键洞察发现 (Key Findings)</h2>
+
+            <div class="find-grid-XY">
+                <!-- 4.1 Card -->
+                <div class="find-card-XY">
+                    <div class="t-meta c-bad">Finding 4.1</div>
+                    <h3 class="t-h2">社交内容与“智能随行装备”的认知断层</h3>
+                    <div class="one-liner-XY">
+                        TikTok 的视觉种草成功激发了对“智能球童”的兴趣，但“价格未知”与“渠道不明”正在系统性地扼杀这些冲动转化。
+                    </div>
+                    <p class="t-body">在 TikTok/Shorts 上，内容往往只有炫酷的“解放双手”展示，缺乏核心决策信息（价格、Course Legal），导致用户因搜索成本过高而流失。</p>
+                    <div class="voc-box-XY">
+                        <strong>关联人群:</strong> 球场新手科技党<br>
+                        <strong>VOC:</strong> "Cool tech... but where to buy? Is it $2000?"
+                    </div>
+                </div>
+
+                <!-- 4.1.1 Card (Mapped to 4.2 in logical flow) -->
+                <div class="find-card-XY">
+                    <div class="t-meta c-mid">Finding 4.2</div>
+                    <h3 class="t-h2">中端市场的“信任/价格”悖论</h3>
+                    <div class="one-liner-XY">
+                        在 $2000 以下的市场，消费者陷入了“不敢买便宜货”与“买不起大牌”的决策瘫痪，急需“平价且透明”的破局者。
+                    </div>
+                    <p class="t-body">消费者不是在寻找“最便宜”的产品，而是在寻找“不仅便宜而且参数极度透明”的产品来消除对电池虚标、侧翻等问题的恐惧。</p>
+                    <div class="voc-box-XY">
+                        <strong>关联人群:</strong> 参数对比型 · 性能评测派<br>
+                        <strong>Search:</strong> ["best...under $2000", "stability", "review"]
+                    </div>
+                </div>
+
+                <!-- 4.1.2 Card (Mapped to 4.3 in logical flow) -->
+                <div class="find-card-XY">
+                    <div class="t-meta c-good">Finding 4.3</div>
+                    <h3 class="t-h2">从“运动工具”到“健康义肢”的认知重构</h3>
+                    <div class="one-liner-XY">
+                        对于核心高龄用户，电动球车不是“偷懒”的代名词，而是延续运动寿命的“刚需医疗设备”。
+                    </div>
+                    <p class="t-body">产品不能仅强调“省力”，更要强调“让你能继续打完18洞”的赋能属性。这是一种“为了走路而买车”的辩证需求。</p>
+                    <div class="voc-box-XY">
+                        <strong>关联人群:</strong> 坡地球场步行派 / 健康步行派<br>
+                        <strong>VOC:</strong> "...avoid back pain", "drive down... get out and walk"
+                    </div>
+                </div>
+
+                <!-- 4.1.3 Card (Mapped to 4.4 in logical flow) -->
+                <div class="find-card-XY">
+                    <div class="t-meta" style="color:#d946ef;">Finding 4.4</div>
+                    <h3 class="t-h2">“惊喜感”是低成本的流量密码</h3>
+                    <div class="one-liner-XY">
+                        球场上的非标互动（如遇到野生动物、智能跟随的呆萌瞬间）是比硬核广告更有效的破圈利器。
+                    </div>
+                    <p class="t-body">社交媒体上最具传播力的内容往往是球场上的“意外惊喜”——比如智能跟随的瞬间。这些内容能激发“情感共鸣”，将机器转化为有温度的伙伴。</p>
+                    <div class="voc-box-XY">
+                        <strong>关联人群:</strong> 偶像生活方式投射派<br>
+                        <strong>KW:</strong> ["autofollow", "emotional connection", "raccoon"]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 下面是固定的HTML样式 -->
+    <!-- Image Modal -->
+    <div id="imgModal" class="img-modal" onclick="closeModal_img()">
+        <span class="img-modal-close" onclick="closeModal_img()">&times;</span>
+        <img class="img-modal-content" id="modalImg">
+    </div>
+    <!-- 固定的HTML样式结束 -->
+
+    <script>
+        (function () {
+            // 1.2 Social Media Platform Structure Chart
+            var chartDom = document.getElementById('chart_platforms_rK');
+            var myChart = echarts.init(chartDom);
+            var option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                    formatter: '{b}: {c}%'
+                },
+                grid: {
+                    left: '3%',
+                    right: '10%',
+                    bottom: '3%',
+                    top: '5%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01],
+                    axisLabel: { formatter: '{value}%' }, // Explicit Unit
+                    splitLine: { show: false }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: ['Reddit', 'YouTube', 'X/Twitter', 'TikTok', 'Instagram'],
+                    inverse: true, // List from top to bottom
+                    axisLine: { show: false },
+                    axisTick: { show: false }
+                },
+                series: [
+                    {
+                        name: 'Share',
+                        type: 'bar',
+                        data: [
+                            { value: 40.8, itemStyle: { color: '#FF4500' } }, // Reddit Orange
+                            { value: 25.1, itemStyle: { color: '#FF0000' } }, // YT Red
+                            { value: 18.4, itemStyle: { color: '#1DA1F2' } }, // Twitter Blue
+                            { value: 14.1, itemStyle: { color: '#000000' } }, // TikTok Black
+                            { value: 1.6, itemStyle: { color: '#C13584' } }   // Insta Purple
+                        ],
+                        label: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{c}%' // Explicit Unit
+                        },
+                        barWidth: '50%'
+                    }
+                ]
+            };
+
+            myChart.setOption(option);
+
+            // Resize Handler
+            window.addEventListener('resize', function () {
+                myChart.resize();
+            });
+        })();
+        /* ECharts Init */
+        (function () {
+            /* 1. Sentiment Chart */
+            const initSentChart = () => {
+                const dom = document.getElementById('chart_sent_vX');
+                if (!dom) return;
+                const chart = echarts.init(dom);
+
+                const option = {
+                    tooltip: { trigger: 'item', formatter: '{b}: {d}%' },
+                    legend: { bottom: 0, left: 'center' },
+                    color: ['#38b8a2', '#dfeaf1', '#ff8961'],
+                    series: [{
+                        name: 'Sentiment',
+                        type: 'pie',
+                        radius: ['50%', '70%'],
+                        center: ['50%', '45%'],
+                        itemStyle: { borderRadius: 4, borderColor: '#fff', borderWidth: 2 },
+                        data: [
+                            { value: 57.6, name: '🟢 正面 (57.6%)' },
+                            { value: 15.3, name: '⚪ 中性 (15.3%)' },
+                            { value: 27.1, name: '🔴 负面 (27.1%)' }
+                        ]
+                    }]
+                };
+                chart.setOption(option);
+                return chart;
+            };
+
+            /* 2. Priority Matrix Scatter Chart */
+            const initPrioChart = () => {
+                const dom = document.getElementById('chart_prio_vX');
+                if (!dom) return;
+                const chart = echarts.init(dom);
+
+                // Data format: [Attention%, Satisfaction(1-5), Name, PriorityLabel, Color]
+                const data = [
+                    [2.04, 1, 'Frame Durability\n(车架耐用性)', 'P0', '#ff8961'],
+                    [3.23, 2, 'Integrated Accessories\n(配件集成)', 'P0', '#ff8961'],
+                    [7.32, 5, 'Electric Motor\n(电机性能)', 'P1', '#38b8a2'],
+                    [6.47, 5, 'All-Terrain Cap.\n(全地形能力)', 'P1', '#38b8a2'],
+                    [7.32, 2, 'Wheel Traction\n(抓地力/轨迹)', 'P2', '#fbbf24']
+                ];
+
+                const option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function (params) {
+                            return `<strong>${params.data[2]}</strong><br/>Priority: ${params.data[3]}<br/>Attention: ${params.data[0]}%<br/>Satisfaction: ${params.data[1]} Stars`;
+                        }
+                    },
+                    grid: { top: 40, right: 120, bottom: 40, left: 60, containLabel: true },
+                    xAxis: {
+                        name: '关注度 (Attention %)',
+                        type: 'value',
+                        min: 0,
+                        max: 10,
+                        nameLocation: 'middle',
+                        nameGap: 30,
+                        splitLine: { lineStyle: { type: 'dashed' } }
+                    },
+                    yAxis: {
+                        name: '满意度 (Satisfaction Stars)',
+                        type: 'value',
+                        min: 0,
+                        max: 6,
+                        interval: 1,
+                        splitLine: { lineStyle: { type: 'dashed' } }
+                    },
+                    series: [{
+                        type: 'scatter',
+                        symbolSize: 45,
+                        data: data.map(item => ({
+                            value: [item[0], item[1], item[2], item[3]],
+                            itemStyle: { color: item[4], opacity: 0.9, shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.2)' },
+                            label: {
+                                show: true,
+                                formatter: function (p) { return p.data[3]; },
+                                color: '#fff',
+                                fontWeight: 'bold'
+                            }
+                        })),
+                        markArea: {
+                            silent: true,
+                            itemStyle: { color: 'transparent' },
+                            label: { show: true, position: 'right', color: '#ccc' },
+                            data: [
+                                [{ xAxis: 0, yAxis: 0 }, { xAxis: 10, yAxis: 2.5 }], // Danger Zone hint
+                                [{ xAxis: 0, yAxis: 2.5 }, { xAxis: 10, yAxis: 6 }]   // Good Zone hint
+                            ]
+                        }
+                    },
+                    // Labels series to avoid overlapping inside bubble
+                    {
+                        type: 'scatter',
+                        symbolSize: 0,
+                        data: data.map(item => ({
+                            value: [item[0], item[1]],
+                            label: {
+                                show: true,
+                                formatter: item[2],
+                                position: 'top',
+                                distance: 15,
+                                lineHeight: 14,
+                                fontSize: 11,
+                                color: '#333',
+                                backgroundColor: 'rgba(255,255,255,0.8)',
+                                padding: [4, 8],
+                                borderRadius: 4
+                            }
+                        }))
+                    }]
+                };
+                chart.setOption(option);
+                return chart;
+            };
+
+            /* Initialize and Resize Observer */
+            const c1 = initSentChart();
+            const c2 = initPrioChart();
+
+            const charts = [c1, c2].filter(c => c);
+
+            window.addEventListener('resize', () => charts.forEach(c => c.resize()));
+
+            // Observer for container visibility changes
+            const observer = new ResizeObserver(() => {
+                charts.forEach(c => c.resize());
+            });
+            const container = document.querySelector('.sect');
+            if (container) observer.observe(container);
+        })();
+        function init_jK9() {
+            // Chart 1: Platform Distribution
+            var chartDom = document.getElementById('chart_platform_jK9');
+            if (chartDom) {
+                var myChart = echarts.init(chartDom);
+                var option = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{b}: {c}%'
+                    },
+                    legend: {
+                        bottom: '0%',
+                        left: 'center',
+                        itemWidth: 10,
+                        itemHeight: 10,
+                        textStyle: { fontSize: 11, color: '#52525b' }
+                    },
+                    color: ['#0369a1', '#ef4444', '#18181b', '#38b8a2'], /* Youtube Red, Reddit Dark, Tiktok Teal base */
+                    series: [
+                        {
+                            name: 'Platform Distribution',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            center: ['50%', '45%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 5,
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '14',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            data: [
+                                { value: 40.8, name: 'Reddit', itemStyle: { color: '#ff4500' } }, // Reddit Orange
+                                { value: 25.1, name: 'YouTube', itemStyle: { color: '#ff0000' } }, // Youtube Red
+                                { value: 18.4, name: 'X/Twitter', itemStyle: { color: '#18181b' } }, // X Black
+                                { value: 14.1, name: 'TikTok', itemStyle: { color: '#000000' } } // TikTok Black (alt) or standard
+                            ]
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+
+                window.addEventListener('resize', function () {
+                    myChart.resize();
+                });
+            }
+        }
+
+        // Initialize
+        init_jK9();
+        /* No interactive logic required for this static content representation. */
+        /* 本模块为纯静态展示，无交互逻辑需求 */
+        function init_chart_pop_XY() {
+            const chartDom = document.getElementById('chart_pop_XY');
+            if (!chartDom) return;
+            const myChart = echarts.init(chartDom);
+
+            const option = {
+                series: [
+                    {
+                        type: 'gauge',
+                        startAngle: 90,
+                        endAngle: -270,
+                        pointer: { show: false },
+                        progress: {
+                            show: true,
+                            overlap: false,
+                            roundCap: true,
+                            clip: false,
+                            itemStyle: { color: '#0369a1' }
+                        },
+                        axisLine: { lineStyle: { width: 8, color: [[1, '#e4e4e7']] } },
+                        splitLine: { show: false },
+                        axisTick: { show: false },
+                        axisLabel: { show: false },
+                        data: [{
+                            value: 20,
+                            name: '占比',
+                            title: { offsetCenter: ['0%', '20%'], fontSize: 10, color: '#a1a1aa' },
+                            detail: {
+                                valueAnimation: true,
+                                offsetCenter: ['0%', '-20%'],
+                                fontSize: 20,
+                                fontWeight: 'bold',
+                                formatter: '{value}%',
+                                color: '#18181b'
+                            }
+                        }],
+                        detail: { width: 40, height: 14, lineHeight: 14 }
+                    }
+                ]
+            };
+
+            myChart.setOption(option);
+
+            window.addEventListener('resize', () => {
+                myChart.resize();
+            });
+
+            // Observer for resize in tabs/visibility changes
+            const observer = new ResizeObserver(() => {
+                myChart.resize();
+            });
+            observer.observe(chartDom);
+        }
+
+        // Initialize
+        init_chart_pop_XY();
+    </script>
+
+    <script>
+
+        //目录的JS
+        const toc = document.getElementById('toc');
+        const toggle = document.getElementById('tocToggle');
+
+        // 切换状态
+        function toggleToc() {
+            toc.classList.toggle('is-min');
+        }
+
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleToc();
+        });
+        toc.addEventListener('click', () => {
+            if (toc.classList.contains('is-min')) {
+                toggleToc();
+            }
+        });
+
+        const links = document.querySelectorAll('.toc-a');
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                links.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+    </script>
+
+    <script>
+        // 创建一个全局 tooltip 节点
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip-layer';
+        document.body.appendChild(tooltip);
+
+        function showTooltip(el) {
+            // 防止浏览器原生 tooltip 出现
+            if (el.hasAttribute('title')) {
+                el.setAttribute('data-original-title', el.getAttribute('title'));
+                el.removeAttribute('title');
+            }
+
+            const text = el.getAttribute('data-tip');
+            if (!text) return;
+            tooltip.innerHTML = text;
+            tooltip.style.opacity = '1';
+            tooltip.style.visibility = 'visible';
+
+            const rect = el.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            // 默认在元素上方
+            let top = rect.top - tooltipRect.height - 10;
+            let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+
+            // 防止超出顶部
+            if (top < 0) {
+                top = rect.bottom + 10; // 改到下方
+            }
+
+            // 防止左右溢出
+            left = Math.max(8, Math.min(left, window.innerWidth - tooltipRect.width - 8));
+
+            tooltip.style.top = `${top}px`;
+            tooltip.style.left = `${left}px`;
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
+            tooltip.style.visibility = 'hidden';
+        }
+
+        // 事件代理：适用于大量 term-tip
+        document.addEventListener('mouseover', e => {
+            const el = e.target.closest('.term-tip');
+            if (el) showTooltip(el);
+        });
+
+        document.addEventListener('mouseout', e => {
+            const el = e.target.closest('.term-tip');
+            // 只有当鼠标真的离开了 el 元素（包括其子元素）时，才隐藏，且尝试恢复title
+            if (el && !el.contains(e.relatedTarget)) {
+                hideTooltip();
+                if (el.hasAttribute('data-original-title')) {
+                    el.setAttribute('title', el.getAttribute('data-original-title'));
+                    el.removeAttribute('data-original-title');
+                }
+            }
+        });
+
+        // Image Modal Functions
+        function openModal_img(imgElement) {
+            const modal = document.getElementById('imgModal');
+            const modalImg = document.getElementById('modalImg');
+            modal.style.display = 'block';
+            modalImg.src = imgElement.src;
+            modalImg.alt = imgElement.alt;
+
+            // 阻止事件冒泡
+            event.stopPropagation();
+        }
+
+        function closeModal_img() {
+            const modal = document.getElementById('imgModal');
+            modal.style.display = 'none';
+        }
+
+        // ESC 键关闭模态框
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeModal_img();
+            }
+        });
+
+
+        // 自动渲染逻辑（升级版 - 支持局部容器大小变化）
+        document.addEventListener('DOMContentLoaded', () => {
+            Object.keys(window.chartConfigs).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const chart = echarts.init(el);
+                    chart.setOption(window.chartConfigs[id]);
+
+                    // 使用 ResizeObserver 替代 window.resize
+                    // 它可以监听 div 自身的尺寸变化（包括 Tab 切换后显示、侧边栏折叠等）
+                    const resizeObserver = new ResizeObserver(() => {
+                        chart.resize();
+                    });
+                    resizeObserver.observe(el);
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>
