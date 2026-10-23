@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mercado Libre Mexico 中国卖家入驻与运营实操指南（2026版）</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Serif:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--outer-bg:#E4E1DC;--page-bg:#FDFCF9;--surface:#FFFFFF;--border:#E8E6E2;--divider:#C5C0BA;--text-primary:#151515;--text-body:#3D3D3D;--text-secondary:#717171;--hero-bg:#FFF5E6;--hero-deco:#F4C542;--hero-deco2:#E6A817;--success-bg:#E8FBCF;--success-fg:#3D4826;--warning-bg:#FFF0DC;--warning-fg:#E47700;--info-bg:#DEE5F7;--info-fg:#3E54CE;--error-bg:#FDECEA;--error-fg:#C4433A;--neutral-bg:#FDF9F2;--neutral-fg:#7C746F}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter Tight',sans-serif;background:var(--outer-bg);color:var(--text-body);font-size:14px;line-height:1.7;padding:24px 16px}
+.page{max-width:1200px;margin:0 auto;background:var(--page-bg);border-radius:24px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,0.06)}
+.hero{background:var(--hero-bg);padding:48px 60px;position:relative;overflow:hidden}
+.hero .blob{position:absolute;border-radius:60% 40% 65% 35% / 40% 55% 45% 60%;opacity:0.12;pointer-events:none}
+.hero .blob:nth-child(1){width:260px;height:180px;background:var(--hero-deco);top:-30px;right:100px;transform:rotate(15deg)}
+.hero .blob:nth-child(2){width:160px;height:220px;background:var(--hero-deco2);bottom:-50px;left:60px;transform:rotate(-20deg)}
+.hero .blob:nth-child(3){width:100px;height:120px;background:var(--hero-deco);top:80px;left:50%;transform:rotate(40deg)}
+.hero-content{position:relative;z-index:1}
+.hero .eyebrow{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:12px}
+.hero h1{font-size:34px;font-weight:700;color:var(--text-primary);letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
+.hero .subtitle{font-size:16px;color:var(--text-secondary);max-width:640px;margin-bottom:20px}
+.hero-divider{border:none;border-top:1px solid rgba(0,0,0,0.12);margin:20px 0}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+.hero-stat .val{font-family:'Noto Serif',serif;font-size:42px;font-weight:500;color:var(--text-primary);letter-spacing:-.02em;line-height:1}
+.hero-stat .lbl{font-size:13px;color:var(--text-secondary);margin-top:4px}
+.section{padding:40px 60px}
+.section-title{font-size:17px;font-weight:600;color:var(--text-primary);margin-bottom:4px}
+.section-label{font-size:12px;color:var(--text-secondary);margin-bottom:16px}
+.section-rule{border:none;border-top:.5px solid var(--border);margin-bottom:24px}
+.card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px}
+.card-grid.single{grid-template-columns:1fr}
+.card-grid.three{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:20px 24px}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.card-title{font-size:15px;font-weight:600;color:var(--text-primary)}
+.card-meta{font-size:12px;color:var(--text-secondary)}
+.card-body{font-size:14px;color:var(--text-body);line-height:1.6}
+.card-body p{margin-bottom:8px}
+.card-body p:last-child{margin-bottom:0}
+.table-wrap{overflow-x:auto;margin-bottom:24px;border:.5px solid var(--border);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th{font-size:12px;font-weight:500;color:var(--text-secondary);text-align:left;padding:12px 16px;border-bottom:1px solid var(--divider);white-space:nowrap;background:var(--surface)}
+td{font-size:13px;padding:10px 16px;border-bottom:.5px solid var(--border);color:var(--text-body)}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--neutral-bg)}
+.pill{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.pill-success{background:var(--success-bg);color:var(--success-fg)}
+.pill-warning{background:var(--warning-bg);color:var(--warning-fg)}
+.pill-info{background:var(--info-bg);color:var(--info-fg)}
+.pill-error{background:var(--error-bg);color:var(--error-fg)}
+.pill-neutral{background:var(--neutral-bg);color:var(--neutral-fg)}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.metric{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.metric .m-label{font-size:12px;color:var(--text-secondary)}
+.metric .m-value{font-size:26px;font-weight:600;color:var(--text-primary)}
+.metric .m-delta{font-size:12px;font-weight:500;margin-top:2px}
+.alert{border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px}
+.alert-info{background:var(--info-bg);color:var(--info-fg)}
+.alert-warning{background:var(--warning-bg);color:var(--warning-fg)}
+.alert-success{background:var(--success-bg);color:var(--success-fg)}
+.alert-error{background:var(--error-bg);color:var(--error-fg)}
+.alert-title{font-weight:600;font-size:13px;margin-bottom:4px}
+.chart-wrap{position:relative;height:280px;margin-bottom:16px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:12px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary)}
+.legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.platform-card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;border-left:4px solid var(--hero-deco)}
+.checklist{list-style:none;padding:0}
+.checklist li{padding:8px 0;border-bottom:.5px solid var(--border);display:flex;align-items:flex-start;gap:10px;font-size:13px}
+.checklist li:last-child{border-bottom:none}
+.checklist .check{color:var(--hero-deco);font-size:16px;flex-shrink:0;margin-top:1px}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--hero-deco);color:var(--text-primary);font-weight:700;font-size:14px;flex-shrink:0}
+.step-block{display:flex;gap:16px;margin-bottom:24px;align-items:flex-start}
+.step-content{flex:1}
+.step-content h4{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:6px}
+.step-content p{font-size:13px;color:var(--text-body);margin-bottom:6px}
+.fee-table tr.highlight td{background:#FFF5E6}
+.prog-bar{margin-bottom:12px}
+.prog-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.prog-label .name{color:var(--text-primary)}
+.prog-label .val{color:var(--text-secondary)}
+.prog-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px}
+.col-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.footer{background:var(--hero-bg);padding:40px 60px}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-brand .f-name{font-size:16px;font-weight:600;color:var(--text-primary)}
+.footer-brand .f-sub{font-size:12px;color:var(--text-secondary)}
+.footer-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px 32px;font-size:12px;color:var(--text-secondary)}
+.footer-divider{border:none;border-top:.5px solid rgba(0,0,0,0.1);margin:20px 0}
+.footer-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;font-size:12px;color:var(--text-secondary)}
+.ref-list{list-style:none;padding:0}
+.ref-list li{padding:6px 0;border-bottom:.5px solid var(--border);font-size:12px;color:var(--text-secondary)}
+.ref-list li:last-child{border-bottom:none}
+.ref-list li a{color:var(--info-fg);text-decoration:none}
+.ref-list li a:hover{text-decoration:underline}
+.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.do-dont .do{background:var(--success-bg);border-radius:10px;padding:16px}
+.do-dont .dont{background:var(--error-bg);border-radius:10px;padding:16px}
+.do-dont h5{font-size:13px;font-weight:600;margin-bottom:8px}
+.do-dont ul{padding-left:18px;font-size:13px}
+.do-dont li{margin-bottom:4px}
+strong{color:var(--text-primary)}
+h3{font-size:16px;font-weight:600;color:var(--text-primary);margin:24px 0 12px}
+h4{font-size:14px;font-weight:600;color:var(--text-primary);margin:18px 0 8px}
+ul,ol{padding-left:20px;margin-bottom:12px}
+li{margin-bottom:4px}
+.highlight-box{background:var(--warning-bg);border-radius:10px;padding:16px;margin-bottom:16px;font-size:13px}
+.highlight-box strong{color:var(--warning-fg)}
+.cost-card{background:var(--surface);border:1px solid var(--hero-deco);border-radius:12px;padding:16px;text-align:center}
+.cost-card .cost-amount{font-size:28px;font-weight:700;color:var(--text-primary)}
+.cost-card .cost-label{font-size:12px;color:var(--text-secondary);margin-top:4px}
+
+@media(max-width:768px){
+body{padding:0}.page{border-radius:0}
+.hero,.section,.footer{padding:32px 20px}
+.hero h1{font-size:24px}
+.hero-stat .val{font-size:32px}
+.hero-stats{gap:16px}
+.card-grid,.do-dont{grid-template-columns:1fr}
+.card-grid.three{grid-template-columns:1fr}
+.metrics{grid-template-columns:repeat(2,1fr)}
+.col-2{grid-template-columns:1fr}
+.step-block{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ====== HERO ====== -->
+<div class="hero">
+<div class="blob"></div><div class="blob"></div><div class="blob"></div>
+<div class="hero-content">
+<div class="eyebrow">实战操作手册 · 2026年7月更新</div>
+<h1>Mercado Libre Mexico<br>中国卖家入驻与运营实操指南</h1>
+<p class="subtitle">从零到一：手把手带你完成账号注册、产品上架、物流配置、广告投放、税务合规和持续运营——每一步都有详细说明和避坑指南。</p>
+<hr class="hero-divider">
+<div class="hero-stats">
+<div class="hero-stat"><div class="val">$4.6B</div><div class="lbl">MELI 2026年墨西哥投资</div></div>
+<div class="hero-stat"><div class="val">100万+</div><div class="lbl">平台SME卖家</div></div>
+<div class="hero-stat"><div class="val">38%</div><div class="lbl">墨西哥电商市场份额</div></div>
+<div class="hero-stat"><div class="val">28+</div><div class="lbl">当日达覆盖城市数</div></div>
+</div>
+</div>
+</div>
+
+<!-- ====== PART 1: WHY & REGISTRATION ====== -->
+<div class="section">
+<h2 class="section-title">第一部分 · 为什么选择 Mercado Libre Mexico？</h2>
+<p class="section-label">Part 1 — Platform Overview & Strategic Positioning</p>
+<hr class="section-rule">
+
+<div class="card-grid">
+<div class="card">
+<div class="card-header"><span class="card-title">🥇 拉美第一电商平台</span></div>
+<div class="card-body"><p>Mercado Libre 是拉丁美洲最大的电商平台，在墨西哥占据约 <strong>38% 市场份额</strong>（按GMV），超过Amazon MX。墨西哥是其第二大市场（仅次于巴西）。2026年Q1墨西哥站销量增长34%、GMV增长28%。</p></div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">💰 对中国卖家相对友好</span></div>
+<div class="card-body"><p>相比Amazon严格的品牌审核和账号关联政策，Mercado Libre 的卖家规则<strong>更加灵活</strong>。平台推出了 Global Selling 计划专门服务跨境卖家，可通过中国/香港/美国公司主体入驻，支持全中文后台。</p></div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">📦 物流基建爆发式增长</span></div>
+<div class="card-body"><p>2026年投入$4.6B，全国14+物流中心。Mercado Envios FULL 履约服务已覆盖主要城市，28+城市支持当日达。2026年8月起全面向本地卖家开放FULL高级服务——物流不再是瓶颈。</p></div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">💳 金融生态闭环</span></div>
+<div class="card-body"><p>Mercado Pago 正转型为正式银行。45,000+存取点、60,000+ ATM覆盖。平台支付+信贷+保险的完整生态让买家转化率更高，分期付款（Cuotas）功能是拉美市场的杀手级转化工具。</p></div>
+</div>
+</div>
+
+<div class="alert alert-info">
+<div class="alert-title">💡 入场时机判断</div>
+<div class="alert-body">当前（2026年中）是进入Mercado Libre Mexico的<strong>黄金窗口期</strong>。理由：（1）平台仍在快速增长，品类竞争远低于Amazon US/EU；（2）2026年8月FULL全面开放将重塑履约体验；（3）2026年税改后合规卖家将获得显著竞争优势（税率差达25.5个百分点 vs 无RFC卖家）。</div>
+</div>
+</div>
+
+<!-- ====== PART 2: REGISTRATION ====== -->
+<div class="section">
+<h2 class="section-title">第二部分 · 账号注册全流程（保姆级教程）</h2>
+<p class="section-label">Part 2 — Account Registration Step-by-Step</p>
+<hr class="section-rule">
+
+<h3>2.1 注册前准备清单</h3>
+<div class="card-grid">
+<div class="card">
+<div class="card-header"><span class="card-title">📋 以中国公司主体入驻 — 所需材料</span></div>
+<div class="card-body">
+<ul class="checklist">
+<li><span class="check">✅</span> <strong>营业执照</strong>（三证合一 / 统一社会信用代码）</li>
+<li><span class="check">✅</span> <strong>法定代表人身份证</strong>（正反面高清扫描件）</li>
+<li><span class="check">✅</span> <strong>法定代表人手持身份证自拍照</strong></li>
+<li><span class="check">✅</span> <strong>公司法人信息</strong>：公司法定名称、法人实体类型、注册号、经营范围</li>
+<li><span class="check">✅</span> <strong>跨境收款账号</strong>（连连/派安盈/万里汇等）</li>
+<li><span class="check">✅</span> <strong>电子邮箱</strong>（建议用 Gmail 或企业邮箱）</li>
+<li><span class="check">✅</span> <strong>墨西哥RFC税号</strong>（强烈推荐提前办理，否则面临36%代扣税）</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">🇺🇸 以美国公司主体入驻 — 所需材料</span></div>
+<div class="card-body">
+<ul class="checklist">
+<li><span class="check">✅</span> <strong>美国公司注册证书</strong></li>
+<li><span class="check">✅</span> <strong>EIN (Employer Identification Number)</strong></li>
+<li><span class="check">✅</span> <strong>美国公司实际地址</strong>（不接受虚拟邮箱）</li>
+<li><span class="check">✅</span> <strong>W-8BEN-E 表格</strong></li>
+<li><span class="check">✅</span> <strong>公司责任人有效护照</strong></li>
+<li><span class="check">✅</span> <strong>美国银行账户或跨境收款账号</strong></li>
+<li><span class="check">✅</span> <strong>公司责任人个人信息</strong>（全名、国籍、出生日期、地址）</li>
+</ul>
+<p style="margin-top:12px;font-size:12px;color:var(--text-secondary)">💡 美国公司注册相对更快（可远程完成），且美墨之间有USMCA贸易协定优势。</p>
+</div>
+</div>
+</div>
+
+<h3>2.2 三步完成注册</h3>
+
+<div class="step-block">
+<div class="step-num">1</div>
+<div class="step-content">
+<h4>创建卖家账户</h4>
+<p>访问 Mercado Libre Global Selling 注册页面 → 填写邮箱 → 设置密码 → 选择"墨西哥"为目标市场 → 选择"跨境卖家 (Cross-Border)"类型。系统会发送验证邮件，点击验证链接激活账户。</p>
+<p style="color:var(--text-secondary);font-size:12px">⏱ 预计耗时：10分钟 | 🔗 入口：Mercado Libre Global Selling 官网</p>
+</div>
+</div>
+
+<div class="step-block">
+<div class="step-num">2</div>
+<div class="step-content">
+<h4>设置企业信息 (Business Profile)</h4>
+<p>填写公司法定名称（须与营业执照一致）、公司类型、注册号、统一社会信用代码（USCC）、注册地址（须与营业执照一致）、账单地址、发货地址。选择运营模式：<strong>"Full China"物流模式</strong>（即从中国直接发货或使用FULL前置仓）。</p>
+<div class="alert alert-warning"><div class="alert-title">⚠️ 重要</div><div class="alert-body">公司名称必须与营业执照完全一致（包括中英文大小写和标点）。地址信息将用于后续KYC验证，确保一致性。</div></div>
+<p style="color:var(--text-secondary);font-size:12px">⏱ 预计耗时：20分钟</p>
+</div>
+</div>
+
+<div class="step-block">
+<div class="step-num">3</div>
+<div class="step-content">
+<h4>上传法律文件 & 身份验证</h4>
+<p>上传营业执照扫描件 → 上传法人身份证正反面 → 上传法人自拍照 → 声明主要联系人和利益相关方 → 完成身份验证。系统将进行自动化KYC审核。</p>
+<p style="color:var(--text-secondary);font-size:12px">⏱ 预计耗时：15分钟（提交）+ 1-5个工作日（审核）</p>
+</div>
+</div>
+
+<h3>2.3 注册完成后立即要做的5件事</h3>
+<div class="card-grid single">
+<div class="card">
+<div class="card-body">
+<ol>
+<li><strong>设置物流偏好 (Selling Preferences → Shipping)：</strong>选择 Mercado Envios Full 或 Direct to Consumer 模式。建议先开通 Full 模式（转化率高15-30%）。</li>
+<li><strong>绑定收款账户：</strong>进入 Mercado Pago 设置 → 关联你的跨境收款账号（连连/Payoneer/WorldFirst）。确保收款账户货币为USD。</li>
+<li><strong>设置RFC税号（如有）：</strong>在账户设置 → 税务信息中绑定RFC。这可将平台代扣税率从36%降至约10.5%。</li>
+<li><strong>完成卖家身份认证 (Verified Seller)：</strong>通过附加验证获得"Verified"徽章，提升买家信任。</li>
+<li><strong>了解平台规则：</strong>阅读 Mercado Libre 卖家政策中心（Políticas de Venta），特别是退货规则、禁售品类和知识产权政策。</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div class="highlight-box">
+<strong>🔥 避坑重点：</strong>注册完成后不要立即大量上架。先花1-2天研究目标品类的竞品、价格带和规则，做好 Listing 优化策略再行动。Mercado Libre 对新账号有"观察期"，初期操作过快可能触发风控。
+</div>
+</div>
+
+<!-- ====== PART 3: FEE STRUCTURE ====== -->
+<div class="section">
+<h2 class="section-title">第三部分 · 费用结构全解析</h2>
+<p class="section-label">Part 3 — Fee Structure Deep Dive (2026版)</p>
+<hr class="section-rule">
+
+<div class="alert alert-info"><div class="alert-title">💰 核心利好</div><div class="alert-body">Mercado Libre <strong>不收取月费/年费</strong>。只在成交后收取销售佣金。这是相比Amazon（月费MXN 75-600）的重要成本优势。</div></div>
+
+<h3>3.1 两种Listing类型对比</h3>
+<div class="table-wrap">
+<table>
+<tr><th>维度</th><th>Classic（经典）</th><th>Premium（高级）</th></tr>
+<tr><td>佣金率</td><td>11% - 16%（按品类）</td><td>15% - 19%（按品类）</td></tr>
+<tr><td>曝光量</td><td>标准</td><td><span class="pill pill-success">更高</span> 搜索结果优先展示</td></tr>
+<tr><td>分期付款 (Cuotas)</td><td>不支持</td><td><span class="pill pill-success">支持</span> 买家可分期（提升转化率）</td></tr>
+<tr><td>低单价产品附加费</td><td>≤MXN 299 → 加收 MXN 33/件</td><td>≤MXN 299 → 加收 MXN 33/件</td></tr>
+<tr><td>最低Listing价格</td><td>USD 3 (约MXN 55)</td><td>USD 3 (约MXN 55)</td></tr>
+<tr><td>推荐使用场景</td><td>低单价/高竞争品类；测试新品</td><td>中高单价；需要快速起量；有分期需求的品类</td></tr>
+</table>
+</div>
+
+<h3>3.2 各品类佣金详解（2026年费率）</h3>
+<div class="table-wrap">
+<table>
+<tr><th>品类</th><th>Classic 佣金</th><th>Premium 佣金</th><th>典型ASP</th><th>Classic 佣金(MXN)</th><th>Premium 佣金(MXN)</th></tr>
+<tr><td>消费电子 (Electrónica)</td><td>12%</td><td>16%</td><td>MXN 1,500</td><td>180</td><td>240</td></tr>
+<tr><td>手机及配件 (Celulares)</td><td>13%</td><td>17%</td><td>MXN 2,000</td><td>260</td><td>340</td></tr>
+<tr><td>家居与家具 (Hogar)</td><td>14%</td><td>18%</td><td>MXN 800</td><td>112</td><td>144</td></tr>
+<tr><td>时尚服饰 (Ropa)</td><td>15%</td><td>19%</td><td>MXN 400</td><td>60</td><td>76</td></tr>
+<tr><td>运动户外 (Deportes)</td><td>13%</td><td>17%</td><td>MXN 700</td><td>91</td><td>119</td></tr>
+<tr><td>玩具与游戏 (Juguetes)</td><td>14%</td><td>18%</td><td>MXN 350</td><td>49</td><td>63</td></tr>
+<tr><td>美容个护 (Belleza)</td><td>16%</td><td>18.5%</td><td>MXN 250</td><td>40 + MXN 33*</td><td>46.25 + MXN 33*</td></tr>
+<tr><td>汽配 (Acc. Vehículos)</td><td>11%</td><td>15%</td><td>MXN 600</td><td>66</td><td>90</td></tr>
+<tr><td>图书与文具 (Libros)</td><td>11%</td><td>15.5%</td><td>MXN 200</td><td>22 + MXN 33*</td><td>31 + MXN 33*</td></tr>
+<tr class="fee-table highlight"><td colspan="6" style="font-size:11px;color:var(--text-secondary)">* ≤ MXN 299 的产品额外收取 MXN 33/件附加费。最低Listing价格: Full模式 USD 4, Direct模式 USD 3。</td></tr>
+</table>
+</div>
+
+<h3>3.3 综合成本速算表</h3>
+<div class="col-2">
+<div class="cost-card">
+<div class="cost-label">低单价爆品模型 · Classic<br>(ASP MXN 250, 服饰类)</div>
+<div class="cost-amount">MXN 73</div>
+<div class="cost-label">佣金 MXN 37.5 + 低单价附加 MXN 33 ≈ <strong>29.2%</strong></div>
+</div>
+<div class="cost-card">
+<div class="cost-label">中单价经典模型 · Premium<br>(ASP MXN 800, 家居类)</div>
+<div class="cost-amount">MXN 144</div>
+<div class="cost-label">佣金 18% ≈ <strong>18%</strong></div>
+</div>
+<div class="cost-card">
+<div class="cost-label">高单价利润模型 · Classic<br>(ASP MXN 2,000, 电子类)</div>
+<div class="cost-amount">MXN 260</div>
+<div class="cost-label">佣金 13% ≈ <strong>13%</strong></div>
+</div>
+<div class="cost-card">
+<div class="cost-label">⚠️ 高单价 + Premium<br>(ASP MXN 2,000, 电子类)</div>
+<div class="cost-amount">MXN 340</div>
+<div class="cost-label">佣金 17% ≈ <strong>17%</strong></div>
+</div>
+</div>
+
+<div class="alert alert-warning">
+<div class="alert-title">⚠️ 低单价陷阱</div>
+<div class="alert-body">MXN 299以下的商品由于MXN 33的固定附加费，实际费率可高达20-30%。<strong>建议ASP控制在MXN 300以上</strong>，或通过套装/组合提升客单价来摊薄固定成本。单品ASP低于MXN 150的品类不适合在Mercado Libre做。</div>
+</div>
+</div>
+
+<!-- ====== PART 4: FULFILLMENT ====== -->
+<div class="section">
+<h2 class="section-title">第四部分 · 物流与履约策略</h2>
+<p class="section-label">Part 4 — Fulfillment: Mercado Envios Full vs Direct to Consumer</p>
+<hr class="section-rule">
+
+<h3>4.1 两种物流模式对比</h3>
+<div class="table-wrap">
+<table>
+<tr><th>维度</th><th>Mercado Envios Full</th><th>Direct to Consumer (直发)</th></tr>
+<tr><td>模式说明</td><td>类似Amazon FBA：批量备货至MELI墨西哥仓库</td><td>出单后从中国直发，使用平台合作物流商(DHL等)</td></tr>
+<tr><td>配送时效</td><td><span class="pill pill-success">当日达/次日达</span>（28+城市）</td><td><span class="pill pill-warning">7-15天</span>（含清关）</td></tr>
+<tr><td>转化率加成</td><td><span class="pill pill-success">+15-30%</span>（Full徽章）</td><td>无加成</td></tr>
+<tr><td>搜索排名</td><td><span class="pill pill-success">优先</span></td><td>标准</td></tr>
+<tr><td>退货处理</td><td>平台全权处理</td><td>卖家自行处理</td></tr>
+<tr><td>仓储费用</td><td>前60-90天免费；超期收费</td><td>无</td></tr>
+<tr><td>适合品类</td><td>稳定出单的爆品；中高单价；标准尺寸</td><td>测试新品；长尾SKU；大件/异形</td></tr>
+<tr><td>库存风险</td><td>较高（需预付备货）</td><td>极低（按单发货）</td></tr>
+<tr><td>适用卖家</td><td>已有稳定销量的成熟卖家</td><td>新卖家/测品阶段</td></tr>
+</table>
+</div>
+
+<h3>4.2 推荐物流策略：三步渐进模型</h3>
+<div class="card-grid single">
+<div class="card">
+<div class="card-body">
+<p><strong>阶段一：Direct to Consumer 测品（前1-3个月）</strong></p>
+<p>用直发模式测试20-50个SKU。关注指标：点击率、转化率、退货率。筛选出表现Top 20%的SKU进入下一阶段。<br>
+📌 <strong>注意：</strong>直发模式对配送时效要求严格，MELI规定卖家须在<strong>48小时内发货</strong>并上传追踪号。建议使用DHL/FedEx等快速渠道，避免邮政小包。</p>
+<p style="margin-top:16px"><strong>阶段二：FULL小批量试水（第3-6个月）</strong></p>
+<p>将验证过的爆品SKU（5-15个）小批量备货至FULL仓。建议首批每SKU备50-200件。观察Full模式下的销量提升和库存周转速度。<br>
+📌 <strong>注意：</strong>FULL仓储前60-90天免费，但超期会产生长期仓储费（LTSF）。精确计算补货节奏，避免积压。</p>
+<p style="margin-top:16px"><strong>阶段三：FULL主力 + Direct辅助的混合模式（第6个月起）</strong></p>
+<p>爆品全部转入FULL；长尾SKU维持Direct模式；季节性产品根据销售周期灵活切换。实现<strong>70% GMV来自FULL、30%来自Direct</strong>的健康比例。</p>
+</div>
+</div>
+</div>
+
+<h3>4.3 FULL备货成本估算</h3>
+<div class="metrics">
+<div class="metric"><div class="m-label">首程物流(中国→墨仓)</div><div class="m-value">¥15-25/kg</div><div class="m-delta">空运/海运差异大</div></div>
+<div class="metric"><div class="m-label">进口关税(非FTA)</div><div class="m-value">~35%</div><div class="m-delta">2026年上调后</div></div>
+<div class="metric"><div class="m-label">墨西哥清关费</div><div class="m-value">$150-300</div><div class="m-delta">每票固定</div></div>
+<div class="metric"><div class="m-label">仓储费(超免租期)</div><div class="m-value">约MXN 20-80/m³/月</div><div class="m-delta">按体积阶梯</div></div>
+</div>
+</div>
+
+<!-- ====== PART 5: LISTING OPTIMIZATION ====== -->
+<div class="section">
+<h2 class="section-title">第五部分 · Listing优化与产品上架</h2>
+<p class="section-label">Part 5 — Product Listing Optimization</p>
+<hr class="section-rule">
+
+<h3>5.1 产品图片规范</h3>
+<div class="do-dont">
+<div class="do">
+<h5 style="color:var(--success-fg)">✅ 应该这样做</h5>
+<ul>
+<li>主图尺寸 <strong>1200×1540px</strong>（白底或干净背景）</li>
+<li>至少上传 <strong>3-5张</strong> 高质量图片</li>
+<li>产品占画面 <strong>80%以上</strong></li>
+<li>多角度展示（正面、侧面、背面、细节）</li>
+<li>场景图帮助买家想象使用场景</li>
+<li>上传 <strong>短视频 (Clips)</strong>（垂直格式，展示产品使用）</li>
+</ul>
+</div>
+<div class="dont">
+<h5 style="color:var(--error-fg)">❌ 不要这样做</h5>
+<ul>
+<li>图片含有Logo、水印或促销文字</li>
+<li>主图使用拼图或多图拼接</li>
+<li>低像素/模糊/过暗的图片</li>
+<li>使用侵权的图片素材</li>
+<li>只上传1-2张图片</li>
+<li>忽略尺寸标注（墨西哥买家常用cm）</li>
+</ul>
+</div>
+</div>
+
+<h3>5.2 标题优化公式</h3>
+<div class="card-grid single">
+<div class="card">
+<div class="card-body">
+<p><strong>高效标题公式：</strong></p>
+<p style="font-size:16px;padding:12px;background:var(--neutral-bg);border-radius:8px"><strong>[核心关键词] + [品牌名] + [产品型号] + [关键属性/规格] + [适用场景]</strong></p>
+<p style="margin-top:12px"><strong>好例子：</strong>Auriculares Bluetooth Xiaomi Redmi Buds 5 Pro Cancelación de Ruido Activa 38h Batería IP54 Impermeable para Deporte y Oficina</p>
+<p><strong>差例子：</strong>蓝牙耳机 无线耳机 高品质耳机</p>
+<p style="margin-top:12px;color:var(--text-secondary);font-size:12px">💡 使用Mercado Libre的AI标题建议工具（"Suggest a title"），可自动优化。但最终需要人工调整确保准确。</p>
+</div>
+</div>
+</div>
+
+<h3>5.3 产品描述最佳实践</h3>
+<ul>
+<li><strong>前三行最关键：</strong>将最重要的卖点和差异化信息放在最前面——买家通常只浏览前几行。</li>
+<li><strong>预判买家疑虑：</strong>主动回答尺寸、兼容性、材质、保修等常见问题。</li>
+<li><strong>使用bullet points：</strong>相比大段文字，分点式描述可读性提高50%+。</li>
+<li><strong>本地化：</strong>使用墨西哥西班牙语（不是欧洲西班牙语）。例如：用"celular"而非"móvil"，用"computadora"而非"ordenador"。</li>
+<li><strong>不要堆砌关键词：</strong>自然融入，MELI的搜索算法会惩罚关键词堆砌。</li>
+<li><strong>视频描述：</strong>上传Clips短视频展示产品实际使用效果，可显著提升转化（部分品类可提升20-40%）。</li>
+</ul>
+
+<h3>5.4 产品变体设置</h3>
+<p>Mercado Libre支持颜色、尺寸、容量等变体。建议：</p>
+<ul>
+<li>将同一产品的不同颜色/尺寸放在同一个Listing下（而非分开创建）</li>
+<li>每个变体使用对应的实物图片（而非PS换色）</li>
+<li>变体名称使用西班牙语标准表达（Color: Negro / Talla: M / Capacidad: 128GB）</li>
+</ul>
+</div>
+
+<!-- ====== PART 6: ADVERTISING ====== -->
+<div class="section">
+<h2 class="section-title">第六部分 · Mercado Ads 广告投放指南</h2>
+<p class="section-label">Part 6 — Mercado Ads Advertising Strategy</p>
+<hr class="section-rule">
+
+<h3>6.1 广告类型</h3>
+<div class="card-grid">
+<div class="card">
+<div class="card-header"><span class="card-title">🔍 Product Ads（商品推广）</span></div>
+<div class="card-body">
+<p>PPC模式，按点击付费。在搜索结果页和商品详情页展示。最基础的广告形式。<br>
+• <strong>投放位置：</strong>搜索结果顶部/中间、竞品详情页<br>
+• <strong>建议预算：</strong>日预算至少 MXN 200-500<br>
+• <strong>ACOS目标：</strong>15-25%（初期可放宽至30%）</p>
+</div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">🖥️ Display Ads（展示广告）</span></div>
+<div class="card-body">
+<p>品牌展示类广告，在平台首页、品类页等高流量位置展示。<br>
+• <strong>两种子类型：</strong>Display Catalog Ads（推广产品目录）、Display Extended Network（扩展至站外）<br>
+• <strong>适用场景：</strong>品牌建设、大促活动、新品发布<br>
+• <strong>建议预算：</strong>活动期 MXN 1,000-5,000/天</p>
+</div>
+</div>
+</div>
+
+<h3>6.2 广告策略三阶段</h3>
+<div class="table-wrap">
+<table>
+<tr><th>阶段</th><th>目标</th><th>策略</th><th>ACOS目标</th><th>持续时间</th></tr>
+<tr><td><strong>冷启动</strong></td><td>获取曝光和初始数据</td><td>自动竞价+广泛匹配；日预算MXN 200-300</td><td>≤ 30%</td><td>2-3周</td></tr>
+<tr><td><strong>优化期</strong></td><td>降低ACOS，提升ROAS</td><td>手动竞价+精准关键词；暂停无效词；提升高效词出价</td><td>≤ 20%</td><td>持续</td></tr>
+<tr><td><strong>规模期</strong></td><td>最大化销售额</td><td>品类扩展+Display广告+大促预算翻倍</td><td>≤ 25%</td><td>有利润空间时</td></tr>
+</table>
+</div>
+
+<div class="highlight-box">
+<strong>🔥 大促广告策略（Hot Sale / Buen Fin / 黑五）：</strong>至少提前<strong>60天</strong>开启广告活动积累数据；大促期间将日预算提高至平时的<strong>3-5倍</strong>；重点关注Premium Listing产品（支持分期付款是拉美大促的核心转化驱动力）。
+</div>
+</div>
+
+<!-- ====== PART 7: PRICING ====== -->
+<div class="section">
+<h2 class="section-title">第七部分 · 定价策略</h2>
+<p class="section-label">Part 7 — Pricing Strategy for Mexico Market</p>
+<hr class="section-rule">
+
+<h3>7.1 定价公式</h3>
+<div class="card-grid single">
+<div class="card">
+<div class="card-body">
+<p style="font-size:15px;padding:16px;background:var(--neutral-bg);border-radius:8px;text-align:center">
+<strong>最终售价 (MXN) = [采购成本 + 首程物流 + 关税 + FULL仓储] ÷ (1 - 佣金率) × 汇率 × 利润系数</strong>
+</p>
+</div>
+</div>
+</div>
+
+<h3>7.2 定价计算示例</h3>
+<div class="table-wrap">
+<table>
+<tr><th>成本科目</th><th>示例（蓝牙耳机）</th><th>计算方式</th></tr>
+<tr><td>采购成本</td><td>¥60 / 件</td><td>工厂出厂价</td></tr>
+<tr><td>首程物流（中国→墨FULL仓）</td><td>¥8 / 件</td><td>空运 ¥20/kg，0.4kg/件</td></tr>
+<tr><td>进口关税（非FTA 35%）</td><td>¥23.8 / 件</td><td>(60+8) × 35%</td></tr>
+<tr><td>墨西哥本地费用（清关等）</td><td>¥5 / 件</td><td>按票分摊</td></tr>
+<tr><td><strong>到仓总成本</strong></td><td><strong>¥96.8 / 件</strong></td><td></td></tr>
+<tr><td>折算 MXN (汇率 1:5.2)</td><td>MXN 503 / 件</td><td></td></tr>
+<tr><td>平台佣金 (电子Classic 12%)</td><td>MXN 86 / 件</td><td>MXN 714 × 12%（见下一行）</td></tr>
+<tr><td><strong>建议售价 (30%利润率)</strong></td><td><strong>MXN 714 / 件</strong></td><td>503 ÷ (1-0.12-0.30) × 汇率调整</td></tr>
+<tr><td>每件毛利</td><td>MXN 125</td><td>≈ 17.5%</td></tr>
+</table>
+</div>
+
+<div class="alert alert-warning">
+<div class="alert-title">⚠️ 定价核心提醒</div>
+<div class="alert-body">
+（1）<strong>不要用中国售价直接换算</strong>——墨西哥市场价格体系完全不同。务必先在平台上研究同类产品的价格带。<br>
+（2）<strong>避免低于MXN 300定价</strong>——MXN 33的附加费会严重侵蚀利润。<br>
+（3）<strong>关注汇率波动</strong>——建议按 USD/MXN 19.5-21 的区间做敏感性分析。如果比索贬值至22+，需要相应调整售价或暂时缩减墨西哥市场投入。
+</div>
+</div>
+</div>
+
+<!-- ====== PART 8: CUSTOMER SERVICE ====== -->
+<div class="section">
+<h2 class="section-title">第八部分 · 客户服务与退货管理</h2>
+<p class="section-label">Part 8 — Customer Service & Returns</p>
+<hr class="section-rule">
+
+<h3>8.1 客服核心指标</h3>
+<div class="metrics">
+<div class="metric"><div class="m-label">首次响应时间</div><div class="m-value">< 4h</div><div class="m-delta" style="color:var(--success-fg)">最佳实践</div></div>
+<div class="metric"><div class="m-label">回复率</div><div class="m-value">> 95%</div><div class="m-delta" style="color:var(--success-fg)">影响账号健康</div></div>
+<div class="metric"><div class="m-label">客诉解决率</div><div class="m-value">> 85%</div><div class="m-delta">目标</div></div>
+<div class="metric"><div class="m-label">退货率(目标)</div><div class="m-value">< 5%</div><div class="m-delta" style="color:var(--success-fg)">健康水平</div></div>
+</div>
+
+<h3>8.2 退货规则与应对</h3>
+<ul>
+<li><strong>退货窗口：</strong>买家可在收到货后30天内发起退货（可自行设置但30天为默认推荐）。</li>
+<li><strong>FULL模式退货：</strong>Mercado Libre全权处理退货物流和检验。服装和鞋类可直接换货。</li>
+<li><strong>Direct模式退货：</strong>卖家自行处理。需提供墨西哥本地退货地址（否则买家可能直接退款而不退货）。</li>
+<li><strong>退货原因分析：</strong>定期审查退货原因报告。最常见的退货原因——尺寸不符、实物与描述不符、质量问题。</li>
+</ul>
+
+<div class="do-dont">
+<div class="do">
+<h5 style="color:var(--success-fg)">✅ 降低退货率的方法</h5>
+<ul>
+<li>产品描述中明确标注<strong>精确尺寸（cm）</strong></li>
+<li>使用尺码对照表（墨西哥 vs 中国尺码）</li>
+<li>上传<strong>实拍视频</strong>展示产品真实外观和使用</li>
+<li>包装加厚加固，减少运输损坏</li>
+<li>对质量不稳定批次进行<strong>100%出货前抽检</strong></li>
+</ul>
+</div>
+<div class="dont">
+<h5 style="color:var(--error-fg)">❌ 常见的退货触发因素</h5>
+<ul>
+<li>使用"通用尺码"而不给出具体尺寸数字</li>
+<li>图片经过严重PS/美颜，与实物差距大</li>
+<li>描述夸大功能（如"防水"但实际仅防溅）</li>
+<li>包装简陋导致运输途中损坏</li>
+<li>发货延迟导致买家在等待期间取消</li>
+</ul>
+</div>
+</div>
+
+<h3>8.3 回复模板（直接可用）</h3>
+<div class="card-grid">
+<div class="card">
+<div class="card-header"><span class="card-title">📩 延迟发货道歉模板</span></div>
+<div class="card-body"><p style="background:var(--neutral-bg);padding:10px;border-radius:6px;font-size:13px">Hola [买家名],<br><br>Gracias por tu compra. Lamentamos informarte que tu pedido tendrá un pequeño retraso de [X] días debido a [原因]. Estamos haciendo todo lo posible para enviarlo lo antes posible.<br><br>Te pedimos una disculpa por las molestias. Si tienes alguna pregunta, no dudes en contactarnos.<br><br>Saludos,<br>[店铺名]</p></div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">📩 退货确认模板</span></div>
+<div class="card-body"><p style="background:var(--neutral-bg);padding:10px;border-radius:6px;font-size:13px">Hola [买家名],<br><br>Hemos recibido tu solicitud de devolución. Puedes proceder con la devolución a través de la plataforma de Mercado Libre. Una vez que recibamos el producto, procesaremos el reembolso en un plazo de 48 horas.<br><br>Si podemos ayudarte con algo más, estamos a tu disposición.<br><br>Saludos,<br>[店铺名]</p></div>
+</div>
+</div>
+</div>
+
+<!-- ====== PART 9: PAYMENT ====== -->
+<div class="section">
+<h2 class="section-title">第九部分 · 收款与资金管理</h2>
+<p class="section-label">Part 9 — Payment via Mercado Pago & Cross-Border Settlement</p>
+<hr class="section-rule">
+
+<h3>9.1 资金流转路径</h3>
+<div class="card-grid single">
+<div class="card">
+<div class="card-body">
+<p style="text-align:center;font-size:14px;padding:16px">
+买家MXN支付 → <strong>Mercado Pago</strong>（买家确认收货后放款）→ <strong>Mercado Pago跨境提现 (USD)</strong> → <strong>跨境收款平台</strong>（连连/Payoneer/WorldFirst）→ <strong>提现至中国银行账户 (CNY)</strong>
+</p>
+</div>
+</div>
+</div>
+
+<h3>9.2 跨境收款方案对比</h3>
+<div class="table-wrap">
+<table>
+<tr><th>收款平台</th><th>提现费率</th><th>汇率</th><th>到账时间</th><th>MELI兼容性</th></tr>
+<tr><td>连连国际 (LianLian)</td><td>0.7%封顶</td><td>实时汇率</td><td>T+1</td><td><span class="pill pill-success">已验证</span></td></tr>
+<tr><td>Payoneer派安盈</td><td>1-2%</td><td>Payoneer汇率</td><td>T+1-2</td><td><span class="pill pill-success">已验证</span></td></tr>
+<tr><td>WorldFirst万里汇</td><td>0.3%封顶</td><td>实时汇率</td><td>T+0-1</td><td><span class="pill pill-success">已验证</span></td></tr>
+<tr><td>PingPong</td><td>1%封顶</td><td>实时汇率</td><td>T+1</td><td><span class="pill pill-warning">需确认</span></td></tr>
+</table>
+</div>
+
+<div class="alert alert-info">
+<div class="alert-title">💡 资金优化建议</div>
+<div class="alert-body">
+（1）Mercado Pago资金在买家<strong>确认收货后</strong>才释放，平均账期7-14天。FULL模式通常更快（3-5天）。<br>
+（2）跨境提现建议<strong>集中操作</strong>（每周1-2次），减少单笔手续费占比。<br>
+（3）汇率锁定——如果比索波动剧烈，考虑使用WorldFirst的远期锁汇功能。
+</div>
+</div>
+</div>
+
+<!-- ====== PART 10: TAX COMPLIANCE ====== -->
+<div class="section">
+<h2 class="section-title">第十部分 · 税务合规清单（2026版）</h2>
+<p class="section-label">Part 10 — Tax Compliance Checklist for Chinese Sellers</p>
+<hr class="section-rule">
+
+<div class="alert alert-error">
+<div class="alert-title">🚨 2026年最关键变化</div>
+<div class="alert-body">使用FULL仓但<strong>无RFC税号</strong>的卖家：平台代扣 <strong>20% ISR + 16% IVA = 36%综合代扣率</strong>！有RFC的企业卖家仅需代扣 2.5% ISR + 8% IVA = <strong>10.5%</strong>。两者差距达 <strong>25.5个百分点</strong>。RFC是2026年最重要的合规事项，没有之一。</div>
+</div>
+
+<h3>合规事项优先级清单</h3>
+<ul class="checklist">
+<li><span class="check">🔴</span> <strong>注册墨西哥RFC税号：</strong>优先级最高。通过墨西哥本地代理或服务商申请企业RFC。预计耗时4-8周，费用约¥8,000-20,000。完成后立即在MELI后台绑定。</li>
+<li><span class="check">🔴</span> <strong>注册墨西哥公司（可选但推荐）：</strong>拥有墨西哥公司是获得企业RFC的前提，税率最优。预计耗时8-12周，一次性费用约¥15,000-30,000。</li>
+<li><span class="check">🟡</span> <strong>月度/季度税务申报：</strong>注册RFC后必须按时向SAT申报IVA和ISR。使用CFDI电子发票系统。建议委托本地税务师或使用AI税务SaaS。</li>
+<li><span class="check">🟡</span> <strong>CFDI发票管理：</strong>所有交易需通过PAC开具CFDI电子发票。Mercado Libre对平台代扣部分会自动生成CFDI，但自有渠道交易需自行开具。</li>
+<li><span class="check">🟢</span> <strong>商标注册（可选）：</strong>在墨西哥IMPI注册商标以保护品牌。费用约¥5,000-15,000（含代理费），耗时6-12个月。</li>
+<li><span class="check">🟢</span> <strong>进口合规：</strong>确保产品符合NOM标准（电子产品、玩具、纺织品等需要）。非FTA国家（中国）进口关税已大幅上调，务必在定价时计入。</li>
+</ul>
+</div>
+
+<!-- ====== PART 11: PITFALLS ====== -->
+<div class="section">
+<h2 class="section-title">第十一部分 · 常见问题与避坑指南</h2>
+<p class="section-label">Part 11 — Common Pitfalls & Troubleshooting</p>
+<hr class="section-rule">
+
+<div class="card-grid">
+<div class="card">
+<div class="card-header"><span class="card-title">🐢 账号审核拖延</span><span class="pill pill-error">高频</span></div>
+<div class="card-body"><p><strong>原因：</strong>提交的证件扫描件不清晰、翻译不完整、公司信息不一致。<br><strong>解决：</strong>所有文件使用300dpi以上扫描件；营业执照需官方英文翻译件（公证翻译）；确保所有文件中的公司名称完全一致。</p></div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">📦 FULL库存积压</span><span class="pill pill-warning">中频</span></div>
+<div class="card-body"><p><strong>原因：</strong>过度乐观的销量预测；忽略长期仓储费。<br><strong>解决：</strong>首批备货不超过30天预期销量；设置库存预警（低于15天销量自动补货）；每月审查FULL库存健康报告；滞销品及时降价清仓或移除。</p></div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">🏷️ 产品被下架</span><span class="pill pill-error">高频</span></div>
+<div class="card-body"><p><strong>常见原因：</strong>侵犯IP（图片/商标/设计专利）、违反禁售政策、NOM认证缺失、客户投诉质量问题。<br><strong>解决：</strong>上架前查询MELI禁售/限售品类列表；图片自主拍摄（不盗图）；确认产品是否需要NOM认证；关注Account Health面板。</p></div>
+</div>
+<div class="card">
+<div class="card-header"><span class="card-title">💸 提现失败</span><span class="pill pill-warning">中频</span></div>
+<div class="card-body"><p><strong>常见原因：</strong>收款账户信息与注册主体不一致；KYC未完成；单笔提现金额超限。<br><strong>解决：</strong>确保Mercado Pago绑定的收款账户持有人与MELI注册公司一致；完成KYC Level 2验证（提交护照+地址证明）。</p></div>
+</div>
+</div>
+</div>
+
+<!-- ====== PART 12: QUICK REFERENCE ====== -->
+<div class="section">
+<h2 class="section-title">第十二部分 · 速查清单与行动时间表</h2>
+<p class="section-label">Part 12 — Quick Reference Checklists</p>
+<hr class="section-rule">
+
+<h3>📋 入驻前30天行动清单</h3>
+<div class="card-grid single">
+<div class="card">
+<div class="card-body">
+<table>
+<tr><th>时间</th><th>行动项</th><th>状态</th></tr>
+<tr><td>Day 1-3</td><td>准备公司注册材料（营业执照扫描、法人证件、翻译件）</td><td>☐</td></tr>
+<tr><td>Day 3-7</td><td>完成MELI Global Selling账号注册和KYC审核</td><td>☐</td></tr>
+<tr><td>Day 5-10</td><td>开通跨境收款账户（连连/Payoneer/WorldFirst）并绑定Mercado Pago</td><td>☐</td></tr>
+<tr><td>Day 7-14</td><td>委托代理启动墨西哥RFC注册流程（如果还没有）</td><td>☐</td></tr>
+<tr><td>Day 10-16</td><td>完成品类市场调研：确定5-10个目标SKU及价格策略</td><td>☐</td></tr>
+<tr><td>Day 16-20</td><td>拍摄产品图片和视频（按MELI规范），撰写西语Listing</td><td>☐</td></tr>
+<tr><td>Day 20-25</td><td>上架首批20-50个SKU（Direct模式），开启小预算广告测试</td><td>☐</td></tr>
+<tr><td>Day 25-30</td><td>分析首周数据：CTR、转化率、广告ACOS；识别潜力爆品</td><td>☐</td></tr>
+</table>
+</div>
+</div>
+</div>
+
+<h3>📊 运营健康度周检表</h3>
+<div class="table-wrap">
+<table>
+<tr><th>检查项</th><th>健康标准</th><th>红色警戒</th><th>检查频率</th></tr>
+<tr><td>账号健康分（Seller Reputation）</td><td><span class="pill pill-success">绿色</span></td><td><span class="pill pill-error">橙色/红色</span></td><td>每日</td></tr>
+<tr><td>订单缺陷率</td><td>< 3%</td><td>> 5%</td><td>每周</td></tr>
+<tr><td>延迟发货率</td><td>< 2%</td><td>> 5%</td><td>每周</td></tr>
+<tr><td>退货率</td><td>< 5%</td><td>> 10%</td><td>每周</td></tr>
+<tr><td>广告ACOS</td><td>< 20%</td><td>> 35%</td><td>每周</td></tr>
+<tr><td>FULL库存周转天数</td><td>15-45天</td><td>> 90天</td><td>每月</td></tr>
+<tr><td>平均回复时间</td><td>< 4小时</td><td>> 24小时</td><td>每周</td></tr>
+<tr><td>竞品价格监控</td><td>±5%标杆</td><td>> ±15%标杆</td><td>每两周</td></tr>
+</table>
+</div>
+
+<h3>📅 年度大促日历</h3>
+<div class="table-wrap">
+<table>
+<tr><th>大促名称</th><th>时间</th><th>特点</th><th>准备建议</th></tr>
+<tr><td>Hot Sale</td><td>5月中下旬</td><td>墨西哥版"双11"；全品类</td><td>提前60天备货FULL仓；提前45天开启广告</td></tr>
+<tr><td>El Buen Fin</td><td>11月中旬（周末）</td><td>全国性购物节；线上线下同步</td><td>全年最大促销；FULL库存增加2-3倍</td></tr>
+<tr><td>Navidad/Reyes Magos</td><td>12月-1月6日</td><td>圣诞+三王节礼品季</td><td>玩具/电子/服饰品类重点准备</td></tr>
+<tr><td>Back to School</td><td>7-8月</td><td>返校季；文具/电子/服饰</td><td>提前30天备货</td></tr>
+<tr><td>Día de las Madres</td><td>5月10日</td><td>母亲节礼品；美妆/家居/珠宝</td><td>提前30天备货</td></tr>
+<tr><td>Prime Day (Amazon)</td><td>7月</td><td>MELI往往同期跟进促销</td><td>关注竞品平台价格动态</td></tr>
+</table>
+</div>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<div class="footer">
+<div class="footer-top">
+<div class="footer-brand">
+<div class="f-name">Mercado Libre Mexico · 中国卖家实操指南（2026版）</div>
+<div class="f-sub">A Practical Guide for Chinese Sellers on Mercado Libre Mexico</div>
+</div>
+<div class="footer-meta">
+<div><strong>版本：</strong>v1.0 · 2026年7月</div>
+<div><strong>适用对象：</strong>有意或正在墨西哥MELI平台经营的中国卖家</div>
+<div><strong>配套文档：</strong>墨西哥跨境企业服务行业研究报告（2026版）</div>
+<div><strong>语言：</strong>中文</div>
+</div>
+</div>
+<hr class="footer-divider">
+<div class="footer-bottom">
+<span>本文档由 AllyHub AI 辅助研究生成 · 数据截至2026年7月</span>
+<span>© 2026 · 仅供参考，具体操作请以Mercado Libre官方最新政策为准</span>
+</div>
+</div>
+
+<!-- REFERENCES -->
+<div class="section">
+<h2 class="section-title">参考来源</h2>
+<hr class="section-rule">
+<ul class="ref-list">
+<li><a href="https://www.mercadolibre.com.mx" target="_blank">Mercado Libre Mexico 官方网站</a></li>
+<li><a href="https://global-selling.mercadolibre.com" target="_blank">Mercado Libre Global Selling 跨境卖家门户</a></li>
+<li><a href="https://www.mercadopago.com.mx" target="_blank">Mercado Pago Mexico</a></li>
+<li><a href="https://vendedores.mercadolibre.com.mx" target="_blank">Mercado Libre 卖家中心</a></li>
+<li><a href="https://advertising.mercadolibre.com" target="_blank">Mercado Ads 广告平台</a></li>
+<li><a href="https://mxlatam.com" target="_blank">MXLatam 跨境电商服务</a></li>
+<li><a href="https://nearshoreamericas.com" target="_blank">Nearshore Americas</a></li>
+<li><a href="https://mexicobusiness.news" target="_blank">Mexico Business News</a></li>
+<li><a href="https://www.sat.gob.mx" target="_blank">SAT 墨西哥税务总局</a></li>
+<li><a href="https://www.bringgoship.com" target="_blank">BringGoShip 跨境物流</a></li>
+<li><a href="https://www.dailyfulfill.com" target="_blank">DailyFulfill 履约服务</a></li>
+<li><a href="https://www.nocnocstore.com" target="_blank">NocNoc 拉美跨境服务</a></li>
+</ul>
+</div>
+
+</div><!-- .page -->
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+const sections=document.querySelectorAll('.section,.platform-card,.card,.step-block');
+const observer=new IntersectionObserver((entries)=>{
+entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});
+},{threshold:0.05});
+sections.forEach(s=>{s.style.opacity='0';s.style.transform='translateY(12px)';s.style.transition='opacity 0.5s ease,transform 0.5s ease';observer.observe(s);});
+});
+</script>
+</body>
+</html>
