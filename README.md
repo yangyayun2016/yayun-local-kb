@@ -31,3 +31,10 @@
 - 课程笔记/ — 新增 11 文件，更新 2 个讲义，587.2 MB
 - 运营SOP/ — 新增 80 文件，68.0 MB
 - 选品/ — 新增 17 文件，1.1 MB
+
+## 亚马逊运营笔记
+
+仓库按主题散放在根目录，没有 `amazon/` 或 `learning/` 总夹；标题新规与 FRI 处理也不在同一层，因此单独放在 `local-kb/amazon-ops-notes/`。
+
+- local-kb/amazon-ops-notes/亚马逊标题75字符新规.docx — 1.6 MB
+- local-kb/amazon-ops-notes/Frequently_Returned_Item处理办法.docx — 0.2 MB
