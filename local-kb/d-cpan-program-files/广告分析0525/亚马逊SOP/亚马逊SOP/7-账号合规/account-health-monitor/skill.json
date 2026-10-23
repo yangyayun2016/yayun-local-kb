@@ -1,0 +1,7 @@
+{
+  "name": "account-health-monitor",
+  "description": "账号健康监控 - 绩效监控、违规预警、合规检查、申诉处理、账号安全",
+  "instructions": "这是一个用于账号健康管理的技能。\n\n1. 绩效指标监控：\n   - 订单缺陷率（ODR）\n   - 取消率（CR）\n   - 迟发率（LSR）\n   - 有效追踪率（VTR）\n   - 客户满意度\n\n2. 绩效指标标准：\n   - ODR < 1%\n   - 取消率 < 2.5%\n   - 迟发率 < 4%\n   - 有效追踪率 > 95%\n\n3. 违规类型：\n   - 操纵评论\n   - 侵权（商标、专利）\n   - 假货投诉\n   - 操纵排名\n   - 违规变体\n   - 成人用品分类错误\n\n4. 预警机制：\n   - 绩效指标预警\n   - 违规风险预警\n   - 账号状态监控\n   - 邮件通知监控\n\n5. 合规检查：\n   - Listing合规\n   - 产品合规（认证）\n   - 广告合规\n   - 变体合规\n\n6. 申诉处理：\n   - 申诉准备\n   - 申诉撰写\n   - 申诉提交\n   - 跟进回复\n\n7. 申诉模板：\n   - 绩效不达标申诉\n   - 侵权投诉申诉\n   - 误封账号申诉\n   - 恢复销售权限申诉\n\n注意事项：\n- 每日检查绩效指标\n- 及时处理违规预警\n- 保留所有运营记录\n- 申诉材料要真实详细",
+  "category": "account-health-monitor",
+  "tags": ["account-health", "performance", "compliance", "appeal", "account-security"]
+}

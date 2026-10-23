@@ -1,0 +1,73 @@
+{
+  "name": "sop-generator",
+  "description": "Xflow OS核心技能：生成完整的亚马逊新品上架Solution Kit，包含里程碑时间轴、方法论文档、可直接使用的模板工具",
+  "version": "1.0.0",
+  "author": "Xflow OS",
+  "category": "产品运营",
+  "tags": ["SOP", "新品上架", "解决方案包", "里程碑"],
+  "skills_required": ["listing-generator", "inventory-monitor", "advertising-optimizer"],
+  "parameters": {
+    "product_name": {
+      "type": "string",
+      "description": "产品名称",
+      "required": true
+    },
+    "category": {
+      "type": "string",
+      "description": "产品类目路径",
+      "required": true
+    },
+    "target_market": {
+      "type": "string",
+      "description": "目标市场/站点",
+      "required": true
+    },
+    "price": {
+      "type": "number",
+      "description": "目标售价",
+      "required": true
+    },
+    "cost": {
+      "type": "number",
+      "description": "产品成本",
+      "required": true
+    },
+    "shipping_days": {
+      "type": "number",
+      "description": "头程天数",
+      "required": false,
+      "default": 15
+    },
+    "launch_date": {
+      "type": "string",
+      "description": "计划开售日期 (YYYY-MM-DD)",
+      "required": true
+    },
+    "supplier": {
+      "type": "string",
+      "description": "供应商名称",
+      "required": false
+    },
+    "brand": {
+      "type": "string",
+      "description": "品牌名称",
+      "required": true
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "product_name": "不锈钢厨房量杯套装",
+        "category": "家居厨房 > 量杯",
+        "target_market": "欧洲五国",
+        "price": 29.99,
+        "cost": 12,
+        "shipping_days": 15,
+        "launch_date": "2026-03-01",
+        "supplier": "义乌XX工厂",
+        "brand": "JOYOSO"
+      },
+      "output": "完整的Solution Kit，包含T-1/T-2/T-0/T+1四阶段里程碑、方法论文档、Excel模板"
+    }
+  ]
+}

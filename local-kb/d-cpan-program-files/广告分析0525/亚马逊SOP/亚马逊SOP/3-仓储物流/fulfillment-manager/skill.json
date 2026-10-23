@@ -1,0 +1,7 @@
+{
+  "name": "fulfillment-manager",
+  "description": "FBA发货管理 - FBA入库管理、海外仓管理、发货计划、库存盘点、仓储费用优化",
+  "instructions": "这是一个用于仓储物流管理的技能。\n\n1. FBA入库管理：\n   - 创建FBA shipment\n   - 箱规和标签\n   - 仓库选择\n   - 入库计划\n   - 发货跟踪\n\n2. 海外仓管理：\n   - 库存监控\n   - 库存周转\n   - 库存盘点\n   - 仓储费用\n   - 库存优化\n\n3. 发货计划：\n   - 补货计算\n   - 物流方式选择\n   - 成本核算\n   - 时效保证\n   - 到货跟踪\n\n4. 库存盘点：\n   - 盘点计划\n   - 盘点执行\n   - 差异处理\n   - 盘点报告\n\n5. 仓储费用优化：\n   - 仓储费分析\n   - 滞销品处理\n   - IPI提升\n   - 仓储空间优化\n\n6. 报表输出：\n   - 库存报表\n   - 发货报表\n   - 费用报表\n   - 周转报表\n\n7. 异常处理：\n   - 丢失破损\n   - 接收差异\n   - 仓储费申诉\n   - 库存移除\n\n注意事项：\n- FBA入库需提前创建计划\n- 箱规标签要准确\n- 关注IPI分数\n- 及时处理滞销库存",
+  "category": "fulfillment-manager",
+  "tags": ["fba", "fulfillment", "overseas-warehouse", "inventory", "shipping"]
+}

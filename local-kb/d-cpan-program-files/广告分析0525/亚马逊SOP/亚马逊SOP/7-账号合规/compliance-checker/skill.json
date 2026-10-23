@@ -1,0 +1,7 @@
+{
+  "name": "compliance-checker",
+  "description": "合规检查 - Listing合规、产品合规、广告合规、税务合规、政策更新",
+  "instructions": "这是一个用于合规检查的技能。\n\n1. Listing合规：\n   - 标题规范\n   - 图片规范\n   - 五点描述\n   - 产品描述\n   - 搜索关键词\n\n2. 产品合规：\n   - 认证要求\n   - 禁止销售产品\n   - 产品安全\n   - 包装要求\n\n3. 广告合规：\n   - 广告政策\n   - 关键词政策\n   - 图片政策\n   - 声明政策\n\n4. 税务合规：\n   - 销售税注册\n   - 申报要求\n   - 税率计算\n   - 发票要求\n\n5. 政策更新：\n   - 政策变化监控\n   - 新规解读\n   - 影响评估\n   - 调整执行\n\n6. 合规审核：\n   - 定期审计\n   - 问题整改\n   - 合规培训\n   - 文档管理\n\n7. 检查清单：\n   - 品类合规检查\n   - 认证有效期\n   - Listing违规检测\n   - 广告合规检测\n\n注意事项：\n- 政策变化频繁，需持续关注\n- 不同站点要求不同\n- 新品上架前完成合规检查\n- 保留合规证明文件",
+  "category": "compliance-checker",
+  "tags": ["compliance", "listing-policy", "product-compliance", "tax-compliance", "policy-update"]
+}

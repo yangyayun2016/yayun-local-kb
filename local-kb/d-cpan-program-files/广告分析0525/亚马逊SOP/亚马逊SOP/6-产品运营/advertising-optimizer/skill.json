@@ -1,0 +1,7 @@
+{
+  "name": "advertising-optimizer",
+  "description": "广告优化器 - 优化亚马逊广告策略、调整竞价、分析ACOS、提升ROAS",
+  "instructions": "这是一个用于亚马逊广告优化的技能。\n\n1. 广告类型：\n   - Sponsored Products（SP）\n   - Sponsored Brands（SB）\n   - Sponsored Display（SD）\n   - Amazon DSP\n\n2. 核心指标：\n   - ACOS（广告销售成本率）\n   - ROAS（广告回报率）\n   - CTR（点击率）\n   - CVR（转化率）\n   - TACoS（总广告销售成本率）\n\n3. 优化方向：\n   - 关键词优化（添加/否定）\n   - 竞价调整（手动/自动）\n   - 广告位优化（顶部/商品页/其余）\n   - 预算分配\n   - 广告创意优化\n\n4. 分析维度：\n   - 关键词表现\n   - 广告活动表现\n   - ASIN表现\n   - 时间维度（日/周/月）\n   - 归因分析\n\n5. 自动化规则：\n   - ACOS过高自动降低竞价\n   - 转化率低暂停关键词\n   - 高效词提升竞价\n   - 否定无效ASIN\n\n6. 报表输出：\n   - 广告效果日报\n   - 周度优化建议\n   - 月度分析报告\n   - 竞品广告对比\n\n7. 应用场景：\n   - 新品广告冷启动\n   - 成熟产品提效\n   - 降低ACOS\n   - 扩大流量入口\n\n注意事项：\n- ACOS需要结合利润率判断\n- 不同阶段目标不同\n- 关注TACoS整体表现\n- 广告不能完全依赖自动化",
+  "category": "advertising-optimizer",
+  "tags": ["amazon", "advertising", "acos", "roas", "ppc", "optimization"]
+}
