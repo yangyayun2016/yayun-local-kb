@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一个链接的广告框架 · SP 关键词作战体系</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Serif+SC:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --outer-bg:#E4E1DC;
+    --page-bg:#FDFCF9;
+    --surface:#FFFFFF;
+    --border:#E8E6E2;
+    --divider:#C5C0BA;
+
+    --text-primary:#151515;
+    --text-body:#3D3D3D;
+    --text-secondary:#717171;
+
+    --hero-bg:#EDE8DE;
+    --hero-deco:#C8BB9F;
+    --hero-deco2:#A99778;
+
+    --success-bg:#E8FBCF; --success-fg:#3D4826;
+    --warning-bg:#FFF0DC; --warning-fg:#E47700;
+    --info-bg:#DEE5F7;    --info-fg:#3E54CE;
+    --error-bg:#FDECEA;   --error-fg:#C4433A;
+    --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--outer-bg);
+    font-family:'Inter Tight','Noto Sans SC',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+    color:var(--text-body);
+    -webkit-font-smoothing:antialiased;
+    padding:28px 20px 40px;
+  }
+  .page{
+    max-width:1200px;margin:0 auto;background:var(--page-bg);
+    border-radius:24px;overflow:hidden;
+    box-shadow:0 12px 40px rgba(30,26,20,.08);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;background:var(--hero-bg);padding:34px 42px 30px;overflow:hidden;}
+  .blob{position:absolute;z-index:0;pointer-events:none;}
+  .b1{width:340px;height:280px;right:-70px;top:-90px;background:var(--hero-deco);opacity:.20;
+      border-radius:62% 38% 46% 54% / 55% 48% 52% 45%;}
+  .b2{width:230px;height:200px;left:-60px;bottom:-80px;background:var(--hero-deco2);opacity:.16;
+      border-radius:48% 52% 63% 37% / 42% 58% 42% 58%;}
+  .b3{width:150px;height:130px;left:38%;top:-40px;background:var(--hero-deco);opacity:.15;
+      border-radius:58% 42% 40% 60% / 50% 60% 40% 50%;}
+  .hero-content{position:relative;z-index:1;}
+  .eyebrow{
+    font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+    color:#6B6459;margin-bottom:12px;
+  }
+  .hero h1{
+    font-size:30px;line-height:1.22;font-weight:600;color:var(--text-primary);
+    margin:0 0 10px;letter-spacing:-.01em;max-width:760px;
+  }
+  .hero-sub{font-size:14px;color:#5A544A;line-height:1.65;max-width:720px;margin:0;}
+  .hairline{height:1px;background:rgba(21,21,21,.14);margin:22px 0 18px;}
+  .stat-row{display:flex;flex-wrap:wrap;gap:38px;}
+  .stat{min-width:110px;}
+  .stat .v{font-size:22px;font-weight:600;color:var(--text-primary);letter-spacing:-.02em;line-height:1.1;}
+  .stat .v small{font-size:12px;font-weight:500;color:#6B6459;margin-left:2px;}
+  .stat .l{font-size:11.5px;color:#6B6459;margin-top:5px;letter-spacing:.02em;}
+
+  /* ---------- LAYOUT ---------- */
+  .body{padding:34px 42px 10px;}
+  section{margin-bottom:42px;}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;}
+  .sec-num{
+    font-size:11px;font-weight:600;color:var(--text-secondary);letter-spacing:.1em;
+    font-variant-numeric:tabular-nums;padding-top:3px;
+  }
+  h2{font-size:17px;font-weight:600;color:var(--text-primary);margin:0;letter-spacing:-.005em;}
+  .sec-sub{font-size:12px;color:var(--text-secondary);margin:0 0 0 0;}
+  .rule{height:.5px;background:var(--border);margin:10px 0 18px;}
+  h3{font-size:15px;font-weight:600;color:var(--text-primary);margin:24px 0 8px;}
+  h4{font-size:13.5px;font-weight:600;color:var(--text-primary);margin:0 0 6px;}
+  p{font-size:14px;line-height:1.72;margin:0 0 12px;color:var(--text-body);}
+  p.lead{font-size:14.5px;color:var(--text-primary);}
+  strong{font-weight:600;color:var(--text-primary);}
+  .muted{color:var(--text-secondary);font-size:12.5px;line-height:1.65;}
+  ul,ol{font-size:14px;line-height:1.75;margin:0 0 12px;padding-left:20px;color:var(--text-body);}
+  li{margin-bottom:5px;}
+  code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+    background:var(--neutral-bg);border:.5px solid var(--border);border-radius:4px;padding:1px 5px;color:#4A443C;
+  }
+
+  /* ---------- COMPONENTS ---------- */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .card{
+    background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px;
+  }
+  .card h4{margin-bottom:6px;}
+  .card p{font-size:13px;line-height:1.68;margin:0;color:var(--text-body);}
+  .card .meta{font-size:11.5px;color:var(--text-secondary);margin-top:8px;}
+
+  .quote{
+    background:var(--surface);border:.5px solid var(--border);border-radius:12px;
+    padding:16px 18px;margin:0 0 12px;
+  }
+  .quote .who{font-size:12px;color:var(--text-secondary);margin-bottom:6px;}
+  .quote .say{font-size:14px;line-height:1.72;color:var(--text-primary);}
+  .quote .say em{font-style:normal;background:linear-gradient(transparent 62%, #EFE3CE 62%);padding:0 1px;}
+
+  .pill{
+    display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;
+    margin-right:5px;margin-bottom:4px;white-space:nowrap;
+  }
+  .p-ok{background:var(--success-bg);color:var(--success-fg);}
+  .p-warn{background:var(--warning-bg);color:var(--warning-fg);}
+  .p-info{background:var(--info-bg);color:var(--info-fg);}
+  .p-err{background:var(--error-bg);color:var(--error-fg);}
+  .p-neu{background:var(--neutral-bg);color:var(--neutral-fg);border:.5px solid var(--border);}
+
+  .alert{border-radius:10px;padding:14px 16px;margin:0 0 14px;font-size:13.5px;line-height:1.7;}
+  .alert .t{font-weight:600;display:block;margin-bottom:4px;font-size:13px;letter-spacing:.01em;}
+  .a-warn{background:var(--warning-bg);color:#6B4200;}
+  .a-warn .t{color:var(--warning-fg);}
+  .a-info{background:var(--info-bg);color:#2B3A85;}
+  .a-info .t{color:var(--info-fg);}
+  .a-ok{background:var(--success-bg);color:#33401F;}
+  .a-ok .t{color:var(--success-fg);}
+  .a-err{background:var(--error-bg);color:#7C2A24;}
+  .a-err .t{color:var(--error-fg);}
+
+  .table-wrap{overflow-x:auto;margin:0 0 14px;border-radius:10px;border:.5px solid var(--border);background:var(--surface);}
+  table{width:100%;border-collapse:collapse;min-width:560px;}
+  th{
+    font-size:12px;font-weight:500;color:var(--text-secondary);text-align:left;
+    padding:10px 12px;border-bottom:1px solid var(--divider);background:#FCFBF8;white-space:nowrap;
+  }
+  td{
+    font-size:13px;padding:10px 12px;border-bottom:.5px solid var(--border);
+    color:var(--text-body);vertical-align:top;line-height:1.55;
+  }
+  tr:last-child td{border-bottom:none;}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  td .k{color:var(--text-primary);font-weight:600;}
+  tr.hl td{background:#FCF8EF;}
+
+  /* decision chain */
+  .chain{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin:4px 0 16px;}
+  .step{
+    flex:1 1 170px;background:var(--surface);border:.5px solid var(--border);border-radius:10px;
+    padding:12px 13px;position:relative;
+  }
+  .step .n{
+    font-size:10.5px;font-weight:600;color:var(--hero-deco2);letter-spacing:.1em;margin-bottom:5px;
+  }
+  .step .h{font-size:12.5px;font-weight:600;color:var(--text-primary);line-height:1.4;margin-bottom:4px;}
+  .step .d{font-size:11.5px;color:var(--text-secondary);line-height:1.5;}
+
+  /* progress bars */
+  .bar-row{margin-bottom:11px;}
+  .bar-top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;color:var(--text-body);}
+  .bar-top b{font-weight:600;color:var(--text-primary);font-variant-numeric:tabular-nums;}
+  .track{height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
+  .fill{height:100%;border-radius:4px;}
+
+  .legend{display:flex;flex-wrap:wrap;gap:16px;font-size:11.5px;color:var(--text-secondary);margin-top:10px;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .sq{width:9px;height:9px;border-radius:2px;display:inline-block;}
+
+  .kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:.5px solid var(--border);font-size:13px;}
+  .kv:last-child{border-bottom:none;}
+  .kv .kk{color:var(--text-secondary);font-size:12.5px;}
+  .kv .vv{font-weight:600;color:var(--text-primary);font-variant-numeric:tabular-nums;}
+
+  .formula{
+    background:#FCFBF8;border:.5px solid var(--border);border-left:2px solid var(--hero-deco2);
+    border-radius:8px;padding:13px 15px;font-size:13px;line-height:1.85;color:var(--text-primary);
+    margin:0 0 14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  .formula .note{font-family:'Inter Tight',sans-serif;font-size:12px;color:var(--text-secondary);margin-top:7px;line-height:1.6;}
+
+  .checklist{list-style:none;padding:0;margin:0;}
+  .checklist li{
+    font-size:13.5px;line-height:1.6;padding:9px 0 9px 26px;position:relative;
+    border-bottom:.5px solid var(--border);margin:0;
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li:before{
+    content:"";position:absolute;left:2px;top:14px;width:11px;height:11px;
+    border:1px solid var(--divider);border-radius:3px;
+  }
+
+  .footer{position:relative;background:var(--hero-bg);padding:30px 42px 22px;overflow:hidden;margin-top:14px;}
+  .footer .blob{opacity:.14;}
+  .f-content{position:relative;z-index:1;}
+  .f-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  .f-brand{font-size:15px;font-weight:600;color:var(--text-primary);}
+  .f-brand span{display:block;font-size:11.5px;font-weight:400;color:#6B6459;margin-top:4px;letter-spacing:.02em;}
+  .f-meta{display:grid;grid-template-columns:auto auto;gap:6px 22px;font-size:11.5px;color:#6B6459;text-align:left;}
+  .f-meta b{color:var(--text-primary);font-weight:500;}
+  .f-hair{height:1px;background:rgba(21,21,21,.13);margin:20px 0 12px;}
+  .f-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11px;color:#7A7367;}
+  .f-bottom a{color:#6B6459;text-decoration:none;border-bottom:.5px solid rgba(107,100,89,.4);}
+
+  .refs{font-size:12px;line-height:1.9;color:var(--text-secondary);}
+  .refs a{color:#5A544A;text-decoration:none;border-bottom:.5px solid rgba(90,84,74,.35);}
+  .refs a:hover{color:var(--text-primary);}
+
+  .anchor{position:relative;}
+  .cite{font-size:10.5px;color:var(--hero-deco2);vertical-align:super;font-weight:600;}
+
+  .split{display:grid;grid-template-columns:1.45fr 1fr;gap:18px;align-items:start;}
+  .chart-box{position:relative;height:280px;}
+  .chart-box.sm{height:220px;}
+
+  @media (max-width:820px){
+    body{padding:0;}
+    .page{border-radius:0;}
+    .hero{padding:26px 20px 22px;}
+    .hero h1{font-size:23px;}
+    .body{padding:26px 20px 6px;}
+    .footer{padding:26px 20px 20px;}
+    .grid-2,.grid-3,.grid-4,.split{grid-template-columns:1fr;}
+    .stat-row{gap:22px;}
+    .chain .step{flex:1 1 100%;}
+    .f-meta{grid-template-columns:auto auto;}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .b1{animation:drift 18s ease-in-out infinite alternate;}
+    .b2{animation:drift 22s ease-in-out infinite alternate-reverse;}
+    @keyframes drift{from{transform:translate3d(0,0,0) rotate(0deg);}to{transform:translate3d(-14px,10px,0) rotate(4deg);}}
+    section{animation:rise .5s ease both;}
+    @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Advertising Framework · v1.0</div>
+      <h1>一个链接的广告框架<br>从流量入口，到关键词分级，再到预算与打法</h1>
+      <p class="hero-sub">
+        目标不是「把广告跑起来」，而是用有限的广告预算，把一批关键词的自然位往前推，
+        让自然单占比一路爬升，最后把这条链接的推广成本占比压到毛利以内。
+        本文把这个推理链摊开、补齐缺口，并落成可执行的层级、结构和节奏。
+      </p>
+      <div class="hairline"></div>
+      <div class="stat-row">
+        <div class="stat"><div class="v">45<small>%</small></div><div class="l">产品毛利率（现状基线）</div></div>
+        <div class="stat"><div class="v">30–40<small>%</small></div><div class="l">前期推广成本占比</div></div>
+        <div class="stat"><div class="v">6.7<small>%</small></div><div class="l">预算链隐含的目标 CVR</div></div>
+        <div class="stat"><div class="v">D+C</div><div class="l">前期主战场（少量 B）</div></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- ================= 00 一页看懂 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">00</div><div><h2>一页看懂：这条框架到底在解一道什么题</h2><p class="sec-sub">整条链只有一个自变量——预算有限时，把点击押在哪个词上，才能最快换回位置。</p></div></div>
+      <div class="rule"></div>
+
+      <div class="chain">
+        <div class="step"><div class="n">STEP 1</div><div class="h">目标</div><div class="d">销量稳、排名稳、利润率达标 → 可复制到更多链接</div></div>
+        <div class="step"><div class="n">STEP 2</div><div class="h">拆两个战场</div><div class="d">Listing（文案/图片/视频/划线价/BD/评论）｜广告（数据+绩效）</div></div>
+        <div class="step"><div class="n">STEP 3</div><div class="h">广告侧的决定量</div><div class="d">流量入口的数量 × 质量，而非出价高低</div></div>
+        <div class="step"><div class="n">STEP 4</div><div class="h">选入口</div><div class="d">只有 SP 关键词能把「出单」沉淀成「自然位」</div></div>
+        <div class="step"><div class="n">STEP 5</div><div class="h">选词</div><div class="d">相对订单量 + CVR 双坐标 → S/A/B/C/D 分级</div></div>
+        <div class="step"><div class="n">STEP 6</div><div class="h">配预算</div><div class="d">毛利 → 推广占比 → 日预算 → 点击数 → 需要的 CVR</div></div>
+        <div class="step"><div class="n">STEP 7</div><div class="h">定打法</div><div class="d">同样 2 单落在小词收益更大 → D+C 为主</div></div>
+        <div class="step"><div class="n">STEP 8</div><div class="h">定层级</div><div class="d">阶段 / 公司支持 / 预算 / 预期 / 目的 五个输入</div></div>
+      </div>
+
+      <div class="alert a-info">
+        <span class="t">三个必须先校正的口子</span>
+        <b>1. 平台分配位置用的是连乘，不是相加。</b>千次曝光收益 = 1000 × CTR × CVR ×（客单价 × 佣金率 + FBA 费）+ 广告收入。任何一项塌了，整体归零——所以「提转化」的杠杆远大于「提出价」，也比「提客单价」更稳。<br>
+        <b>2. 30–40% 推广占比，本质是「买位置的钱」，不是「买利润的钱」。</b>毛利率 45% 扣掉这个占比只剩 5–15%，再扣仓储、退货、人工基本持平甚至亏。它必须带时限和退出条件，否则会变成长期补贴。<br>
+        <b>3. 40×2×30%=24 美金 → CPC 0.8 → 30 点击 → 2 单，这条链的隐含假设是 CVR=6.7%。</b>这个数没被验证之前，预算和单量是两张皮。整套框架真正的落地动作，就是先在最可能达标的 C/D 词上把这个 6.7% 验证出来。
+      </div>
+    </section>
+
+    <!-- ================= 01 目标与战场 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">01</div><div><h2>目标与两个战场</h2><p class="sec-sub">先定义成功，再谈投放。定义不清，任何广告结构都只是自嗨。</p></div></div>
+      <div class="rule"></div>
+
+      <p class="lead">我们要的最终产出，是一条<b>销量稳定、排名稳定、利润率达标</b>的链接；真正的目标是<b>把这套经验复制到更多链接</b>。所以广告框架必须满足两个隐藏条件：一是可标准化（换个人也能跑），二是可迁移（换条链接也能套）。</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>战场 A · Listing 展示层</h4>
+          <p>文案、主图与场景图、视频、划线价、BD/秒杀、评论数量与增速、A+ 与品牌故事。它决定「流量进来之后愿不愿意买」——也就是 CVR 与 CTR 的天花板。</p>
+          <div class="meta">作用：把广告买来的点击，变成能成交的转化率</div>
+        </div>
+        <div class="card">
+          <h4>战场 B · 广告层（本文范围）</h4>
+          <p>数据：词、位、时段、搜索词、份额。绩效：CTR / CVR / CPC / ACOS / TACOS / 单点击期望毛利。它决定「流量从哪来、以什么价格来」。</p>
+          <div class="meta">作用：把预算换成位置，再把位置换成免费订单</div>
+        </div>
+      </div>
+
+      <div class="alert a-warn">
+        <span class="t">两个战场是同一条公式的分母与分子</span>
+        Listing 不好，广告的 CVR 就上不去，你再怎么调出价，也只是用更贵的价格买同样的点击；广告结构不对，Listing 再好也没人看见。<b>广告框架不能脱离 Listing 成熟度单独设计</b>——这也是为什么后面「阶段」会成为分层的第一个输入。
+      </div>
+    </section>
+
+    <!-- ================= 02 流量入口 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">02</div><div><h2>广告视角：销量由「流量入口」决定</h2><p class="sec-sub">入口不是越多越好，是越多「优质且稳定」越好。</p></div></div>
+      <div class="rule"></div>
+
+      <p>决定一个链接销量的第一因素不是出价、不是预算，而是<b>有多少优质流量入口在给你持续供血</b>。入口的质量由六个维度衡量：</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:19%">维度</th><th style="width:43%">含义</th><th>不达标的后果</th></tr></thead>
+          <tbody>
+            <tr><td><span class="k">关键词收录数量</span></td><td>链接被索引到的词有多少个（含未被投放的长尾）</td><td>流量天花板锁死，广告只能反复买同一批词，CPC 越买越贵</td></tr>
+            <tr><td><span class="k">关键词质量</span></td><td>搜索量高 + 与产品购买意图相关性强</td><td>收录一堆无关词，曝光来了不点，点了不买，反拉低转化权重</td></tr>
+            <tr><td><span class="k">曝光时长</span></td><td>一天中真正挂在前台展示的时间</td><td>预算早上烧完、或出价过低拿不到展示，等于当天没营业</td></tr>
+            <tr><td><span class="k">曝光位置</span></td><td>搜索结果首页 / 商品页 / 其余位置，以及页内第几位</td><td>位置太靠后，CTR 断崖，点击成本反而更贵</td></tr>
+            <tr><td><span class="k">稳定性（滚动率低）</span></td><td>排位不因预算、竞价波动而大幅上下跳</td><td>排名反复滚动，转化历史断档，自然位永远攒不起来</td></tr>
+            <tr><td><span class="k">相关性</span></td><td>词 → 产品 → 页面 三者是否对得上</td><td>质量分低，同样出价排在后面，ACOS 被结构性抬高</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>入口盘点与取舍</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:14%">入口</th><th style="width:26%">主要作用</th><th style="width:22%">成本形态</th><th>能否沉淀自然位</th></tr></thead>
+          <tbody>
+            <tr class="hl"><td><span class="k">SP · 关键词</span></td><td>把一个词下的出单，转化成该词的自然排名</td><td>CPC，可控、可逐步降低</td><td><span class="pill p-ok">能 · 最强</span></td></tr>
+            <tr><td>SP · 自动/商品定向</td><td>拓词、挖竞品 ASIN 流量、喂相关性</td><td>CPC 偏低但精准度差</td><td><span class="pill p-neu">间接</span></td></tr>
+            <tr><td>SB / SBV</td><td>品牌位、视频拦截、大词卡位</td><td>CPC 高，需品牌备案</td><td><span class="pill p-neu">弱</span></td></tr>
+            <tr><td>SD</td><td>再营销、抢竞品详情页、站外承接</td><td>CPC/CPM，看人群包</td><td><span class="pill p-err">不能</span></td></tr>
+            <tr><td>站外（社媒/红人/搜索）</td><td>冷启动、冲榜、拿评论、做品牌</td><td>固定费用，不可控，无法归因到词</td><td><span class="pill p-err">不能</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert a-ok">
+        <span class="t">结论：核心入口锁定 SP 关键词广告</span>
+        判据不是「哪个便宜」，而是三个条件同时成立：<b>① 流量稳定 ② 可持续成单 ③ 单次成单费用递减</b>。只有关键词广告满足第三条——因为在同一个词下持续出单，会推动该词自然位上升，自然单占比随之提高，整体获客成本被动下降。SB/SD/站外都能买来订单，但买完就没了，不会留下位置。
+      </div>
+
+      <p>所以本框架的核心目标可以写成一句话：<b>让链接拥有足够多、且自然位尽量靠前的关键词。</b>销量问题和持续出单问题，都是这句话的副产品。</p>
+    </section>
+
+    <!-- ================= 03 自然位机理 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">03</div><div><h2>自然位是怎么被推上去的</h2><p class="sec-sub">先搞清机理，才知道该看哪两个指标，也才知道哪些动作是白费力气。</p></div></div>
+      <div class="rule"></div>
+
+      <p>一个关键词的自然位，是平台对这个坑位「未来能赚多少钱」的判断结果。参与判断的输入大致是这几项：</p>
+
+      <div class="grid-3">
+        <div class="card"><h4>该词下的出单次数</h4><p>你在这个词上积累的成交历史。它是最直接的「这个词归你」的证据。</p></div>
+        <div class="card"><h4>转化率 CVR</h4><p>流量进来后有多少成交。决定平台把你放到更前面是否划算。</p></div>
+        <div class="card"><h4>点击率 CTR</h4><p>被看见后有多少人点。平台更看重它的<b>稳定性</b>，而不是单日最高值。</p></div>
+        <div class="card"><h4>评论数与留评增速</h4><p>评价体量与新增速度，是转化的信任底座，也是新品期的硬门槛。</p></div>
+        <div class="card"><h4>完美订单数</h4><p>无缺陷履约的累计量。账号健康度会以它为载体影响流量分配。</p></div>
+        <div class="card"><h4>价格与促销状态</h4><p>划线价、BD、Coupon 会直接改写 CVR，进而改写平台对坑位收益的预估。</p></div>
+      </div>
+
+      <h3>平台侧的真实公式（需要校正）</h3>
+      <p>团队里流传的写法是把各项「加起来」，这是错的，会直接导致运营去优化错误的变量。平台按<b>千次曝光的预估收益</b>排序坑位，它是一个<b>连乘</b>结构：</p>
+
+      <div class="formula">
+        千次曝光预估收益 = 1000 × CTR × CVR ×（客单价 × 佣金率 + FBA 费）+ 广告收入
+        <div class="note">
+          ① 是连乘：CTR 或 CVR 任一项接近 0，整体归零，加价买不到位置。<br>
+          ② 佣金要<b>乘客单价</b>，不是固定金额；FBA 费按件计，不随客单价放大。<br>
+          ③「广告投入」不是你的成本，而是平台从这个坑位能拿到的广告收入——所以它是被竞价推高的，不是你写进公式的常数。<br>
+          ④ 广告排名另有一套：<code>广告排名 ≈ 出价 × 预估 CTR × 相关性（质量分）</code>，二价计费。两套模型不要混用。
+        </div>
+      </div>
+
+      <p>这个校正带来一个很实际的推论：<b>在 CPC 已经接近 1 欧的情况下，继续加价是效率最低的动作</b>。把同样的钱花在提升 CVR（页面、评论、价格带匹配、词的相关性）上，对坑位收益的放大是乘数级的；而加价只是线性地多买一点曝光。</p>
+    </section>
+
+    <!-- ================= 04 关键词分级 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">04</div><div><h2>选词：两个坐标，五个层级</h2><p class="sec-sub">「哪个词值得投」不是看搜索量，而是看「你在这个词上能占到多少份额」。</p></div></div>
+      <div class="rule"></div>
+
+      <h3>坐标一：相对订单量（这个词的自然位提升速度）</h3>
+      <p>同样出 50 单，落在总订单 1000 的词上，你只占 5%；落在总订单 100 的词上，你占 50%。后者对这个词的控制力是前者的十倍，自然位提升速度自然完全不同。<b>这就是为什么小词的性价比在数学上成立，不是风格偏好。</b></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>关键词</th><th class="num">该词月总订单</th><th class="num">你的月出单</th><th class="num">相对订单量</th><th>自然位提升</th></tr></thead>
+          <tbody>
+            <tr><td>关键词 A（大词）</td><td class="num">1,000</td><td class="num">50</td><td class="num">5.0%</td><td><span class="pill p-err">很慢</span></td></tr>
+            <tr class="hl"><td>关键词 B（小词）</td><td class="num">100</td><td class="num">50</td><td class="num">50.0%</td><td><span class="pill p-ok">很快</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="muted">问题在于：单个词的「总购买量」我们看不到。所以只能用代理指标——ABA 周排名最贴近真实流量反馈，第三方工具的月搜索量次之。当前先用<b>月搜索量</b>做分级，跑满一个季度后用实际分布校准。</p>
+
+      <h3>坐标二：CVR（这个词值不值得继续加钱）</h3>
+      <p>转化率高低很大程度由<b>外部竞争强度</b>决定，而不是由你的投放技巧决定。S 级大词，头部已牢牢占位、中部链接还在抢，新品很难稳定展示在前排；更要命的是品类结构问题——我们卖的是<b>积木灯饰套件</b>，而高搜索量的大词指向的是「积木」本身，买家的第一购买意图不是我们。所以在大词上，我们的 CVR 天然吃亏。</p>
+      <p>反过来，C 级、D 级词里带型号、带 <code>light</code>、<code>light kit</code> 的词，购买意图明确指向灯饰，转化往往比对着一堆积木大词要高。所以策略是：<b>先筛相关性强的 C/D 词，再用实际投放验证竞争成本与转化表现</b>——不是先假设，而是先小钱试。</p>
+
+      <h3>分级标准（现行）</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:9%">层级</th><th style="width:20%">月搜索量</th><th style="width:26%">角色</th><th>前期广告动作</th></tr></thead>
+          <tbody>
+            <tr><td><span class="k">S</span></td><td>≥ 30,000</td><td>认知位 / 占位</td><td><span class="pill p-err">前期不主投</span>（或极低出价 + 首页首位小加价，只买收录与相关性）</td></tr>
+            <tr><td><span class="k">A</span></td><td>10,000 – 30,000</td><td>主战场（后期）</td><td><span class="pill p-warn">暂缓</span>，等 C/D 验证出 CVR 与单点击正期望再独立开活动</td></tr>
+            <tr><td><span class="k">B</span></td><td>3,000 – 10,000</td><td>验证区</td><td><span class="pill p-info">少量</span>，词组匹配试跑，跑出单再升级精准</td></tr>
+            <tr class="hl"><td><span class="k">C</span></td><td>500 – 3,000</td><td>收割区（进攻主力）</td><td><span class="pill p-ok">大量</span>，精准匹配，攻自然位</td></tr>
+            <tr class="hl"><td><span class="k">D</span></td><td>&lt; 500</td><td>利润区 / 种子区</td><td><span class="pill p-ok">大量</span>，精准，低 CPC，高 CVR，做词根权重</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alert a-warn">
+        <span class="t">口径待确认：这套阈值是按哪个站点定的</span>
+        如果这是德国/欧洲站的月搜索量，S≥30,000 已经属于<b>超大词</b>，实际可投的 A 级空间会被压得很窄。行业里常见的美国站基准是 S≥50,000、C 在 5,000–10,000；欧洲站通常要按 0.3–0.4 折算。你现在这套「S≥30,000 / C 500–3,000」如果本来就是对欧洲站折过的，没问题；如果混用了美国站口径，整张分级会整体错位一档。<b>建议在词库里加一列「口径站点」，并在跑满 30 天后用实际分布重画一次分位线。</b>
+      </div>
+
+      <h3>光有分级不够：必须再挂三个字段</h3>
+      <p>搜索量只说明「词大」，不说明「词值」。每个词必须同时带 <b>CPC、CVR、相关性（1–5）</b>，才能做二维判定：</p>
+
+      <div class="grid-4">
+        <div class="card"><h4>高量 · 高转</h4><p>主战场。独立活动、独立预算，精准 + 词组并行。</p><div class="meta"><span class="pill p-ok">加钱</span></div></div>
+        <div class="card"><h4>高量 · 低转</h4><p>认知位。只买最低曝光与收录，等页面（评论/价格）成熟再回来。</p><div class="meta"><span class="pill p-warn">占位不进攻</span></div></div>
+        <div class="card"><h4>低量 · 高转</h4><p>利润区。低 CPC 精准收割，是前期预算的主要落点。</p><div class="meta"><span class="pill p-ok">主投</span></div></div>
+        <div class="card"><h4>低量 · 低转</h4><p>否词池。要么相关性错，要么页面接不住，先查原因再决定。</p><div class="meta"><span class="pill p-err">否 / 待查</span></div></div>
+      </div>
+
+      <div class="split" style="margin-top:16px;">
+        <div>
+          <h4 style="margin-top:0;">把词放进坐标图</h4>
+          <p class="muted">横轴＝相对订单量（你在这个词上能占到的份额），纵轴＝CVR。气泡大小＝月搜索量。右上角是「能占到份额且转化得动」的词——这才是前期真正该花钱的地方。</p>
+          <div class="chart-box"><canvas id="quadChart"></canvas></div>
+          <div class="legend">
+            <span><i class="sq" style="background:#5FA882"></i>优先主投</span>
+            <span><i class="sq" style="background:#C4433A"></i>占位 / 暂缓</span>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin-top:0;">读图规则</h4>
+          <div class="quote"><div class="who">右上 · 高份额高转化</div><div class="say">自然位提升最快且能赚钱。预算优先，独立活动，出价可略高于均价抢前排。</div></div>
+          <div class="quote"><div class="who">左上 · 低份额高转化</div><div class="say">你有能力转化，只是抢不到份额。这是<b>最有价值的上升通道</b>：加预算 + 提相关性，等自然位突破。</div></div>
+          <div class="quote"><div class="who">右下 · 高份额低转化</div><div class="say">词小但接不住。先查页面与价格，不要用加价掩盖 CVR 问题。</div></div>
+          <div class="quote" style="margin-bottom:0;"><div class="who">左下 · 低份额低转化</div><div class="say">大词 + 转化差。新品期只做占位，别当主战场。</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 05 词根与SPR ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">05</div><div><h2>词根、词频与 SPR：把词库变成结构</h2><p class="sec-sub">单个词是散点，词根才是可复制的资产——它决定你能不能迁移到下一条链接。</p></div></div>
+      <div class="rule"></div>
+
+      <p>分级解决「投哪些词」，词根解决「为什么投、能不能复制」。做法是把词库按词频拆词根，再给每个词根打三类标签：</p>
+
+      <div class="grid-3">
+        <div class="card"><h4>人群</h4><p>adult fan / kids / collector / gift for him…　决定素材与文案的语气，也决定该不该单独建活动。</p></div>
+        <div class="card"><h4>场景</h4><p>display / shelf / bedroom / christmas / birthday…　场景词 CVR 通常更高，是 C/D 的主来源。</p></div>
+        <div class="card"><h4>属性</h4><p>light kit / led / remote / battery / USB / compatible with…　属性词意图最明确，前期最该占。</p></div>
+      </div>
+
+      <p style="margin-top:12px;">打标完成后做<b>特征词分析</b>：哪个词根贡献了最多的有效点击、最高的 CVR、最便宜的自然位推进成本。这个词根就是这条链接的「主叙事」，listing 文案、主图、A+ 都要围着它做——因为它同时决定广告质量和自然转化。</p>
+
+      <h3>SPR：把「首页需要多少单」变成一个数</h3>
+      <div class="formula">
+        SPR = 维持该词搜索结果首页所需的 8 天自然订单量（卖家精灵口径）
+        <div class="note">
+          全公司只用这一种口径，不与「月销量预估」「ABA 搜索量」混列——三者量纲不同，混在一起会得出完全错误的门槛。<br>
+          用法：<b>SPR × 目标份额 ≈ 8 天需要的订单</b>；再除以 8 得到日均需要，与你的广告日单量对比，就知道「靠广告能不能推上去」。
+        </div>
+      </div>
+
+      <div class="alert a-info">
+        <span class="t">SPR 是这个框架里最关键、也最容易缺的一环</span>
+        你的预算链已经算出「一天 30 个点击、理想 2 单」。但 2 单/天是否足以推进某个 C 词的自然位，取决于该词的 SPR。如果某词 SPR=60（8 天 60 单），你日均 2 单只贡献 16 单，占 27%——推得动但很慢；如果 SPR=15，你 16 单就超额，四周内应该能看到位移。<b>没有 SPR，就无法判断「预算够不够」，只能凭感觉加钱。</b>
+      </div>
+    </section>
+
+    <!-- ================= 06 利润率与预算 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">06</div><div><h2>利润约束：预算从毛利里长出来</h2><p class="sec-sub">在投放之前就要回答三个问题：毛利率多少、推广占比给多少、什么时候能到满意利润。</p></div></div>
+      <div class="rule"></div>
+
+      <p class="lead">利润率最高的情况当然是<b>全部自然单</b>——但既要有销量又不花钱，不成立。所以目标不是「不要广告」，而是<b>让自然单占比一路爬升</b>，把广告从「订单来源」变成「位置投资」。</p>
+
+      <h3>预算推导链（可复用）</h3>
+      <div class="formula">
+        日广告预算 = 客单价 × 预期日单量 × 推广成本占比<br>
+          = 40 × 2 × 30% = <b>24</b><br><br>
+        可获点击数 = 日预算 ÷ CPC = 24 ÷ 0.8 = <b>30 次</b><br>
+        隐含目标 CVR = 目标单量 ÷ 点击数 = 2 ÷ 30 = <b>6.7%</b><br>
+        保本 CPC（单件毛利口径）= CVR × 客单价 × 毛利率 = 6.7% × 40 × 45% = <b>1.20</b>
+        <div class="note">最后一行是把「每个点击值多少钱」算清楚：CVR 6.7% 时，CPC 只要不超过 1.20，单个点击的期望毛利就 ≥ 0。这也解释了为什么 CPC 上限 1.0–1.1 在 C/D 词上是安全的，在大词上是危险的——大词 CVR 只有 3–4%，保本 CPC 只有 0.54–0.72。</div>
+      </div>
+
+      <h3>单点击期望毛利：决定「这个词能不能投」的唯一判据</h3>
+      <div class="formula">
+        单点击期望毛利 = CVR × 客单价 × 毛利率 − CPC
+        <div class="note">客单价 40、毛利率 45% → 每单毛利 18。下表按各层级典型 CVR/CPC 估算（<b>假设值，需用自家数据替换</b>）。</div>
+      </div>
+
+      <div class="split">
+        <div>
+          <div class="chart-box"><canvas id="marginChart"></canvas></div>
+          <div class="legend"><span><i class="sq" style="background:#5FA882"></i>正期望（可投）</span><span><i class="sq" style="background:#C4433A"></i>负期望（不投 / 只占位）</span></div>
+        </div>
+        <div>
+          <div class="table-wrap" style="margin-bottom:0;">
+            <table style="min-width:0;">
+              <thead><tr><th>层级</th><th class="num">CVR</th><th class="num">CPC</th><th class="num">单点击期望</th></tr></thead>
+              <tbody>
+                <tr><td>S</td><td class="num">3%</td><td class="num">1.20</td><td class="num" style="color:#C4433A">−0.66</td></tr>
+                <tr><td>A</td><td class="num">4%</td><td class="num">1.10</td><td class="num" style="color:#C4433A">−0.38</td></tr>
+                <tr><td>B</td><td class="num">6%</td><td class="num">0.95</td><td class="num" style="color:#3D4826">+0.13</td></tr>
+                <tr class="hl"><td>C</td><td class="num">9%</td><td class="num">0.80</td><td class="num" style="color:#3D4826">+0.82</td></tr>
+                <tr class="hl"><td>D</td><td class="num">12%</td><td class="num">0.65</td><td class="num" style="color:#3D4826">+1.51</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="muted" style="margin-top:10px;">这张表就是「农村包围城市」的数学根据：不是我们喜欢小词，是大词在页面不成熟时<b>每买一个点击都在亏钱</b>。</p>
+        </div>
+      </div>
+
+      <h3>同一笔钱，落在哪一级词更划算</h3>
+      <p>24 美金 → 30 个点击 → 理想情况下 2 个广告订单。问题来了：这 2 单出在哪个级别，对自然位的推动最大？</p>
+      <div class="alert a-ok">
+        <span class="t">答案：搜索量越小、总出单越少的词，同样 2 单的边际推动越大</span>
+        在购买意图、转化水平、竞争条件相近的前提下，2 单落在月搜 300 的 D 词，可能占据该词 30–50% 的成交；落在月搜 30,000 的 S 词，占比可能不到 0.1%，几乎不影响排位。这就是前期「大量 D + 大量 C + 少量 B」的全部理由。
+      </div>
+
+      <div class="chart-box sm" style="margin-top:6px;"><canvas id="shareChart"></canvas></div>
+      <div class="legend"><span><i class="sq" style="background:#A99778"></i>同样 2 单在不同层级的份额占比（示意）</span></div>
+    </section>
+
+    <!-- ================= 07 广告框架 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">07</div><div><h2>前期广告框架：结构、预算、KPI</h2><p class="sec-sub">一个活动只承担一个 KPI。既要拓词又要控 ACOS 的活动，两件都做不成。</p></div></div>
+      <div class="rule"></div>
+
+      <div class="grid-2" style="margin-bottom:16px;">
+        <div>
+          <div class="chart-box sm"><canvas id="budgetChart"></canvas></div>
+          <div class="legend"><span><i class="sq" style="background:#5FA882"></i>D 40%</span><span><i class="sq" style="background:#8FC5A8"></i>C 35%</span><span><i class="sq" style="background:#C8BB9F"></i>B 15%</span><span><i class="sq" style="background:#C5C0BA"></i>自动/词根 10%</span></div>
+        </div>
+        <div>
+          <h4 style="margin-top:0;">为什么是这个分配</h4>
+          <p style="font-size:13.5px;">D 给最大份额，因为它是唯一「2 单就能看到位移」的层级，且单点击期望毛利最高；C 给次大份额，因为它是真正的进攻战场——词量够、份额还抢得动；B 只留验证性预算，跑出单才升级；自动活动的作用不是出单，是<b>持续供给新词</b>，所以给它固定小预算，绝不因为它 ACOS 难看就关掉。</p>
+          <p class="muted">比例是起点，不是教条。跑满 4 周后按「每层级带来的自然位位移 / 花费」重排一次。</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:15%">活动</th><th style="width:8%">层级</th><th style="width:8%">匹配</th><th class="num" style="width:8%">日预算</th><th style="width:11%">出价策略</th><th style="width:15%">唯一 KPI</th><th>否定规则</th></tr></thead>
+          <tbody>
+            <tr><td><span class="k">SP-D-核心收割</span></td><td>D</td><td>精准</td><td class="num">9.6</td><td>低 CPC，CPC 上限＝CVR×18</td><td>自然位是否进入前 2 页</td><td>7 天内花费 ≥ 半件毛利且 0 单 → 降 30% 出价后再判</td></tr>
+            <tr><td><span class="k">SP-C-自然位攻坚</span></td><td>C</td><td>精准</td><td class="num">8.4</td><td>中位出价，抢首页中段</td><td>每词 CVR 是否 ≥ 6.7%</td><td>点击数 ≥ 3÷CVR 仍 0 单才否；大词只降不否</td></tr>
+            <tr><td><span class="k">SP-B-词组验证</span></td><td>B</td><td>词组</td><td class="num">3.6</td><td>低于建议价 20% 起</td><td>新增有效词数（≥3 单的词）</td><td>跑出的词迁精准，原词在词组活动里加否定</td></tr>
+            <tr><td><span class="k">SP-自动-拓词</span></td><td>—</td><td>自动</td><td class="num">2.4</td><td>固定低价，四组全开</td><td>每周新增可分层词数</td><td>只否「不相关」，不否「没出单」——它的职责是发现</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">金额按 24 美金日预算分摊。实际执行建议把 D/C 拆成 2–3 个活动（按词根或场景分组），避免单词预算被同组大流量词吃掉。</p>
+
+      <h3>一个必须防的机制：广泛匹配的大词引力</h3>
+      <p>只要开了广泛/词组匹配，预算就会天然向高流量词倾斜，第一周被大词吃掉是<b>机制</b>不是失误。三种处理任选其一，别混着来：</p>
+      <div class="grid-3">
+        <div class="card"><h4>隔离</h4><p>大词不否，单独开活动、独立预算、低出价占位。适合新品期要收录。</p></div>
+        <div class="card"><h4>阈值</h4><p>按 3÷CVR 的最小点击数判否。适合已验证 CVR、要控成本的阶段。</p></div>
+        <div class="card"><h4>前置否</h4><p>开跑前就把大词否掉。只适合老品（&gt;90 天、已有自然位保护）。</p></div>
+      </div>
+
+      <div class="alert a-warn">
+        <span class="t">否词的样本量纪律：20 个点击不是标准</span>
+        最小可判定点击数 = 3 ÷ 类目 CVR。CVR 15% 的类目，20 点击刚好够判；CVR 5% 的类目，需要 60 点击。你的类目若 CVR 在 8–10%，<b>需要 30–38 个点击、约 3–4 单的期望</b>才够下结论。按日预算 24 算，30 点击是<b>一天</b>的量——所以单日数据不能用来否词，至少看 5–7 天。<br>
+        另一条独立止损：花费 ≥ 单件毛利 × 0.5 且 0 单 → 先降 30% 出价，观察一个周期，再决定是否否。<b>产品上线 &lt; 60 天，大词只降不否</b>——新品缺的是收录和转化历史，大词曝光本身在喂信号。
+      </div>
+    </section>
+
+    <!-- ================= 08 广告层级 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">08</div><div><h2>广告层级由五个输入决定</h2><p class="sec-sub">同一套结构不能套所有链接。层级不是难度，是资源配置方式。</p></div></div>
+      <div class="rule"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:16%">输入</th><th style="width:30%">要问的问题</th><th>对层级的影响</th></tr></thead>
+          <tbody>
+            <tr><td><span class="k">产品阶段</span></td><td>上架多久？评论多少？有没有自然位？</td><td>&lt;30 天：只做收录与拓词，不打排名｜30–90 天：C/D 攻坚｜&gt;90 天且自然位在前 3 页：才开始碰 A/S</td></tr>
+            <tr><td><span class="k">公司支持</span></td><td>能给多少额度？能撑几个月？</td><td>额度小 → 只打 D，做深不做宽｜额度大 → D+C+B 三条线并行</td></tr>
+            <tr><td><span class="k">广告预算</span></td><td>日预算能覆盖多少点击？</td><td>日点击 &lt; 30，任何分层都没有统计意义，先集中打 5–8 个 D 词</td></tr>
+            <tr><td><span class="k">预期</span></td><td>要单量、要排名、还是要利润？</td><td>三者只能选一个当主 KPI，另外两个当约束条件写进退出规则</td></tr>
+            <tr><td><span class="k">广告目的</span></td><td>买位置、测词、清库存、还是防竞品？</td><td>目的不同，活动结构与出价逻辑完全不同，不能共用一个活动</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>阶段 × 打法</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:13%">阶段</th><th style="width:22%">结构</th><th style="width:20%">预算重心</th><th style="width:20%">主 KPI</th><th>退出 / 升级条件</th></tr></thead>
+          <tbody>
+            <tr><td><span class="k">0–30 天<br>收录期</span></td><td>自动 + 词组拓词，D 词精准 10–15 个；大词低出价占位不否</td><td>自动 30% / D 50% / B 20%</td><td>收录词数、有效词（≥1 单）数量</td><td>累计 ≥ 15 个有效词 → 进入攻坚期</td></tr>
+            <tr class="hl"><td><span class="k">30–90 天<br>攻坚期</span></td><td>D 收割 + C 攻坚 + B 验证 + 自动供词，四条线并行</td><td>D 40% / C 35% / B 15% / 自动 10%</td><td>核心 20 词的自然位周环比</td><td>核心词进前 2 页且 TACOS ≤ 25% → 进入放量期</td></tr>
+            <tr><td><span class="k">90–180 天<br>放量期</span></td><td>B 词升精准、A 词独立活动；S 词低出价 + SB 卡位</td><td>C/D 45% / B 25% / A 20% / S 10%</td><td>自然单占比、TACOS</td><td>自然单占比 ≥ 60% → 转守位</td></tr>
+            <tr><td><span class="k">180 天+<br>守位期</span></td><td>大词前置否；只留 C/D 精准 + S 卡位；砍掉低效活动</td><td>C/D 60% / 卡位 25% / 自动 15%</td><td>利润/单、广告单占比下降曲线</td><td>连续 4 周 TACOS 超红线 → 收缩回攻坚期打法</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 09 净利曲线 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">09</div><div><h2>整套框架真正要看的 KPI：广告单占比下降曲线</h2><p class="sec-sub">广告不是成本中心，它是一个会自我消减的成本。看它有没有在自我消减。</p></div></div>
+      <div class="rule"></div>
+
+      <p>毛利率 45%，推广占比 30%：如果 100% 的订单都来自广告，毛利里还剩 15%，再扣仓储、退货、人工，基本在盈亏线上。这不是失败，这是<b>新链接的起点</b>。问题只在于——它有没有在往上走。</p>
+
+      <div class="split">
+        <div>
+          <div class="chart-box"><canvas id="profitChart"></canvas></div>
+          <div class="legend"><span><i class="sq" style="background:#5FA882"></i>扣其他费用（按 8%）后的净利率</span></div>
+        </div>
+        <div>
+          <div class="table-wrap" style="margin-bottom:0;">
+            <table style="min-width:0;">
+              <thead><tr><th>广告单占比</th><th class="num">推广占比</th><th class="num">净利率</th></tr></thead>
+              <tbody>
+                <tr><td>100%（起点）</td><td class="num">30%</td><td class="num" style="color:#C4433A">7%</td></tr>
+                <tr><td>80%</td><td class="num">24%</td><td class="num">13%</td></tr>
+                <tr><td>60%</td><td class="num">18%</td><td class="num">19%</td></tr>
+                <tr class="hl"><td>40%</td><td class="num">12%</td><td class="num" style="color:#3D4826">25%</td></tr>
+                <tr class="hl"><td>20%</td><td class="num">6%</td><td class="num" style="color:#3D4826">31%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="muted" style="margin-top:10px;">假设：毛利率 45%，其他运营费用 8%，推广占比随广告单占比线性下降。<b>这张表给出的才是「什么时候可以做到满意利润率」的答案</b>——不是等某个月，而是等广告单占比降到某个值。</p>
+        </div>
+      </div>
+
+      <div class="alert a-ok">
+        <span class="t">把这句话写进 SOP</span>
+        「推广期允许广告单占比 100%、毛利率被压到 7%，但要求<b>每 4 周该占比至少下降 5 个百分点</b>；连续 8 周不下降，视为关键词自然位未推进，回到选词环节重做，而不是继续加预算。」
+      </div>
+    </section>
+
+    <!-- ================= 10 节奏 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">10</div><div><h2>90 天节奏与周例会</h2><p class="sec-sub">框架的价值在于重复执行，不在于设计得多漂亮。</p></div></div>
+      <div class="rule"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:16%">窗口</th><th style="width:32%">动作</th><th>交付物</th></tr></thead>
+          <tbody>
+            <tr><td><span class="k">D1–14</span><br>建库与基线</td><td>拉词库（分层 + 词根标签 + CPC + CVR + 相关性 + SPR）；记录 10 个竞品在该词下的位置；记录自家自然位基线</td><td>词库表（含单点击期望毛利列）、基线快照</td></tr>
+            <tr><td><span class="k">D15–45</span><br>C/D 攻坚</td><td>四条活动上线；每周搜索词审计（按 3÷CVR 判否）；双周更新词根聚合</td><td>周度否词表（每词一句理由）、词根位移表</td></tr>
+            <tr><td><span class="k">D46–75</span><br>B 词放量</td><td>B 词达标迁精准；记录 A 词自然排名周环比；开始测大词的单点击期望毛利</td><td>层级迁移记录、大词试投卡</td></tr>
+            <tr><td><span class="k">D76–90</span><br>复盘与上探</td><td>S 词低出价卡位 + SB/SBV 试水；启动大词前置否（若已过 90 天）；复盘份额、词根、利润</td><td>季度复盘、下季度预算与层级调整</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>每周三次固定动作</h3>
+      <div class="grid-3">
+        <div class="card"><h4>周一 · 词库看板</h4><p>只看趋势，不做动作。层级分布、CVR 变化、单点击期望毛利排名。</p><div class="meta">输出：本周需关注的 10 个词</div></div>
+        <div class="card"><h4>周三 · 否词清理</h4><p>按 3÷CVR 判样本；每个否掉的词写一句理由，否则三个月后没人知道为什么。</p><div class="meta">输出：否词表</div></div>
+        <div class="card"><h4>周五 · 排名复盘</h4><p>核心 20 词自然位周环比 + 广告单占比变化。位移不动就回去查预算与 SPR。</p><div class="meta">输出：位移清单 + 下周加/减预算建议</div></div>
+      </div>
+    </section>
+
+    <!-- ================= 11 待确认 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">11</div><div><h2>需要你确认的口径（缺口清单）</h2><p class="sec-sub">这些不确认，上面的数字都只是「结构正确、数值待定」。结构可以先跑，数值不能瞎填。</p></div></div>
+      <div class="rule"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:5%">#</th><th style="width:32%">事项</th><th style="width:33%">为什么关键</th><th>建议默认</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td>分级阈值按哪个站点、是否已折算</td><td>决定整张分层表是否整体错位一档</td><td>加「口径站点」列，30 天后用实际分位重画</td></tr>
+            <tr><td class="num">2</td><td>客单价币种（美金还是欧元）与是否含 VAT</td><td>毛利、CPC、保本线全部基于它</td><td>统一用 EUR 且做 VAT 还原后再算毛利</td></tr>
+            <tr><td class="num">3</td><td>45% 毛利率是「含广告前」还是「含广告后」</td><td>决定 30% 推广占比是叠加还是已含在内</td><td>明确写成「不含广告的毛利」，广告另扣</td></tr>
+            <tr><td class="num">4</td><td>除广告外的其他运营费用率</td><td>缺它就算不出真实净利与保本 TACOS</td><td>先按 8–10% 估，跑一季后用财务数据替换</td></tr>
+            <tr><td class="num">5</td><td>类目真实 CVR（分层级）</td><td>6.7% 这个目标是否成立全靠它</td><td>用 D/C 词各 100 点击的实际数据反推</td></tr>
+            <tr><td class="num">6</td><td>核心词的 SPR（8 天首页订单）</td><td>判断「2 单/天够不够推」的唯一依据</td><td>逐词取卖家精灵 SPR，不混用其他口径</td></tr>
+            <tr><td class="num">7</td><td>评论数与留评速度现状</td><td>决定能不能打大词（信任门槛）</td><td>记录竞品 TOP10 平均评论数作为对比基线</td></tr>
+            <tr><td class="num">8</td><td>是否已有自然位在前 3 页的词</td><td>决定 30–90 天该「攻」还是「守」</td><td>先跑一次自然位快照，标出已有位置</td></tr>
+            <tr><td class="num">9</td><td>推广期允许多长、预算上限多少</td><td>决定是否具备「6–8 周不断投」的条件</td><td>写死时限与月度上限，否则一定会拖成长期补贴</td></tr>
+            <tr><td class="num">10</td><td>「小词带大词」是否采信</td><td>机制合理但无官方确认，会误导节奏</td><td>按待验证假设做 A/B，不当定理写进 SOP</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 12 检查清单 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">12</div><div><h2>上线前检查清单</h2><p class="sec-sub">六条，全部打勾才允许开跑。</p></div></div>
+      <div class="rule"></div>
+
+      <div class="grid-2">
+        <div>
+          <ul class="checklist">
+            <li>每个词都有：层级 + 词根标签 + CPC + CVR + 相关性 + 单点击期望毛利</li>
+            <li>大词在投之前算过单点击期望毛利，且结果是正数，或已注明「只买收录」</li>
+            <li>每个活动只挂一个 KPI，且写清了升级/退出条件</li>
+          </ul>
+        </div>
+        <div>
+          <ul class="checklist">
+            <li>否词的样本量按 3÷CVR 计算，不是拍脑袋的 20 点击</li>
+            <li>新品/老品有明确的否定分界线（60 天 / 90 天）</li>
+            <li>报告里写清 SPR 与份额的数据源与口径，不与月销量混列</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert a-info" style="margin-top:16px;">
+        <span class="t">最后一句</span>
+        这套框架里最容易被跳过、却最决定成败的一步，是<b>把「2 单/天」与目标词的 SPR 对齐</b>。预算、CPC、CVR 都可以调，但如果预算买来的订单量远低于该词的 SPR，无论结构多正确，自然位都不会动。这不是投放技巧问题，是资源匹配问题。
+      </div>
+    </section>
+
+    <!-- ================= 参考 ================= -->
+    <section>
+      <div class="sec-head"><div class="sec-num">13</div><div><h2>参考与口径来源</h2><p class="sec-sub">本文的公式与口径对照了以下公开资料与工具定义。</p></div></div>
+      <div class="rule"></div>
+      <div class="refs">
+        [1] Amazon Ads · Sponsored Products 产品说明与竞价机制 — <a href="https://advertising.amazon.com/solutions/products/sponsored-products" target="_blank">advertising.amazon.com</a><br>
+        [2] Amazon Ads · 竞价与广告排名（Bid &amp; relevance）帮助文档 — <a href="https://advertising.amazon.com/resources/whats-new" target="_blank">advertising.amazon.com/resources</a><br>
+        [3] Amazon Seller Central · 品牌分析 Brand Analytics（ABA 搜索词排名与点击/转化份额） — <a href="https://sellercentral.amazon.com/brand-analytics" target="_blank">sellercentral.amazon.com/brand-analytics</a><br>
+        [4] Amazon Seller Central · 搜索词报告与广告报表字段定义 — <a href="https://sellercentral.amazon.com/help/hub/reference/G202167470" target="_blank">sellercentral.amazon.com/help</a><br>
+        [5] 卖家精灵 · SPR（8 天首页订单量）指标定义 — <a href="https://www.sellersprite.com" target="_blank">sellersprite.com</a><br>
+        [6] Amazon Seller Central · 账户状况与完美订单率（Perfect Order Percentage） — <a href="https://sellercentral.amazon.com/performance/dashboard" target="_blank">sellercentral.amazon.com/performance</a><br>
+        [7] 本文数据口径：关键词月搜索量分级沿用现行内部标准（S≥30,000 / A 10,000–30,000 / B 3,000–10,000 / C 500–3,000 / D&lt;500），层级 CVR 与 CPC 为结构性假设值，需以实际投放数据替换。
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="blob b1" style="right:-40px;top:-60px;width:220px;height:190px;"></div>
+    <div class="blob b2" style="left:-50px;bottom:-70px;width:200px;height:170px;"></div>
+    <div class="f-content">
+      <div class="f-top">
+        <div class="f-brand">一个链接的广告框架<span>SP 关键词作战体系 · 词库 → 分层 → 预算 → 结构 → 节奏</span></div>
+        <div class="f-meta">
+          <div>版本</div><div><b>v1.0</b></div>
+          <div>日期</div><div><b>2026-11-06</b></div>
+          <div>适用范围</div><div><b>欧洲站 · 积木灯饰套件</b></div>
+          <div>口径</div><div><b>SP 关键词为主</b></div>
+        </div>
+      </div>
+      <div class="f-hair"></div>
+      <div class="f-bottom">
+        <div>内部方法文档 · 数值待用实际投放数据替换</div>
+        <div>Generated by <a href="https://allyhub.com" target="_blank">AllyHub AI</a></div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+const FS = { family: "'Inter Tight', sans-serif" };
+Chart.defaults.font.family = FS.family;
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#717171';
+
+/* ---------- 1. 单点击期望毛利 ---------- */
+new Chart(document.getElementById('marginChart'), {
+  type: 'bar',
+  data: {
+    labels: ['S 词','A 词','B 词','C 词','D 词'],
+    datasets: [{
+      data: [-0.66,-0.38,0.13,0.82,1.51],
+      backgroundColor: ['#C4433A','#D9786F','#8FC5A8','#5FA882','#3F7F5C'],
+      borderRadius: 4,
+      barThickness: 22
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: { label: c => '单点击期望毛利 ' + (c.raw>0?'+':'') + c.raw.toFixed(2) }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: '#E8E6E2', drawTicks: false },
+        border: { display: false },
+        ticks: { callback: v => (v>0?'+':'') + v, stepSize: 0.5 }
+      },
+      y: {
+        grid: { display: false },
+        border: { display: false }
+      }
+    }
+  }
+});
+
+/* ---------- 2. 双坐标象限 ---------- */
+new Chart(document.getElementById('quadChart'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      {
+        label: '优先主投',
+        data: [
+          { x: 16, y: 12, n: 'D 词', r: 7 },
+          { x: 9,  y: 9,  n: 'C 词', r: 11 }
+        ],
+        backgroundColor: 'rgba(95,168,130,.85)',
+        borderColor: '#3F7F5C',
+        borderWidth: 1
+      },
+      {
+        label: '占位 / 暂缓',
+        data: [
+          { x: 0.8, y: 3, n: 'S 词', r: 20 },
+          { x: 1.5, y: 4, n: 'A 词', r: 16 },
+          { x: 4.0, y: 6, n: 'B 词', r: 13 }
+        ],
+        backgroundColor: 'rgba(196,67,58,.55)',
+        borderColor: '#C4433A',
+        borderWidth: 1
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: c => c.raw.n + '：相对订单量 ' + c.raw.x + '% · CVR ' + c.raw.y + '%'
+        }
+      }
+    },
+    scales: {
+      x: {
+        title: { display: true, text: '相对订单量（你的出单 ÷ 该词总出单，%）', font: { size: 10 }, color: '#717171' },
+        grid: { color: '#EFEDE9' },
+        border: { display: false },
+        min: 0, max: 20,
+        ticks: { stepSize: 5 }
+      },
+      y: {
+        title: { display: true, text: 'CVR（%）', font: { size: 10 }, color: '#717171' },
+        grid: { color: '#EFEDE9' },
+        border: { display: false },
+        min: 0, max: 14,
+        ticks: { stepSize: 3 }
+      }
+    },
+    elements: {
+      point: {
+        radius: ctx => ctx.raw ? ctx.raw.r : 6,
+        hoverRadius: ctx => ctx.raw ? ctx.raw.r + 3 : 8
+      }
+    }
+  }
+});
+
+/* ---------- 3. 同样2单在不同层级的份额 ---------- */
+new Chart(document.getElementById('shareChart'), {
+  type: 'bar',
+  data: {
+    labels: ['S 词','A 词','B 词','C 词','D 词'],
+    datasets: [{
+      data: [0.02, 0.06, 0.4, 3.2, 18.0],
+      backgroundColor: ['#C5C0BA','#C5C0BA','#C8BB9F','#A99778','#6E5F45'],
+      borderRadius: 3,
+      barThickness: 16
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => '同样 2 单 ≈ 该词成交的 ' + c.raw + '%' } }
+    },
+    scales: {
+      y: {
+        type: 'logarithmic',
+        title: { display: true, text: '份额（%，对数轴）', font: { size: 10 }, color: '#717171' },
+        grid: { color: '#EFEDE9' },
+        border: { display: false },
+        ticks: { callback: v => v < 1 ? v : v }
+      },
+      x: { grid: { display: false }, border: { display: false } }
+    }
+  }
+});
+
+/* ---------- 4. 预算分配 ---------- */
+new Chart(document.getElementById('budgetChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['D 级 收割 40%','C 级 攻坚 35%','B 级 验证 15%','自动/词根 10%'],
+    datasets: [{
+      data: [40,35,15,10],
+      backgroundColor: ['#5FA882','#8FC5A8','#C8BB9F','#C5C0BA'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '65%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => c.label + '（约 ' + (24*c.raw/100).toFixed(1) + ' /天）' } }
+    }
+  }
+});
+
+/* ---------- 5. 广告单占比 → 净利率 ---------- */
+new Chart(document.getElementById('profitChart'), {
+  type: 'line',
+  data: {
+    labels: ['100%','80%','60%','40%','20%','0%'],
+    datasets: [{
+      data: [7,13,19,25,31,37],
+      borderColor: '#5FA882',
+      backgroundColor: 'rgba(95,168,130,.12)',
+      fill: true,
+      tension: 0.4,
+      borderWidth: 1.5,
+      pointRadius: 3,
+      pointBackgroundColor: '#5FA882',
+      pointBorderColor: '#FDFCF9',
+      pointBorderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => '净利率约 ' + c.raw + '%' } }
+    },
+    scales: {
+      x: {
+        title: { display: true, text: '广告订单占比', font: { size: 10 }, color: '#717171' },
+        grid: { display: false },
+        border: { display: false }
+      },
+      y: {
+        title: { display: true, text: '净利率（%）', font: { size: 10 }, color: '#717171' },
+        grid: { color: '#EFEDE9' },
+        border: { display: false },
+        ticks: { callback: v => v + '%', stepSize: 10 }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
