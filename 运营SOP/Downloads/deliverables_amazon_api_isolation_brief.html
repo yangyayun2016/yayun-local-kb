@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亚马逊 API · 多店铺隔离 · 积加技术对齐清单</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Noto+Serif:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --outer-bg:#E4E1DC; --page-bg:#FDFCF9; --surface:#FFFFFF; --border:#E8E6E2; --divider:#C5C0BA;
+  --text-primary:#151515; --text-body:#3D3D3D; --text-secondary:#717171;
+  --hero-bg:#DDE3E8; --hero-deco:#9BADB0; --hero-deco2:#6E9298;
+  --success-bg:#E8FBCF; --success-fg:#3D4826;
+  --warning-bg:#FFF0DC; --warning-fg:#E47700;
+  --info-bg:#DEE5F7; --info-fg:#3E54CE;
+  --error-bg:#FDECEA; --error-fg:#C4433A;
+  --neutral-bg:#FDF9F2; --neutral-fg:#7C746F;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--outer-bg); color:var(--text-body);
+  font-family:'Inter Tight','PingFang SC','Microsoft YaHei',sans-serif;
+  font-size:14px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  padding:28px 20px 40px;
+}
+.page{max-width:1200px;margin:0 auto;background:var(--page-bg);border-radius:24px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,.06);}
+
+/* HERO */
+.hero{position:relative;background:var(--hero-bg);padding:34px 40px 30px;overflow:hidden;}
+.blob{position:absolute;opacity:.18;pointer-events:none;}
+.b1{width:320px;height:280px;top:-90px;right:-60px;background:var(--hero-deco2);border-radius:62% 38% 47% 53%/53% 44% 56% 47%;}
+.b2{width:240px;height:220px;bottom:-100px;left:12%;background:var(--hero-deco);border-radius:44% 56% 63% 37%/57% 39% 61% 43%;}
+.b3{width:150px;height:140px;top:20px;left:44%;background:var(--hero-deco);border-radius:52% 48% 38% 62%/46% 58% 42% 54%;}
+.b4{width:190px;height:170px;bottom:-60px;right:22%;background:var(--hero-deco2);border-radius:38% 62% 55% 45%/62% 46% 54% 38%;}
+.hero-content{position:relative;z-index:1;}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#3E4A4E;margin-bottom:14px;}
+h1{font-size:30px;line-height:1.24;font-weight:600;color:var(--text-primary);margin:0 0 12px;letter-spacing:-.01em;}
+.hero-sub{font-size:14px;color:#33403f;max-width:760px;margin:0 0 20px;}
+.hairline{height:1px;background:rgba(255,255,255,.6);margin:20px 0 16px;}
+.stat-row{display:flex;flex-wrap:wrap;gap:34px;}
+.stat{min-width:110px;}
+.stat .v{font-family:'Noto Serif',serif;font-size:26px;font-weight:500;color:var(--text-primary);letter-spacing:-.02em;line-height:1.1;}
+.stat .l{font-size:11.5px;color:#3E4A4E;margin-top:4px;}
+
+/* LAYOUT */
+main{padding:8px 40px 44px;}
+section{padding:30px 0 6px;}
+.sec-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.sec-num{font-size:11px;font-weight:600;color:var(--text-secondary);letter-spacing:.1em;}
+h2{font-size:17px;font-weight:600;color:var(--text-primary);margin:0;letter-spacing:-.005em;}
+.sec-sub{font-size:12px;color:var(--text-secondary);margin:4px 0 0;width:100%;}
+.rule{height:.5px;background:var(--border);margin:12px 0 18px;}
+
+h3{font-size:15px;font-weight:600;color:var(--text-primary);margin:22px 0 10px;}
+p{margin:0 0 12px;}
+.lead{font-size:14.5px;color:var(--text-body);}
+
+/* CARDS */
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:18px 20px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.card-title{font-size:15px;font-weight:600;color:var(--text-primary);margin:0 0 4px;}
+.card-meta{font-size:12px;color:var(--text-secondary);margin-bottom:10px;}
+.card-body{font-size:13px;color:var(--text-body);}
+.card-body p:last-child{margin-bottom:0;}
+
+/* pills */
+.pill{display:inline-block;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;line-height:1.5;white-space:nowrap;}
+.p-ok{background:var(--success-bg);color:var(--success-fg);}
+.p-warn{background:var(--warning-bg);color:var(--warning-fg);}
+.p-info{background:var(--info-bg);color:var(--info-fg);}
+.p-err{background:var(--error-bg);color:var(--error-fg);}
+.p-neu{background:var(--neutral-bg);color:var(--neutral-fg);}
+
+/* alerts */
+.alert{border-radius:10px;padding:14px 16px;font-size:13px;}
+.alert .t{font-weight:600;margin-bottom:4px;font-family:inherit;}
+.a-info{background:var(--info-bg);color:#26346f;}
+.a-warn{background:var(--warning-bg);color:#6b3b00;}
+.a-err{background:var(--error-bg);color:#7d2b24;}
+.a-ok{background:var(--success-bg);color:#2f3a1c;}
+
+/* table */
+.tw{overflow-x:auto;border-radius:12px;border:.5px solid var(--border);background:var(--surface);}
+table{width:100%;border-collapse:collapse;min-width:720px;}
+th{font-size:12px;font-weight:500;color:var(--text-secondary);text-align:left;padding:12px 14px;border-bottom:1px solid var(--divider);white-space:nowrap;background:#FCFBF8;}
+td{font-size:13px;padding:11px 14px;border-bottom:.5px solid var(--border);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+td strong{color:var(--text-primary);font-weight:600;}
+
+/* three lanes */
+.lane{background:var(--surface);border:.5px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;}
+.lane:before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+.laneA:before{background:#5FA882;}
+.laneB:before{background:#C4433A;}
+.laneC:before{background:#A99778;}
+.lane h4{margin:0 0 6px;font-size:14px;font-weight:600;color:var(--text-primary);}
+.lane .kv{font-size:12.5px;color:var(--text-body);margin-bottom:5px;}
+.lane .kv b{color:var(--text-primary);font-weight:600;}
+
+/* accordion */
+details{background:var(--surface);border:.5px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+details[open]{border-color:#cfd6d8;box-shadow:0 1px 10px rgba(0,0,0,.03);}
+summary{cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:10px;list-style:none;font-size:14.5px;font-weight:600;color:var(--text-primary);}
+summary::-webkit-details-marker{display:none;}
+summary .qidx{font-size:11px;font-weight:600;color:#fff;background:#6E9298;border-radius:5px;padding:2px 7px;flex:none;}
+summary .arrow{margin-left:auto;font-size:11px;color:var(--text-secondary);transition:transform .2s;}
+details[open] summary .arrow{transform:rotate(90deg);}
+.qbody{padding:0 18px 16px;font-size:13px;}
+.qrow{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;border-top:.5px solid var(--border);}
+.qrow:first-child{border-top:none;}
+.qrow .k{font-size:11.5px;color:var(--text-secondary);font-weight:500;padding-top:1px;}
+.qrow .v{color:var(--text-body);}
+.qrow .v ul{margin:0;padding-left:16px;}
+.qrow .v li{margin-bottom:3px;}
+
+/* bars */
+.bar-row{margin-bottom:13px;}
+.bar-lab{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;}
+.bar-lab span:last-child{color:var(--text-secondary);font-size:11.5px;}
+.track{height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
+.fill{height:100%;border-radius:4px;}
+
+/* checklist */
+.chk{display:flex;gap:10px;padding:9px 0;border-bottom:.5px solid var(--border);font-size:13px;}
+.chk:last-child{border-bottom:none;}
+.chk .box{width:14px;height:14px;border:1px solid var(--divider);border-radius:3px;flex:none;margin-top:3px;}
+
+/* footer */
+footer{position:relative;background:var(--hero-bg);padding:30px 40px 20px;overflow:hidden;margin-top:20px;}
+.f-content{position:relative;z-index:1;}
+.f-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.f-brand{font-size:16px;font-weight:600;color:var(--text-primary);}
+.f-sub{font-size:12px;color:#3E4A4E;margin-top:3px;}
+.f-meta{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;font-size:12px;}
+.f-meta .k{color:#4a5658;font-size:11px;}
+.f-meta .v{color:var(--text-primary);font-weight:500;}
+.f-rule{height:1px;background:rgba(255,255,255,.6);margin:18px 0 12px;}
+.f-bot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:#4a5658;}
+.f-bot a{color:#2c6b6f;text-decoration:none;}
+
+.refs{font-size:12px;color:var(--text-secondary);}
+.refs li{margin-bottom:6px;}
+.refs a{color:#2c6b6f;text-decoration:none;border-bottom:.5px solid rgba(44,107,111,.3);}
+.refs a:hover{border-bottom-color:#2c6b6f;}
+
+@media(max-width:860px){
+  body{padding:0;background:var(--page-bg);}
+  .page{border-radius:0;box-shadow:none;}
+  .hero{padding:26px 20px 24px;}
+  main{padding:4px 20px 32px;}
+  footer{padding:26px 20px 18px;}
+  h1{font-size:23px;}
+  .grid2,.grid3,.grid4{grid-template-columns:1fr;}
+  .stat-row{gap:20px;}
+  .stat .v{font-size:22px;}
+  .qrow{grid-template-columns:1fr;gap:2px;}
+  .f-meta{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hero">
+  <svg class="blob b1" viewBox="0 0 200 200"><path d="M28,-33C38,-24,49,-15,52,-3C55,9,50,23,41,33C32,43,19,48,4,51C-11,54,-28,55,-38,46C-48,37,-51,18,-49,2C-47,-14,-40,-28,-29,-38C-18,-48,-4,-54,8,-53C20,-52,18,-42,28,-33Z" transform="translate(100 100)"/></svg>
+  <svg class="blob b2" viewBox="0 0 200 200"><path d="M22,-30C30,-22,39,-15,43,-5C47,5,46,17,39,26C32,35,19,41,5,44C-9,47,-24,47,-34,39C-44,31,-49,15,-48,0C-47,-15,-40,-29,-29,-38C-18,-47,-3,-51,10,-49C23,-47,14,-38,22,-30Z" transform="translate(100 100)"/></svg>
+  <svg class="blob b3" viewBox="0 0 200 200"><path d="M30,-38C40,-29,50,-17,51,-4C52,9,44,23,34,33C24,43,12,49,-2,51C-16,53,-32,51,-41,41C-50,31,-52,13,-49,-3C-46,-19,-38,-33,-26,-42C-14,-51,2,-55,16,-51C30,-47,20,-47,30,-38Z" transform="translate(100 100)"/></svg>
+  <svg class="blob b4" viewBox="0 0 200 200"><path d="M25,-32C35,-25,45,-16,48,-4C51,8,47,22,38,32C29,42,15,48,-1,50C-17,52,-33,50,-42,40C-51,30,-53,12,-49,-4C-45,-20,-35,-34,-22,-43C-9,-52,7,-56,20,-51C33,-46,15,-39,25,-32Z" transform="translate(100 100)"/></svg>
+  <div class="hero-content">
+    <div class="eyebrow">技术与业务对齐材料 · 会前速览</div>
+    <h1>亚马逊 API 与多店铺隔离<br>——向积加技术团队要答案的 8 个问题</h1>
+    <p class="hero-sub">这份材料的核心作用只有一个：把「防关联」这个模糊的担心，拆成可以当场验收的技术问题。凡是我们自己判断不了、需要对方给证据的，都写成「合格答案标尺」，会上对着听。</p>
+    <div class="hairline"></div>
+    <div class="stat-row">
+      <div class="stat"><div class="v">3</div><div class="l">条完全不同的数据链路<br>风险等级差 3 倍以上</div></div>
+      <div class="stat"><div class="v">8</div><div class="l">个必须当场问清的问题<br>对应 8 条验收标准</div></div>
+      <div class="stat"><div class="v">2</div><div class="l">份必须拿到的文件<br>功能接口对照表 + 隔离架构图</div></div>
+      <div class="stat"><div class="v">10:00</div><div class="l">10月26日 腾讯会议<br>积加技术团队</div></div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- 0 结论 -->
+<section>
+  <div class="sec-head"><span class="sec-num">00</span><h2>先记住三句话，会上不容易被带着走</h2></div>
+  <div class="rule"></div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">防关联本质不是技术问题</div>
+      <div class="card-body"><p>技术手段（独立IP、独立环境、独立服务器）只能降低「被系统误判」的概率。真正决定是否关联的，是<b>经营主体、支付与税务资料、产品与发货信息</b>是否重叠。同一个法人、同一张信用卡、同一批 Listing，就算每店一台服务器，也照样关联。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title">官方 API 与「关联」几乎无关</div>
+      <div class="card-body"><p>SP-API 是 OAuth 授权后的服务端调用，<b>不携带浏览器指纹、不产生后台登录行为</b>。多卖家用同一个应用不会被判定关联。所以问题 4 的答案基本可以预判：仅用官方 API，不需要为防关联给每店配服务器。真正需要环境隔离的是<b>网页登录和 RPA</b>。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title">向投资人讲的是「可控性」</div>
+      <div class="card-body"><p>不要讲"我们不会被关联"，讲<b>"账号资产有隔离机制、凭证有加密托管、写操作可审计、数据获取有官方为主+兜底方案"</b>。前者是无法承诺的，后者是可以出架构图和SLA的。</p></div>
+    </div>
+  </div>
+  <div class="alert a-warn" style="margin-top:12px;">
+    <div class="t">⚠ 表述红线（会上和汇报都要注意）</div>
+    亚马逊官方政策是：同一站点原则上只允许一个卖家账号，多账号需有合法业务理由并经批准；<b>为规避限制而开设多账号是明确违规的</b>。所以内部口径应统一为「多主体、多站点的合规经营与数据安全隔离」，不要用"防关联""多开""绕过风控"这类表述，尤其在有投资人、有录音、有第三方在场的会议上。
+  </div>
+</section>
+
+<!-- 1 三条链路 -->
+<section>
+  <div class="sec-head"><span class="sec-num">01</span><h2>先把三条链路分开，一半的问题自己就消失了</h2>
+  <p class="sec-sub">会上对方一旦把这三条混在一起讲，后面的答案就都不可信了。这张图建议直接投屏。</p></div>
+  <div class="rule"></div>
+  <div class="grid3">
+    <div class="lane laneA">
+      <h4>A · 官方 API 链路 <span class="pill p-ok">风险低</span></h4>
+      <div class="kv"><b>怎么走：</b>卖家在后台点授权 → 拿到 refresh_token → 服务端 HTTPS 调用</div>
+      <div class="kv"><b>亚马逊看到：</b>一个开发者应用、一个授权主体、一批请求</div>
+      <div class="kv"><b>不携带：</b>浏览器指纹、Cookie、登录 IP 语义</div>
+      <div class="kv"><b>要防的是：</b>凭证泄露、权限给太多、调用异常被限流</div>
+    </div>
+    <div class="lane laneB">
+      <h4>B · 网页登录 / RPA 链路 <span class="pill p-err">风险最高</span></h4>
+      <div class="kv"><b>怎么走：</b>打开浏览器 → 登录后台 → 点击/抓页面</div>
+      <div class="kv"><b>亚马逊看到：</b>IP、设备指纹、Cookie、时区、操作节奏</div>
+      <div class="kv"><b>关键：</b>隔离不到位，这里才是关联的真正入口</div>
+      <div class="kv"><b>要防的是：</b>多店共 IP、共指纹、共用一份浏览器缓存</div>
+    </div>
+    <div class="lane laneC">
+      <h4>C · 公开页面抓取 <span class="pill p-warn">风险中等</span></h4>
+      <div class="kv"><b>怎么走：</b>不登录，抓竞品详情页、评论、BSR</div>
+      <div class="kv"><b>亚马逊看到：</b>匿名流量、爬虫特征</div>
+      <div class="kv"><b>与店铺：</b>不与任何店铺账号绑定，谈不上关联</div>
+      <div class="kv"><b>要防的是：</b>被反爬拦截、数据不稳定、数据来源合规</div>
+    </div>
+  </div>
+  <div class="alert a-info" style="margin-top:12px;">
+    <div class="t">一句话对齐</div>
+    「服务器/IP/浏览器环境」这一整套，只服务于 <b>B 链路</b>。如果积加的功能是纯 A 链路，那这套成本就该省下来；如果他们的功能里有 B 链路成分，那必须问清那部分走谁的 IP、谁的凭证。
+  </div>
+</section>
+
+<!-- 2 关联信号 -->
+<section>
+  <div class="sec-head"><span class="sec-num">02</span><h2>亚马逊到底看什么：七类信号，只有三类是技术能隔离的</h2>
+  <p class="sec-sub">亚马逊未公开完整判定算法，以下是行业普遍共识的信号集合，用于内部对齐足够，不要对外当作官方口径。</p></div>
+  <div class="rule"></div>
+  <div class="tw">
+    <table>
+      <thead><tr><th style="width:13%">信号层</th><th style="width:30%">亚马逊侧看到的</th><th style="width:13%">技术能隔离吗</th><th style="width:44%">真正的隔离手段</th></tr></thead>
+      <tbody>
+        <tr><td><strong>网络层</strong></td><td>公网出口 IP、IP 归属（机房/云/住宅）、ASN、IP 地理、DNS</td><td><span class="pill p-ok">能</span></td><td>一店一固定出口 IP；优先静态住宅/本地宽带，机房与云 IP 段本身是被重点标注的对象，不是"更安全"</td></tr>
+        <tr><td><strong>设备指纹</strong></td><td>UA、Canvas/WebGL、字体、分辨率、时区语言、硬件并发</td><td><span class="pill p-ok">能</span></td><td>指纹浏览器或一店一虚拟环境，环境模板不得跨店复用</td></tr>
+        <tr><td><strong>本地存储</strong></td><td>Cookie、localStorage、IndexedDB、缓存</td><td><span class="pill p-ok">能</span></td><td>一店一份独立 profile，跨店绝不复用；这也是 RPA 最容易出事的环节</td></tr>
+        <tr><td><strong>主体资料</strong></td><td>营业执照、法人、注册地址、电话、邮箱、信用卡、收款账户、税号</td><td><span class="pill p-err">不能</span></td><td>只能靠业务层：不同法人主体、不同收款账户、不同税务登记。这是硬约束</td></tr>
+        <tr><td><strong>经营层</strong></td><td>产品重合度、Listing 图文相似、品牌归属、发货地址、FBA 入仓、客服话术</td><td><span class="pill p-err">不能</span></td><td>只能靠运营层：品类与文案差异化、发货与入仓路径分离</td></tr>
+        <tr><td><strong>行为层</strong></td><td>登录时间分布、操作节奏、多账号互相访问</td><td><span class="pill p-warn">部分</span></td><td>任务按店铺串行化、错峰执行，避免同源批量动作</td></tr>
+        <tr><td><strong>资金与合规</strong></td><td>银行账户、VAT/OSS 申报主体、EPR 注册、清关主体</td><td><span class="pill p-err">不能</span></td><td>欧洲站尤其注意：VAT 号、税代、清关抬头共用是最容易被穿透的一条线</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert a-err" style="margin-top:12px;">
+    <div class="t">这张表最重要的用法</div>
+    当对方说"我们上了独立服务器，可以防关联"时，你可以指着下面四行问：<b>那主体资料、产品重合、VAT 主体、收款账户这几层，你们怎么处理？</b>如果对方只能回答技术三层，说明他们做的是"环境隔离"，不是"账号安全"，这本身就是有价值的结论——不要指望ERP解决业务层问题。
+  </div>
+</section>
+
+<!-- 3 四个误区 -->
+<section>
+  <div class="sec-head"><span class="sec-num">03</span><h2>四个流传很广但会误导决策的说法</h2></div>
+  <div class="rule"></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><span class="pill p-err">误区 1</span> 一个店铺一台服务器就能防关联</div>
+      <div class="card-body"><p>服务器只解决"出网 IP 不共用"。如果两个店铺用同一张信用卡、同一法人、同一批图片，服务器再多也是白买。这是最贵的无效投入。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="pill p-err">误区 2</span> 用云服务器（AWS/阿里云）更安全</div>
+      <div class="card-body"><p>云厂商 IP 段是公开可识别的，且大量卖家共用同一批地址池，反而更容易被标记。业界通常认为<b>本地独立宽带 + 静态住宅 IP</b> 的画像更接近自然人经营。这点建议直接问积加他们的 IP 是什么类型。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="pill p-err">误区 3</span> API 也要每店一套独立服务器</div>
+      <div class="card-body"><p>不需要。API 的隔离靠的是<b>每个店铺独立的 token + 加密存储 + 调用审计 + 固定出口 IP 白名单</b>，不是物理机器。对方如果说"必须每店一台"，要么是他们有 RPA 成分，要么是架构在赚硬件钱。</p></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="pill p-warn">误区 4</span> 多个卖家用同一个ERP就会被判定关联</div>
+      <div class="card-body"><p>不会因为这个判定关联。但真实风险在别处：<b>应用一旦被亚马逊停用，所有授权店铺的数据同时中断</b>；应用授权 Role 勾太多，合规暴露面变大；供应商侧一旦泄露，是批量的。这才是会上要确认的。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 API 边界 -->
+<section>
+  <div class="sec-head"><span class="sec-num">04</span><h2>官方 API 能拿到什么、拿不到什么（问 3 与问 7 的底稿）</h2>
+  <p class="sec-sub">这是全场最容易被含糊带过的地方。带上这张表去问，对方就没法只用"都支持"来回答。</p></div>
+  <div class="rule"></div>
+
+  <div class="grid2" style="margin-bottom:16px;">
+    <div class="card">
+      <div class="card-title">官方 SP-API 覆盖（日常运营数据主体）</div>
+      <div class="card-meta">按模块列，会上请对方补「接口名 + 所需 Role + 调用频率」</div>
+      <div class="card-body">
+        <div class="bar-row"><div class="bar-lab"><span>订单 / 退货 / 财务结算</span><span>完整</span></div><div class="track"><div class="fill" style="width:96%;background:#5FA882;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>FBA 库存 / 入仓货件</span><span>完整</span></div><div class="track"><div class="fill" style="width:94%;background:#5FA882;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>Listing 内容 / 价格 / 费用测算</span><span>完整</span></div><div class="track"><div class="fill" style="width:93%;background:#5FA882;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>广告（Campaign/关键词/搜索词报告）</span><span>独立授权</span></div><div class="track"><div class="fill" style="width:88%;background:#5FA882;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>品牌分析（需品牌备案 + 对应 Role）</span><span>部分</span></div><div class="track"><div class="fill" style="width:62%;background:#A99778;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>Vendor / 1P 数据（Data Kiosk）</span><span>视账号类型</span></div><div class="track"><div class="fill" style="width:70%;background:#A99778;"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">没有官方接口，必须 RPA 或第三方</div>
+      <div class="card-meta">这几项是判断「积加到底是不是纯 API」的关键证据</div>
+      <div class="card-body">
+        <div class="bar-row"><div class="bar-lab"><span>评论内容 / 星级明细</span><span>无接口</span></div><div class="track"><div class="fill" style="width:100%;background:#C4433A;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>商机探测器（Opportunity Explorer）</span><span>无接口</span></div><div class="track"><div class="fill" style="width:100%;background:#C4433A;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>账户健康 / 绩效页 / 后台通知</span><span>无公开接口</span></div><div class="track"><div class="fill" style="width:100%;background:#C4433A;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>关键词自然搜索排名</span><span>无接口</span></div><div class="track"><div class="fill" style="width:100%;background:#C4433A;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>根类目 BSR（历史趋势）</span><span>只能拿子类目快照</span></div><div class="track"><div class="fill" style="width:95%;background:#C4433A;"></div></div></div>
+        <div class="bar-row"><div class="bar-lab"><span>竞品销量估算 / 竞品价格</span><span>非自有ASIN，无接口</span></div><div class="track"><div class="fill" style="width:100%;background:#C4433A;"></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="alert a-info">
+    <div class="t">向投资人怎么讲这一页</div>
+    「我们日常运营数据的绝大部分走官方合规接口，只有评论、商机洞察、竞品情报这类亚马逊不对外开放的数据，才用兜底手段补。这是行业普遍做法，关键是我们要知道哪部分依赖兜底、兜底断了会缺什么。」——这比说"我们全都能拿到"可信得多，也更抗尽调。
+  </div>
+</section>
+
+<!-- 5 八个问题 -->
+<section>
+  <div class="sec-head"><span class="sec-num">05</span><h2>八个问题：问法 + 追问 + 合格答案标尺 + 红旗</h2>
+  <p class="sec-sub">点开每一条。会上不需要念完全部，重点是最后那一栏——听到什么算过关，听到什么要警觉。</p></div>
+  <div class="rule"></div>
+
+  <details open>
+    <summary><span class="qidx">Q1</span> 积加如何降低多店铺关联风险？<span class="arrow">▶</span></summary>
+    <div class="qbody">
+      <div class="qrow"><div class="k">不要这么问</div><div class="v">"你们怎么防关联？"——这种问法只会得到"我们很安全"。</div></div>
+      <div class="qrow"><div class="k">改成这么问</div><div class="v">"你们的系统里，哪些环节会接触到店铺的<b>网页登录环境</b>？这些环节分别用什么做隔离？纯 API 的部分占多少？"</div></div>
+      <div class="qrow"><div class="k">追问</div><div class="v"><ul>
+        <li>如果卖家自己登录后台，是直连亚马逊，还是会经过你们的代理/服务器？</li>
+        <li>历史上有没有客户反馈因为使用你们系统被关联？如果被质疑，你们能拿出什么来举证？</li>
+        <li>你们内部有没有"环境隔离白皮书"或架构图可以给到我们？</li>
+      </ul></div></div>
+      <div class="qrow"><div class="k">合格答案</div><div class="v">能当场把功能分成"纯API / 需登录 / 公开抓取"三类，并说明后两类的 IP 与凭证归属；能提供隔离架构图。</div></div>
+      <div class="qrow"><div class="k">红旗信号</div><div class="v">使用"绝对""不可能""百分百"这类词；说不清 RPA 部分走谁的 IP；把关联风险完全归结为技术问题。</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="qidx">Q2</span> 单独服务器、独立 IP、浏览器环境，各自解决什么？<span class="arrow">▶</span></summary>
+    <div class="qbody">
+      <div class="qrow"><div class="k">期望的答案</div><div class="v">服务器 → 物理与运维隔离；独立 IP → 网络层同源；浏览器环境 → 设备指纹与本地存储。三者<b>都不覆盖主体资料与经营层信号</b>。对方如果能主动说出最后这半句，说明是真的懂。</div></div>
+      <div class="qrow"><div class="k">必须追问</div><div class="v"><ul>
+        <li>IP 是什么类型：机房 / 云 / 静态住宅 / 本地宽带？一个 IP 绑几个店铺？是否是共享池？多久换一次？</li>
+        <li>换 IP 的时候，原有环境是否跟着迁移？迁移过程中两店会不会短暂共用一个 IP？</li>
+        <li>浏览器环境是租户级还是一店一份？环境模板是否复用？</li>
+      </ul></div></div>
+      <div class="qrow"><div class="k">合格答案</div><div class="v">能明确说出 IP 类型与"一 IP 一店"的绑定规则；承认技术层有边界，业务层需我们自己处理。</div></div>
+      <div class="qrow"><div class="k">红旗信号</div><div class="v">"共享 IP 池但很安全"；"我们是云服务器所以更稳定"；无法回答一个 IP 绑几店。</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="qidx">Q3</span> 哪些功能走官方 SP-API，哪些必须 RPA？<span class="arrow">▶</span></summary>
+    <div class="qbody">
+      <div class="qrow"><div class="k">要的东西</div><div class="v">不是口头分类，是一张表：<b>功能 → 走的接口名 → 需要的授权 Role → 调用频率 → 是否含写操作</b>。这张表我们要拿回去做架构依据，请他们会议后发正式版。</div></div>
+      <div class="qrow"><div class="k">追问</div><div class="v"><ul>
+        <li>评论、商机探测器、账户健康、自然搜索排名、后台通知 —— 这五项分别怎么做？</li>
+        <li>广告数据是走 Selling Partner API 还是独立的 Advertising API？授权是不是要单独做一遍？</li>
+        <li>写操作（改价、改库存、改 Listing、提交货件）哪些支持 API，哪些只能 RPA？写操作有没有二次确认？</li>
+      </ul></div></div>
+      <div class="qrow"><div class="k">合格答案</div><div class="v">能区分读/写；能明确广告是独立授权体系；能提供接口清单文档。</div></div>
+      <div class="qrow"><div class="k">红旗信号</div><div class="v">"全部支持 API"——这不可能，评论和商机探测器没有接口；或者把广告 API 说成 SP-API 的一部分。</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="qidx">Q4</span> 只用官方 API，还需要每店部署独立服务器吗？<span class="arrow">▶</span></summary>
+    <div class="qbody">
+      <div class="qrow"><div class="k">我们的判断</div><div class="v">不需要。API 调用是服务端 HTTPS 请求，隔离靠凭证与权限，不靠机器。但<b>建议要求固定出口 IP 白名单</b>，理由是便于审计和限流管理。</div></div>
+      <div class="qrow"><div class="k">追问</div><div class="v"><ul>
+        <li>你们的 API 调用是从共享集群出网，还是按租户隔离出网？共享出口会不会导致限流互相影响（一个店铺把额度用光，其他店被拖慢）？</li>
+        <li>如果我们要私有化或专属实例部署，有没有这个选项？成本量级？</li>
+      </ul></div></div>
+      <div class="qrow"><div class="k">合格答案</div><div class="v">承认不需要物理隔离；能说明限流是按 token 还是按应用维度控制（这个差别很关键，按应用维度会让多店互相拖累）。</div></div>
+      <div class="qrow"><div class="k">红旗信号</div><div class="v">坚持"必须每店一台服务器才能安全"，且说不出技术理由。</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="qidx">Q5</span> 凭证、Cookie、数据、任务怎么隔离？<span class="arrow">▶</span></summary>
+    <div class="qbody">
+      <div class="qrow"><div class="k">这是最技术的一问</div><div class="v">问到底层实现，别让他们用"加密存储"一句带过。要问"用什么加密、密钥谁管、谁能解出来"。</div></div>
+      <div class="qrow"><div class="k">逐项问</div><div class="v"><ul>
+        <li><b>Token：</b>refresh_token 存在哪？用什么加密（是否 KMS/信封加密）？密钥由谁持有？我们能不能导出？</li>
+        <li><b>Cookie：</b>RPA 的会话是存本地还是云端？是否明文入库？保留多久？</li>
+        <li><b>数据：</b>多租户是同库同表加字段隔离，还是独立库/独立 schema？谁有跨租户查询权限？</li>
+        <li><b>任务：</b>同一店铺的任务是否串行排队？多店是否可以并发？失败重试会不会形成突发批量请求？</li>
+        <li><b>人：</b>你们内部工程师能不能看到我们的明文凭证？有没有审批与操作留痕？离职如何回收？</li>
+      </ul></div></div>
+      <div class="qrow"><div class="k">合格答案</div><div class="v">能说出具体加密方案与密钥归属；有审计日志；支持一键撤销授权；我们能自己导出全量数据。</div></div>
+      <div class="qrow"><div class="k">红旗信号</div><div class="v">"这些属于内部实现不便透露"；"由我们统一保管，绝对安全"；数据导出要额外收费或需要人工。</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="qidx">Q6</span> 多个卖家授权同一个应用，风险在哪？<span class="arrow">▶</span></summary>
+    <div class="qbody">
+      <div class="qrow"><div class="k">先把逻辑说清</div><div class="v">亚马逊不会因为"大家用同一个ERP"判定账号关联。真实风险是三类：<b>①单点故障</b>——应用被亚马逊停用或审计不通过，所有授权店铺数据同时断；<b>②合规连带</b>——供应商违反数据保护要求被处罚，我们作为数据控制方会被牵连；<b>③授权过宽</b>——Role 全勾，等于把买家信息、税务信息的访问权交出去。</div></div>
+      <div class="qrow"><div class="k">追问</div><div class="v"><ul>
+        <li>你们通过亚马逊的数据保护安全评估了吗？有没有 SOC2 / ISO27001？最近一次渗透测试是什么时候？</li>
+        <li>应用被亚马逊限流或停用的历史？恢复需要多久？有没有 SLA？</li>
+        <li>能不能支持<b>我们用自己注册的开发者应用授权</b>（私有应用模式），token 落在我们自己账号下？这能把单点风险降到最低，强烈建议问。</li>
+        <li>授权时最少需要勾哪些 Role？能不能只给只读？</li>
+      </ul></div></div>
+      <div class="qrow"><div class="k">合格答案</div><div class="v">有第三方审计报告或能提供安全白皮书；支持最小权限授权；支持私有应用或专属部署；对中断有明确 SLA 与数据迁移承诺。</div></div>
+      <div class="qrow"><div class="k">红旗信号</div><div class="v">"不需要审计"；要求勾选全部 Role 才给用某些功能；没有书面 SLA；拒绝谈退出时的数据迁移。</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="qidx">Q7</span> 官方 API 拿不到、必须靠 RPA 的数据有哪些？<span class="arrow">▶</span></summary>
+    <div class="qbody">
+      <div class="qrow"><div class="k">要的东西</div><div class="v">一份兜底清单，至少包含：数据项 / 抓取方式（登录后台 or 公开页）/ 抓取频率 / 稳定性 / 断供时的替代方案。</div></div>
+      <div class="qrow"><div class="k">必须问清责任</div><div class="v"><ul>
+        <li>RPA 登录后台用的是谁的账号？主账号还是子账号？密码和验证码谁保管？</li>
+        <li>如果因为 RPA 触发风控导致账号被限制，责任怎么划分？合同里有没有写？</li>
+        <li>RPA 断供（页面改版、验证码升级）时，多久能恢复？有没有第三方数据源兜底？</li>
+      </ul></div></div>
+      <div class="qrow"><div class="k">合格答案</div><div class="v">用子账号 + 限定权限 + 可随时回收；承认 RPA 有断供风险并给出兜底方案；合同里有责任条款。</div></div>
+      <div class="qrow"><div class="k">红旗信号</div><div class="v">要求提供主账号密码；说"我们从不触发风控"；不书面约定责任。</div></div>
+    </div>
+  </details>
+
+  <details>
+    <summary><span class="qidx">Q8</span> 我们现有架构还要补哪些安全和隔离措施？<span class="arrow">▶</span></summary>
+    <div class="qbody">
+      <div class="qrow"><div class="k">先给结论</div><div class="v">把下面第 06 节的清单直接给他们看，请他们逐条评估"你们能不能帮我们做到 / 需要我们自己做"。这样会议就从"听他们介绍"变成"对着清单验收"。</div></div>
+      <div class="qrow"><div class="k">尤其要提的一条</div><div class="v"><b>数据出境与 GDPR。</b>我们做欧洲站，买家信息属于个人数据。如果数据存放在境内服务器，跨境传输需要合法机制（标准合同条款等）与数据处理协议。这条很少有人在技术会上提，但它是尽调一定会问的。请确认：数据存哪个区域？有没有 DPA？子处理商名单能不能给？</div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 6 补强清单 -->
+<section>
+  <div class="sec-head"><span class="sec-num">06</span><h2>现有架构补强清单（按优先级，可直接当验收标准）</h2></div>
+  <div class="rule"></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><span class="pill p-err">P0</span> 不做就有实际风险</div>
+      <div class="card-body">
+        <div class="chk"><div class="box"></div><div>每个店铺独立 token，加密存储，密钥与应用分离，可一键撤销</div></div>
+        <div class="chk"><div class="box"></div><div>授权按最小权限勾选 Role，只读优先，写权限单独审批</div></div>
+        <div class="chk"><div class="box"></div><div>网页登录/RPA 环境一店一份，绝不复用 Cookie 与指纹模板</div></div>
+        <div class="chk"><div class="box"></div><div>禁止使用店铺主账号做自动化，一律子账号 + 限定权限</div></div>
+        <div class="chk"><div class="box"></div><div>签数据处理协议（DPA），明确子处理商与数据存放区域</div></div>
+        <div class="chk"><div class="box"></div><div>写操作（改价/改库存/改Listing）留审计日志，可追溯操作人与时间</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="pill p-warn">P1</span> 上规模前必须补齐</div>
+      <div class="card-body">
+        <div class="chk"><div class="box"></div><div>出口 IP 固定并加白名单，便于异常排查与限流定位</div></div>
+        <div class="chk"><div class="box"></div><div>多租户数据隔离（独立库/schema），跨租户查询需审批留痕</div></div>
+        <div class="chk"><div class="box"></div><div>任务按店铺串行 + 错峰，避免同源批量动作</div></div>
+        <div class="chk"><div class="box"></div><div>监控告警：授权失效、限流触发、调用异常、RPA 断供</div></div>
+        <div class="chk"><div class="box"></div><div>数据全量可导出，退出合作时 token 与数据按期删除并出凭证</div></div>
+        <div class="chk"><div class="box"></div><div>员工权限分级与离职回收流程</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:12px;">
+    <div class="card">
+      <div class="card-title"><span class="pill p-info">P2</span> 有余力再做，但投资尽调会加分</div>
+      <div class="card-body">
+        <div class="chk"><div class="box"></div><div>私有开发者应用（BYO App），把授权主体收回到自己名下</div></div>
+        <div class="chk"><div class="box"></div><div>关键数据双来源交叉校验（官方 API + 第三方），防单点断供</div></div>
+        <div class="chk"><div class="box"></div><div>账号健康与政策通知的自动巡检（官方无接口，需兜底）</div></div>
+        <div class="chk"><div class="box"></div><div>主体资料台账：法人、收款、VAT、EPR、清关抬头的唯一性校验</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="pill p-neu">会议结束前</span> 必须带走的三样东西</div>
+      <div class="card-body">
+        <div class="chk"><div class="box"></div><div><b>功能—接口对照表</b>（含 Role 与读写标记）</div></div>
+        <div class="chk"><div class="box"></div><div><b>隔离架构图</b>（IP 类型、环境归属、存储区域）</div></div>
+        <div class="chk"><div class="box"></div><div><b>安全资质与 SLA</b>（审计报告、事件响应时效、责任条款）</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 投资人口径 -->
+<section>
+  <div class="sec-head"><span class="sec-num">07</span><h2>向投资人汇报的口径：讲可控性，不讲承诺</h2></div>
+  <div class="rule"></div>
+  <div class="alert a-ok" style="margin-bottom:14px;">
+    <div class="t">三句话版本</div>
+    ① <b>账号资产是我们最大的单点风险</b>，我们做了双轨隔离：技术层（IP、环境、凭证）与主体层（法人、收款、税务），两条轨道都在推进。<br>
+    ② <b>数据获取以官方接口为主、兜底手段为辅</b>，日常运营数据绝大部分走合规路径，只有亚马逊不对外开放的评论与竞品情报用补充方式，且明确知道断供影响范围。<br>
+    ③ <b>凭证加密托管、写操作可审计、数据可导出</b>，这套底子决定了我们能不能安全地从几个店扩到几十个店。
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th style="width:18%">风险项</th><th style="width:32%">具体表现</th><th style="width:50%">缓释措施（可被追问的话术）</th></tr></thead>
+      <tbody>
+        <tr><td><strong>账号关联</strong></td><td>多店铺被判定为同一经营者，合并或封停</td><td>技术层一店一环境一 IP；主体层不同法人、不同收款、不同税务登记；经营层品类与文案差异化。承认技术不能替代业务隔离</td></tr>
+        <tr><td><strong>数据中断</strong></td><td>供应商应用被停用，全部店铺数据同时断</td><td>要求支持私有应用模式把授权收回自己名下；关键数据双来源；有全量导出与迁移预案</td></tr>
+        <tr><td><strong>合规处罚</strong></td><td>买家个人数据跨境、授权过宽、留存超期</td><td>最小权限授权、签 DPA、明确数据区域与留存期限、按亚马逊要求定期安全评估</td></tr>
+        <tr><td><strong>供应商锁定</strong></td><td>数据与流程沉淀在对方系统，换不掉</td><td>数据全量可导出、字段口径自有文档、核心决策逻辑不外包</td></tr>
+        <tr><td><strong>自动化误操作</strong></td><td>批量改价、批量改库存出错</td><td>写操作双人复核或阈值限制、变更日志、可按批次回滚</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 8 速记 -->
+<section>
+  <div class="sec-head"><span class="sec-num">08</span><h2>会后 24 小时动作</h2></div>
+  <div class="rule"></div>
+  <div class="grid3">
+    <div class="card"><div class="card-title">当天</div><div class="card-body"><p>把会上答复填进问题清单表（随附 Excel），把"未回答/含糊"的标黄，作为第二轮追问依据。</p></div></div>
+    <div class="card"><div class="card-title">次日</div><div class="card-body"><p>让对方补发三份文件：接口对照表、隔离架构图、安全资质与 SLA。没有书面文件的口头承诺，一律不算数。</p></div></div>
+    <div class="card"><div class="card-title">本周</div><div class="card-body"><p>按 P0 清单出内部整改计划，明确哪几条我们自己能做、哪几条依赖供应商；同步给投资人一页纸结论。</p></div></div>
+  </div>
+</section>
+
+<!-- refs -->
+<section>
+  <div class="sec-head"><span class="sec-num">09</span><h2>参考</h2></div>
+  <div class="rule"></div>
+  <ol class="refs">
+    <li>Amazon Selling Partner API 官方开发者文档（接口范围、授权模型、限流与数据保护要求）— <a href="https://developer-docs.amazon.com/sp-api/" target="_blank">developer-docs.amazon.com/sp-api</a></li>
+    <li>亚马逊多账号政策与关联判定说明（Selling Partner 政策页）— <a href="https://sellercentral.amazon.com/help/hub/reference/external/G200443110" target="_blank">Multiple accounts policy</a></li>
+    <li>亚马逊服务商数据保护政策（DPP）与可接受使用政策（AUP）— <a href="https://sellercentral.amazon.com/gp/help/external/G1791" target="_blank">Data Protection Policy</a></li>
+    <li>Amazon Ads API 独立授权体系 — <a href="https://advertising.amazon.com/API/docs/en-us" target="_blank">advertising.amazon.com/API/docs</a></li>
+    <li>SP-API Data Kiosk（GraphQL 报表，覆盖销售、流量、经济学数据）— <a href="https://developer-docs.amazon.com/sp-api/docs/data-kiosk-api" target="_blank">Data Kiosk API</a></li>
+    <li>欧盟 GDPR 跨境数据传输与标准合同条款（SCC）— <a href="https://commission.europa.eu/law/law-topic/data-protection/international-dimension-data-protection_zh" target="_blank">European Commission</a></li>
+  </ol>
+  <p style="font-size:12px;color:var(--text-secondary);margin-top:12px;">说明：亚马逊未公开关联判定的完整算法，本文所列信号与权重为行业实践共识，用于内部对齐与技术提问，不作为官方口径对外引用。API 覆盖范围为按模块的经验归纳，具体接口与授权 Role 以积加书面答复及官方文档为准。</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="f-content">
+    <div class="f-top">
+      <div>
+        <div class="f-brand">技术对齐材料 · 亚马逊 API 与多店铺隔离</div>
+        <div class="f-sub">会前准备 / 会上验收 / 会后归档</div>
+      </div>
+      <div class="f-meta">
+        <div><div class="k">会议时间</div><div class="v">2026-10-26 10:00</div></div>
+        <div><div class="k">会议方式</div><div class="v">腾讯会议</div></div>
+        <div><div class="k">对接方</div><div class="v">积加技术团队</div></div>
+        <div><div class="k">议题</div><div class="v">关联风险 / 隔离 / SP-API 与 RPA</div></div>
+      </div>
+    </div>
+    <div class="f-rule"></div>
+    <div class="f-bot">
+      <div>文档版本 v1.0 · 内部使用</div>
+      <div>Generated by <a href="https://allyhub.com" target="_blank">AllyHub AI</a></div>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
